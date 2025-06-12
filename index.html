@@ -49,6 +49,21 @@
             transform: translateY(-2px);
             box-shadow: 0 0 15px rgba(167, 139, 250, 0.6), 0 0 25px rgba(147, 51, 234, 0.4);
         }
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #a78bfa;
+            color: #a78bfa;
+            padding: 8px 20px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        .btn-secondary:hover {
+            background-color: #a78bfa;
+            color: #0D0B14;
+        }
         .card {
             background-color: #1A1625; /* Dark purple card background */
             border: 1px solid #2a2438;
@@ -65,6 +80,28 @@
         }
         .accent-link:hover {
             color: #c4b5fd; /* purple-300 */
+        }
+        /* Custom Dropdown Style */
+        .custom-select {
+            background-color: #2a2438;
+            color: #D1D5DB;
+            border: 1px solid #4a4063;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a78bfa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+        .custom-select:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
         }
     </style>
 </head>
@@ -105,13 +142,13 @@
                 <button id="suggest-film-btn" class="btn-primary inline-block font-bold py-3 px-8 rounded-lg text-lg">
                     Get a Film Suggestion
                 </button>
-                <div id="film-suggestion-output" class="mt-4 min-h-[60px] flex flex-col justify-center items-center"></div>
+                <div id="film-suggestion-output" class="mt-4 min-h-[60px] flex flex-col justify-center items-center text-left p-4"></div>
             </div>
         </section>
 
         <!-- Hosts Section -->
         <section class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold mb-6 text-center">Meet the Hosts</h2>
+            <h2 class="text-3xl font-bold mb-6 text-center">Meet the Brothers</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <!-- Host 1: J Brooks Young -->
                 <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
@@ -119,6 +156,12 @@
                     <div class="mt-4">
                         <h3 class="text-xl font-bold mb-1">J Brooks Young</h3>
                         <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: jyoun</a>
+                        <div class="mt-4">
+                           <label for="jbrooks-top-ten" class="sr-only">J Brooks' Top Ten</label>
+                            <select id="jbrooks-top-ten" class="custom-select">
+                                <option value="">J Brooks' Top Ten</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 
@@ -128,6 +171,12 @@
                     <div class="mt-4">
                         <h3 class="text-xl font-bold mb-1">Zachary Domes</h3>
                         <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: hetchy</a>
+                        <div class="mt-4">
+                            <label for="zach-top-ten" class="sr-only">Zach's Top Ten</label>
+                            <select id="zach-top-ten" class="custom-select">
+                                <option value="">Zach's Top Ten</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,25 +196,171 @@
     <script>
         const suggestFilmBtn = document.getElementById('suggest-film-btn');
         const filmSuggestionOutput = document.getElementById('film-suggestion-output');
+        const jBrooksSelect = document.getElementById('jbrooks-top-ten');
+        const zachSelect = document.getElementById('zach-top-ten');
         
-        // Curated list of films from the user's Letterboxd list
+        // Data structure for films including titles, thoughts, and review links
         const filmList = [
-            "Intolerance: Love's Struggle Throughout the Ages (1916)", "Within Our Gates (1920)", "The Cabinet of Dr. Caligari (1920)", "Nosferatu (1922)", "Rosita (1923)", "Greed (1924)", "Sherlock Jr. (1924)", "The Last Laugh (1924)", "Michael (1924)", "The Gold Rush (1925)", "Battleship Potemkin (1925)", "The General (1926)", "Sunrise: A Song of Two Humans (1927)", "Metropolis (1927)", "Napoleon (1927)", "The Passion of Joan of Arc (1928)", "The Crowd (1928)", "Pandora's Box (1929)", "Man with a Movie Camera (1929)", "Un Chien Andalou (1929)", "Earth (1930)", "L'Âge d'or (1930)", "The Blood of a Poet (1932)", "City Lights (1931)", "Mädchen in Uniform (1931)", "Le Million (1931)", "M (1931)", "Limite (1931)", "Vampyr (1932)", "Trouble in Paradise (1932)", "I Was Born, But... (1932)", "Duck Soup (1933)", "Emperor Jones (1933)", "Zero for Conduct (1933)", "L'Atalante (1934)", "The 39 Steps (1935)", "Modern Times (1936)", "By the Bluest of Seas (1936)", "A Day in the Country (1946)", "Grand Illusion (1937)", "Bringing Up Baby (1938)", "Daybreak (1939)", "Only Angels Have Wings (1939)", "Gone with the Wind (1939)", "The Rules of the Game (1939)", "The Wizard of Oz (1939)", "Rebecca (1940)", "The Grapes of Wrath (1940)", "The Letter (1940)", "Dance, Girl, Dance (1940)", "His Girl Friday (1940)", "49th Parallel (1941)", "Citizen Kane (1941)", "The Maltese Falcon (1941)", "Brothers and Sisters of the Toda Family (1941)", "Stormy Waters (1941)", "Sullivan's Travels (1941)", "Casablanca (1942)", "To Be or Not to Be (1942)", "The Magnificent Ambersons (1942)", "Meshes of the Afternoon (1943)", "The Life and Death of Colonel Blimp (1943)", "The Seventh Victim (1943)", "Obsession (1943)", "Sanshiro Sugata (1943)", "Laura (1944)", "Ivan the Terrible, Part I (1944)", "Double Indemnity (1944)", "A Canterbury Tale (1944)", "I Know Where I'm Going! (1945)", "Brief Encounter (1945)", "Children of Paradise (1945)", "Les Dames du bois de Boulogne (1945)", "Rome, Open City (1945)", "A Matter of Life and Death (1946)", "Paisan (1946)", "Notorious (1946)", "My Darling Clementine (1946)", "It's a Wonderful Life (1946)", "Out of the Past (1947)", "Jenny Lamour (1947)", "Black Narcissus (1947)", "The Treasure of the Sierra Madre (1948)", "Bicycle Thieves (1948)", "Louisiana Story (1948)", "La Terra Trema (1948)", "The Red Shoes (1948)", "Letter from an Unknown Woman (1948)", "Drunken Angel (1948)", "The Naked City (1948)", "Spring in a Small Town (1948)", "Late Spring (1949)", "Jour de Fête (1949)", "The Third Man (1949)", "Song of Love (1954)", "In a Lonely Place (1950)", "Rashomon (1950)", "Sunset Boulevard (1950)", "Orpheus (1950)", "The Young and the Damned (1950)", "No Way Out (1950)", "All About Eve (1950)", "A Streetcar Named Desire (1951)", "The Steel Helmet (1951)", "The River (1951)", "Diary of a Country Priest (1951)", "Europe '51 (1952)", "Ikiru (1952)", "Umberto D. (1952)", "The Quiet Man (1952)", "Singin' in the Rain (1952)", "The Bigamist (1953)", "Tokyo Story (1953)", "Roman Holiday (1953)", "The Earrings of Madame de... (1953)", "Little Fugitive (1953)", "The Wages of Fear (1953)", "Ugetsu (1953)", "Seven Samurai (1954)", "La Strada (1954)", "Rear Window (1954)", "Journey to Italy (1954)", "Sansho the Bailiff (1954)", "Johnny Guitar (1954)", "Salt of the Earth (1954)", "On the Waterfront (1954)", "All That Heaven Allows (1955)", "Pather Panchali (1955)", "Ordet (1955)", "Forever a Woman (1955)", "Diabolique (1955)", "La Pointe Courte (1955)", "The Night of the Hunter (1955)", "The Searchers (1956)", "A Man Escaped (1956)", "While the City Sleeps (1956)", "Flowing (1956)", "Sweet Smell of Success (1957)", "Wild Strawberries (1957)", "Nights of Cabiria (1957)", "Throne of Blood (1957)", "The Cranes Are Flying (1957)", "The Seventh Seal (1957)", "Pyaasa (1957)", "The Defiant Ones (1958)", "Vertigo (1958)", "Anna Lucasta (1958)", "Some Came Running (1958)", "Touch of Evil (1958)", "Cairo Station (1958)", "Ashes and Diamonds (1958)", "Handsome Serge (1958)", "Elevator to the Gallows (1958)", "Come Back, Africa (1959)", "Hiroshima Mon Amour (1959)", "Some Like It Hot (1959)", "North by Northwest (1959)", "The 400 Blows (1959)", "Imitation of Life (1959)", "Pickpocket (1959)", "Anatomy of a Murder (1959)", "Odds Against Tomorrow (1959)", "Kaagaz Ke Phool (1959)", "Rio Bravo (1959)", "L'Avventura (1960)", "Psycho (1960)", "Peeping Tom (1960)", "Breathless (1960)", "The Apartment (1960)", "Zazie dans le Métro (1960)", "La Dolce Vita (1960)", "The Good Girls (1960)", "The Cloud-Capped Star (1960)", "When a Woman Ascends the Stairs (1960)", "The Housemaid (1960)", "Lola (1961)", "Chronicle of a Summer (1961)", "Victim (1961)", "Viridiana (1961)", "Yojimbo (1961)", "Last Year at Marienbad (1961)", "The Connection (1961)", "Chronicle of Flaming Years (1961)", "La Notte (1961)", "Lawrence of Arabia (1962)", "Cléo from 5 to 7 (1962)", "Jules and Jim (1962)", "Le Doulos (1962)", "The Manchurian Candidate (1962)", "La Jetée (1962)", "L'Eclisse (1962)", "An Autumn Afternoon (1962)", "Ivan's Childhood (1962)", "The Exterminating Angel (1962)", "The Man Who Shot Liberty Valance (1962)", "The House Is Black (1963)", "Vivre Sa Vie (1962)", "Harakiri (1962)", "8½ (1963)", "Contempt (1963)", "The Leopard (1963)", "Scorpio Rising (1963)", "The Wagoner (1963)", "Something Different (1963)", "High and Low (1963)", "The Birds (1963)", "Pale Flower (1964)", "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)", "The Umbrellas of Cherbourg (1964)", "A Fistful of Dollars (1964)", "Red Desert (1964)", "Black God, White Devil (1964)", "Woman in the Dunes (1964)", "I Am Cuba (1964)", "Charulata (1964)", "The Gospel According to Matthew (1964)", "Gertrud (1964)", "Pierrot le Fou (1965)", "For a Few Dollars More (1965)", "Black Girl (1966)", "Shadows of Forgotten Ancestors (1965)", "Le Bonheur (1965)", "Chimes at Midnight (1965)", "The Good, the Bad and the Ugly (1966)", "Who's Afraid of Virginia Woolf? (1966)", "Andrei Rublev (1966)", "Au Hasard Balthazar (1966)", "Daisies (1966)", "The Round-Up (1966)", "The Battle of Algiers (1966)", "Wings (1966)", "Persona (1966)", "Mouchette (1967)", "Don't Look Back (1967)", "PlayTime (1967)", "In the Heat of the Night (1967)", "Portrait of Jason (1967)", "Le Samouraï (1967)", "Entranced Earth (1967)", "The Firemen's Ball (1967)", "The Young Girls of Rochefort (1967)", "Wavelength (1967)", "Once Upon a Time in the West (1968)", "The Color of Pomegranates (1969)", "Theorem (1968)", "Symbiopsychotaxiplasm: Take One (1968)", "2001: A Space Odyssey (1968)", "The Hour of the Furnaces (1968)", "Memories of Underdevelopment (1968)", "Easy Rider (1969)", "Putney Swope (1969)", "A Touch of Zen (1970)", "Women in Love (1969)", "Funeral Parade of Roses (1969)", "Lions Love (1969)", "Uski Roti (1970)", "The Night of Counting the Years (1969)", "The Wild Bunch (1969)", "Army of Shadows (1969)", "Kes (1969)", "Five Easy Pieces (1970)", "Le Cercle Rouge (1970)", "Wanda (1970)", "The Conformist (1970)", "Oh, Sun (1970)", "McCabe & Mrs. Miller (1971)", "Klute (1971)", "Shaft (1971)", "A New Leaf (1971)", "The French Connection (1971)", "The Go-Between (1971)", "Carnal Knowledge (1971)", "A Clockwork Orange (1971)", "Death in Venice (1971)", "Pink Narcissus (1971)", "Amarcord (1973)", "Top of the Heap (1972)", "The Seduction of Mimi (1972)", "Pink Flamingos (1972)", "The Bitter Tears of Petra von Kant (1972)", "Aguirre, the Wrath of God (1972)", "Cabaret (1972)", "Sambizanga (1972)", "Trouble Man (1972)", "Last Tango in Paris (1972)", "Solaris (1972)", "The Godfather (1972)", "Cries and Whispers (1972)", "Touki Bouki (1973)", "Mean Streets (1973)", "The Spirit of the Beehive (1973)", "American Graffiti (1973)", "Don't Look Now (1973)", "F for Fake (1973)", "The Exorcist (1973)", "The Mother and the Whore (1973)", "Chinatown (1974)", "The Godfather Part II (1974)", "Ali: Fear Eats the Soul (1974)", "Céline and Julie Go Boating (1974)", "Je Tu Il Elle (1974)", "Female Trouble (1974)", "The Conversation (1974)", "A Woman Under the Influence (1974)", "Foxy Brown (1974)", "Blazing Saddles (1974)", "The Texas Chain Saw Massacre (1974)", "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles (1975)", "Mirror (1975)", "Grey Gardens (1975)", "Barry Lyndon (1975)", "Pressure (1975)", "Seven Beauties (1975)", "Dolemite (1975)", "Letter from My Village (1976)", "Dog Day Afternoon (1975)", "India Song (1975)", "Nashville (1975)", "Jaws (1975)", "Salò, or the 120 Days of Sodom (1975)", "News from Home (1976)", "Harlan County U.S.A. (1976)", "Eraserhead (1977)", "Network (1976)", "Sebastiane (1976)", "Chess of the Wind (1976)", "Taxi Driver (1976)", "The Ascent (1977)", "Opening Night (1977)", "One Way or Another (1975)", "Suspiria (1977)", "3 Women (1977)", "Star Wars (1977)", "Annie Hall (1977)", "Girlfriends (1978)", "In a Year with 13 Moons (1978)", "Killer of Sheep (1978)", "The Meetings of Anna (1978)", "Days of Heaven (1978)", "The Deer Hunter (1978)", "West Indies (1979)", "Kummatty (1979)", "Ticket of No Return (1979)", "Apocalypse Now (1979)", "Stalker (1979)", "All That Jazz (1979)", "Alien (1979)", "The Shining (1980)", "Ordinary People (1980)", "Loulou (1980)", "Cruising (1980)", "Babylon (1980)", "Raging Bull (1980)", "Polyester (1981)", "Burning an Illusion (1981)", "The Decline of Western Civilization (1981)", "Marianne and Juliane (1981)", "Possession (1981)", "Raiders of the Lost Ark (1981)", "Koyaanisqatsi (1982)", "Losing Ground (1982)", "Reassemblage: From the Firelight to the Screen (1983)", "Illusions (1982)", "Smithereens (1982)", "Blade Runner (1982)", "The Thing (1982)", "Fanny and Alexander (1982)", "Yentl (1983)", "Sans Soleil (1983)", "Born in Flames (1983)", "Sugar Cane Alley (1983)", "Nostalgia (1983)", "L'Argent (1983)", "Once Upon a Time in America (1984)", "Videodrome (1983)", "Paris, Texas (1984)", "Twenty Years Later (1984)", "The Terminator (1984)", "Stranger Than Paradise (1984)", "This Is Spinal Tap (1984)", "Stop Making Sense (1984)", "Love Streams (1984)", "My Beautiful Laundrette (1985)", "Lost in America (1985)", "Vagabond (1985)", "Desert Hearts (1985)", "Faces of Women (1985)", "Come and See (1985)", "Ran (1985)", "Shoah (1985)", "Blue Velvet (1986)", "The Green Ray (1986)", "River's Edge (1986)", "Working Girls (1986)", "Report to Mother (1986)", "Where Is the Friend's House? (1987)", "Law of Desire (1987)", "Wings of Desire (1987)", "The Thin Blue Line (1988)", "Histoire(s) du cinéma (1989)", "Hairspray (1988)", "Grave of the Fireflies (1988)", "Distant Voices, Still Lives (1988)", "My Neighbor Totoro (1988)", "Do the Right Thing (1989)", "Looking for Langston (1989)", "Tongues Untied (1989)", "sex, lies, and videotape (1989)", "A City of Sadness (1989)", "Close-Up (1990)", "Paris Is Burning (1990)", "Out 1 (1971)", "GoodFellas (1990)", "Boyz n the Hood (1991)", "My Own Private Idaho (1991)", "Daughters of the Dust (1991)", "A Brighter Summer Day (1991)", "Young Soul Rebels (1991)", "Orlando (1992)", "Juice (1992)", "The Piano (1993)", "Dream of Light (1992)", "Twin Peaks: Fire Walk with Me (1992)", "Blue (1993)", "Three Colours: Blue (1993)", "Menace II Society (1993)", "The Puppetmaster (1993)", "Satantango (1994)", "Blue Chips (1994)", "Chungking Express (1994)", "Hoop Dreams (1994)", "Pulp Fiction (1994)", "La Haine (1995)", "Heat (1995)", "Crash (1996)", "Yang ± Yin: Gender in Chinese Cinema (1997)", "The Watermelon Woman (1996)", "Happy Together (1997)", "Taste of Cherry (1997)", "Flowers of Shanghai (1998)", "Love & Pop (1998)", "Drylongso (1998)", "Beau Travail (1999)", "Yi Yi (2000)", "Magnolia (1999)", "All About My Mother (1999)", "The Matrix (1999)", "In the Mood for Love (2000)", "The Gleaners and I (2000)", "Werckmeister Harmonies (2000)", "In Vanda's Room (2000)", "As I Was Moving Ahead, Occasionally I Saw Brief Glimpses of Beauty (2000)", "Mulholland Drive (2001)", "Morvern Callar (2002)", "Spirited Away (2001)", "La Ciénaga (2001)", "Tie Xi Qu: West of the Tracks (2002)", "The Lost City of the Monkey God (2018)", "Goodbye, Dragon Inn (2003)", "Tropical Malady (2004)", "Caché (2005)", "Eternal Sunshine of the Spotless Mind (2004)", "The Intruder (2004)", "Syndromes and a Century (2006)", "There Will Be Blood (2007)", "The Headless Woman (2008)", "The White Ribbon (2009)", "Uncle Boonmee Who Can Recall His Past Lives (2010)", "The Tree of Life (2011)", "Nostalgia for the Light (2010)", "Melancholia (2011)", "A Separation (2011)", "Once Upon a Time in Anatolia (2011)", "The Act of Killing (2012)", "Holy Motors (2012)", "Under the Skin (2013)", "Mad Max: Fury Road (2015)", "Moonlight (2016)", "Get Out (2017)", "Twin Peaks: The Return (2017)", "Zama (2017)", "Phantom Thread (2017)", "Portrait of a Lady on Fire (2019)", "Parasite (2019)", "Petite Maman (2021)"
-        ];
+            { 
+                title: "Intolerance: Love's Struggle Throughout the Ages (1916)",
+                thought: "Touted as an exploration of intolerance across time, it falls victim to its own overstuffed narrative. The parallel stories, while thematically linked, often feel like disconnected fragments competing for attention.",
+                attribution: "— Zach",
+                jyoung_review: "https://letterboxd.com/jyoun/film/intolerance-loves-struggle-throughout-the-ages/",
+                zach_review: "https://letterboxd.com/hetchy/film/intolerance-loves-struggle-throughout-the-ages/"
+            }, 
+            { 
+                title: "Within Our Gates (1920)",
+                thought: "It’s a testament to the necessity of this film that censor boards deliberated for months over whether to ban it for fear of inciting violence against whites. The depiction of violence against black Americans in this film is still deeply upsetting all these years later, even as the grainy, washed out format becomes less and less palatable to our eyes.",
+                attribution: "— J Brooks",
+                jyoung_review: "https://letterboxd.com/jyoun/film/within-our-gates/",
+                zach_review: "https://letterboxd.com/hetchy/film/within-our-gates/"
+            }, 
+            { 
+                title: "The Cabinet of Dr. Caligari (1920)",
+                thought: "Every strange feature of this film works to give you the sense that you're watching a nightmare play that lives in someone's head.",
+                attribution: "— J Brooks",
+                jyoung_review: "https://letterboxd.com/jyoun/film/the-cabinet-of-dr-caligari-1920/",
+                zach_review: "https://letterboxd.com/hetchy/film/the-cabinet-of-dr-caligari-1920/"
+            }, 
+            { 
+                title: "Nosferatu (1922)",
+                thought: "It blew my mind when I realized this came out only 25 years after Bram Stoker's Dracula was published… The elements of this film are very simple, but you forget that it's a low-budget film when you're watching it.",
+                attribution: "— J Brooks",
+                jyoung_review: "https://letterboxd.com/jyoun/film/nosferatu/",
+                zach_review: "https://letterboxd.com/hetchy/film/nosferatu/"
+            },
+            { 
+                title: "Sherlock Jr. (1924)",
+                thought: "Sherlock Jr. transcends the bounds of its genre, propelling the audience into a world where the line between everyday reality and the silver screen blurs. And like the hapless projectionist, do we not also find ourselves inside the film we’re watching?",
+                attribution: "— Zach",
+                jyoung_review: "https://letterboxd.com/jyoun/film/sherlock-jr/",
+                zach_review: "https://letterboxd.com/hetchy/film/sherlock-jr/"
+            }, 
+            { 
+                title: "The Last Laugh (1924)",
+                thought: "It's remarkable that a simple story, that had it been made a decade sooner would've been confined to a 15-minute short, is given the space and high production value of a full-length feature. It's buoyed by incredible camera movement and production tricks like the drunk POV sequence.",
+                attribution: "— J Brooks",
+                jyoung_review: "https://letterboxd.com/jyoun/film/the-last-laugh",
+                zach_review: "https://letterboxd.com/hetchy/film/the-last-laugh"
+            },
+            {
+                title: "Michael (1924)",
+                thought: "So much can be said without speaking—so much complexity and tension can lie just beneath the surface. Much like the psyche of an artist or the queer romance of a censorial era, Michael says nothing and also everything.",
+                attribution: "— Zach",
+                jyoung_review: "https://letterboxd.com/jyoun/film/michael-1924/",
+                zach_review: "https://letterboxd.com/hetchy/film/michael-1924/"
+            },
+            { 
+                title: "The Gold Rush (1925)",
+                thought: "Whether on not you've seen a movie before, or know anything about the time and place depicted around the Tramp, you can recognize him and his story. Like a uniquely-shaped cartoon character, you can pick him out of a crowd immediately.",
+                attribution: "— J Brooks",
+                jyoung_review: "https://letterboxd.com/jyoun/film/the-gold-rush",
+                zach_review: "https://letterboxd.com/hetchy/film/the-gold-rush"
+            },
+            { 
+                title: "Battleship Potemkin (1925)",
+                thought: "What is there to say that hasn't been said? There's a tremendous amount of detail that makes this feel real, in the way that makes you forget it's not documentary or newsreel footage.",
+                attribution: "— J Brooks",
+                jyoung_review: "https://letterboxd.com/jyoun/film/battleship-potemkin",
+                zach_review: "https://letterboxd.com/hetchy/film/battleship-potemkin"
+            },
+            {
+                title: "The General (1926)",
+                thought: "In The General, Keaton’s now famous risk-taking behavior is on full display—this is silent comedy at its finest (and most courageous).",
+                attribution: "— Zach",
+                jyoung_review: "https://letterboxd.com/jyoun/film/the-general/",
+                zach_review: "https://letterboxd.com/hetchy/film/the-general/"
+            },
+            {
+                title: "Sunrise: A Song of Two Humans (1927)",
+                thought: "F.W. Murnau came to Hollywood, and god bless Fox Studio for throwing their money at him. This is really of a piece with The Last Laugh, Carl Mayer having written both scripts; they're both simple stories about otherwise normal days that become the turning point in the subjects' lives.",
+                attribution: "— J Brooks",
+                jyoung_review: "https://letterboxd.com/jyoun/film/sunrise-a-song-of-two-humans/",
+                zach_review: "https://letterboxd.com/hetchy/film/sunrise-a-song-of-two-humans/"
+            },
+            { title: "Rosita (1923)" }, { title: "Greed (1924)" }, { title: "Metropolis (1927)" }, { title: "Napoleon (1927)" }, { title: "The Passion of Joan of Arc (1928)" }, { title: "The Crowd (1928)" }, { title: "Pandora's Box (1929)" }, { title: "Man with a Movie Camera (1929)" }, { title: "Un Chien Andalou (1929)" }, { title: "Earth (1930)" }, { title: "L'Âge d'or (1930)" }, { title: "The Blood of a Poet (1932)" }, { title: "City Lights (1931)" }, { title: "Mädchen in Uniform (1931)" }, { title: "Le Million (1931)" }, { title: "M (1931)" }, { title: "Limite (1931)" }, { title: "Vampyr (1932)" }, { title: "Trouble in Paradise (1932)" }, { title: "I Was Born, But... (1932)" }, { title: "Duck Soup (1933)" }, { title: "Emperor Jones (1933)" }, { title: "Zero for Conduct (1933)" }, { title: "L'Atalante (1934)" }, { title: "The 39 Steps (1935)" }, { title: "Modern Times (1936)" }, { title: "By the Bluest of Seas (1936)" }, { title: "A Day in the Country (1946)" }, { title: "Grand Illusion (1937)" }, { title: "Bringing Up Baby (1938)" }, { title: "Daybreak (1939)" }, { title: "Only Angels Have Wings (1939)" }, { title: "Gone with the Wind (1939)" }, { title: "The Rules of the Game (1939)" }, { title: "The Wizard of Oz (1939)" }, { title: "Rebecca (1940)" }, { title: "The Grapes of Wrath (1940)" }, { title: "The Letter (1940)" }, { title: "Dance, Girl, Dance (1940)" }, { title: "His Girl Friday (1940)" }, { title: "49th Parallel (1941)" }, { title: "The Maltese Falcon (1941)" }, { title: "Brothers and Sisters of the Toda Family (1941)" }, { title: "Stormy Waters (1941)" }, { title: "Sullivan's Travels (1941)" }, { title: "Casablanca (1942)" }, { title: "To Be or Not to Be (1942)" }, { title: "The Magnificent Ambersons (1942)" }, { title: "Meshes of the Afternoon (1943)" }, { title: "The Life and Death of Colonel Blimp (1943)" }, { title: "The Seventh Victim (1943)" }, { title: "Obsession (1943)" }, { title: "Sanshiro Sugata (1943)" }, { title: "Laura (1944)" }, { title: "Ivan the Terrible, Part I (1944)" }, { title: "Double Indemnity (1944)" }, { title: "A Canterbury Tale (1944)" }, { title: "I Know Where I'm Going! (1945)" }, { title: "Brief Encounter (1945)" }, { title: "Children of Paradise (1945)" }, { title: "Les Dames du bois de Boulogne (1945)" }, { title: "Rome, Open City (1945)" }, { title: "A Matter of Life and Death (1946)" }, { title: "Paisan (1946)" }, { title: "Notorious (1946)" }, { title: "My Darling Clementine (1946)" }, { title: "It's a Wonderful Life (1946)" }, { title: "Out of the Past (1947)" }, { title: "Jenny Lamour (1947)" }, { title: "Black Narcissus (1947)" }, { title: "The Treasure of the Sierra Madre (1948)" }, { title: "Bicycle Thieves (1948)" }, { title: "Louisiana Story (1948)" }, { title: "La Terra Trema (1948)" }, { title: "The Red Shoes (1948)" }, { title: "Letter from an Unknown Woman (1948)" }, { title: "Drunken Angel (1948)" }, { title: "The Naked City (1948)" }, { title: "Spring in a Small Town (1948)" }, { title: "Late Spring (1949)" }, { title: "Jour de Fête (1949)" }, { title: "The Third Man (1949)" }, { title: "Song of Love (1954)" }, { title: "In a Lonely Place (1950)" }, { title: "Rashomon (1950)" }, { title: "Sunset Boulevard (1950)" }, { title: "Orpheus (1950)" }, { title: "The Young and the Damned (1950)" }, { title: "No Way Out (1950)" }, { title: "All About Eve (1950)" }, { title: "A Streetcar Named Desire (1951)" }, { title: "The Steel Helmet (1951)" }, { title: "The River (1951)" }, { title: "Diary of a Country Priest (1951)" }, { title: "Europe '51 (1952)" }, { title: "Ikiru (1952)" }, { title: "Umberto D. (1952)" }, { title: "The Quiet Man (1952)" }, { title: "Singin' in the Rain (1952)" }, { title: "The Bigamist (1953)" }, { title: "Tokyo Story (1953)" }, { title: "Roman Holiday (1953)" }, { title: "The Earrings of Madame de... (1953)" }, { title: "Little Fugitive (1953)" }, { title: "The Wages of Fear (1953)" }, { title: "Ugetsu (1953)" }, { title: "Seven Samurai (1954)" }, { title: "La Strada (1954)" }, { title: "Rear Window (1954)" }, { title: "Journey to Italy (1954)" }, { title: "Sansho the Bailiff (1954)" }, { title: "Johnny Guitar (1954)" }, { title: "Salt of the Earth (1954)" }, { title: "On the Waterfront (1954)" }, { title: "All That Heaven Allows (1955)" }, { title: "Pather Panchali (1955)" }, { title: "Ordet (1955)" }, { title: "Forever a Woman (1955)" }, { title: "Diabolique (1955)" }, { title: "La Pointe Courte (1955)" }, { title: "The Night of the Hunter (1955)" }, { title: "The Searchers (1956)" }, { title: "A Man Escaped (1956)" }, { title: "While the City Sleeps (1956)" }, { title: "Flowing (1956)" }, { title: "Sweet Smell of Success (1957)" }, { title: "Wild Strawberries (1957)" }, { title: "Nights of Cabiria (1957)" }, { title: "Throne of Blood (1957)" }, { title: "The Cranes Are Flying (1957)" }, { title: "The Seventh Seal (1957)" }, { title: "Pyaasa (1957)" }, { title: "The Defiant Ones (1958)" }, { title: "Vertigo (1958)" }, { title: "Anna Lucasta (1958)" }, { title: "Some Came Running (1958)" }, { title: "Touch of Evil (1958)" }, { title: "Cairo Station (1958)" }, { title: "Ashes and Diamonds (1958)" }, { title: "Handsome Serge (1958)" }, { title: "Elevator to the Gallows (1958)" }, { title: "Come Back, Africa (1959)" }, { title: "Hiroshima Mon Amour (1959)" }, { title: "Some Like It Hot (1959)" }, { title: "North by Northwest (1959)" }, { title: "The 400 Blows (1959)" }, { title: "Imitation of Life (1959)" }, { title: "Pickpocket (1959)" }, { title: "Anatomy of a Murder (1959)" }, { title: "Odds Against Tomorrow (1959)" }, { title: "Kaagaz Ke Phool (1959)" }, { title: "Rio Bravo (1959)" }, { title: "L'Avventura (1960)" }, { title: "Psycho (1960)" }, { title: "Peeping Tom (1960)" }, { title: "Breathless (1960)" }, { title: "The Apartment (1960)" }, { title: "Zazie dans le Métro (1960)" }, { title: "La Dolce Vita (1960)" }, { title: "The Good Girls (1960)" }, { title: "The Cloud-Capped Star (1960)" }, { title: "When a Woman Ascends the Stairs (1960)" }, { title: "The Housemaid (1960)" }, { title: "Lola (1961)" }, { title: "Chronicle of a Summer (1961)" }, { title: "Victim (1961)" }, { title: "Viridiana (1961)" }, { title: "Yojimbo (1961)" }, { title: "Last Year at Marienbad (1961)" }, { title: "The Connection (1961)" }, { title: "Chronicle of Flaming Years (1961)" }, { title: "La Notte (1961)" }, { title: "Lawrence of Arabia (1962)" }, { title: "Cléo from 5 to 7 (1962)" }, { title: "Jules and Jim (1962)" }, { title: "Le Doulos (1962)" }, { title: "The Manchurian Candidate (1962)" }, { title: "La Jetée (1962)" }, { title: "L'Eclisse (1962)" }, { title: "An Autumn Afternoon (1962)" }, { title: "Ivan's Childhood (1962)" }, { title: "The Exterminating Angel (1962)" }, { title: "The Man Who Shot Liberty Valance (1962)" }, { title: "The House Is Black (1963)" }, { title: "Vivre Sa Vie (1962)" }, { title: "Harakiri (1962)" }, { title: "8½ (1963)" }, { title: "Contempt (1963)" }, { title: "The Leopard (1963)" }, { title: "Scorpio Rising (1963)" }, { title: "The Wagoner (1963)" }, { title: "Something Different (1963)" }, { title: "High and Low (1963)" }, { title: "The Birds (1963)" }, { title: "Pale Flower (1964)" }, { title: "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)" }, { title: "The Umbrellas of Cherbourg (1964)" }, { title: "A Fistful of Dollars (1964)" }, { title: "Red Desert (1964)" }, { title: "Black God, White Devil (1964)" }, { title: "Woman in the Dunes (1964)" }, { title: "I Am Cuba (1964)" }, { title: "Charulata (1964)" }, { title: "The Gospel According to Matthew (1964)" }, { title: "Gertrud (1964)" },
+            {
+                title: "Pierrot le Fou (1965)",
+                thought: "This film is very much of its time in some sense, densely referential of the films and art of interest to Godard and his fellow intelligentsia, but also very beholden to the conventions of film then, insomuch as he could create an ostentatious show of subverting them. You had to be there to get the full effect.",
+                attribution: "— J Brooks",
+                jyoung_review: "https://letterboxd.com/jyoun/film/pierrot-le-fou/1/",
+                zach_review: "https://letterboxd.com/hetchy/film/pierrot-le-fou/1/"
+            },
+            { title: "For a Few Dollars More (1965)" }, { title: "Black Girl (1966)" }, { title: "Shadows of Forgotten Ancestors (1965)" }, { title: "Le Bonheur (1965)" }, { title: "Chimes at Midnight (1965)" }, { title: "The Good, the Bad and the Ugly (1966)" }, { title: "Who's Afraid of Virginia Woolf? (1966)" }, { title: "Andrei Rublev (1966)" }, { title: "Au Hasard Balthazar (1966)" }, { title: "Daisies (1966)" }, { title: "The Round-Up (1966)" }, { title: "The Battle of Algiers (1966)" }, { title: "Wings (1966)" }, { title: "Persona (1966)" }, { title: "Mouchette (1967)" }, { title: "Don't Look Back (1967)" }, { title: "PlayTime (1967)" }, { title: "In the Heat of the Night (1967)" }, { title: "Portrait of Jason (1967)" }, { title: "Le Samouraï (1967)" }, { title: "Entranced Earth (1967)" }, { title: "The Firemen's Ball (1967)" }, { title: "The Young Girls of Rochefort (1967)" }, { title: "Wavelength (1967)" }, { title: "Once Upon a Time in the West (1968)" }, { title: "The Color of Pomegranates (1969)" }, { title: "Theorem (1968)" }, { title: "Symbiopsychotaxiplasm: Take One (1968)" }, { title: "2001: A Space Odyssey (1968)" }, { title: "The Hour of the Furnaces (1968)" }, { title: "Memories of Underdevelopment (1968)" }, { title: "Easy Rider (1969)" }, { title: "Putney Swope (1969)" }, { title: "A Touch of Zen (1970)" }, { title: "Women in Love (1969)" }, { title: "Funeral Parade of Roses (1969)" }, { title: "Lions Love (1969)" }, { title: "Uski Roti (1970)" }, { title: "The Night of Counting the Years (1969)" }, { title: "The Wild Bunch (1969)" }, { title: "Army of Shadows (1969)" }, { title: "Kes (1969)" }, { title: "Five Easy Pieces (1970)" }, { title: "Le Cercle Rouge (1970)" }, { title: "Wanda (1970)" }, { title: "The Conformist (1970)" }, { title: "Oh, Sun (1970)" }, { title: "McCabe & Mrs. Miller (1971)" }, { title: "Klute (1971)" }, { title: "Shaft (1971)" }, { title: "A New Leaf (1971)" }, { title: "The French Connection (1971)" }, { title: "The Go-Between (1971)" }, { title: "Carnal Knowledge (1971)" }, { title: "A Clockwork Orange (1971)" }, { title: "Death in Venice (1971)" }, { title: "Pink Narcissus (1971)" }, { title: "Amarcord (1973)" }, { title: "Top of the Heap (1972)" }, { title: "The Seduction of Mimi (1972)" }, { title: "Pink Flamingos (1972)" }, { title: "The Bitter Tears of Petra von Kant (1972)" }, { title: "Aguirre, the Wrath of God (1972)" }, { title: "Cabaret (1972)" }, { title: "Sambizanga (1972)" }, { title: "Trouble Man (1972)" }, { title: "Last Tango in Paris (1972)" }, { title: "Solaris (1972)" }, { title: "The Godfather (1972)" }, { title: "Cries and Whispers (1972)" }, { title: "Touki Bouki (1973)" }, { title: "Mean Streets (1973)" }, { title: "The Spirit of the Beehive (1973)" }, { title: "American Graffiti (1973)" }, { title: "Don't Look Now (1973)" }, { title: "F for Fake (1973)" }, { title: "The Exorcist (1973)" }, { title: "The Mother and the Whore (1973)" }, { title: "Chinatown (1974)" }, { title: "The Godfather Part II (1974)" }, { title: "Ali: Fear Eats the Soul (1974)" }, { title: "Céline and Julie Go Boating (1974)" }, { title: "Je Tu Il Elle (1974)" }, { title: "Female Trouble (1974)" }, { title: "The Conversation (1974)" }, { title: "A Woman Under the Influence (1974)" }, { title: "Foxy Brown (1974)" }, { title: "Blazing Saddles (1974)" }, { title: "The Texas Chain Saw Massacre (1974)" }, { title: "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles (1975)" }, { title: "Mirror (1975)" }, { title: "Grey Gardens (1975)" }, { title: "Barry Lyndon (1975)" }, { title: "Pressure (1975)" }, { title: "Seven Beauties (1975)" }, { title: "Dolemite (1975)" }, { title: "Letter from My Village (1976)" }, { title: "Dog Day Afternoon (1975)" }, { title: "India Song (1975)" }, { title: "Nashville (1975)" }, { title: "Jaws (1975)" }, { title: "Salò, or the 120 Days of Sodom (1975)" }, { title: "News from Home (1976)" }, { title: "Harlan County U.S.A. (1976)" }, { title: "Eraserhead (1977)" }, { title: "Network (1976)" }, { title: "Sebastiane (1976)" }, { title: "Chess of the Wind (1976)" }, { title: "Taxi Driver (1976)" }, { title: "The Ascent (1977)" }, { title: "Opening Night (1977)" }, { title: "One Way or Another (1975)" }, { title: "Suspiria (1977)" }, { title: "3 Women (1977)" }, { title: "Star Wars (1977)" }, { title: "Annie Hall (1977)" }, { title: "Girlfriends (1978)" }, { title: "In a Year with 13 Moons (1978)" }, { title: "Killer of Sheep (1978)" }, { title: "The Meetings of Anna (1978)" }, { title: "Days of Heaven (1978)" }, { title: "The Deer Hunter (1978)" }, { title: "West Indies (1979)" }, { title: "Kummatty (1979)" }, { title: "Ticket of No Return (1979)" }, { title: "Apocalypse Now (1979)" }, { title: "Stalker (1979)" }, { title: "All That Jazz (1979)" }, { title: "Alien (1979)" }, { title: "The Shining (1980)" }, { title: "Ordinary People (1980)" }, { title: "Loulou (1980)" }, { title: "Cruising (1980)" }, { title: "Babylon (1980)" }, { title: "Raging Bull (1980)" }, { title: "Polyester (1981)" }, { title: "Burning an Illusion (1981)" }, { title: "The Decline of Western Civilization (1981)" }, { title: "Marianne and Juliane (1981)" }, { title: "Possession (1981)" }, { title: "Raiders of the Lost Ark (1981)" }, { title: "Koyaanisqatsi (1982)" }, { title: "Losing Ground (1982)" }, { title: "Reassemblage: From the Firelight to the Screen (1983)" }, { title: "Illusions (1982)" }, { title: "Smithereens (1982)" }, { title: "Blade Runner (1982)" }, { title: "The Thing (1982)" }, { title: "Fanny and Alexander (1982)" }, { title: "Yentl (1983)" }, { title: "Sans Soleil (1983)" }, { title: "Born in Flames (1983)" }, { title: "Sugar Cane Alley (1983)" }, { title: "Nostalgia (1983)" }, { title: "L'Argent (1983)" }, { title: "Once Upon a Time in America (1984)" }, { title: "Videodrome (1983)" }, { title: "Paris, Texas (1984)" }, { title: "Twenty Years Later (1984)" }, { title: "The Terminator (1984)" }, { title: "Stranger Than Paradise (1984)" }, { title: "This Is Spinal Tap (1984)" }, { title: "Stop Making Sense (1984)" }, { title: "Love Streams (1984)" }, { title: "My Beautiful Laundrette (1985)" }, { title: "Lost in America (1985)" }, { title: "Vagabond (1985)" }, { title: "Desert Hearts (1985)" }, { title: "Faces of Women (1985)" }, { title: "Come and See (1985)" }, { title: "Ran (1985)" }, { title: "Shoah (1985)" }, { title: "Blue Velvet (1986)" }, { title: "The Green Ray (1986)" }, { title: "River's Edge (1986)" }, { title: "Working Girls (1986)" }, { title: "Report to Mother (1986)" }, { title: "Where Is the Friend's House? (1987)" }, { title: "Law of Desire (1987)" }, { title: "Wings of Desire (1987)" }, { title: "The Thin Blue Line (1988)" }, { title: "Histoire(s) du cinéma (1989)" }, { title: "Hairspray (1988)" }, { title: "Grave of the Fireflies (1988)" }, { title: "Distant Voices, Still Lives (1988)" }, { title: "My Neighbor Totoro (1988)" }, { title: "Do the Right Thing (1989)" }, { title: "Looking for Langston (1989)" }, { title: "Tongues Untied (1989)" }, { title: "sex, lies, and videotape (1989)" }, { title: "A City of Sadness (1989)" }, { title: "Close-Up (1990)" }, { title: "Paris Is Burning (1990)" }, { title: "Out 1 (1971)" }, { title: "GoodFellas (1990)" }, { title: "Boyz n the Hood (1991)" }, { title: "My Own Private Idaho (1991)" }, { title: "Daughters of the Dust (1991)" }, { title: "A Brighter Summer Day (1991)" }, { title: "Young Soul Rebels (1991)" }, { title: "Orlando (1992)" }, { title: "Juice (1992)" }, { title: "The Piano (1993)" }, { title: "Dream of Light (1992)" }, { title: "Twin Peaks: Fire Walk with Me (1992)" }, { title: "Blue (1993)" }, { title: "Three Colours: Blue (1993)" }, { title: "Menace II Society (1993)" }, { title: "The Puppetmaster (1993)" }, { title: "Satantango (1994)" }, { title: "Blue Chips (1994)" }, { title: "Chungking Express (1994)" }, { title: "Hoop Dreams (1994)" }, { title: "Pulp Fiction (1994)" }, { title: "La Haine (1995)" }, { title: "Heat (1995)" }, { title: "Crash (1996)" }, { title: "Yang ± Yin: Gender in Chinese Cinema (1997)" }, { title: "The Watermelon Woman (1996)" }, { title: "Happy Together (1997)" }, { title: "Taste of Cherry (1997)" }, { title: "Flowers of Shanghai (1998)" }, { title: "Love & Pop (1998)" }, { title: "Drylongso (1998)" }, { title: "Beau Travail (1999)" }, { title: "Yi Yi (2000)" }, { title: "Magnolia (1999)" }, { title: "All About My Mother (1999)" }, { title: "The Matrix (1999)" }, { title: "In the Mood for Love (2000)" }, { title: "The Gleaners and I (2000)" }, { title: "Werckmeister Harmonies (2000)" }, { title: "In Vanda's Room (2000)" }, { title: "As I Was Moving Ahead, Occasionally I Saw Brief Glimpses of Beauty (2000)" }, { title: "Mulholland Drive (2001)" }, { title: "Morvern Callar (2002)" }, { title: "Spirited Away (2001)" }, { title: "La Ciénaga (2001)" }, { title: "Tie Xi Qu: West of the Tracks (2002)" }, { title: "The Lost City of the Monkey God (2018)" }, { title: "Goodbye, Dragon Inn (2003)" }, { title: "Tropical Malady (2004)" }, { title: "Caché (2005)" }, { title: "Eternal Sunshine of the Spotless Mind (2004)" }, { title: "The Intruder (2004)" }, { title: "Syndromes and a Century (2006)" }, { title: "There Will Be Blood (2007)" }, { title: "The Headless Woman (2008)" }, { title: "The White Ribbon (2009)" }, { title: "Uncle Boonmee Who Can Recall His Past Lives (2010)" }, { title: "The Tree of Life (2011)" }, { title: "Nostalgia for the Light (2010)" }, { title: "Melancholia (2011)" }, { title: "A Separation (2011)" }, { title: "Once Upon a Time in Anatolia (2011)" }, { title: "The Act of Killing (2012)" }, { title: "Holy Motors (2012)" }, { title: "Under the Skin (2013)" }, { title: "Mad Max: Fury Road (2015)" }, { title: "Moonlight (2016)" }, { title: "Get Out (2017)" }, { title: "Twin Peaks: The Return (2017)" }, { title: "Zama (2017)" }, { title: "Phantom Thread (2017)" }, { title: "Portrait of a Lady on Fire (2019)" }, { title: "Parasite (2019)" }, { title: "Petite Maman (2021)" }, { title: "Citizen Kane (1941)" }
+        ].map(item => (typeof item === 'string' ? { title: item } : item));
 
-        // Event listener for the suggestion button
-        suggestFilmBtn.addEventListener('click', () => {
-            // Pick a random film from the list
-            const randomIndex = Math.floor(Math.random() * filmList.length);
-            const filmTitle = filmList[randomIndex];
-            const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(filmTitle)}`;
+        const jBrooksTopTen = ["Sherlock Jr. (1924)", "Sunrise: A Song of Two Humans (1927)", "The Passion of Joan of Arc (1928)", "Mädchen in Uniform (1931)", "Zero for Conduct (1933)", "Rome, Open City (1945)", "Bicycle Thieves (1948)", "Late Spring (1949)", "Stalker (1979)", "Do the Right Thing (1989)"];
+        const zachTopTen = ["The Last Laugh (1924)", "Mädchen in Uniform (1931)", "L'Atalante (1934)", "The Rules of the Game (1939)", "Pather Panchali (1955)", "The 400 Blows (1959)", "2001: A Space Odyssey (1968)", "Stalker (1979)", "Satantango (1994)", "Yi Yi (2000)"];
+
+        // Function to populate dropdowns
+        const populateDropdown = (selectElement, filmTitles) => {
+            filmTitles.forEach(title => {
+                const option = document.createElement('option');
+                option.value = title;
+                option.textContent = title;
+                selectElement.appendChild(option);
+            });
+        };
+
+        populateDropdown(jBrooksSelect, jBrooksTopTen);
+        populateDropdown(zachSelect, zachTopTen);
+
+        // Function to display film info
+        const displayFilm = (filmTitle) => {
+            const film = filmList.find(f => f.title === filmTitle);
+            if (!film) {
+                filmSuggestionOutput.innerHTML = `<p class="text-gray-400">Details not found for this film.</p>`;
+                return;
+            }
+
+            const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(film.title)}`;
             
-            // Display the suggestion
-            filmSuggestionOutput.innerHTML = `
-                <p class="text-lg font-bold text-center">${filmTitle}</p>
-                <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="accent-link mt-2">Where to watch</a>
-            `;
+            let outputHTML = `<p class="text-lg font-bold text-center">${film.title}</p>`;
+
+            if (film.thought && film.attribution) {
+                outputHTML += `
+                    <blockquote class="text-gray-400 italic my-4 max-w-prose mx-auto">
+                        <p class="text-center">"${film.thought}"</p>
+                        <footer class="text-right not-italic text-sm mt-2 pr-4">${film.attribution}</footer>
+                    </blockquote>
+                `;
+            }
+
+            if (film.jyoung_review && film.zach_review) {
+                outputHTML += `
+                    <div class="flex justify-center gap-6 mb-4">
+                        <a href="${film.jyoung_review}" target="_blank" rel="noopener noreferrer" class="accent-link">Read J Brooks' review</a>
+                        <a href="${film.zach_review}" target="_blank" rel="noopener noreferrer" class="accent-link">Read Zach's review</a>
+                    </div>
+                `;
+            }
+            
+            outputHTML += `<a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Where to watch</a>`;
+            filmSuggestionOutput.innerHTML = outputHTML;
+        };
+
+        // Event listener for the random suggestion button
+        suggestFilmBtn.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * filmList.length);
+            const randomFilm = filmList[randomIndex];
+            displayFilm(randomFilm.title);
         });
+
+        // Event listeners for the dropdowns
+        jBrooksSelect.addEventListener('change', (e) => {
+            if (e.target.value) {
+                displayFilm(e.target.value);
+                zachSelect.value = ""; // Reset other dropdown
+            }
+        });
+
+        zachSelect.addEventListener('change', (e) => {
+            if (e.target.value) {
+                displayFilm(e.target.value);
+                jBrooksSelect.value = ""; // Reset other dropdown
+            }
+        });
+
     </script>
 
 </body>
