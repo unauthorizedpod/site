@@ -120,16 +120,16 @@
         <!-- Embedded Player Section -->
         <section class="max-w-3xl mx-auto">
             <div class="flex justify-center">
-                <iframe height="450" width="100%" title="Media player" src="https://embed.podcasts.apple.com/us/podcast/some-like-it-unauthorized/id1810139168?itscg=30200&amp;itsct=podcast_box_player&amp;ls=1&amp;mttnsubad=1810139168&amp;theme=auto" id="embedPlayer" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" allow="autoplay *; encrypted-media *; clipboard-write" style="border: 0px; border-radius: 12px; width: 100%; height: 450px; max-width: 660px;"></iframe>
+                <iframe height="450" width="100%" title="Media player" src="https://embed.podcasts.apple.com/us/podcast/some-like-it-unauthorized/id1810139168?itscg=30200&amp;itsct=podcast_box_player&amp;ls=1&amp;mttnsubad=1810139168&amp;theme=dark" id="embedPlayer" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" allow="autoplay *; encrypted-media *; clipboard-write" style="border: 0px; border-radius: 12px; width: 100%; height: 450px; max-width: 660px;"></iframe>
             </div>
         </section>
-
+        
         <!-- About and Suggestion Section -->
         <section class="max-w-3xl mx-auto">
              <h2 class="text-3xl font-bold mb-6 text-center">About the Show</h2>
             <div class="prose text-gray-300 leading-relaxed max-w-2xl mx-auto text-left">
                 <p>Film by film, two siblings go through cinema history, from the blockbusters to the arthouse, with discussions on what these movies meant then and how we see them now.</p><br>
-                <p>Using the BFI's Sight and Sound list as a starting point, they explore canonical films and the decades when cinema exploded. No film degrees, no press passes, they like it unauthorized.</p>
+                <p>Using the <i>BFI's Sight and Sound</i> list as a starting point, they explore canonical films and the decades when cinema exploded. No film degrees, no press passes, they like it unauthorized.</p>
             </div>
             
             <!-- Film Suggestion Section -->
@@ -145,38 +145,44 @@
                 <div id="film-suggestion-output" class="mt-4 min-h-[60px] flex flex-col justify-center items-center text-left p-4"></div>
             </div>
         </section>
-
+        
         <!-- Hosts Section -->
-        <section class="max-w-4xl mx-auto">
+        <section class="max-w-4xl mx-auto mt-16">
             <h2 class="text-3xl font-bold mb-6 text-center">Meet the Brothers</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <!-- Host 1: J Brooks Young -->
                 <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
-                     <img src="https://a.ltrbxd.com/resized/avatar/upload/6/2/0/4/2/1/6/shard/avtr-0-220-0-220-crop.jpg?v=20eeed6c12" alt="J Brooks Young" class="w-20 h-20 rounded-full border-2 border-purple-500 mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
+                    <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="mx-auto">
+                        <img src="https://a.ltrbxd.com/resized/avatar/upload/6/2/0/4/2/1/6/shard/avtr-0-220-0-220-crop.jpg?v=20eeed6c12" alt="J Brooks Young" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
+                    </a>
                     <div class="mt-4">
                         <h3 class="text-xl font-bold mb-1">J Brooks Young</h3>
                         <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: jyoun</a>
                         <div class="mt-4">
-                           <label for="jbrooks-top-ten" class="sr-only">J Brooks' Top Ten</label>
+                           <label for="jbrooks-top-ten" class="sr-only">J Brooks' Top Ten Films</label>
                             <select id="jbrooks-top-ten" class="custom-select">
-                                <option value="">J Brooks' Top Ten</option>
+                                <option value="">J Brooks' Top Ten Films</option>
                             </select>
                         </div>
+                        <div id="jbrooks-top-ten-output" class="mt-4 text-center"></div>
                     </div>
                 </div>
                 
                 <!-- Host 2: Zachary Domes -->
                 <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
-                    <img src="https://a.ltrbxd.com/resized/avatar/upload/3/9/8/4/3/5/shard/avtr-0-220-0-220-crop.jpg?v=9cc3fc5543" alt="Zachary Domes" class="w-20 h-20 rounded-full border-2 border-purple-500 mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
+                    <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="mx-auto">
+                        <img src="https://a.ltrbxd.com/resized/avatar/upload/3/9/8/4/3/5/shard/avtr-0-220-0-220-crop.jpg?v=9cc3fc5543" alt="Zachary Domes" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
+                    </a>
                     <div class="mt-4">
                         <h3 class="text-xl font-bold mb-1">Zachary Domes</h3>
                         <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: hetchy</a>
                         <div class="mt-4">
-                            <label for="zach-top-ten" class="sr-only">Zach's Top Ten</label>
+                            <label for="zach-top-ten" class="sr-only">Zach's Top Ten Films</label>
                             <select id="zach-top-ten" class="custom-select">
-                                <option value="">Zach's Top Ten</option>
+                                <option value="">Zach's Top Ten Films</option>
                             </select>
                         </div>
+                        <div id="zach-top-ten-output" class="mt-4 text-center"></div>
                     </div>
                 </div>
             </div>
@@ -186,11 +192,16 @@
 
     <!-- Footer -->
     <footer class="text-center py-10 border-t border-gray-800">
-        <p class="text-gray-500">Get in touch:</p>
-        <a href="mailto:unauthorizedpod@gmail.com" class="accent-link mt-2 inline-block">
-            unauthorizedpod@gmail.com
-        </a>
-        <p class="text-gray-600 text-sm mt-6">&copy; 2025 Some Like It Unauthorized. All rights reserved.</p>
+        <p class="text-gray-500 mb-4">Got a Question?</p>
+        <form id="contact-form" class="max-w-xl mx-auto space-y-4">
+            <input type="text" id="name-input" placeholder="Your Name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <input type="email" id="email-input" placeholder="Your Email (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <input type="text" id="letterboxd-input" placeholder="Letterboxd Username (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <textarea id="question-input" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Hey guys, what are your favorite films of 2025 so far..."></textarea>
+            <button type="submit" class="btn-primary mt-4 py-2 px-6 rounded-full font-bold">Send</button>
+        </form>
+        <div id="thank-you-message" class="hidden text-center mt-4 text-green-400"></div>
+        <p class="text-gray-600 text-sm mt-10">&copy; 2025 Some Like It Unauthorized. All rights reserved.</p>
     </footer>
 
     <script>
@@ -198,6 +209,14 @@
         const filmSuggestionOutput = document.getElementById('film-suggestion-output');
         const jBrooksSelect = document.getElementById('jbrooks-top-ten');
         const zachSelect = document.getElementById('zach-top-ten');
+        const jBrooksOutput = document.getElementById('jbrooks-top-ten-output');
+        const zachOutput = document.getElementById('zach-top-ten-output');
+        const contactForm = document.getElementById('contact-form');
+        const nameInput = document.getElementById('name-input');
+        const emailInput = document.getElementById('email-input');
+        const letterboxdInput = document.getElementById('letterboxd-input');
+        const questionInput = document.getElementById('question-input');
+        const thankYouMessage = document.getElementById('thank-you-message');
         
         // Data structure for films including titles, thoughts, and review links
         const filmList = [
@@ -509,10 +528,10 @@
         populateDropdown(zachSelect, zachTopTen);
 
         // Function to display film info
-        const displayFilm = (filmTitle) => {
-            const film = filmList.find(f => f.title === filmTitle);
+        const displayFilm = (filmTitle, outputElement) => {
+             const film = filmList.find(f => f.title === filmTitle);
             if (!film) {
-                filmSuggestionOutput.innerHTML = `<p class="text-gray-400">Details not found for this film.</p>`;
+                outputElement.innerHTML = `<p class="text-gray-400">Details not found for this film.</p>`;
                 return;
             }
 
@@ -551,28 +570,59 @@
             }
             
             outputHTML += `<a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Where to watch</a>`;
-            filmSuggestionOutput.innerHTML = outputHTML;
+            outputElement.innerHTML = outputHTML;
         };
-
+        
         // Event listener for the random suggestion button
         suggestFilmBtn.addEventListener('click', () => {
             const randomIndex = Math.floor(Math.random() * filmList.length);
             const randomFilm = filmList[randomIndex];
-            displayFilm(randomFilm.title);
+            displayFilm(randomFilm.title, filmSuggestionOutput);
+            // Clear dropdowns when random button is clicked
+            jBrooksSelect.value = "";
+            zachSelect.value = "";
+            jBrooksOutput.innerHTML = "";
+            zachOutput.innerHTML = "";
         });
 
         // Event listeners for the dropdowns
         jBrooksSelect.addEventListener('change', (e) => {
             if (e.target.value) {
-                displayFilm(e.target.value);
+                displayFilm(e.target.value, jBrooksOutput);
                 zachSelect.value = ""; // Reset other dropdown
+                zachOutput.innerHTML = ""; // Clear other dropdown output
+            } else {
+                jBrooksOutput.innerHTML = "";
             }
         });
 
         zachSelect.addEventListener('change', (e) => {
             if (e.target.value) {
-                displayFilm(e.target.value);
+                displayFilm(e.target.value, zachOutput);
                 jBrooksSelect.value = ""; // Reset other dropdown
+                 jBrooksOutput.innerHTML = ""; // Clear other dropdown output
+            } else {
+                 zachOutput.innerHTML = "";
+            }
+        });
+
+        // Contact Form
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = nameInput.value;
+            const email = emailInput.value;
+            const letterboxd = letterboxdInput.value;
+            const question = questionInput.value;
+            if (question) {
+                const body = `Name: ${name}\nEmail: ${email}\nLetterboxd: ${letterboxd}\n\nQuestion: ${question}`;
+                window.location.href = `mailto:unauthorizedpod@gmail.com?subject=Question for the Show&body=${encodeURIComponent(body)}`;
+                questionInput.value = "";
+                nameInput.value = "";
+                emailInput.value = "";
+                letterboxdInput.value = "";
+                contactForm.style.display = 'none';
+                thankYouMessage.innerHTML = `<p>Thank you for getting in touch! We might answer your question on the pod so be sure to tune in!</p>`;
+                thankYouMessage.classList.remove('hidden');
             }
         });
 
