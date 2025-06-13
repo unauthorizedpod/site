@@ -193,11 +193,11 @@
     <!-- Footer -->
     <footer class="text-center py-10 border-t border-gray-800">
         <p class="text-gray-500 mb-4">Got a Question?</p>
-        <form id="contact-form" class="max-w-xl mx-auto space-y-4">
-            <input type="text" id="name-input" placeholder="Your Name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="email" id="email-input" placeholder="Your Email (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="text" id="letterboxd-input" placeholder="Letterboxd Username (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <textarea id="question-input" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Hey guys, what are your favorite films of 2025 so far..."></textarea>
+        <form id="contact-form" action="https://formspree.io/f/xanjogvz" method="POST" class="max-w-xl mx-auto space-y-4">
+            <input type="text" id="name-input" name="name" placeholder="Your Name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <input type="email" id="email-input" name="email" placeholder="Your Email (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <input type="text" id="letterboxd-input" name="letterboxd" placeholder="Letterboxd Username (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <textarea id="question-input" name="message" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Hey guys, what are your favorite films of 2025 so far..."></textarea>
             <button type="submit" class="btn-primary mt-4 py-2 px-6 rounded-full font-bold">Send</button>
         </form>
         <div id="thank-you-message" class="hidden text-center mt-4 text-green-400"></div>
@@ -212,10 +212,6 @@
         const jBrooksOutput = document.getElementById('jbrooks-top-ten-output');
         const zachOutput = document.getElementById('zach-top-ten-output');
         const contactForm = document.getElementById('contact-form');
-        const nameInput = document.getElementById('name-input');
-        const emailInput = document.getElementById('email-input');
-        const letterboxdInput = document.getElementById('letterboxd-input');
-        const questionInput = document.getElementById('question-input');
         const thankYouMessage = document.getElementById('thank-you-message');
         
         // Data structure for films including titles, thoughts, and review links
@@ -609,17 +605,8 @@
         // Contact Form
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = nameInput.value;
-            const email = emailInput.value;
-            const letterboxd = letterboxdInput.value;
             const question = questionInput.value;
             if (question) {
-                const body = `Name: ${name}\nEmail: ${email}\nLetterboxd: ${letterboxd}\n\nQuestion: ${question}`;
-                window.location.href = `mailto:unauthorizedpod@gmail.com?subject=Question for the Show&body=${encodeURIComponent(body)}`;
-                questionInput.value = "";
-                nameInput.value = "";
-                emailInput.value = "";
-                letterboxdInput.value = "";
                 contactForm.style.display = 'none';
                 thankYouMessage.innerHTML = `<p>Thank you for getting in touch! We might answer your question on the pod so be sure to tune in!</p>`;
                 thankYouMessage.classList.remove('hidden');
