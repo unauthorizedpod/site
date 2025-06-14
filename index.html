@@ -117,6 +117,9 @@
         .podcast-icon:hover svg {
             fill: #c4b5fd;
         }
+        #film-suggestion-output, #jbrooks-top-ten-output, #zach-top-ten-output {
+            transition: background-color 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -142,18 +145,18 @@
                      <!-- Apple Podcasts -->
                      <a href="https://podcasts.apple.com/us/podcast/some-like-it-unauthorized/id1810139168" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
                          <svg viewBox="0 0 170 170"><title>Apple Logo</title><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71.12 1.083.17 2.166.17 3.24z"/></svg>
-                 </a>
-                 <!-- Spotify -->
-                 <a href="https://open.spotify.com/show/5H427OE7MwnVTBQ8JTOEmq?si=f7465f88215d4c5b" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1333.33 1333.3" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M666.66 0C298.48 0 0 298.47 0 666.65c0 368.19 298.48 666.65 666.66 666.65 368.22 0 666.67-298.45 666.67-666.65C1333.33 298.49 1034.88.03 666.65.03l.01-.04zm305.73 961.51c-11.94 19.58-37.57 25.8-57.16 13.77-156.52-95.61-353.57-117.26-585.63-64.24-22.36 5.09-44.65-8.92-49.75-31.29-5.12-22.37 8.84-44.66 31.26-49.75 253.95-58.02 471.78-33.04 647.51 74.35 19.59 12.02 25.8 37.57 13.77 57.16zm81.6-181.52c-15.05 24.45-47.05 32.17-71.49 17.13-179.2-110.15-452.35-142.05-664.31-77.7-27.49 8.3-56.52-7.19-64.86-34.63-8.28-27.49 7.22-56.46 34.66-64.82 242.11-73.46 543.1-37.88 748.89 88.58 24.44 15.05 32.16 47.05 17.12 71.46V780zm7.01-189.02c-214.87-127.62-569.36-139.35-774.5-77.09-32.94 9.99-67.78-8.6-77.76-41.55-9.98-32.96 8.6-67.77 41.56-77.78 235.49-71.49 626.96-57.68 874.34 89.18 29.69 17.59 39.41 55.85 21.81 85.44-17.52 29.63-55.89 39.4-85.42 21.8h-.03z" fill="#a78bfa" fill-rule="nonzero"/></svg>
-                 </a>
-                 <!-- YouTube -->
-                 <a href="https://www.youtube.com/@UnauthorizedPod" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
-                     <svg class="w-12 h-12" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#a78bfa"/></svg>
-                 </a>
-             </div>
+                     </a>
+                     <!-- Spotify -->
+                     <a href="https://open.spotify.com/show/5H427OE7MwnVTBQ8JTOEmq?si=f7465f88215d4c5b" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1333.33 1333.3" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M666.66 0C298.48 0 0 298.47 0 666.65c0 368.19 298.48 666.65 666.66 666.65 368.22 0 666.67-298.45 666.67-666.65C1333.33 298.49 1034.88.03 666.65.03l.01-.04zm305.73 961.51c-11.94 19.58-37.57 25.8-57.16 13.77-156.52-95.61-353.57-117.26-585.63-64.24-22.36 5.09-44.65-8.92-49.75-31.29-5.12-22.37 8.84-44.66 31.26-49.75 253.95-58.02 471.78-33.04 647.51 74.35 19.59 12.02 25.8 37.57 13.77 57.16zm81.6-181.52c-15.05 24.45-47.05 32.17-71.49 17.13-179.2-110.15-452.35-142.05-664.31-77.7-27.49 8.3-56.52-7.19-64.86-34.63-8.28-27.49 7.22-56.46 34.66-64.82 242.11-73.46 543.1-37.88 748.89 88.58 24.44 15.05 32.16 47.05 17.12 71.46V780zm7.01-189.02c-214.87-127.62-569.36-139.35-774.5-77.09-32.94 9.99-67.78-8.6-77.76-41.55-9.98-32.96 8.6-67.77 41.56-77.78 235.49-71.49 626.96-57.68 874.34 89.18 29.69 17.59 39.41 55.85 21.81 85.44-17.52 29.63-55.89 39.4-85.42 21.8h-.03z" fill="#a78bfa" fill-rule="nonzero"/></svg>
+                     </a>
+                     <!-- YouTube -->
+                     <a href="https://www.youtube.com/@UnauthorizedPod" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                         <svg class="w-12 h-12" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#a78bfa"/></svg>
+                     </a>
+                 </div>
         </section>
-        
+
         <!-- About and Suggestion Section -->
         <section class="max-w-3xl mx-auto">
              <h2 class="text-3xl font-bold mb-6 text-center">About the Show</h2>
@@ -165,14 +168,14 @@
             <!-- Film Suggestion Section -->
             <div class="mt-12 text-center">
                  <p class="text-gray-400 mb-4">
-                    <a href="https://letterboxd.com/hetchy/list/history-of-film-list/" target="_blank" rel="noopener noreferrer" class="accent-link">
-                        Watch a film from our featured list
-                    </a>
-                </p>
+                     <a href="https://letterboxd.com/hetchy/list/history-of-film-list/" target="_blank" rel="noopener noreferrer" class="accent-link">
+                         Watch a film from our featured list
+                     </a>
+                 </p>
                 <button id="suggest-film-btn" class="btn-primary inline-block font-bold py-3 px-8 rounded-lg text-lg">
                     Get a Film Suggestion
                 </button>
-                <div id="film-suggestion-output" class="mt-4 min-h-[60px] flex flex-col justify-center items-center text-left p-4"></div>
+                <div id="film-suggestion-output" class="mt-4 min-h-[60px] flex flex-col justify-center items-center text-left p-4 rounded-lg"></div>
             </div>
         </section>
 
@@ -189,12 +192,12 @@
                         <h3 class="text-xl font-bold mb-1">J Brooks Young</h3>
                         <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: jyoun</a>
                         <div class="mt-4">
-                           <label for="jbrooks-top-ten" class="sr-only">J Brooks' Top Ten Films</label>
-                            <select id="jbrooks-top-ten" class="custom-select">
-                                <option value="">J Brooks' Top Ten Films</option>
-                            </select>
+                            <label for="jbrooks-top-ten" class="sr-only">J Brooks' Top Ten Films</label>
+                             <select id="jbrooks-top-ten" class="custom-select">
+                                 <option value="">J Brooks' Top Ten Films</option>
+                             </select>
                         </div>
-                        <div id="jbrooks-top-ten-output" class="mt-4 text-center"></div>
+                        <div id="jbrooks-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
                     </div>
                 </div>
                 
@@ -207,12 +210,12 @@
                         <h3 class="text-xl font-bold mb-1">Zachary Domes</h3>
                         <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: hetchy</a>
                         <div class="mt-4">
-                            <label for="zach-top-ten" class="sr-only">Zach's Top Ten Films</label>
-                            <select id="zach-top-ten" class="custom-select">
-                                <option value="">Zach's Top Ten Films</option>
-                            </select>
+                             <label for="zach-top-ten" class="sr-only">Zach's Top Ten Films</label>
+                             <select id="zach-top-ten" class="custom-select">
+                                 <option value="">Zach's Top Ten Films</option>
+                             </select>
                         </div>
-                        <div id="zach-top-ten-output" class="mt-4 text-center"></div>
+                        <div id="zach-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
                     </div>
                 </div>
             </div>
@@ -248,1284 +251,887 @@
         const filmList = [
             { 
                 title: "Intolerance: Love's Struggle Throughout the Ages (1916)",
-                thought: "This being his follow-up film taking aim at his 'intolerant' critics, he loaded up on some real stinky ideological bullshit. My man is pulling out all the stops, comparing people wanting to ban his film to Jesus' crucifixion and more!",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/intolerance-loves-struggle-throughout-the-ages/",
-                zach_review: "https://letterboxd.com/hetchy/film/intolerance-loves-struggle-throughout-the-ages/"
+                zach_review: "https://letterboxd.com/hetchy/film/intolerance-loves-struggle-throughout-the-ages/",
             }, 
             { 
                 title: "Within Our Gates (1920)",
-                thought: "It’s a testament to the necessity of this film that censor boards deliberated for months over whether to ban it for fear of inciting violence against whites. The depiction of violence against black Americans in this film is still deeply upsetting all these years later, even as the grainy, washed out format becomes less and less palatable to our eyes.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/within-our-gates/",
-                zach_review: "https://letterboxd.com/hetchy/film/within-our-gates/"
+                zach_review: "https://letterboxd.com/hetchy/film/within-our-gates/",
             }, 
             { 
                 title: "The Cabinet of Dr. Caligari (1920)",
-                thought: "Every strange feature of this film works to give you the sense that you're watching a nightmare play that lives in someone's head.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-cabinet-of-dr-caligari-1920/",
-                zach_review: "https://letterboxd.com/hetchy/film/the-cabinet-of-dr-caligari-1920/"
+                zach_review: "https://letterboxd.com/hetchy/film/the-cabinet-of-dr-caligari-1920/",
             }, 
             { 
                 title: "Nosferatu (1922)",
-                thought: "It blew my mind when I realized this came out only 25 years after Bram Stoker's Dracula was published… The elements of this film are very simple, but you forget that it's a low-budget film when you're watching it.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/nosferatu/",
-                zach_review: "https://letterboxd.com/hetchy/film/nosferatu/"
+                zach_review: "https://letterboxd.com/hetchy/film/nosferatu/",
             },
             { 
                 title: "Sherlock Jr. (1924)",
-                thought: "Sherlock Jr. transcends the bounds of its genre, propelling the audience into a world where the line between everyday reality and the silver screen blurs. And like the hapless projectionist, do we not also find ourselves inside the film we’re watching?",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/sherlock-jr/",
-                zach_review: "https://letterboxd.com/hetchy/film/sherlock-jr/"
+                zach_review: "https://letterboxd.com/hetchy/film/sherlock-jr/",
             }, 
             { 
                 title: "The Last Laugh (1924)",
-                thought: "It's remarkable that a simple story, that had it been made a decade sooner would've been confined to a 15-minute short, is given the space and high production value of a full-length feature. It's buoyed by incredible camera movement and production tricks like the drunk POV sequence.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-last-laugh",
-                zach_review: "https://letterboxd.com/hetchy/film/the-last-laugh"
+                zach_review: "https://letterboxd.com/hetchy/film/the-last-laugh",
             },
             {
                 title: "Michael (1924)",
-                thought: "This is an interesting early queer film. Despite the slow pace and often static camera, it does compellingly portray a queer existence that bubbles under the surface of everyday interaction.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/michael-1924/",
-                zach_review: "https://letterboxd.com/hetchy/film/michael-1924/"
+                zach_review: "https://letterboxd.com/hetchy/film/michael-1924/",
             },
             { 
                 title: "The Gold Rush (1925)",
-                thought: "Whether on not you've seen a movie before, or know anything about the time and place depicted around the Tramp, you can recognize him and his story. Like a uniquely-shaped cartoon character, you can pick him out of a crowd immediately.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-gold-rush",
-                zach_review: "https://letterboxd.com/hetchy/film/the-gold-rush"
+                zach_review: "https://letterboxd.com/hetchy/film/the-gold-rush",
             },
             { 
                 title: "Battleship Potemkin (1925)",
-                thought: "What is there to say that hasn't been said? There's a tremendous amount of detail that makes this feel real, in the way that makes you forget it's not documentary or newsreel footage.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/battleship-potemkin",
-                zach_review: "https://letterboxd.com/hetchy/film/battleship-potemkin"
+                zach_review: "https://letterboxd.com/hetchy/film/battleship-potemkin",
             },
             {
                 title: "The General (1926)",
-                thought: "Folks weren't ready for an action comedy ... this man envisioned the full potential of movies, all the bombast and sleight of hand that could be achieved, and audiences blanked him. This is the blueprint for something like Mad Max: Fury Road, and they actually achieved it in the 20's.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-general/",
-                zach_review: "https://letterboxd.com/hetchy/film/the-general/"
+                zach_review: "https://letterboxd.com/hetchy/film/the-general/",
             },
             {
                 title: "Sunrise: A Song of Two Humans (1927)",
-                thought: "F.W. Murnau came to Hollywood, and god bless Fox Studio for throwing their money at him. This is really of a piece with The Last Laugh, Carl Mayer having written both scripts; they're both simple stories about otherwise normal days that become the turning point in the subjects' lives.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/sunrise-a-song-of-two-humans/",
-                zach_review: "https://letterboxd.com/hetchy/film/sunrise-a-song-of-two-humans/"
+                zach_review: "https://letterboxd.com/hetchy/film/sunrise-a-song-of-two-humans/",
             },
             {
                 title: "Metropolis (1927)",
-                thought: "The biggest key to imagining the future was simply this: more. More buildings, more height, more people, more machines, more size, more inequity.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/metropolis",
-                zach_review: "https://letterboxd.com/hetchy/film/metropolis"
+                zach_review: "https://letterboxd.com/hetchy/film/metropolis",
             },
             {
                 title: "Napoleon (1927)",
-                thought: "Every biopic trope is on display, and the 'historical' tag on the intertitles reminding you 'This really happened! They really said this!' is hilarious. Baz Luhrmann really got shown up a hundred years prior, too.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/napoleon",
-                zach_review: "https://letterboxd.com/hetchy/film/napoleon"
+                zach_review: "https://letterboxd.com/hetchy/film/napoleon",
             },
             {
                 title: "The Passion of Joan of Arc (1928)",
-                thought: "This is a reality-shifting film, and wholly not what I expected. I would have assumed this was an Ingmar Bergman film from the 60's if I didn't know better, because this is just not what silent films look like.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-passion-of-joan-of-arc/",
-                zach_review: "https://letterboxd.com/hetchy/film/the-passion-of-joan-of-arc/"
+                zach_review: "https://letterboxd.com/hetchy/film/the-passion-of-joan-of-arc/",
             },
             {
                 title: "The Crowd (1928)",
-                thought: "We're used to dramas about 'ordinary people,' especially with a long history of television to also account for. But after reflecting on the nature of ‘The Crowd’ compared to the prevailing types of films being made then, it's come into focus just how unconventional this film really was.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-crowd/",
-                zach_review: "https://letterboxd.com/hetchy/film/the-crowd/"
-            },
-            {
-                title: "Un Chien Andalou (1929)",
-                thought: "Truth in advertising right here, this does feel like a dream! I think the important element that Dalí and Buñuel hit on, that makes it dreamlike and not just a smattering of images, is that there's always some element of continuity from shot to shot.",
-                attribution: "— J Brooks",
-                jyoung_review: "https://letterboxd.com/jyoun/film/un-chien-andalou/",
-                zach_review: "https://letterboxd.com/hetchy/film/un-chien-andalou/"
+                zach_review: "https://letterboxd.com/hetchy/film/the-crowd/",
             },
             {
                 title: "Pandora's Box (1929)",
-                thought: "A great central performance from Louise Brooks as 'Lulu' really anchors it, but everything from the script to the cinematography are solid. It's impressive for any silent film to juggle this large a cast of characters, with all of them remaining distinct and legible without falling too far into caricature.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/pandoras-box/",
-                zach_review: "https://letterboxd.com/hetchy/film/pandoras-box/"
+                zach_review: "https://letterboxd.com/hetchy/film/pandoras-box/",
             },
             {
                 title: "Man with a Movie Camera (1929)",
-                thought: "It's undeniable that Dziga Vertov was developing a cinematic language throughout the 1920's that had a huge influence on all sorts of film, both documentary and narrative. As best I can understand, he thought the true application of montage was to influence the audience towards becoming more machine-like, operating in the end like cogs in society's more perfect machine.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/man-with-a-movie-camera/",
             },
             {
+                title: "Un Chien Andalou (1929)",
+                jyoung_review: "https://letterboxd.com/jyoun/film/un-chien-andalou/",
+                zach_review: "https://letterboxd.com/hetchy/film/un-chien-andalou/",
+            },
+            {
                 title: "Earth (1930)",
-                thought: "Terrence Malick who? Days of Heaven who? This was a difficult first-time watch, it's not just slow but also sparse in terms of actual events taking place.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/earth-1930/",
-                zach_review: "https://letterboxd.com/hetchy/film/earth-1930/"
+                zach_review: "https://letterboxd.com/hetchy/film/earth-1930/",
             },
             {
                 title: "L'Âge d'or (1930)",
-                thought: "Because surrealist art means nothing, it offers the chance for us to examine our own meaning-making process. Like a dream, we journey through L’Âge d’Or unprepared and continually at awe, and we wake up feeling like it must have meant something…",
-                attribution: "— Zach",
-                zach_review: "https://letterboxd.com/hetchy/film/lage-dor/"
+                zach_review: "https://letterboxd.com/hetchy/film/lage-dor/",
             },
             { 
                 title: "The Blood of a Poet (1932)",
-                thought: "Don't play cards with a statue. Don't fall asleep while dreaming. And don't take the image of a thing too seriously. Imagine beyond it.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-blood-of-a-poet/"
             }, 
             { 
                 title: "City Lights (1931)",
-                thought: "There's an argument that this film really works as satire of the moment, when the Depression has exacerbated wealth inequality, and western capitalist society has alienated people into treating each other with bizarre 'polite' remove. But, to the extent that Chaplin doesn't want to turn off any potential viewer, you can disengage from that reading and just enjoy the fairytale with the pleasant ending.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/city-lights/",
                 zach_review: "https://letterboxd.com/hetchy/film/city-lights/"
             }, 
             { 
                 title: "Mädchen in Uniform (1931)",
-                thought: "A worthy cult object of the early sound era, I can only imagine seeing this at the time, a depiction of not just queer desire, but also a profoundly mundane friendship and camaraderie between a group of women.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/madchen-in-uniform/",
                 zach_review: "https://letterboxd.com/hetchy/film/madchen-in-uniform/"
             }, 
             { 
                 title: "Le Million (1931)",
-                thought: "The long aerial shot of the town at the beginning is so good, we need to bring back miniatures in movies! There are too many drones now, when you could just pay a couple people to build meticulous little models of buildings!",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/le-million/",
                 zach_review: "https://letterboxd.com/hetchy/film/le-million/"
             }, 
             { 
                 title: "M (1931)",
-                thought: "What a complete thrill ride.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/m/",
                 zach_review: "https://letterboxd.com/hetchy/film/m/"
             }, 
             { 
                 title: "Limite (1931)",
-                thought: "This mythic film is in a class of its own, a touchstone for all abstract cinema and certainly deserves timeless recognition.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/limite/",
                 zach_review: "https://letterboxd.com/hetchy/film/limite/"
             }, 
             { 
                 title: "Vampyr (1932)",
-                thought: "You really have to take form into account with this movie. Dreyer is taking a very old-school silent aesthetic, with the static shots and long, verbose intertitles, and infecting it with advanced trickery to create horror.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/vampyr/",
                 zach_review: "https://letterboxd.com/hetchy/film/vampyr/"
             }, 
             { 
                 title: "Trouble in Paradise (1932)",
-                thought: "Watershed moment for comedies. Lubitsch and gang hit on a timeless formula that sings, literally. It’s the musicality woven into every element that engages you and doesn’t lose you for a second.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/trouble-in-paradise/",
                 zach_review: "https://letterboxd.com/hetchy/film/trouble-in-paradise/"
             }, 
             { 
                 title: "I Was Born, But... (1932)",
-                thought: "I had a bit of a tough watch, a silent film this 'small stakes' can be tougher to stick with. I do think you see Ozu's style shining through, the way he focuses in on how our opinions of others can shift from moment to moment.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/i-was-born-but/",
             }, 
             { 
                 title: "Duck Soup (1933)",
-                thought: "The extent to which I enjoy this movie rests on its wide satirical scope that lets it move away from Groucho’s shtick. I much prefer the antics of Harpo and Chico in this film.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/duck-soup-1933/",
                 zach_review: "https://letterboxd.com/hetchy/film/duck-soup-1933/"
             }, 
             { 
                 title: "Emperor Jones (1933)",
-                thought: "I do believe O'Neill to be a progressive man in his time, but I think Broadway has largely always played to an insular, liberal audience, and the effect of spotlighting black actors can be overstated in a self-congratulatory way.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/emperor-jones-1933/",
             }, 
             { 
                 title: "Zero for Conduct (1933)",
-                thought: "[Zero for Conduct] was recognized by a younger cohort for its enduring qualities, and those qualities shine through even today. The feeling it gives you connects you directly to your child self, and in turn, you remember that that child self never truly left you.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/zero-for-conduct-1933/",
                 zach_review: "https://letterboxd.com/hetchy/film/zero-for-conduct-1933/"
             }, 
             { 
                 title: "L'Atalante (1934)",
-                thought: "Vigo, alongside actor Michel Simon and cinematographer Boris Kaufman, creates a love letter to the people out of what should have been a syrupy love story. Zero for Conduct’s foregrounded themes of anarchism and freedom find their place in the background here and the outcome provides a much more nuanced conversation with the audience. An absolute gem.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/latalante/",
                 zach_review: "https://letterboxd.com/hetchy/film/latalante/"
             }, 
             { 
                 title: "The 39 Steps (1935)",
-                thought: "What can you say, Hitchcock has a sense of what works for suspense so early on in both his career and in film history. He knows where he can stretch towards the outlandish and still keep our interest.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-39-steps/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-39-steps/"
             }, 
             { 
                 title: "Modern Times (1936)",
-                thought: "“The whole point of the Little Fellow,” Chaplin said in 1925 of the tramp figure, “is that no matter how down on his ass he is, no matter how well the jackals succeed in tearing him apart, he’s still a man of dignity.”",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/modern-times/"
             }, 
             { 
                 title: "By the Bluest of Seas (1936)",
-                thought: "Despite the rudimentary editing and spotty continuity compared to Western films of its day, Barnet shoots this beautifully and it’s a charming time the whole way through.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/by-the-bluest-of-seas/",
                 zach_review: "https://letterboxd.com/hetchy/film/by-the-bluest-of-seas/"
             }, 
             { 
                 title: "A Day in the Country (1946)",
-                thought: "Renoir captures the fleeting beauty of a stolen afternoon, where every ripple on the water and every shared glance holds a universe of meaning. It's a film that sighs with a beautiful, poignant longing for moments that can never last.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/a-day-in-the-country/",
-                zach_review: "https://letterboxd.com/hetchy/film/a-day-in-the-country/"
+                zach_review: "https://letterboxd.com/hetchy/film/a-day-in-the-country/",
             }, 
             { 
                 title: "Grand Illusion (1937)",
-                thought: "Drag shows and shootouts. This movie really walks the line between comedy and drama, satire and tragedy. You really see the template in deft use that movies like Shawshank Redemption were able to borrow",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/grand-illusion/",
                 zach_review: "https://letterboxd.com/hetchy/film/grand-illusion/"
             }, 
             { 
                 title: "Bringing Up Baby (1938)",
-                thought: "This film follows a comedic formula that has been repeated endlessly, down to the goofy animal companion, and it would just not hold up without two movie star performances in the middle.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/bringing-up-baby/",
                 zach_review: "https://letterboxd.com/hetchy/film/bringing-up-baby/"
             }, 
             { 
                 title: "Daybreak (1939)",
-                thought: "Jean 'The Eyes' Gabin does it again! This is a pulpy, early noir that really bowled me over, and I think it stands the test of time with a subtly measured examination of masculinity through Gabin's lead character François.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/daybreak-1939/",
                 zach_review: "https://letterboxd.com/hetchy/film/daybreak-1939/"
             }, 
             { 
                 title: "Only Angels Have Wings (1939)",
-                thought: "First, Hollywood can do it quite well sometimes. Sure, the protagonist is overly stoic and the woman who falls for him lacks depth, but the visual effects aged well and the narrative is intriguing. This was the Top Gun of the Golden Age.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/only-angels-have-wings/"
             },
             { 
                 title: "Gone with the Wind (1939)",
-                thought: "Of course the most epic melodrama has the most melodramatic history.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/gone-with-the-wind/"
             },
             { 
                 title: "The Rules of the Game (1939)",
-                thought: "I started thinking about Wes Anderson's obvious inspiration by this movie, and the common ties to Renoir's filmography just kept adding up. I haven't seen The River yet, but they're both white dudes that decided to make their India movie ... big if true.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-rules-of-the-game/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-rules-of-the-game/"
             },
             { 
                 title: "The Wizard of Oz (1939)",
-                thought: "Legendary.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-wizard-of-oz/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-wizard-of-oz/"
             },
             { 
                 title: "Rebecca (1940)",
-                thought: "Melodramatic portrayal of obsession. One could argue that Hitchcock's Rebecca is emblematic of a director not yet fully at ease with the Hollywood system or its stars.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/rebecca/",
                 zach_review: "https://letterboxd.com/hetchy/film/rebecca/"
             },
             { 
                 title: "The Grapes of Wrath (1940)",
-                thought: "One of the most visually interesting films ever, and certainly for its time. It evokes the same mythologies as the Dark Souls games, where some force has stripped the fire and light from the land, and a few survivors are left to fumble through the dark for the rest of their days.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-grapes-of-wrath/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-grapes-of-wrath/"
             },
             { 
                 title: "The Letter (1940)",
-                thought: "The letter boxd her in...",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-letter/"
             },
             { 
                 title: "Dance, Girl, Dance (1940)",
-                thought: "A passed-over film in its day, the careful observation of a performer’s harsh reality in capitalist society endures beyond its era. There’s no unproblematic success as an artist, particularly as a woman too, and every success the characters achieve comes at some price.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/dance-girl-dance/",
                 zach_review: "https://letterboxd.com/hetchy/film/dance-girl-dance/"
             },
             { 
                 title: "His Girl Friday (1940)",
-                thought: "A relentless romcom. The verbal equivalent of a caffeine overdose mixed with champagne – quick, fizzy, and with that strangely delightful sting that keeps you coming back for more.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/his-girl-friday/",
                 zach_review: "https://letterboxd.com/hetchy/film/his-girl-friday/"
             },
             { 
                 title: "49th Parallel (1941)",
-                thought: "I'm gonna need everyone that has not watched this to watch it right away. Well, not everyone ... but if you have any interest in 40s film this is a who's who of stars, like a Wes Anderson level of stacked cast.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/49th-parallel/",
                 zach_review: "https://letterboxd.com/hetchy/film/49th-parallel/"
             },
             { 
                 title: "The Maltese Falcon (1941)",
-                thought: "Self-preservation in a crooked world. Bogart's Spade is trapped in a world of liars and manipulators, and survival comes with a weary detachment.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-maltese-falcon/"
             },
             { 
                 title: "Brothers and Sisters of the Toda Family (1941)",
-                thought: "What do we do when our parents need someone to take care of them? With each scene you get this fuller picture of the family dynamic, and it feels just like it’s lifted from real life.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/brothers-and-sisters-of-the-toda-family/",
                 zach_review: "https://letterboxd.com/hetchy/film/brothers-and-sisters-of-the-toda-family/"
             },
             { 
                 title: "Stormy Waters (1941)",
-                thought: "A meditation on honesty.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/stormy-waters/"
             },
             { 
                 title: "Sullivan's Travels (1941)",
-                thought: "On the surface, it's a screwball comedy, fueled by witty dialogue and a whirlwind plot. But the self-reflective satire examining the very nature of art and social responsibility is delightfully nuanced.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/sullivans-travels/"
             },
             { 
                 title: "Casablanca (1942)",
-                thought: "'I'm a drunkard.'",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/casablanca/"
             },
             { 
                 title: "To Be or Not to Be (1942)",
-                thought: "Laughter through bewilderment. It’s one thing for a film like The Death of Stalin to satirize monsters of history many decades on, but it’s another thing to put them on blast while they’re still committing atrocities.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/to-be-or-not-to-be/",
                 zach_review: "https://letterboxd.com/hetchy/film/to-be-or-not-to-be/"
             },
             { 
                 title: "The Magnificent Ambersons (1942)",
-                thought: "Welles' phantom follow-up. The Magnificent Ambersons exists in a liminal space between undeniable brilliance and the weight of what might have been... Its imperfections mirror the film's own central theme: the destructive nature of clinging to the past and the inevitable erosion of empires.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-magnificent-ambersons/"
             },
             { 
                 title: "Meshes of the Afternoon (1943)",
-                thought: "Was terrified of the hooded figure until I realized it was me.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/meshes-of-the-afternoon/",
                 zach_review: "https://letterboxd.com/hetchy/film/meshes-of-the-afternoon/"
             },
             { 
                 title: "The Life and Death of Colonel Blimp (1943)",
-                thought: "The old age makeup is one of a few aspects shared with Citizen Kane, in no way copied, to be clear, but just similarly living on the cutting edge while somehow masterfully deploying all these fresh techniques.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-life-and-death-of-colonel-blimp/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-life-and-death-of-colonel-blimp/"
             },
             { 
                 title: "The Seventh Victim (1943)",
-                thought: "Slow-burn of paranoia. A mesmerizing descent into an unsettling and ambiguous world that lingers long after the simplistic narrative elements fade... Yet, the true horror isn't within a hidden cult, but the claustrophobic paranoia they induce.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-seventh-victim/"
             },
             { 
                 title: "Obsession (1943)",
-                thought: "Luchino Visconti made a really self-assured debut, and while it's hard to claim it as a classic, there are unassailable moments of brilliance. The two leads have chemistry, I mean chemistry, that really tantalizes beyond the prevailing (American) cinema of the time.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/obsession/",
                 zach_review: "https://letterboxd.com/hetchy/film/obsession/"
             },
             { 
                 title: "Sanshiro Sugata (1943)",
-                thought: "Kurosawa's self-reflective debut. Beneath its apparent celebration of judo lies a quiet contemplation on the nature of mastery, ambition, and finding one's true path.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/sanshiro-sugata/"
             },
             { 
                 title: "Laura (1944)",
-                thought: "A half-remembered dream. This classic murder mystery becomes an exploration of the elusive nature of desire and the way we construct idealized versions of those we love. At the center is Laura herself, less a flesh-and-blood woman than a phantom composed of the projections of the men who loved her.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/laura/"
             },
             { 
                 title: "Ivan the Terrible, Part I (1944)",
-                thought: "There are a lot of reasons for that (the film itself is mostly OK! But interesting framing and good editing and score don't overcome a slight script and campy performances), but I found one reason rather curious... we have to remember that long before VHS and DVD, you saw films in theaters, and then they were gone.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/ivan-the-terrible-part-i/",
                 zach_review: "https://letterboxd.com/hetchy/film/ivan-the-terrible-part-i/"
             },
             { 
                 title: "Double Indemnity (1944)",
-                thought: "'We're both rotten.' This is Los Angeles far removed from Hollywood glamour.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/double-indemnity/"
             },
             { 
                 title: "A Canterbury Tale (1944)",
-                thought: "As much as this is one of the slower and more mundane Powell and Pressburger films, that effect is rendered intentionally. While the war winds down off screen, we're taken on a trip to the quiet English countryside, and watch three travelers fall in love with this setting and its quaint charms.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/a-canterbury-tale/",
                 zach_review: "https://letterboxd.com/hetchy/film/a-canterbury-tale/"
             },
             { 
                 title: "Brief Encounter (1945)",
-                thought: "A testament to the epic power of the unsaid. The drama isn't in what happens, but in what almost happens, making it one of the most emotionally devastating and painfully relatable romances ever filmed.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/brief-encounter/",
                 zach_review: "https://letterboxd.com/hetchy/film/brief-encounter/"
             },
             { 
                 title: "Children of Paradise (1945)",
-                thought: "The quick pace and the weaving in and out of characters is really modern. The scenes in the theaters are all so romantic and enthralling, and the gravity of those spaces ties the narrative together.",
-                attribution: "— J Brooks",
-                jyoung_review: "https://letterboxd.com/jyoun/film/children-of-paradise/",
                 zach_review: "https://letterboxd.com/hetchy/film/children-of-paradise/"
             },
             { 
                 title: "Les Dames du bois de Boulogne (1945)",
-                thought: "Bresson’s most plot-heavy film is a cold, cruel, and elegant revenge story. It’s like a scalpel dissecting the dark heart of the bourgeoisie.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/les-dames-du-bois-de-boulogne/",
             },
             { 
                 title: "Rome, Open City (1945)",
-                thought: "I am endlessly amazed at the drive of filmmakers like Rossellini, in the immediate wake of WWII, to pour their hearts into films directly about that moment in Europe.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/rome-open-city/",
                 zach_review: "https://letterboxd.com/hetchy/film/rome-open-city/"
             },
             { 
                 title: "A Matter of Life and Death (1946)",
-                thought: "A breathtakingly imaginative fantasy that uses the afterlife as a celestial courtroom to debate love, war, and national identity. The shift from Technicolor earth to monochrome heaven is a stroke of genius.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/a-matter-of-life-and-death/",
             },
             { 
                 title: "Paisan (1946)",
-                thought: "Ground-level grit salvaged from the ashes of war. These are the shattered memories of lives caught in the whirlwind of history—just ordinary folk whose stories are raw and unfinished, mirroring the fractured landscape of post-war Italy.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/paisan/"
             },
             { 
                 title: "Notorious (1946)",
-                thought: "The simple act of passing a key becomes one of the most suspenseful and erotically charged scenes in Hitchcock's filmography. It's a film where the real danger lies not in espionage, but in the emotional games people play.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/notorious/",
                 zach_review: "https://letterboxd.com/hetchy/film/notorious/"
             },
             { 
                 title: "My Darling Clementine (1946)",
-                thought: "A tumbleweed ballad. My Darling Clementine isn't the West of dime-store novels, but a landscape etched with both brutal beauty and a quiet, lingering sorrow.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/my-darling-clementine/"
             },
             { 
                 title: "It's a Wonderful Life (1946)",
-                thought: "For a beloved Christmas classic, it’s a surprisingly dark film that looks into the abyss of despair before finding its hope. The vision of Pottersville is a chilling glimpse of a world devoid of one man's decency.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/its-a-wonderful-life/",
             },
             { 
                 title: "Out of the Past (1947)",
-                thought: "Twisting & uncanny noir. The desire for the impossible sends Jeff Bailey into an endless loop of self-destruction.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/out-of-the-past/"
             },
             { 
                 title: "Jenny Lamour (1947)",
-                thought: "French noir at its finest, with a touch of the theatrical.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/jenny-lamour/",
                 zach_review: "https://letterboxd.com/hetchy/film/jenny-lamour/"
             },
             { 
                 title: "Black Narcissus (1947)",
-                thought: "A stunning psychodrama where the vibrant, overwhelming beauty of the Himalayan landscape becomes a character itself, mirroring the repressed desires and growing madness of the nuns. The bell tower scene is an absolute masterclass in tension.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/black-narcissus/",
                 zach_review: "https://letterboxd.com/hetchy/film/black-narcissus/"
             },
             { 
                 title: "The Treasure of the Sierra Madre (1948)",
-                thought: "The laughing bandits might be the most terrifying thing in a movie full of desperate men. It's a perfect, cynical fable where the only thing you find at the end of the rainbow is the bitter punchline of a cosmic joke.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-treasure-of-the-sierra-madre/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-treasure-of-the-sierra-madre/"
             },
             { 
                 title: "Bicycle Thieves (1948)",
-                thought: "The quintessential neorealist film. A simple story about a stolen bicycle becomes a profound and heartbreaking statement on poverty, dignity, and the desperation of a man trying to provide for his family in a world that doesn’t care.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/bicycle-thieves/",
                 zach_review: "https://letterboxd.com/hetchy/film/bicycle-thieves/"
             },
             { 
                 title: "Louisiana Story (1948)",
-                thought: "Stunning cinematography, gorgeous score, meditative editing. Overall it’s a great little film even if it isn’t perfect as a documentary.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/louisiana-story/"
             },
             { 
                 title: "La Terra Trema (1948)",
-                thought: "Neorealism so real, you can practically taste the salt of both the sea and the workers' tears. Both as mundane and as beautiful as life.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/la-terra-trema/"
             },
             { 
                 title: "The Red Shoes (1948)",
-                thought: "'Why do you want to dance?' 'Why do you want to live?' That exchange is the heart of this intoxicating, tragic, and visually ravishing film about the consuming nature of art.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-red-shoes/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-red-shoes/"
             },
             { 
                 title: "Letter from an Unknown Woman (1948)",
-                thought: "The vampire here is a sickness. Joan Fontaine's Lisa is a woman who exists in the shadows cast by her own yearning, her identity eclipsed by an all-consuming love for... music.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/letter-from-an-unknown-woman/"
             },
             { 
                 title: "Drunken Angel (1948)",
-                thought: "The simmering, swampy atmosphere of the black market is palpable. It's here that Kurosawa first forged his powerful humanistic vision, finding a strange, desperate nobility in the lowest depths of society.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/drunken-angel/",
                 zach_review: "https://letterboxd.com/hetchy/film/drunken-angel/"
             },
             { 
                 title: "The Naked City (1948)",
-                thought: "Gritty procedural noir. What sets The Naked City apart is its conscious rejection of the stylized artifice typical of mid-century crime films.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-naked-city/"
             },
             { 
                 title: "Spring in a Small Town (1948)",
-                thought: "Thanks to whoever smuggled the original Past Lives out of 1940s China.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/spring-in-a-small-town/"
             },
             { 
                 title: "Late Spring (1949)",
-                thought: "A film that finds monumental emotional weight in the smallest of domestic gestures. The final scenes, with the father alone in his home, are a masterclass in quiet, understated heartbreak.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/late-spring/",
                 zach_review: "https://letterboxd.com/hetchy/film/late-spring/"
             },
             { 
                 title: "Jour de Fête (1949)",
-                thought: "Good first attempt. There’s a genuine spirit of creativity here, but most of the skits feel half complete and the acting is often transparent.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/film/jour-de-fete/"
             },
             { 
                 title: "The Third Man (1949)",
-                thought: "'In Italy for 30 years under the Borgias, they had warfare, terror, murder, and bloodshed, but they produced Michelangelo, Leonardo da Vinci, and the Renaissance. In Switzerland, they had brotherly love, they had 500 years of democracy and peace, and what did that produce? The cuckoo clock.' Harry Lime's speech is the cynical, brilliant heart of this perfectly constructed noir.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-third-man/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-third-man/"
             },
             { title: "Song of Love (1954)" }, 
             { 
                 title: "In a Lonely Place (1950)",
-                thought: "A Hollywood romance that feels terrifyingly real. Gloria Grahame’s knowing, watchful performance is the anchor, her love for this broken man both her hope and her potential doom.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/in-a-lonely-place/",
                 zach_review: "https://letterboxd.com/hetchy/film/in-a-lonely-place/"
             },
             { 
                 title: "Rashomon (1950)",
-                thought: "A cinematic hall of mirrors. The single story of a murder and a rape becomes a labyrinth of deception questioning the nature of memory and truth itself.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/rashomon/",
                 zach_review: "https://letterboxd.com/hetchy/film/rashomon/"
             },
             { 
                 title: "Sunset Boulevard (1950)",
-                thought: "'I am big. It's the pictures that got small.' The definitive statement on the vampiric nature of Hollywood, and a film that feels more relevant with each passing year.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/sunset-boulevard/",
                 zach_review: "https://letterboxd.com/hetchy/film/sunset-boulevard/"
             },
             { 
                 title: "Orpheus (1950)",
-                thought: "'to write without being a writer' defiant foolish poet-god (glass shattered) visions disembodied (garbled prophecies) radio through mirrors (portals to the unsaid lost-time) reflecting defying the gods (defying sterile eternal void) for life's pulse dissonant song (above earth-time) unsung defiant foolish poet (of mire again) avoids",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/orpheus/",
                 zach_review: "https://letterboxd.com/hetchy/film/orpheus/"
             },
             { 
                 title: "The Young and the Damned (1950)",
-                thought: "Cinema's most relentless villain. Los Olvidados forces a confrontation with the cycles of violence that trap generations in its impoverished grip.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-young-and-the-damned/"
             },
             { 
                 title: "No Way Out (1950)",
-                thought: "Daring exploration of social injustice for its era. At the center is Sidney Poitier's brilliant performance as a young doctor whose very presence unmasks racial hatred when he's assigned to treat a maliciously prejudiced criminal.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/no-way-out/"
             },
             { 
                 title: "All About Eve (1950)",
-                thought: "George Sanders' acid-tongued theatre critic, Addison DeWitt, steals every scene he's in, narrating the proceedings with a god-like, cynical amusement. His dialogue is a masterclass in written contempt.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/all-about-eve/",
             },
             { 
                 title: "A Streetcar Named Desire (1951)",
-                thought: "Southern Gothic Mythology. A Streetcar Named Desire is a pressure cooker of unspoken desires and simmering resentments—'Poker shouldn't be played in a house with women!'",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/a-streetcar-named-desire/",
                 zach_review: "https://letterboxd.com/hetchy/film/a-streetcar-named-desire/"
             },
             { 
                 title: "The Steel Helmet (1951)",
-                thought: "A low-budget war film featuring transcendent dialogue. Samuel Fuller's The Steel Helmet represents a bold, uncompromising look at the moral ambiguities of war.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-steel-helmet/"
             },
             { 
                 title: "The River (1951)",
-                thought: "A Day in the Indian Country Jean Renoir's The River is a reverie, where the vibrant colors of India and the languid flow of the river carry us along on a simple, yet deeply humanistic journey. Renoir's attention to how the story is told is expressed in its ephemeral quality more than its plot.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-river/"
             },
             { 
                 title: "Diary of a Country Priest (1951)",
-                thought: "A transcendent work of cinema that bores into the very marrow of the human experience. Like a dry Catholic ritual, its austerity can immerse the patient viewer in a state of philosophical contemplation.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/diary-of-a-country-priest/"
             },
             { 
                 title: "Europe '51 (1952)",
-                thought: "A film that seeks to illuminate the spiritual rot at the core of a society obsessed with material wealth and blinded to the suffering of its most vulnerable. At times, its message does feel overdone—its protagonist becomes something like an emblem of suffering rather than a fully-fledged character.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/europe-51/"
             },
             { 
                 title: "Ikiru (1952)",
-                thought: "The film’s second half, where his wake becomes a Rashomon-like reflection on his final days, is a brilliant structural choice. It’s a film that asks the biggest questions about life and finds an answer in the smallest of actions: building a park.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/ikiru/",
                 zach_review: "https://letterboxd.com/hetchy/film/ikiru/"
             },
             { 
                 title: "Umberto D. (1952)",
-                thought: "De Sica's meticulous attention to detail—the textures of Umberto's apartment, the choreography of his daily routines, the weight of each weary footstep—imbues the events with a neorealist authenticity that steadily builds into a devastating emotional crescendo. This is a document of the universal struggle for basic human dignity when every societal force conspires against it.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/umberto-d/",
                 zach_review: "https://letterboxd.com/hetchy/film/umberto-d/"
             },
             { 
                 title: "The Quiet Man (1952)",
-                thought: "A Traditionalist's Daydream. What seems to be a deeply personal project for John Ford, ‘The Quiet Man’ channels his longing for an ancestral homeland into lush Technicolor poetry extolling traditional values of the Emerald Isle's most idyllic illusions.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-quiet-man/"
             },
             { 
                 title: "Singin' in the Rain (1952)",
-                thought: "Cinemagic. What an immortal cinematic treat—a fizzy, euphoric celebration of musical theater that blends dazzling spectacle with incisive satire.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/singin-in-the-rain/"
             },
             { 
                 title: "The Bigamist (1953)",
-                thought: "Lessons in honesty. The Bigamist's frazzled protagonist lives a life fractured by dishonesty and inconsistent values.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-bigamist/"
             },
             { 
                 title: "Tokyo Story (1953)",
-                thought: "Ozu doesn't perform any tricks to produce an existential state. Instead, the film's measured pacing and repetitive visual motifs induce an almost meditative reflection in the viewer.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/tokyo-story/",
                 zach_review: "https://letterboxd.com/hetchy/film/tokyo-story/"
             },
             { 
                 title: "Roman Holiday (1953)",
-                thought: "Roaming Rome unscathed. First of all, this might just be one long commercial for a lighter spy camera… In all seriousness though, when the birdie falls from the tree does it get hurt?",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/roman-holiday/"
             },
             { 
                 title: "The Earrings of Madame de... (1953)",
-                thought: "Superficially superficial. The Earrings of Madame de... is a marvelous cinematic critique of the bourgeois reminiscent of ‘The Rules of the Game’.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-earrings-of-madame-de/"
             },
             { 
                 title: "Little Fugitive (1953)",
-                thought: "On-location delight. Though many of its scenes are engrossing, if you're looking for a captivating narrative, Little Fugitive is not that.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/little-fugitive/"
             },
             { 
                 title: "The Wages of Fear (1953)",
-                thought: "Or, the Dehumanization of Heartless Labor. This is primal survival instinct—a merciless dissection of humanity's capacity for moral compromise when pitted against desperation and the temptation of monetary reward.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-wages-of-fear/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-wages-of-fear/"
             },
             { 
                 title: "Ugetsu (1953)",
-                thought: "Shimmering folklore of the psyche. In moments of stillness, we can feel its unyielding ebb and flow—the lure of the great cosmic samsara beckoning each soul to surrender to its depths.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/ugetsu/"
             },
             { 
                 title: "Seven Samurai (1954)",
-                thought: "It's pretty good. ;)",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/seven-samurai/",
                 zach_review: "https://letterboxd.com/hetchy/film/seven-samurai/"
             },
             { 
                 title: "La Strada (1954)",
-                thought: "Fellini juggles heartbreak and humor like a circus—a bittersweet journey where in the end, it's the fools who truly see.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/la-strada/",
                 zach_review: "https://letterboxd.com/hetchy/film/la-strada/"
             },
             { 
                 title: "Rear Window (1954)",
-                thought: "The first time I saw this movie was at a showing in a San Francisco park. I imagine someone was watching it from their rear window. (Also, the movie screen is the window.)",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/rear-window/"
             },
             { 
                 title: "Journey to Italy (1954)",
-                thought: "The contrast between their simple vacation and Vesuvius is the key. What stirs beneath the surface of the ordinary and the mundane?",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/journey-to-italy/"
             },
             { 
                 title: "Sansho the Bailiff (1954)",
-                thought: "Absolutely devastating. I had to research why the themes of this film reminded me of Christian symbolism.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/sansho-the-bailiff/"
             },
             { 
                 title: "Johnny Guitar (1954)",
-                thought: "The dialogue is pure pulp poetry, and the color-coded costumes turn every confrontation into a symbolic battle. It’s a Freudian western on acid.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/johnny-guitar/",
                 zach_review: "https://letterboxd.com/hetchy/film/johnny-guitar/"
             },
             { 
                 title: "Salt of the Earth (1954)",
-                thought: "It succeeds in its narrative and I appreciate it for that.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/salt-of-the-earth/"
             },
             { 
                 title: "On the Waterfront (1954)",
-                thought: "'I coulda had class. I coulda been a contender. I coulda been somebody.'",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/on-the-waterfront/",
                 zach_review: "https://letterboxd.com/hetchy/film/on-the-waterfront/"
             },
             { 
                 title: "Pather Panchali (1955)",
-                thought: "Whatever God wills is for the best. Ray shows us a delightful Indian perspective of realism.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/pather-panchali/",
                 zach_review: "https://letterboxd.com/hetchy/film/pather-panchali/"
             },
             { 
                 title: "All That Heaven Allows (1955)",
-                thought: "Sirk uses the reflections in windows and mirrors to show his characters trapped by social conventions. It's a visually sumptuous film that is also deeply sad.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/all-that-heaven-allows/",
                 zach_review: "https://letterboxd.com/hetchy/film/all-that-heaven-allows/"
             },
             { 
                 title: "Ordet (1955)",
-                thought: "It's all about perspective.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/ordet/",
                 zach_review: "https://letterboxd.com/hetchy/film/ordet/"
             },
             { 
                 title: "Forever a Woman (1955)",
-                thought: "A northerly wind blows blue work clothes—the sorrows of a woman. This tragic film may remind you how to truly live.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/forever-a-woman/",
                 zach_review: "https://letterboxd.com/hetchy/film/forever-a-woman/"
             },
             { 
                 title: "Diabolique (1955)",
-                thought: "That overflowing bathtub is the stuff of nightmares. A brilliantly nasty little thriller that relies on atmosphere and psychological torment rather than cheap shocks.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/diabolique/",
                 zach_review: "https://letterboxd.com/hetchy/film/diabolique/"
             },
             { 
                 title: "La Pointe Courte (1955)",
-                thought: "A photographer's film. I loved it the first time for this very reason—every shot is perfect, but I didn't understand its historical importance.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/la-pointe-courte/"
             },
             { 
                 title: "The Night of the Hunter (1955)",
-                thought: "L-O-V-E and H-A-T-E tattooed on the knuckles. It’s a film that feels completely out of time, a singular work of art that is as beautiful as it is terrifying.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-night-of-the-hunter/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-night-of-the-hunter/"
             },
             { 
                 title: "The Searchers (1956)",
-                thought: "The opening and closing shots, with Ethan framed by a doorway, are iconic for a reason. He’s a man who can save the family, but can never be a part of it—an eternal outsider.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-searchers/",
                 zach_review: "https://letterboxd.com/hetchy/film/the-searchers/"
             },
             { 
                 title: "A Man Escaped (1956)",
-                thought: "Bresson is an essentialist and he orchestrates films with precision. The experience one has is total absorption—the prison becomes life's struggle.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/a-man-escaped/",
                 zach_review: "https://letterboxd.com/hetchy/film/a-man-escaped/"
             },
             { 
                 title: "While the City Sleeps (1956)",
-                thought: "The movement of this film flows like a day of bad luck—red lights all the way at home with some jerks along the way.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/while-the-city-sleeps/"
             },
             { 
                 title: "Flowing (1956)",
-                thought: "You kinda respect it for how subdued and restrained it is, and certainly for the subject matter that’s not being sensationalized. The title unlocks the film, because Flowing has these different meanings of people passing through a space, or life passing you by, and these feel enduringly relatable.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/flowing/",
             },
             { 
                 title: "Sweet Smell of Success (1957)",
-                thought: "A noir for those who like noir—with the scent of nostalgia for witty one-liners and over-dramatic setups with not much to lose.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/sweet-smell-of-success/"
             },
             { 
                 title: "Wild Strawberries (1957)",
-                thought: "A film that understands that we are haunted not by ghosts, but by our own memories and regrets. The image of the clock with no hands is a perfect, terrifying metaphor for a life that has run out of time.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/wild-strawberries/",
                 zach_review: "https://letterboxd.com/hetchy/film/wild-strawberries/"
             },
             { 
                 title: "Nights of Cabiria (1957)",
-                thought: "Cabiria’s resilience is her grace. She’s somehow cartoonish in her curiosity and expression, and yet also relatable.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/nights-of-cabiria/",
                 zach_review: "https://letterboxd.com/hetchy/film/nights-of-cabiria/"
             },
             { 
                 title: "The Cranes Are Flying (1957)",
-                thought: "Kalatozov's creates the first Soviet New Wave—a packed wartime tragedy of breathtaking cinematography. Images like a ticking clock amidst a burning building remind us that time moves on regardless of the destruction of WWII.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-cranes-are-flying/"
             },
             { 
                 title: "Throne of Blood (1957)",
-                thought: "The forest moving on its own is a masterstroke of unsettling, supernatural dread. This is Shakespearean tragedy filtered through a uniquely Japanese aesthetic, and the result is breathtaking.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/throne-of-blood/",
                 zach_review: "https://letterboxd.com/hetchy/film/throne-of-blood/"
             },
             { 
                 title: "The Seventh Seal (1957)",
-                thought: "Playing chess with Death. It’s an image so iconic it’s become a cliché, but in Bergman’s hands, it’s a profound and deeply serious metaphor for a man’s last-ditch effort to find meaning in a meaningless world.",
-                attribution: "— J Brooks",
                 zach_review: "https://letterboxd.com/hetchy/film/the-seventh-seal/"
             },
             { 
                 title: "Pyaasa (1957)",
-                thought: "This must be a hidden gem for most of the world outside of India. While Satyajit Ray was capturing the life of India, Guru Dutt was utilizing the Bollywood format to shine a bright light on capitalism's failures.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/pyaasa/",
                 zach_review: "https://letterboxd.com/hetchy/film/pyaasa/"
             },
             { 
                 title: "The Defiant Ones (1958)",
-                thought: "'You draggin' on the chain.'",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-defiant-ones/"
             },
             { 
                 title: "Elevator to the Gallows (1958)",
-                thought: "A film that floats on Miles Davis’s legendary improvised score. The music becomes a character, scoring Jeanne Moreau’s aimless, haunting walk through the Paris night.",
-                attribution: "— J Brooks",
                 zach_review: "https://letterboxd.com/hetchy/film/elevator-to-the-gallows/"
             },
             { 
                 title: "Vertigo (1958)",
-                thought: "The film's second half, where Jimmy Stewart morbidly tries to recreate his lost love, is one of the most disturbing and pathetic portraits of male obsession ever put on film. It’s a beautiful, sick, and perfect movie.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/vertigo/",
             },
             { 
                 title: "Anna Lucasta (1958)",
-                thought: "She is way better than this cheaply produced shlock deserves. The whole cast does fine with what they’re given, but this story seems to have been distilled and diluted a dozen times until there’s no resemblance to whatever made it worthwhile.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/anna-lucasta/",
             },
             { 
                 title: "Some Came Running (1958)",
-                thought: "This film achieves the alluring perversity of the more interesting Hollywood escapades: rich, beautiful production design and sweeping musical scores that offset with a dreadful examination of disgusting men.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/some-came-running/",
             },
             { 
                 title: "Touch of Evil (1958)",
-                thought: "Anglo critics at the time balked at Welles’s showy camera, but once again he basically peeked through the looking glass at cinema’s future and tried his hand at recreating it. It’s messy, it’s overstuffed with ideas, but it’s such an exhilarating ride.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/touch-of-evil/",
             },
             { 
                 title: "Cairo Station (1958)",
-                thought: "Wow, reminded me of ‘M’ the way scenes of modern life form a psychological map of a society. Impossible to pin down with one message or meaning.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/cairo-station/",
             },
             { 
                 title: "Handsome Serge (1958)",
-                thought: "All the breakthroughs and the limits of what the Cahiers writers imagined for themselves can be found here. “Write what you know” as the north star. Really strong characterization of two boys that were scared of life, and though they responded differently... neither could grow.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/handsome-serge/",
             },
             { 
                 title: "The 400 Blows (1959)",
-                thought: "A film that captures the loneliness and rebellion of childhood with an almost documentary-like authenticity. The long take of Antoine running on the beach, culminating in that final look to the camera, is an unforgettable cry for help.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-400-blows/",
             },
             { 
                 title: "Come Back, Africa (1959)",
-                thought: "More than most films I get the sense that there was more footage and I’d love to see it if so. The musical element was so well done—overlaying traditional African music to montages of modern city life throughout; the summary montage to a beautiful solo performance.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/come-back-africa/"
             },
             { 
                 title: "Hiroshima Mon Amour (1959)",
-                thought: "'You saw nothing in Hiroshima. Nothing.' The opening lines set the stage for a film that is as much about the inadequacy of memory as it is about memory itself. A devastatingly beautiful puzzle box.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/hiroshima-mon-amour/",
             },
             { 
                 title: "Some Like It Hot (1959)",
-                thought: "'Well, nobody's perfect.' The final line is the perfect punchline to a film that is, itself, pretty much perfect.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/some-like-it-hot/",
             },
             { 
                 title: "North by Northwest (1959)",
-                thought: "The crop duster scene is a masterclass in suspense, turning a wide-open, empty field into a place of terrifying vulnerability. It’s Hitchcock having the most fun, and it’s infectious.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/north-by-northwest/",
             },
             { 
                 title: "Pickpocket (1959)",
-                thought: "The main character attempts something he knows to be wrong and begins falling in love with the excitement of the act. He then lives a conflicted and suspicious life—his love of pickpocketing keeps him at a distance from the world around him and the people in it.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/pickpocket/"
             },
             { 
                 title: "Anatomy of a Murder (1959)",
-                thought: "'An irrisistable impulse.' In 12 Angry Men we are witnesses to the jury.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/anatomy-of-a-murder/"
             },
             { 
                 title: "Kaagaz Ke Phool (1959)",
-                thought: "Similar to its fellow ‘59 movie, ‘The 400 Blows,’ there are moments in this movie where you just say “oh, we landed on the look of modern movies here, and they still look like this.”",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/kaagaz-ke-phool/",
             },
             { 
                 title: "Rio Bravo (1959)",
-                thought: "I think a John Wayne character works better when his flaws aren’t that he’s soooo committed to upholding law and order and being the embodiment of the Great Man leader that he’s emotionally unavailable when ladies throw themselves at him 🤷",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/rio-bravo/",
             },
             { 
                 title: "L'Avventura (1960)",
-                thought: "A detective story where the detective loses interest in the case. Antonioni's film is a radical statement about modern alienation, where the search for a person is less compelling than the characters' own aimless, disconnected wanderings.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/lavventura/",
                 zach_review: "https://letterboxd.com/hetchy/film/lavventura/"
             },
             { 
                 title: "Psycho (1960)",
-                thought: "Killing off your main character a third of the way through the movie was a revolutionary act. The shower scene is justly famous, but the whole film is a masterclass in misdirection and sustained dread.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/psycho/",
             },
             { 
                 title: "Peeping Tom (1960)",
-                thought: "A deeply unsettling and surprisingly sympathetic portrait of a serial killer. The film that effectively killed Michael Powell's career in Britain is now rightly seen as a complex masterpiece that implicates the audience in its own voyeurism.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/peeping-tom/",
             },
             { 
                 title: "Breathless (1960)",
-                thought: "With its jump cuts, direct addresses to the camera, and effortlessly cool performances, this film feels like it was invented on the spot. It's a jolt of pure cinematic energy that still feels fresh.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/breathless/",
             },
             { 
                 title: "The Good Girls (1960)",
-                thought: "Chabrol’s Sex and the City with fewer laughs and more simulated boredom. It shouldn’t be ignored that any midcentury film that actually draws a through-line across all male behavior towards women, from the common greetings to the most severe predation, is rare and commendable.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-good-girls/",
             },
             { 
                 title: "The Cloud-Capped Star (1960)",
-                thought: "Ritwik Ghatak is as uninhibited stylistically as some of the midcentury greats, Kurosawa or Buñuel or Kalatozov. There’s something very unique in this moment with the expressive camera and soundwork.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-cloud-capped-star/",
             },
             { 
                 title: "When a Woman Ascends the Stairs (1960)",
-                thought: "Compared to my first Naruse, the spare Flowing, this film comes to resemble a punishing melodrama from Fellini over the course of its runtime. Like Flowing though, the sense of time constantly marching on hangs over every aspect, imbuing everything with a pallid tension.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/when-a-woman-ascends-the-stairs/",
             },
             { 
                 title: "Lola (1961)",
-                thought: "Demy’s ambition to match his hollywood influences with this first feature says a lot about the success he would find in his career. The showy camera movement, the upbeat pace, and the dense interweaving of characters, all hallmarks of productions by the Hitchcocks or Minnellis, had maybe not been emulated outside hollywood before this.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/lola/",
             },
             { 
                 title: "Victim (1961)",
-                thought: "Good on them for bucking the censors etc etc, but boy, an old social issue melodrama can be such a pill.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/victim/",
             },
             { 
                 title: "Viridiana (1961)",
-                thought: "Buñuel at his most blasphemous and brilliant. The beggars' feast, a grotesque parody of Da Vinci's Last Supper, is an unforgettable sequence of surrealist anarchy.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/viridiana/",
             },
             { 
                 title: "Yojimbo (1961)",
-                thought: "Kurosawa takes the American western, filters it through a Japanese lens, and creates one of the coolest, most entertaining, and influential films ever made. Toshiro Mifune’s nameless ronin is the epitome of effortless badassery.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/yojimbo/",
             },
             { 
                 title: "Last Year at Marienbad (1961)",
-                thought: "Is it a dream? A memory? A lie? Resnais’s enigmatic masterpiece refuses to answer, instead trapping the viewer in its elegant, labyrinthine hallways and haunting, repetitive dialogue. A film to be experienced, not solved.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/last-year-at-marienbad/",
             },
             { 
                 title: "The Connection (1961)",
-                thought: "Absolutely adore it for everything to do with the mockumentary challenging the medium, and you can excuse the hammy performances to a point because there’s the suggestion that the camera’s presence turns people into performers, but it still feels artificial when you port this production from the stage to the flop house.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-connection/",
             },
             { 
                 title: "Chronicle of Flaming Years (1961)",
-                thought: "Even on a fuzzy dvd rip, moments of this thing made me yell at the screen like a child. When you’ve been raised on western cinema, there’s a specific joy in being exposed to what the visionaries out east were cooking up.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/chronicle-of-flaming-years/",
             },
             { 
                 title: "La Notte (1961)",
-                thought: "I know some people scoff at Paul Schrader’s much-discussed concept of transcendental cinema, but I really do find it useful in pinpointing why I appreciate films like this one. Being able to put the audience in a trance of boredom, and then disguise the passage between scenes, disguise cuts and disguise the flow of one mood to the next, it’s a replication of what it is to be a consciousness traveling through time and having no control over thoughts and emotions floating in and out from us. It’s a reminder too that the world acts on us in this way.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/la-notte/",
                 zach_review: "https://letterboxd.com/hetchy/film/la-notte/"
             },
             { 
                 title: "Lawrence of Arabia (1962)",
-                thought: "The cut from a lit match to the desert sun is one of the most famous edits in history, and for good reason. It’s a moment of pure cinematic magic in a film that is full of them, a true epic in every sense of the word.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/lawrence-of-arabia/",
             },
             { 
                 title: "Jules and Jim (1962)",
-                thought: "…and Catherine.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/jules-and-jim/",
                 zach_review: "https://letterboxd.com/hetchy/film/jules-and-jim/"
             },
             { 
                 title: "La Jetée (1962)",
-                thought: "A story of time travel, memory, and apocalypse, told almost entirely through still photographs. It’s one of the most haunting and innovative science fiction films ever made, proving that imagination is more powerful than any special effect.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/la-jetee/",
             },
             { 
                 title: "L'Eclisse (1962)",
-                thought: "It’s such an evocative portrait that it invites a meditation on the subjectivity of experience, and how far away we are from each other in our conception of what reality is.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/leclisse/",
                 zach_review: "https://letterboxd.com/hetchy/film/leclisse/"
             },
             { 
                 title: "An Autumn Afternoon (1962)",
-                thought: "Underlying every Ozu is an unparalleled patience, a stylistic choice that feels deeply philosophical. His static camera isn't merely observational; it’s an act of profound attentiveness, a willingness to allow the subtle dramas of life to unfold.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/an-autumn-afternoon/"
             },
             { 
                 title: "Ivan's Childhood (1962)",
-                thought: "So you’re telling me that Tarkovsky set out to make this film as a totalized statement of anti-war... and then witnessed his film become a “success”... and felt like the world turned unabated... No wonder his follow up Andrei Rublev feels like an artist’s statement on how art will shatter your confidence.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/ivans-childhood/",
             },
             { 
                 title: "The Exterminating Angel (1962)",
-                thought: "Buñuel’s surrealist masterpiece about a dinner party of bourgeois guests who find themselves inexplicably unable to leave. A brilliant and hilarious allegory for the absurd paralysis of the upper class.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-exterminating-angel/",
             },
             { 
                 title: "The Man Who Shot Liberty Valance (1962)",
-                thought: "Look, just because Ford’s a very classic, very economic filmmaker, doesn’t make his westerns all that dramaturgically interesting or emotionally engaging.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-man-who-shot-liberty-valance/",
             },
             { 
                 title: "Harakiri (1962)",
-                thought: "The truly chilling thing that I had partially forgotten from my first watch, was the implacable logic of the cruelty, how seamlessly it flows from a system utterly devoted to preserving its own abstract code of 'honor'—regardless of the human wreckage.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/harakiri/"
             },
             { 
                 title: "Vivre Sa Vie (1962)",
-                thought: "Godard's Joan. Nana stands in front of advertisements while advertising herself.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/vivre-sa-vie/"
             },
             { 
                 title: "8½ (1963)",
-                thought: "'I really have nothing to say, but I want to say it all the same.' Guido's predicament is Fellini's, and the result is a joyous, chaotic, and deeply honest film about the beautiful mess of the creative process.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/8-half/",
                 zach_review: "https://letterboxd.com/film/8-half/"
             },
             { 
                 title: "Contempt (1963)",
-                thought: "Godard is a surgeon—a forensic examiner of films. He creates and disassembles simultaneously.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/contempt/",
                 zach_review: "https://letterboxd.com/hetchy/film/contempt/"
             },
             { 
                 title: "The Leopard (1963)",
-                thought: "A film of almost unbearable beauty and profound, yet un-relatable, melancholy. Visconti's aristocratic elegy is fascinating study of Prince Salina—a titan bearing the weight of a collapsing world, every frame a meticulously composed painting of grandeur in its twilight.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-leopard/"
             },
             { 
                 title: "Scorpio Rising (1963)",
-                thought: "This inspired lawsuits from the American Nazi party and the Lutheran Church and it's under a half hour long. ☠️",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/scorpio-rising/"
             },
             { 
                 title: "High and Low (1963)",
-                thought: "Those handheld shots on the train got me so excited. It’s a magic trick after we’ve spent nearly the whole time on Kurosawa’s carefully controlled set.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/high-and-low/",
             },
             { 
                 title: "The Birds (1963)",
-                thought: "An apocalyptic horror film where the source of the terror is never explained, making it all the more unsettling. The final shot of the birds, quietly waiting, is one of the most ominous endings in film history.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-birds/",
             },
             { 
                 title: "Pale Flower (1964)",
-                thought: "A fascinating, almost clinical, study in tolerance—not the social virtue, but the addict’s curse of forever needing a stronger dose of novelty, of danger, to feel anything at all.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/pale-flower/"
             },
             { 
                 title: "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)",
-                thought: "That rogue salute from Strangelove’s glove… is that how fascism was erected? Or is it just the ultimate black-comic punchline to the failure of human agency?",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/dr-strangelove-or-how-i-learned-to-stop-worrying-and-love-the-bomb/",
                 zach_review: "https://letterboxd.com/hetchy/film/dr-strangelove-or-how-i-learned-to-stop-worrying-and-love-the-bomb/"
             },
             { 
                 title: "The Umbrellas of Cherbourg (1964)",
-                thought: "Didn’t think I’d ever see a movie musical that’s mostly a mother and daughter having mundane conversations in small rooms. Demy doesn’t allow for any sort of uplift in the ending, and the audience stumbles out shellshocked from being dealt emotional documentary disguised as musical.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/the-umbrellas-of-cherbourg/",
             },
             { 
                 title: "A Fistful of Dollars (1964)",
-                thought: "A man with no name makes quite a name for himself.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/a-fistful-of-dollars/"
             },
             { 
                 title: "Red Desert (1964)",
-                thought: "He wasn’t new wave so much as he was his own wave, and sometimes it takes a confident weirdo to show us the way and inspire the next generation to do their own thing too.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/red-desert/",
                 zach_review: "https://letterboxd.com/hetchy/film/red-desert/"
             },
             { 
                 title: "Black God, White Devil (1964)",
-                thought: "This exemplar of cinema novo echoes the new film movements across the global landscape at that time... It’s cheap, it’s stylish, it’s lurid, and it’s quite literally mythical.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/black-god-white-devil/",
             },
             { 
                 title: "Woman in the Dunes (1964)",
-                thought: "Sand is everything here: it's setting, it's villainous, it's a philosophical agent, all with unique characteristics that slowly erode the distinctions between freedom and habituation until a sense of home and especially a sense of self, begin to merge with the impossible landscape.",
-                attribution: "— Zach",
                 jyoung_review: "https://letterboxd.com/jyoun/film/woman-in-the-dunes/",
             },
             { 
                 title: "I Am Cuba (1964)",
-                thought: "There’s a lot of beautiful bravura imagemaking on display, certainly, but we’re too far removed from the events some 60 years later to have any real sense of what is real and what is fake.",
-                attribution: "— J Brooks",
                 jyoung_review: "https://letterboxd.com/jyoun/film/i-am-cuba/",
             },
             { 
                 title: "Charulata (1964)",
-                thought: "It’s the way Ray allows the house itself to breathe, to become an extension of the protagonist’s cloistered world, yet also the very stage for her burgeoning consciousness.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/charulata/"
             },
             { 
                 title: "The Gospel According to Matthew (1964)",
-                thought: "Many people prefer a Jesus born in a glowing Kinkade scene... Pasolini’s Christ arrives like an unwelcome guest at the banquet of suburban belief. He is who I personally always imagined him to be—intensely real.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/the-gospel-according-to-matthew/"
             },
             { 
                 title: "Gertrud (1964)",
-                thought: "Here we are in the mid-1960s, and Dreyer... decides to summon the ghost of an idealized love, only to place it in a series of beautifully composed, almost funereal, rooms where it cannot possibly survive.",
-                attribution: "— Zach",
                 zach_review: "https://letterboxd.com/hetchy/film/gertrud/"
             },
             {
@@ -1557,14 +1163,14 @@
         // Function to display film info
         const displayFilm = (filmTitle, outputElement) => {
              const film = filmList.find(f => f.title === filmTitle);
-            if (!film) {
-                outputElement.innerHTML = `<p class="text-gray-400">Details not found for this film.</p>`;
-                return;
-            }
+             if (!film) {
+                 outputElement.innerHTML = `<p class="text-gray-400">Details not found for this film.</p>`;
+                 return;
+             }
 
             const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(film.title)}`;
             
-            let outputHTML = `<p class="text-lg font-bold text-center">${film.title}</p>`;
+            let outputHTML = `<p class="text-lg font-bold text-center mb-4">${film.title}</p>`;
 
             if (film.thought && film.attribution) {
                 outputHTML += `
@@ -1572,27 +1178,6 @@
                         <p class="text-center">"${film.thought}"</p>
                         <footer class="text-right not-italic text-sm mt-2 pr-4">${film.attribution}</footer>
                     </blockquote>
-                `;
-            }
-
-            if (film.jyoung_review && film.zach_review) {
-                outputHTML += `
-                    <div class="flex justify-center gap-6 mb-4">
-                        <a href="${film.jyoung_review}" target="_blank" rel="noopener noreferrer" class="accent-link">J Brooks' review</a>
-                        <a href="${film.zach_review}" target="_blank" rel="noopener noreferrer" class="accent-link">Zach's review</a>
-                    </div>
-                `;
-            } else if (film.jyoung_review) {
-                 outputHTML += `
-                    <div class="flex justify-center gap-6 mb-4">
-                        <a href="${film.jyoung_review}" target="_blank" rel="noopener noreferrer" class="accent-link">J Brooks' review</a>
-                    </div>
-                `;
-            } else if (film.zach_review) {
-                outputHTML += `
-                    <div class="flex justify-center gap-6 mb-4">
-                        <a href="${film.zach_review}" target="_blank" rel="noopener noreferrer" class="accent-link">Zach's review</a>
-                    </div>
                 `;
             }
             
