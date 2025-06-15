@@ -1230,6 +1230,12 @@
             zachOutput.innerHTML = "";
         });
 
+        // --- INITIALIZE PAGE ---
+            populateDropdown(jBrooksSelect, jBrooksTopTen);
+            populateDropdown(zachSelect, zachTopTen);
+            fetchAndDisplayLetterboxdFeed('https://letterboxd.com/jyoun/rss/', 'jbrooks-rss-feed');
+            fetchAndDisplayLetterboxdFeed('https://letterboxd.com/hetchy/rss/', 'zach-rss-feed');
+        
         // Event listeners for the dropdowns
         jBrooksSelect.addEventListener('change', (e) => {
             if (e.target.value) {
