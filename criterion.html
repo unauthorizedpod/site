@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 Movie Selector</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Simple keyframe animation for the loader */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        /* Style for scrollbar in search results */
+        .search-results-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .search-results-container::-webkit-scrollbar-track {
+            background: #1f2937; /* bg-gray-800 */
+        }
+        .search-results-container::-webkit-scrollbar-thumb {
+            background: #4b5563; /* bg-gray-600 */
+            border-radius: 4px;
+        }
+        .search-results-container::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* bg-gray-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans">
+
+    <div id="app-container" class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-bold text-white mb-2">Your Top 10 Movies</h1>
+            <p class="text-lg text-gray-400">Search and select your all-time favorites (from 2000-present).</p>
+        </header>
+
+        <!-- Main content area that gets swapped -->
+        <div id="main-content">
+            <!-- Search Bar Section -->
+            <div class="relative mb-6">
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Search for a movie..."
+                        class="w-full bg-gray-800 border-2 border-gray-700 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                    />
+                </div>
+                <!-- Search Results Dropdown -->
+                <div id="search-results" class="absolute z-10 w-full mt-2 bg-gray-800 border border-gray-700 rounded-lg shadow-2xl overflow-hidden hidden">
+                    <!-- Results will be injected here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Selected Movies Grid Section -->
+            <main>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-semibold">Your Picks (<span id="selected-count">0</span>/10)</h2>
+                    <button id="clear-all-btn" class="text-sm text-gray-400 hover:text-white transition-colors opacity-50 cursor-not-allowed" disabled>
+                        Clear All
+                    </button>
+                </div>
+               
+                <div id="selected-movies-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- Selected movies will be injected here -->
+                </div>
+
+                <div id="empty-state" class="flex flex-col items-center justify-center text-center py-16 px-6 border-2 border-dashed border-gray-700 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-600 mb-4"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                    <h3 class="text-xl font-semibold text-white">Your list is empty</h3>
+                    <p class="text-gray-500 mt-1">Use the search bar above to find and add movies.</p>
+                </div>
+            </main>
+
+            <!-- Footer and Submit Button -->
+            <footer class="mt-8 text-center border-t-2 border-gray-800 pt-8">
+                <button
+                    id="submit-btn"
+                    disabled
+                    class="bg-indigo-600 w-60 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-indigo-500 disabled:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70 transition-all duration-300 transform hover:scale-105 flex items-center justify-center mx-auto"
+                >
+                    <span id="submit-btn-text">Select 10 movies</span>
+                </button>
+                <p id="submit-helper-text" class="text-gray-500 text-sm mt-3">Please select 10 more movie(s).</p>
+            </footer>
+        </div>
+
+        <!-- Thank you message (hidden by default) -->
+        <div id="thank-you-message" class="hidden text-center py-20 bg-gray-800 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-green-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <h2 class="mt-4 text-3xl font-bold text-white">Thank You For Your Submission!</h2>
+            <p class="mt-2 text-gray-400">Your list has been recorded.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        // --- CONFIGURATION ---
+        const TMDB_API_KEY = "746e663319009236f390938e29383ae0";
+        const API_BASE_URL = 'https://api.themoviedb.org/3';
+        const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJPk6fkl4fjkmR5ZnSqNx-blBOz5gPHopzagxK8BseHLCNC0O-vS2DivOsDbdKogwa/exec";
+
+        // --- SVG ICONS ---
+        const icons = {
+            star: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
+            x: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>',
+            loader: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin mr-2"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>',
+            check: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
+        };
+        
+        // --- APPLICATION STATE ---
+        let selectedMovies = [];
+        let searchTimeout;
+        let submissionStatus = 'idle';
+
+        // --- DOM ELEMENT REFERENCES ---
+        const mainContent = document.getElementById('main-content');
+        const thankYouMessage = document.getElementById('thank-you-message');
+        const searchInput = document.getElementById('search-input');
+        const searchResultsContainer = document.getElementById('search-results');
+        const selectedMoviesGrid = document.getElementById('selected-movies-grid');
+        const emptyState = document.getElementById('empty-state');
+        const selectedCountSpan = document.getElementById('selected-count');
+        const submitBtn = document.getElementById('submit-btn');
+        const submitBtnText = document.getElementById('submit-btn-text');
+        const submitHelperText = document.getElementById('submit-helper-text');
+        const clearAllBtn = document.getElementById('clear-all-btn');
+
+        // --- FUNCTIONS ---
+
+        const updateSubmitButton = () => {
+            const count = selectedMovies.length;
+            selectedCountSpan.textContent = count;
+            
+            if (count === 10) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('disabled:bg-gray-600', 'disabled:cursor-not-allowed');
+                submitBtnText.innerHTML = 'Submit Top 10';
+                submitHelperText.textContent = '';
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('disabled:bg-gray-600', 'disabled:cursor-not-allowed');
+                const remaining = 10 - count;
+                submitBtnText.innerHTML = `Select ${remaining} more`;
+                submitHelperText.textContent = `Please select ${remaining} more movie(s).`;
+            }
+        };
+        
+        const renderSelectedMovies = () => {
+            selectedMoviesGrid.innerHTML = ''; // Clear existing grid
+            if (selectedMovies.length > 0) {
+                emptyState.classList.add('hidden');
+                selectedMoviesGrid.classList.remove('hidden');
+                clearAllBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                clearAllBtn.disabled = false;
+            } else {
+                emptyState.classList.remove('hidden');
+                selectedMoviesGrid.classList.add('hidden');
+                clearAllBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                clearAllBtn.disabled = true;
+            }
+
+            selectedMovies.forEach(movie => {
+                const movieCard = `
+                    <div class="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300 group">
+                        <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title} poster" class="w-full h-auto" onerror="this.onerror=null; this.src='https://placehold.co/300x450/1f2937/4b5563?text=Poster';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end">
+                            <div class="p-3 w-full">
+                                <h3 class="text-white font-bold text-sm truncate">${movie.title}</h3>
+                                <div class="flex items-center text-xs text-yellow-400 mt-1">
+                                    ${icons.star}
+                                    <span>${movie.vote_average.toFixed(1)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button data-movie-id="${movie.id}" class="remove-movie-btn absolute top-2 right-2 bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-500" aria-label="Remove ${movie.title}">
+                            ${icons.x}
+                        </button>
+                    </div>
+                `;
+                selectedMoviesGrid.insertAdjacentHTML('beforeend', movieCard);
+            });
+            updateSubmitButton();
+        };
+
+        const handleSelectMovie = (movie) => {
+            if (selectedMovies.length >= 10) {
+                alert("You can only select up to 10 movies.");
+                return;
+            }
+            if (!selectedMovies.some(m => m.id === movie.id)) {
+                selectedMovies.push(movie);
+                renderSelectedMovies();
+            }
+            searchInput.value = '';
+            searchResultsContainer.innerHTML = '';
+            searchResultsContainer.classList.add('hidden');
+        };
+
+        const fetchAndRenderResults = async () => {
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm.length < 2) {
+                searchResultsContainer.classList.add('hidden');
+                return;
+            }
+
+            searchResultsContainer.classList.remove('hidden');
+            searchResultsContainer.innerHTML = `<p class="p-4 text-center text-gray-400">Searching...</p>`;
+            
+            const searchUrl = `${API_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(searchTerm)}&primary_release_date.gte=2000-01-01`;
+
+            try {
+                const response = await fetch(searchUrl);
+                if (!response.ok) throw new Error('Network response failed.');
+                
+                const data = await response.json();
+                const filteredResults = data.results.filter(movie =>
+                    movie.poster_path && movie.release_date && new Date(movie.release_date) >= new Date('2000-01-01')
+                );
+
+                searchResultsContainer.innerHTML = ''; // Clear "Searching..."
+                if (filteredResults.length === 0) {
+                    searchResultsContainer.innerHTML = `<p class="p-4 text-center text-gray-400">No movies found.</p>`;
+                    return;
+                }
+
+                const resultsList = document.createElement('ul');
+                resultsList.className = 'max-h-96 overflow-y-auto search-results-container';
+                
+                filteredResults.forEach(movie => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'flex items-center p-3 cursor-pointer hover:bg-gray-700 transition-colors duration-150 rounded-lg';
+                    listItem.innerHTML = `
+                        <img src="https://image.tmdb.org/t/p/w92${movie.poster_path}" alt="${movie.title} poster" class="w-12 h-auto rounded-md mr-4 bg-gray-600" onerror="this.onerror=null; this.src='https://placehold.co/92x138/1f2937/4b5563?text=N/A';">
+                        <div class="flex-1">
+                            <p class="font-semibold text-white">${movie.title}</p>
+                            <p class="text-sm text-gray-400">${new Date(movie.release_date).getFullYear()}</p>
+                        </div>
+                    `;
+                    listItem.addEventListener('click', () => handleSelectMovie(movie));
+                    resultsList.appendChild(listItem);
+                });
+                searchResultsContainer.appendChild(resultsList);
+
+            } catch (error) {
+                searchResultsContainer.innerHTML = `<p class="p-4 text-center text-red-400">Error: ${error.message}</p>`;
+                console.error("Failed to fetch movies:", error);
+            }
+        };
+
+        const handleSubmit = async () => {
+            if (submissionStatus !== 'idle') return;
+            
+            submissionStatus = 'submitting';
+            submitBtn.disabled = true;
+            submitBtnText.innerHTML = `${icons.loader} Submitting...`;
+
+            const movieTitles = selectedMovies.map(m => m.title);
+            
+            try {
+                await fetch(GOOGLE_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    redirect: 'follow',
+                    body: JSON.stringify({ movies: movieTitles }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+
+                submissionStatus = 'success';
+                submitBtnText.innerHTML = `${icons.check} Submitted!`;
+                localStorage.setItem('hasVotedTop10Movies', 'true');
+                
+                setTimeout(() => {
+                    mainContent.classList.add('hidden');
+                    thankYouMessage.classList.remove('hidden');
+                }, 1500);
+
+            } catch (error) {
+                console.error('Submission Error:', error);
+                alert('Failed to submit list. Please try again.');
+                submissionStatus = 'idle';
+                updateSubmitButton();
+            }
+        };
+
+        // --- INITIALIZATION & EVENT LISTENERS ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user has already voted
+            if (localStorage.getItem('hasVotedTop10Movies') === 'true') {
+                mainContent.classList.add('hidden');
+                thankYouMessage.classList.remove('hidden');
+            } else {
+                renderSelectedMovies();
+            }
+
+            // Search input handling
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(fetchAndRenderResults, 300);
+            });
+            
+            searchInput.addEventListener('focus', () => {
+                 if (searchInput.value) searchResultsContainer.classList.remove('hidden');
+            });
+            
+            // Hide dropdown on click outside
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !searchResultsContainer.contains(e.target)) {
+                    searchResultsContainer.classList.add('hidden');
+                }
+            });
+
+            // Handle removing a movie
+            selectedMoviesGrid.addEventListener('click', (e) => {
+                const removeButton = e.target.closest('.remove-movie-btn');
+                if (removeButton) {
+                    const movieId = parseInt(removeButton.dataset.movieId, 10);
+                    selectedMovies = selectedMovies.filter(m => m.id !== movieId);
+                    renderSelectedMovies();
+                }
+            });
+
+            // Submit button
+            submitBtn.addEventListener('click', handleSubmit);
+
+            // Clear All button
+            clearAllBtn.addEventListener('click', () => {
+                selectedMovies = [];
+                renderSelectedMovies();
+            });
+        });
+    </script>
+
+</body>
+</html>
