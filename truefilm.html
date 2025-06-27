@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>/TrueFilm's best movies of the 21st century</title>
 
-   <!-- Social Media & SEO Meta Tags -->
+    <!-- Social Media & SEO Meta Tags -->
     <meta name="description" content="Vote for your favorite films of the 21st century!">
     <!-- Open Graph (Facebook, etc.) -->
     <meta property="og:title" content="r/TrueFilm's Best Films of the 21st Century">
@@ -127,6 +127,8 @@
         const TMDB_API_KEY = "746e663319009236f390938e29383ae0";
         const API_BASE_URL = 'https://api.themoviedb.org/3';
         const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJPk6fkl4fjkmR5ZnSqNx-blBOz5gPHopzagxK8BseHLCNC0O-vS2DivOsDbdKogwa/exec";
+        // --- NEW: Unique key for this specific poll ---
+        const VOTE_STORAGE_KEY = "hasVotedTrueFilm21stCentury";
 
         // --- SVG ICONS ---
         const icons = {
@@ -283,7 +285,7 @@
             submitBtn.disabled = true;
             submitBtnText.innerHTML = `${icons.loader} Submitting...`;
 
-            const movieTitles = selectedMovies.map(m => m.title);
+            const movieSubmissions = selectedMovies.map(m => `${m.title} (${new Date(m.release_date).getFullYear()})`);
             
             try {
                 await fetch(GOOGLE_WEB_APP_URL, {
@@ -291,13 +293,13 @@
                     mode: 'no-cors',
                     cache: 'no-cache',
                     redirect: 'follow',
-                    body: JSON.stringify({ movies: movieTitles }),
+                    body: JSON.stringify({ movies: movieSubmissions }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
 
                 submissionStatus = 'success';
                 submitBtnText.innerHTML = `${icons.check} Submitted!`;
-                localStorage.setItem('hasVotedTop10Movies', 'true');
+                localStorage.setItem(VOTE_STORAGE_KEY, 'true');
                 
                 setTimeout(() => {
                     mainContent.classList.add('hidden');
@@ -316,7 +318,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             // Check if user has already voted
-            if (localStorage.getItem('hasVotedTop10Movies') === 'true') {
+            if (localStorage.getItem(VOTE_STORAGE_KEY) === 'true') {
                 mainContent.classList.add('hidden');
                 thankYouMessage.classList.remove('hidden');
             } else {
