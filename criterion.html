@@ -127,6 +127,8 @@
         const TMDB_API_KEY = "746e663319009236f390938e29383ae0";
         const API_BASE_URL = 'https://api.themoviedb.org/3';
         const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxPMumUM1-AMpUNYTIcBu31F7Q3D23onME2akY0QlKsGc7uYsfnzD8t3OK32nE9z9eH/exec";
+        // --- NEW: Unique key for this specific poll ---
+        const VOTE_STORAGE_KEY = "hasVotedCriterion21stCentury";
 
         // --- SVG ICONS ---
         const icons = {
@@ -297,7 +299,7 @@
 
                 submissionStatus = 'success';
                 submitBtnText.innerHTML = `${icons.check} Submitted!`;
-                localStorage.setItem('hasVotedTop10Movies', 'true');
+                localStorage.setItem(VOTE_STORAGE_KEY, 'true');
                 
                 setTimeout(() => {
                     mainContent.classList.add('hidden');
@@ -315,8 +317,8 @@
         // --- INITIALIZATION & EVENT LISTENERS ---
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if user has already voted
-            if (localStorage.getItem('hasVotedTop10Movies') === 'true') {
+            // Check if user has already voted using the unique key
+            if (localStorage.getItem(VOTE_STORAGE_KEY) === 'true') {
                 mainContent.classList.add('hidden');
                 thankYouMessage.classList.remove('hidden');
             } else {
