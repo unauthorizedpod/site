@@ -75,6 +75,18 @@
                 </div>
             </div>
 
+            <!-- Write-in Section -->
+            <div class="mb-6 text-center">
+                <button id="toggle-write-in-btn" class="text-sm text-indigo-400 hover:text-indigo-300 underline">Can't find the right film? Add a write-in.</button>
+                <div id="write-in-form" class="hidden mt-4 p-4 bg-gray-800/50 border border-gray-700 rounded-lg">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <input type="text" id="write-in-title" placeholder="Movie Title" class="flex-grow bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="number" id="write-in-year" placeholder="Year (e.g., 2012)" min="2000" max="2025" class="w-full sm:w-32 bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <button id="add-write-in-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-500 transition-colors">Add to Picks</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Selected Movies Grid Section -->
             <main>
                 <div class="flex justify-between items-center mb-4">
@@ -127,7 +139,6 @@
         const TMDB_API_KEY = "746e663319009236f390938e29383ae0";
         const API_BASE_URL = 'https://api.themoviedb.org/3';
         const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxEhF-TKmydO1UyuCkp8wOrDhfalWfKGbNVrFPHkvdH_Ii2YOPgbKgKiLyD1SGjXbYx/exec";
-        // --- Unique key for this specific poll ---
         const VOTE_STORAGE_KEY = "hasVotedCriterion21stCentury";
 
         // --- SVG ICONS ---
@@ -155,6 +166,11 @@
         const submitBtnText = document.getElementById('submit-btn-text');
         const submitHelperText = document.getElementById('submit-helper-text');
         const clearAllBtn = document.getElementById('clear-all-btn');
+        const toggleWriteInBtn = document.getElementById('toggle-write-in-btn');
+        const writeInForm = document.getElementById('write-in-form');
+        const writeInTitle = document.getElementById('write-in-title');
+        const writeInYear = document.getElementById('write-in-year');
+        const addWriteInBtn = document.getElementById('add-write-in-btn');
 
         // --- FUNCTIONS ---
 
@@ -191,15 +207,19 @@
             }
 
             selectedMovies.forEach(movie => {
+                const posterSrc = movie.poster_path 
+                    ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` 
+                    : `https://placehold.co/300x450/1f2937/4b5563?text=WRITE-IN`;
+                
                 const movieCard = `
                     <div class="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300 group">
-                        <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title} poster" class="w-full h-auto" onerror="this.onerror=null; this.src='https://placehold.co/300x450/1f2937/4b5563?text=Poster';">
+                        <img src="${posterSrc}" alt="${movie.title} poster" class="w-full h-auto" onerror="this.onerror=null; this.src='https://placehold.co/300x450/1f2937/4b5563?text=POSTER';">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end">
                             <div class="p-3 w-full">
                                 <h3 class="text-white font-bold text-sm truncate">${movie.title}</h3>
                                 <div class="flex items-center text-xs text-yellow-400 mt-1">
-                                    ${icons.star}
-                                    <span>${movie.vote_average.toFixed(1)}</span>
+                                    ${movie.vote_average > 0 ? icons.star : ''}
+                                    <span>${movie.vote_average > 0 ? movie.vote_average.toFixed(1) : ''}</span>
                                 </div>
                             </div>
                         </div>
@@ -225,6 +245,36 @@
             searchInput.value = '';
             searchResultsContainer.innerHTML = '';
             searchResultsContainer.classList.add('hidden');
+        };
+
+        const handleAddWriteIn = () => {
+             if (selectedMovies.length >= 10) {
+                alert("You can only select up to 10 movies.");
+                return;
+            }
+            const title = writeInTitle.value.trim();
+            const year = writeInYear.value.trim();
+
+            if (!title || !year) {
+                alert('Please enter both a title and a year for the write-in.');
+                return;
+            }
+
+            const writeInMovie = {
+                id: 'write-in-' + Date.now(), // Unique ID for write-ins
+                title: title,
+                release_date: `${year}-01-01`, // Format for year extraction
+                poster_path: null, // No poster available
+                vote_average: 0
+            };
+
+            selectedMovies.push(writeInMovie);
+            renderSelectedMovies();
+
+            // Reset form
+            writeInTitle.value = '';
+            writeInYear.value = '';
+            writeInForm.classList.add('hidden');
         };
 
         const fetchAndRenderResults = async () => {
@@ -285,7 +335,15 @@
             submitBtn.disabled = true;
             submitBtnText.innerHTML = `${icons.loader} Submitting...`;
 
-            const movieSubmissions = selectedMovies.map(m => `${m.title} (${new Date(m.release_date).getFullYear()})`);
+            const movieSubmissions = selectedMovies.map(m => {
+                const year = new Date(m.release_date).getFullYear();
+                // Check if the movie ID is a string and starts with 'write-in-'
+                if (typeof m.id === 'string' && m.id.startsWith('write-in-')) {
+                    return `Write-in: ${m.title} (${year})`;
+                }
+                // Otherwise, format as usual
+                return `${m.title} (${year})`;
+            });
             
             try {
                 await fetch(GOOGLE_WEB_APP_URL, {
@@ -346,8 +404,8 @@
             selectedMoviesGrid.addEventListener('click', (e) => {
                 const removeButton = e.target.closest('.remove-movie-btn');
                 if (removeButton) {
-                    const movieId = parseInt(removeButton.dataset.movieId, 10);
-                    selectedMovies = selectedMovies.filter(m => m.id !== movieId);
+                    const movieId = removeButton.dataset.movieId;
+                    selectedMovies = selectedMovies.filter(m => m.id.toString() !== movieId);
                     renderSelectedMovies();
                 }
             });
@@ -360,6 +418,14 @@
                 selectedMovies = [];
                 renderSelectedMovies();
             });
+
+            // Toggle write-in form
+            toggleWriteInBtn.addEventListener('click', () => {
+                writeInForm.classList.toggle('hidden');
+            });
+            
+            // Handle adding a write-in
+            addWriteInBtn.addEventListener('click', handleAddWriteIn);
         });
     </script>
 
