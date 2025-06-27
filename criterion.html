@@ -285,7 +285,7 @@
             submitBtn.disabled = true;
             submitBtnText.innerHTML = `${icons.loader} Submitting...`;
 
-            const movieTitles = selectedMovies.map(m => m.title);
+            const movieSubmissions = selectedMovies.map(m => `${m.title} (${new Date(m.release_date).getFullYear()})`);
             
             try {
                 await fetch(GOOGLE_WEB_APP_URL, {
@@ -293,7 +293,7 @@
                     mode: 'no-cors',
                     cache: 'no-cache',
                     redirect: 'follow',
-                    body: JSON.stringify({ movies: movieTitles }),
+                    body: JSON.stringify({ movies: movieSubmissions }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
 
