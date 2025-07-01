@@ -3,50 +3,592 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>r/Criterion's best movies of the 21st century</title>
+    <title>r/Criterion's Best Films of the 21st Century | Results</title>
 
     <!-- Social Media & SEO Meta Tags -->
-    <meta name="description" content="Vote for your favorite films of the 21st century!">
-    <!-- Open Graph (Facebook, etc.) -->
-    <meta property="og:title" content="r/Criterion's Best Films of the 21st Century">
-    <meta property="og:description" content="Voting is now closed. Stay tuned for the list!">
-    <meta property="og:image" content="https://placehold.co/1200x630/111827/e5e7eb?text=r%2FCriterion's%20Best%20Films%0Aof%20the%2021st%20Century">
+    <meta name="description" content="The final results for the r/Criterion's Best Films of the 21st Century poll.">
+    <meta property="og:title" content="r/Criterion's Best Films of the 21st Century | Results">
+    <meta property="og:description" content="Thank you to the 350+ people who voted. Search the results here.">
+    <meta property="og:image" content="https://placehold.co/1200x630/111827/e5e7eb?text=r%2FCriterion's%20Best%20Films%0Aof%20the%2021st%20Century%20%7C%20Results">
     <meta property="og:url" content="https://unauthorizedpod.github.io/criterion-10/">
     <meta property="og:type" content="website">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="r/Criterion's Best Films of the 21st Century">
-    <meta name="twitter:description" content="Voting is now closed. Stay tuned for the list!">
-    <meta name="twitter:image" content="https://placehold.co/1200x630/111827/e5e7eb?text=r%2FCriterion's%20Best%20Films%0Aof%20the%2021st%20Century">
+    <meta name="twitter:title" content="r/Criterion's Best Films of the 21st Century | Results">
+    <meta name="twitter:description" content="Thank you to the 350+ people who voted. Search the results here.">
+    <meta name="twitter:image" content="https://placehold.co/1200x630/111827/e5e7eb?text=r%2FCriterion's%20Best%20Films%0Aof%20the%2021st%20Century%20%7C%20Results">
 
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles can remain for consistency if other elements are added later */
+        /* Custom styles for the results list */
+        .results-list li {
+            border-bottom: 1px solid #374151; /* border-gray-700 */
+        }
+        .results-list li:last-child {
+            border-bottom: none;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 font-sans">
 
-    <div id="app-container" class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div id="app-container" class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 pt-24 md:pt-32 lg:pt-48">
         <header class="text-center mb-8">
-            <h1 class="text-4xl sm:text-5xl font-bold text-white mb-2">r/Criterion's Best Films of the 21st Century</h1>
-            <p class="text-lg text-gray-400">The results will be shared soon.</p>
+            <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">r/Criterion's Best Films of the 21st Century</h1>
+            <p class="text-lg text-gray-400">Thank you to the 350+ people who voted.</p>
         </header>
 
-        <!-- Voting Closed Message -->
-        <div id="voting-closed-message" class="text-center py-20 bg-gray-800/50 border border-gray-700 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-indigo-400"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            <h2 class="mt-4 text-3xl font-bold text-white">Voting is now closed.</h2>
-            <p class="mt-2 text-gray-400">Stay tuned for the list!</p>
+        <!-- Search Section -->
+        <div class="mb-12 max-w-[600px] mx-auto">
+            <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+                <input
+                    type="text"
+                    id="film-search-input"
+                    placeholder="Search the 366 films that received more than one vote..."
+                    class="w-full bg-gray-800 border-2 border-gray-700 rounded-lg py-3 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                />
+            </div>
+            <div id="film-search-results" class="mt-2 bg-gray-800/50 rounded-lg">
+                <!-- Search results will be injected here -->
+            </div>
+        </div>
+
+        <!-- Top 50 List -->
+        <div class="mb-12">
+             <div id="ranked-list-container" class="bg-gray-800/50 border border-gray-700 rounded-lg shadow-lg">
+                <ol id="ranked-list" class="results-list">
+                    <!-- Ranked list will be injected here -->
+                </ol>
+             </div>
+             <div class="mt-8 text-center">
+                <a href="https://boxd.it/JGz2w" target="_blank" rel="noopener noreferrer" class="inline-block bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-indigo-500 transition-all duration-300 transform hover:scale-105">
+                    See the Top 100 Films
+                </a>
+            </div>
+        </div>
+        
+        <!-- Next Poll Section -->
+        <div class="text-center mt-16 border-t-2 border-gray-800 pt-8">
+            <p class="text-lg text-gray-400 mb-2">Vote in our next poll:</p>
+            <a href="https://unauthorizedpod.com/underrated" class="text-xl font-bold text-indigo-400 hover:underline">The Most Underrated Films</a>
         </div>
 
         <!-- Site-wide footer, always visible -->
-        <footer class="text-center mt-12">
+        <footer class="text-center mt-8">
             <p class="text-gray-500 text-sm">made by <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="underline hover:text-indigo-400">hetchy</a></p>
         </footer>
     </div>
 
-    <!-- Script tag is no longer needed as the page is static -->
+    <script type="module">
+        // --- CONFIGURATION ---
+        const TMDB_API_KEY = "746e663319009236f390938e29383ae0";
+        const API_BASE_URL = 'https://api.themoviedb.org/3';
+
+        // --- NEW TOP 50 LIST ---
+        const top50Data = [
+            "Mulholland Drive (2001)", "Parasite (2019)", "There Will Be Blood (2007)", "In the Mood for Love (2000)", "No Country for Old Men (2007)",
+            "Spirited Away (2001)", "Yi Yi (2000)", "Mad Max: Fury Road (2015)", "The Lord of the Rings: The Fellowship of the Ring (2001)", "Eternal Sunshine of the Spotless Mind (2004)",
+            "The Grand Budapest Hotel (2014)", "Memories of Murder (2003)", "Children of Men (2006)", "The Social Network (2010)", "Portrait of a Lady on Fire (2019)",
+            "Aftersun (2022)", "The Tree of Life (2011)", "Before Sunset (2004)", "Moonlight (2016)", "Synecdoche, New York (2008)",
+            "The Handmaiden (2016)", "Oldboy (2003)", "The Zone of Interest (2023)", "The Lord of the Rings: The Return of the King (2003)", "Y Tu Mamá También (2001)",
+            "Everything Everywhere All at Once (2022)", "Phantom Thread (2017)", "Perfect Days (2023)", "City of God (2002)", "Pan's Labyrinth (2006)",
+            "Inglourious Basterds (2009)", "The Royal Tenenbaums (2001)", "Werckmeister Harmonies (2001)", "The Master (2012)", "The Dark Knight (2008)",
+            "Zodiac (2007)", "The Piano Teacher (2001)", "Arrival (2016)", "Drive My Car (2021)", "The Lighthouse (2019)",
+            "Lost in Translation (2003)", "Fantastic Mr. Fox (2009)", "Killers of the Flower Moon (2023)", "WALL·E (2008)", "Under the Skin (2014)",
+            "Punch-Drunk Love (2002)", "Hot Fuzz (2007)", "Hereditary (2018)", "Blade Runner 2049 (2017)", "Whiplash (2014)"
+        ];
+
+        const criterionLinks = {
+            "Mulholland Drive (2001)": "https://www.criterion.com/films/28050-mulholland-dr",
+            "Parasite (2019)": "https://www.criterion.com/films/30619-parasite",
+            "In the Mood for Love (2000)": "https://www.criterion.com/films/198-in-the-mood-for-love",
+            "No Country for Old Men (2007)": "https://www.criterion.com/films/29429-no-country-for-old-men",
+            "Yi Yi (2000)": "https://www.criterion.com/films/781-yi-yi",
+            "The Grand Budapest Hotel (2014)": "https://www.criterion.com/films/29601-the-grand-budapest-hotel",
+            "Memories of Murder (2003)": "https://www.criterion.com/films/31458-memories-of-murder",
+            "Portrait of a Lady on Fire (2019)": "https://www.criterion.com/films/30469-portrait-of-a-lady-on-fire",
+            "The Tree of Life (2011)": "https://www.criterion.com/films/28576-the-tree-of-life",
+            "Before Sunset (2004)": "https://www.criterion.com/films/28693-before-sunset",
+            "Y Tu Mamá También (2001)": "https://www.criterion.com/films/28005-y-tu-mama-tambien",
+            "Pan's Labyrinth (2006)": "https://www.criterion.com/films/28948-pan-s-labyrinth",
+            "The Royal Tenenbaums (2001)": "https://www.criterion.com/films/230-the-royal-tenenbaums",
+            "The Piano Teacher (2001)": "https://www.criterion.com/films/28739-the-piano-teacher",
+            "Drive My Car (2021)": "https://www.criterion.com/films/32441-drive-my-car",
+            "Fantastic Mr. Fox (2009)": "https://www.criterion.com/films/28565-fantastic-mr-fox",
+            "WALL·E (2008)": "https://www.criterion.com/films/33246-wall-e",
+            "Punch-Drunk Love (2002)": "https://www.criterion.com/films/27916-punch-drunk-love"
+        };
+
+        const allMoviesData = `#,Title,Count
+1,Mulholland Drive (2001),133
+2,Parasite (2019),98
+3,There Will Be Blood (2007),93
+4,In the Mood for Love (2000),89
+5,No Country for Old Men (2007),76
+6,Spirited Away (2001),67
+7,Yi Yi (2000),60
+8,Mad Max: Fury Road (2015),55
+9,Eternal Sunshine of the Spotless Mind (2004),49
+10,The Lord of the Rings: The Fellowship of the Ring (2001),48
+11,The Grand Budapest Hotel (2014),47
+12,Memories of Murder (2003),41
+13,Portrait of a Lady on Fire (2019),40
+14,The Social Network (2010),40
+15,Children of Men (2006),39
+16,Aftersun (2022),37
+17,Before Sunset (2004),36
+18,Moonlight (2016),36
+19,The Tree of Life (2011),36
+20,Oldboy (2003),29
+21,"Synecdoche, New York (2008)",29
+22,The Zone of Interest (2023),28
+23,The Handmaiden (2016),27
+24,Everything Everywhere All at Once (2022),26
+25,Phantom Thread (2017),26
+26,The Lord of the Rings: The Return of the King (2003),26
+27,Pan's Labyrinth (2006),24
+28,Perfect Days (2023),24
+29,Y Tu Mamá También (2001),24
+30,City of God (2002),23
+31,Inglourious Basterds (2009),22
+32,The Dark Knight (2008),22
+33,The Royal Tenenbaums (2001),22
+34,The Master (2012),21
+35,Werckmeister Harmonies (2001),21
+36,Zodiac (2007),21
+37,The Lighthouse (2019),20
+38,Arrival (2016),19
+39,Lost in Translation (2003),19
+40,The Piano Teacher (2001),19
+41,Blade Runner 2049 (2017),18
+42,Drive My Car (2021),18
+43,Hot Fuzz (2007),18
+44,Killers of the Flower Moon (2023),18
+45,Under the Skin (2014),18
+46,WALL·E (2008),18
+47,Fantastic Mr. Fox (2009),17
+48,Inside Llewyn Davis (2013),17
+49,Punch-Drunk Love (2002),17
+50,Whiplash (2014),17
+51,Burning (2018),16
+52,Hereditary (2018),16
+53,La La Land (2016),16
+54,I Saw the TV Glow (2024),15
+55,Inland Empire (2006),15
+56,Interstellar (2014),15
+57,Memento (2000),15
+58,Uncut Gems (2019),15
+59,Caché (2005),13
+60,Inception (2010),13
+61,Oppenheimer (2023),13
+62,TÁR (2022),13
+63,The Act of Killing (2012),13
+64,A Separation (2011),12
+65,It's Such a Beautiful Day (2011),12
+66,Lady Bird (2017),12
+67,Melancholia (2011),12
+68,Once Upon a Time... in Hollywood (2019),12
+69,The Lord of the Rings: The Two Towers (2002),12
+70,Adaptation. (2002),11
+71,Past Lives (2023),11
+72,Poor Things (2023),11
+73,The Assassination of Jesse James by the Coward Robert Ford (2007),11
+74,The Wolf of Wall Street (2013),11
+75,Beau Travail (2000),10
+76,Decision to Leave (2022),10
+77,Howl's Moving Castle (2004),10
+78,Millennium Actress (2002),10
+79,Silence (2016),10
+80,The Tale of The Princess Kaguya (2013),10
+81,A Serious Man (2009),9
+82,Almost Famous (2000),9
+83,Anora (2024),9
+84,Donnie Darko (2001),9
+85,Dune: Part Two (2024),9
+86,Get Out (2017),9
+87,"Goodbye, Dragon Inn (2003)",9
+88,Her (2013),9
+89,Little Women (2019),9
+90,The Irishman (2019),9
+91,Uncle Boonmee Who Can Recall His Past Lives (2010),9
+92,A.I. Artificial Intelligence (2001),8
+93,Amélie (2001),8
+94,Drive (2011),8
+95,First Reformed (2018),8
+96,Frances Ha (2013),8
+97,Ratatouille (2007),8
+98,Roma (2018),8
+99,The Banshees of Inisherin (2022),8
+100,The Hunt (2012),8
+101,28 Days Later (2002),7
+102,An Elephant Sitting Still (2018),7
+103,Boyhood (2014),7
+104,Certified Copy (2010),7
+105,Dancer in the Dark (2000),7
+106,Good Time (2017),7
+107,I'm Thinking of Ending Things (2020),7
+108,In Bruges (2008),7
+109,Inherent Vice (2014),7
+110,Inside Out (2015),7
+111,Kill Bill: Vol. 1 (2003),7
+112,Sicario (2015),7
+113,Spider-Man: Into the Spider-Verse (2018),7
+114,The Florida Project (2017),7
+115,The Incredibles (2004),7
+116,The Worst Person in the World (2021),7
+117,Your Name. (2016),7
+118,American Psycho (2000),6
+119,Amour (2012),6
+120,Annihilation (2018),6
+121,Brokeback Mountain (2005),6
+122,Gladiator (2000),6
+123,Holy Motors (2012),6
+124,Irreversible (2002),6
+125,La Chimera (2023),6
+126,Manchester by the Sea (2016),6
+127,Mysterious Skin (2005),6
+128,The Boy and the Heron (2023),6
+129,The Departed (2006),6
+130,The Fabelmans (2022),6
+131,The Holdovers (2023),6
+132,The Lives of Others (2006),6
+133,The New World (2005),6
+134,The Wind Rises (2013),6
+135,Tropical Malady (2004),6
+136,Up (2009),6
+137,Anatomy of a Fall (2023),5
+138,Birdman or (The Unexpected Virtue of Ignorance) (2014),5
+139,Call Me by Your Name (2017),5
+140,Django Unchained (2012),5
+141,Four Lions (2010),5
+142,Godzilla Minus One (2023),5
+143,Happy Hour (2015),5
+144,Hundreds of Beavers (2024),5
+145,Long Day's Journey into Night (2018),5
+146,Love Exposure (2009),5
+147,Mad God (2021),5
+148,Miami Vice (2006),5
+149,Millennium Mambo (2001),5
+150,Monster (2023),5
+151,Nightcrawler (2014),5
+152,"O Brother, Where Art Thou? (2000)",5
+153,Raw (2016),5
+154,RRR (2022),5
+155,Scott Pilgrim vs. the World (2010),5
+156,Secret Sunshine (2007),5
+157,Spotlight (2015),5
+158,Superbad (2007),5
+159,Talk to Her (2002),5
+160,The Gleaners and I (2000),5
+161,The Lobster (2015),5
+162,The Nice Guys (2016),5
+163,The Substance (2024),5
+164,The Turin Horse (2011),5
+165,The White Ribbon (2009),5
+166,Tropic Thunder (2008),5
+167,Certain Women (2016),4
+168,Challengers (2024),4
+169,Cloud Atlas (2012),4
+170,Dear Zachary: A Letter to a Son About His Father (2008),4
+171,Dogville (2003),4
+172,Dune (2021),4
+173,Ex Machina (2015),4
+174,Flow (2024),4
+175,Incendies (2010),4
+176,Knives Out (2019),4
+177,Let the Right One In (2008),4
+178,Little Miss Sunshine (2006),4
+179,Margaret (2011),4
+180,Mean Girls (2004),4
+181,Memoria (2021),4
+182,Mission: Impossible - Fallout (2018),4
+183,Moneyball (2011),4
+184,Moonrise Kingdom (2012),4
+185,Napoleon Dynamite (2004),4
+186,Nickel Boys (2024),4
+187,Ocean's Eleven (2001),4
+188,Only Lovers Left Alive (2013),4
+189,Paprika (2006),4
+190,Rango (2011),4
+191,Red Rooms (2023),4
+192,Requiem for a Dream (2000),4
+193,Shaun of the Dead (2004),4
+194,Sideways (2004),4
+195,Songs from the Second Floor (2000),4
+196,Spider-Man 2 (2004),4
+197,Syndromes and a Century (2006),4
+198,The Great Beauty (2013),4
+199,The Life Aquatic with Steve Zissou (2004),4
+200,The Prestige (2006),4
+201,The Raid (2012),4
+202,Titane (2021),4
+203,Wheel of Fortune and Fantasy (2021),4
+204,12 Years a Slave (2013),3
+205,2046 (2004),3
+206,3-Iron (2004),3
+207,All About Lily Chou-Chou (2001),3
+208,All Quiet on the Western Front (2022),3
+209,All We Imagine as Light (2024),3
+210,Amores Perros (2000),3
+211,Another Round (2020),3
+212,Asteroid City (2023),3
+213,Birth (2004),3
+214,Black Swan (2010),3
+215,Burn After Reading (2008),3
+216,Carol (2015),3
+217,Casino Royale (2006),3
+218,Cold War (2018),3
+219,Coraline (2009),3
+220,Faces Places (2017),3
+221,Gone Girl (2014),3
+222,Green Room (2016),3
+223,Hunger (2008),3
+224,Ida (2013),3
+225,If Beale Street Could Talk (2018),3
+226,La Ciénaga (2001),3
+227,Lake Mungo (2009),3
+228,"Like Father, Like Son (2013)",3
+229,Master and Commander: The Far Side of the World (2003),3
+230,Midsommar (2019),3
+231,"Monsters, Inc. (2001)",3
+232,Morvern Callar (2002),3
+233,O.J.: Made in America (2016),3
+234,Old Joy (2006),3
+235,Paterson (2016),3
+236,Phoenix (2014),3
+237,Sing Sing (2024),3
+238,Skinamarink (2023),3
+239,Song of the Sea (2014),3
+240,Sorry to Bother You (2018),3
+241,Spring Breakers (2013),3
+242,Still Life (2006),3
+243,Sympathy for Mr. Vengeance (2002),3
+244,The Beast (2024),3
+245,The Favourite (2018),3
+246,The French Dispatch (2021),3
+247,The Master (2014),3
+248,The Pianist (2002),3
+249,The Revenant (2015),3
+250,The Skin I Live In (2011),3
+251,Tinker Tailor Soldier Spy (2011),3
+252,Toni Erdmann (2016),3
+253,Toy Story 3 (2010),3
+254,Volver (2006),3
+255,Walk Hard: The Dewey Cox Story (2007),3
+256,Wendy and Lucy (2008),3
+257,Wolf Children (2012),3
+258,You Were Never Really Here (2017),3
+259,1917 (2019),2
+260,25th Hour (2002),2
+261,"4 Months, 3 Weeks and 2 Days (2007)",2
+262,A Knight's Tale (2001),2
+263,A New Life (2002),2
+264,A Pigeon Sat on a Branch Reflecting on Existence (2014),2
+265,About Elly (2009),2
+266,After Yang (2022),2
+267,All of Us Strangers (2023),2
+268,Anchorman: The Legend of Ron Burgundy (2004),2
+269,Apocalypto (2006),2
+270,Bamboozled (2000),2
+271,Barbie (2023),2
+272,Beau Is Afraid (2023),2
+273,Best in Show (2000),2
+274,Black Dynamite (2009),2
+275,Blue Is the Warmest Color (2013),2
+276,Bo Burnham: Inside (2021),2
+277,Captain America: The Winter Soldier (2014),2
+278,Cars (2006),2
+279,Chicago (2002),2
+280,Climax (2018),2
+281,Collateral (2004),2
+282,Columbus (2017),2
+283,Computer Chess (2013),2
+284,Conclave (2024),2
+285,District 9 (2009),2
+286,Downfall (2004),2
+287,Dunkirk (2017),2
+288,Eastern Promises (2007),2
+289,Election (2005),2
+290,Eureka (2000),2
+291,Fast Five (2011),2
+292,Finding Nemo (2003),2
+293,Fish Tank (2009),2
+294,Gerry (2002),2
+295,Godland (2022),2
+296,Gosford Park (2001),2
+297,Grizzly Man (2005),2
+298,Happy as Lazzaro (2018),2
+299,Happy-Go-Lucky (2008),2
+300,Hell or High Water (2016),2
+301,Hero (2002),2
+302,High Fidelity (2000),2
+303,House of Pleasures (2011),2
+304,How to Train Your Dragon (2010),2
+305,I'm Not There (2007),2
+306,I'm Still Here (2024),2
+307,In Praise of Love (2001),2
+308,Japón (2003),2
+309,Jojo Rabbit (2019),2
+310,Kill Bill: Vol. 2 (2004),2
+311,Licorice Pizza (2021),2
+312,Lincoln (2012),2
+313,Look Back (2024),2
+314,Mandy (2018),2
+315,Marie Antoinette (2006),2
+316,Mary and Max (2009),2
+317,Megalopolis (2024),2
+318,Memoir of a Snail (2024),2
+319,Mommy (2014),2
+320,Mysteries of Lisbon (2010),2
+321,Nope (2022),2
+322,Once Upon a Time in Anatolia (2011),2
+323,One Cut of the Dead (2017),2
+324,Paddington 2 (2017),2
+325,Pineapple Express (2008),2
+326,Poetry (2010),2
+327,Queer (2024),2
+328,Revue Starlight: The Movie (2021),2
+329,"Right Now, Wrong Then (2015)",2
+330,Rogue One: A Star Wars Story (2016),2
+331,Russian Ark (2002),2
+332,Sexy Beast (2000),2
+333,Shrek 2 (2004),2
+334,Signs (2002),2
+335,Sinners (2025),2
+336,Slumdog Millionaire (2008),2
+337,Spider-Man: Across the Spider-Verse (2023),2
+338,Suspiria (2018),2
+339,Swiss Army Man (2016),2
+340,The Batman (2022),2
+341,The Best of Youth (2003),2
+342,The Death of Stalin (2017),2
+343,The Father (2020),2
+344,The Fountain (2006),2
+345,The Green Knight (2021),2
+346,The Host (2006),2
+347,The House That Jack Built (2018),2
+348,The Killing of a Sacred Deer (2017),2
+349,The Last Black Man in San Francisco (2019),2
+350,The Phoenician Scheme (2025),2
+351,The Quiet Girl (2022),2
+352,The Rider (2018),2
+353,The Souvenir: Part II (2021),2
+354,The Twilight Samurai (2002),2
+355,The Virgin Suicides (2000),2
+356,The World (2004),2
+357,"This Is Not a Burial, It’s a Resurrection (2020)",2
+358,Thor: Ragnarok (2017),2
+359,"Three Billboards Outside Ebbing, Missouri (2017)",2
+360,Throw Down (2004),2
+361,Under the Silver Lake (2018),2
+362,United 93 (2006),2
+363,Upstream Color (2013),2
+364,Weekend (2011),2
+365,West Side Story (2021),2
+366,Zama (2017),2
+`;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('film-search-input');
+            const searchResultsContainer = document.getElementById('film-search-results');
+            const rankedList = document.getElementById('ranked-list');
+            
+            let allMovies = [];
+
+            // --- DATA PROCESSING LOGIC ---
+            const rows = allMoviesData.trim().split('\n').slice(1); 
+            allMovies = rows.map(row => {
+                const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g).map(field => field.replace(/"/g, ''));
+                return {
+                    rank: parseInt(columns[0], 10),
+                    title: columns[1],
+                    count: parseInt(columns[2], 10)
+                };
+            }).filter(movie => movie.count > 1);
+
+            // --- RENDER TOP 50 LIST ---
+            const renderRankedList = async () => {
+                const top50 = top50Data.map((title, index) => ({ rank: index + 1, title }));
+
+                for (const movie of top50) {
+                    const match = movie.title.match(/(.+) \((\d{4})\)/);
+                    if (!match) continue;
+
+                    const titleQuery = encodeURIComponent(match[1]);
+                    const yearQuery = match[2];
+                    
+                    const searchUrl = `${API_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${titleQuery}&year=${yearQuery}`;
+
+                    let posterPath = null;
+                    try {
+                        const response = await fetch(searchUrl);
+                        const data = await response.json();
+                        if (data.results && data.results.length > 0) {
+                            posterPath = data.results[0].poster_path;
+                        }
+                    } catch (error) {
+                        console.error(`Failed to fetch poster for ${movie.title}`, error);
+                    }
+                    
+                    const posterSrc = posterPath 
+                        ? `https://image.tmdb.org/t/p/w154${posterPath}`
+                        : `https://placehold.co/154x231/1f2937/4b5563?text=No+Poster`;
+
+                    const criterionLink = criterionLinks[movie.title];
+                    const linkHtml = criterionLink 
+                        ? `<a href="${criterionLink}" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline text-sm ml-auto">Criterion Store</a>` 
+                        : '';
+
+                    const listItem = document.createElement('li');
+                    listItem.className = 'flex items-center p-4';
+                    
+                    listItem.innerHTML = `
+                        <span class="text-2xl font-bold text-gray-400 w-12 text-center">${movie.rank}</span>
+                        <img src="${posterSrc}" alt="${movie.title} poster" class="w-20 h-auto rounded-md mx-4">
+                        <span class="text-lg font-medium text-white flex-grow">${movie.title}</span>
+                        ${linkHtml}
+                    `;
+                    rankedList.appendChild(listItem);
+                }
+            };
+
+            // --- SEARCH FUNCTIONALITY ---
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase().trim();
+                searchResultsContainer.innerHTML = ''; 
+
+                if (searchTerm.length < 2) {
+                    return;
+                }
+
+                const matchingFilms = allMovies
+                    .filter(movie => movie.title && movie.title.toLowerCase().includes(searchTerm));
+
+                if (matchingFilms.length > 0) {
+                    const searchList = document.createElement('ul');
+                    searchList.className = 'results-list p-2';
+                    matchingFilms.forEach(movie => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'flex items-center justify-between p-3';
+                        listItem.innerHTML = `
+                            <span class="font-medium text-white">${movie.title}</span>
+                            <span class="font-semibold text-indigo-400">${movie.count} ${movie.count > 1 ? 'votes' : 'vote'}</span>
+                        `;
+                        searchList.appendChild(listItem);
+                    });
+                    searchResultsContainer.appendChild(searchList);
+                } else {
+                    searchResultsContainer.innerHTML = `<p class="p-4 text-center text-gray-400">No matching films found.</p>`;
+                }
+            });
+
+            // --- INITIALIZE ---
+            renderRankedList();
+        });
+    </script>
 
 </body>
 </html>
