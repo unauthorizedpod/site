@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frank's Not Here - A Short Film</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-bg {
+            background-image: url("http://googleusercontent.com/file_content/0");
+            background-size: cover;
+            background-position: center;
+        }
+        .vimeo-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 0.75rem;
+        }
+        .vimeo-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white">
+
+    <!-- Hero Section with Integrated Trailer -->
+    <header class="hero-bg relative min-h-screen flex flex-col items-center justify-center text-center shadow-2xl p-4 sm:p-6 md:p-8">
+        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="relative z-10 w-full max-w-4xl">
+            <!-- Title -->
+            <h1 class="text-5xl md:text-8xl font-black uppercase tracking-wider text-white mb-8" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
+                Frank's Not Here
+            </h1>
+            
+            <!-- Trailer Embed -->
+            <div class="vimeo-wrapper shadow-2xl mx-auto">
+                <iframe src="https://player.vimeo.com/video/1104734592?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Frank’s Not Here [Trailer]"></iframe>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 md:py-24 space-y-20">
+
+        <!-- FilmFreeway & Details Section -->
+        <section id="about" class="max-w-2xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-cyan-300">About the Film</h2>
+            <a href="https://filmfreeway.com/projects/3885785" target="_blank" rel="noopener noreferrer" class="inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors mb-10 shadow-lg">
+                View on FilmFreeway
+            </a>
+            <div class="bg-slate-800 p-6 rounded-lg shadow-lg text-left max-w-sm mx-auto">
+                <h3 class="text-xl font-bold mb-4 text-cyan-400">Details</h3>
+                <ul class="space-y-3 text-slate-300">
+                    <li><strong>Director:</strong> Zach Domes</li>
+                    <li><strong>Starring:</strong> J Brooks Young</li>
+                    <li><strong>Genre:</strong> Short Film / Mystery</li>
+                    <li><strong>Status:</strong> On the festival circuit</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Status Section -->
+        <section id="screenings" class="text-center max-w-2xl mx-auto">
+             <h2 class="text-3xl md:text-4xl font-bold mb-4 text-cyan-300">Screenings</h2>
+             <div class="bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 px-4 py-3 rounded-lg" role="alert">
+                <p class="font-bold">Coming Soon!</p>
+                <p class="text-sm">"Frank's Not Here" is currently being submitted to film festivals worldwide. Check back soon for screening dates and locations.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950/50 border-t border-slate-800 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-slate-400">
+            <p>&copy; <span id="year"></span> Frank's Not Here. All Rights Reserved.</p>
+            <p class="text-sm mt-2">A film by Zach Domes</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
 
