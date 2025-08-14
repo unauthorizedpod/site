@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Myco-Sphere Prototype</title>
+    <title>Forager Prototype</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -67,7 +67,7 @@
         <!-- HEADER -->
         <header class="mb-4 p-4 bg-white/70 rounded-xl shadow-md space-y-3">
             <div class="flex justify-between items-center">
-                <h1 class="text-3xl md:text-4xl font-bold text-green-800" style="font-family: 'Cormorant Garamond', serif;">Myco-Sphere</h1>
+                <h1 class="text-3xl md:text-4xl font-bold text-green-800" style="font-family: 'Cormorant Garamond', serif;">Forager</h1>
                 <span id="round-display" class="font-semibold text-xl"></span>
             </div>
             <div id="player-info" class="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -1008,7 +1008,7 @@
             if (resourcesToGain > 0) await handleInitialResourceChoice(gameState.player, resourcesToGain);
 
             updateUI();
-            showMessage("Welcome to Myco-Sphere! Choose your action.", false);
+            showMessage("Welcome to Forager! Choose your action.", false);
         }
         
         async function handleInitialCardChoice(cards) {
