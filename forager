@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myco-Sphere Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0fdf4; color: #14532d; }
+        .card {
+            background-color: #fefce8; border: 2px solid #fde68a; border-radius: 0.75rem; padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s ease-in-out; cursor: pointer;
+            display: flex; flex-direction: column; justify-content: space-between; height: 160px; width: 120px; position: relative;
+        }
+        .card.forage-card { background-color: #e0e7ff; border-color: #a5b4fc; }
+        .card:hover, .card.selected { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-color: #fbbf24; }
+        .card-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1rem; color: #854d0e; }
+        .card-points-wrapper { display: flex; align-items: center; gap: 0.25rem; }
+        .card-points { font-weight: 700; font-size: 1.1rem; color: #ca8a04; }
+        .spore-print { width: 0.75rem; height: 0.75rem; border-radius: 9999px; border: 1px solid rgba(0,0,0,0.2); }
+        .card-power { font-size: 0.7rem; line-height: 1.2; color: #44403c; }
+        .fruit-counter, .tuck-counter {
+            position: absolute; bottom: 4px; background-color: rgba(0,0,0, 0.7); color: white;
+            padding: 2px 6px; border-radius: 9999px; font-size: 0.8rem; font-weight: 600;
+        }
+        .fruit-counter { left: 6px; background-color: rgba(134, 25, 143, 0.8); }
+        .tuck-counter { right: 6px; background-color: rgba(21, 128, 61, 0.9); }
+
+        .power-pink { border-left: 4px solid #f472b6; }
+        .power-brown { border-left: 4px solid #a16207; }
+        .power-blue { border-left: 4px solid #60a5fa; }
+        .power-green { border-left: 4px solid #4ade80; }
+        
+        .action-row {
+            background-color: rgba(255, 255, 255, 0.6); border: 2px solid #a7f3d0;
+            border-radius: 1rem; padding: 1rem; cursor: pointer; transition: all 0.2s ease;
+        }
+        .action-row:hover { border-color: #34d399; background-color: #d1fae5; }
+        .row-content-wrapper { display: flex; gap: 1rem; align-items: stretch; }
+        .action-area { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; }
+        .action-slot-display {
+             border: 2px dashed #a7f3d0; border-radius: 0.75rem;
+             display: flex; flex-direction: column; align-items: center; justify-content: center;
+             font-size: 0.8rem; text-align: center; font-weight: 500; background-color: #fff;
+             padding: 0.5rem; width: 100px; flex-grow: 1;
+        }
+        .action-cube-placements { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid #a7f3d0; border-radius: .5rem; min-height: 30px; width: 100px; justify-content: center; align-content: flex-start;}
+        .action-cube-visual { width: 1.25rem; height: 1.25rem; background-color: #15803d; border-radius: 9999px; }
+
+        .card-slots-wrapper { display: flex; gap: 0.5rem; flex: 1; }
+        .card-slot { border: 2px dashed #a7f3d0; border-radius: 0.75rem; width: 120px; height: 160px; }
+
+        .resource { padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .btn-primary { background-color: #166534; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 500; transition: background-color 0.2s; }
+        .btn-primary:hover { background-color: #15803d; }
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 50; }
+        .modal-content { background-color: white; padding: 2rem; border-radius: 1rem; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
+        .dice { font-size: 3rem; padding: 0.5rem; border: 2px solid #4a5568; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease; }
+        .dice:hover { background-color: #e2e8f0; }
+        .dice.taken { opacity: 0.5; cursor: not-allowed; background-color: #a0aec0; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div id="game-container" class="max-w-screen-xl mx-auto">
+        <!-- HEADER -->
+        <header class="mb-4 p-4 bg-white/70 rounded-xl shadow-md space-y-3">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-green-800" style="font-family: 'Cormorant Garamond', serif;">Myco-Sphere</h1>
+                <span id="round-display" class="font-semibold text-xl"></span>
+            </div>
+            <div id="player-info" class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div id="player-resources" class="flex items-center flex-wrap gap-3 text-lg">
+                    <span class="resource bg-purple-200 text-purple-800" title="Spores">🍄 <span id="res-spore">0</span></span>
+                    <span class="resource bg-yellow-200 text-yellow-800" title="Wood">🪵 <span id="res-wood">0</span></span>
+                    <span class="resource bg-gray-200 text-gray-800" title="Straw">🌾 <span id="res-straw">0</span></span>
+                    <span class="resource bg-amber-200 text-amber-800" title="Compost">🍂 <span id="res-compost">0</span></span>
+                </div>
+                 <div id="spore-print-counter" class="flex items-center gap-2 text-lg font-semibold" title="Spore Print Points">
+                    <span class="text-2xl">🎨</span>
+                    <span id="spore-print-count">0</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="font-semibold">Action Cubes:</span>
+                    <div id="action-cubes" class="flex space-x-1"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN GAME BOARD -->
+        <main id="player-mat" class="space-y-3">
+            <!-- Standalone Action: Cultivate -->
+            <div id="action-cultivate-wrapper" class="action-row" onclick="takeAction('cultivate')">
+                <div class="row-content-wrapper">
+                    <div class="action-area">
+                        <h2 class="font-bold text-xl">Cultivate</h2>
+                        <div class="action-cube-placements" id="placements-cultivate"></div>
+                    </div>
+                    <div class="flex-1 flex items-center justify-center">
+                         <p class="text-center text-sm">Spend one action cube to play a single mushroom card from your hand into any row.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Row 1: Log -->
+            <div id="action-log" class="action-row" onclick="takeAction('log')">
+                <div class="row-content-wrapper">
+                    <div class="action-area">
+                        <h2 class="font-bold text-xl mb-2">Log</h2>
+                        <div class="action-slot-display" id="display-log"></div>
+                        <div class="action-cube-placements" id="placements-log"></div>
+                    </div>
+                    <div class="card-slots-wrapper" id="habitat-log"></div>
+                </div>
+            </div>
+            <!-- Row 2: Container -->
+            <div id="action-container" class="action-row" onclick="takeAction('container')">
+                 <div class="row-content-wrapper">
+                    <div class="action-area">
+                        <h2 class="font-bold text-xl mb-2">Container</h2>
+                        <div class="action-slot-display" id="display-container"></div>
+                        <div class="action-cube-placements" id="placements-container"></div>
+                    </div>
+                    <div class="card-slots-wrapper" id="habitat-container"></div>
+                </div>
+            </div>
+            <!-- Row 3: Lab -->
+            <div id="action-lab" class="action-row" onclick="takeAction('lab')">
+                 <div class="row-content-wrapper">
+                    <div class="action-area">
+                        <h2 class="font-bold text-xl mb-2">Lab</h2>
+                        <div class="action-slot-display" id="display-lab"></div>
+                        <div class="action-cube-placements" id="placements-lab"></div>
+                    </div>
+                    <div class="card-slots-wrapper" id="habitat-lab"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- PLAYER HAND -->
+        <footer class="mt-4">
+            <h2 class="text-2xl font-bold mb-2">Your Hand (<span id="hand-count">0</span>)</h2>
+            <div id="player-hand" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 p-4 bg-white/70 rounded-xl shadow-inner min-h-[170px]"></div>
+        </footer>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal-backdrop hidden"><div id="modal-content" class="modal-content"></div></div>
+
+    <script>
+        // --- DATA ---
+        const MUSHROOM_CARDS = {
+            'Oyster Mushroom': { name: 'Oyster Mushroom', points: 2, cost: { wood: 1 }, powerType: 'pink', powerText: 'When Played: Gain 2 substrate of your choice.', fruitCapacity: 6, count: 8, sporePrint: 'white' },
+            'Puffball': { name: 'Puffball', points: 1, cost: { straw: 1 }, powerType: 'brown', powerText: 'When Activated in Log: Place 1 fruit on THIS mushroom.', fruitCapacity: 1, count: 7, sporePrint: 'white' },
+            'Reishi': { name: 'Reishi', points: 3, cost: { wood: 2 }, powerType: 'brown', powerText: 'When Activated in Container: You may tuck 1 card to draw 2 new cards.', fruitCapacity: 3, count: 6, sporePrint: 'gray' },
+            'Cremini': { name: 'Cremini', points: 1, cost: { compost: 1 }, powerType: 'brown', powerText: 'When Activated: Gain 1 substrate that matches this habitat.', fruitCapacity: 4, count: 8, sporePrint: 'gray' },
+            'Wine Cap': { name: 'Wine Cap', points: 2, cost: { compost: 1, wood: 1 }, powerType: 'brown', powerText: 'When Activated in Lab: Place 1 fruit on THIS mushroom.', fruitCapacity: 3, count: 7, sporePrint: 'black' },
+            'Chanterelle': { name: 'Chanterelle', points: 4, cost: { wood: 1, compost: 1 }, powerType: 'brown', powerText: 'When Activated in Log: You may pay 1 wood to place 1 fruit on any mushroom.', fruitCapacity: 2, count: 4, sporePrint: 'white' },
+            'King Bolete': { name: 'King Bolete', points: 5, cost: { wood: 2, straw: 1 }, powerType: 'pink', powerText: 'When Played: Gain 1 fruit for each empty card slot in this row.', fruitCapacity: 2, count: 2, sporePrint: 'gray' },
+            'Turkey Tail': { name: 'Turkey Tail', points: 2, cost: { straw: 2 }, powerType: 'brown', powerText: 'When Activated in Container: Place 1 fruit on this card. If it is the first card, place 1 more.', fruitCapacity: 4, count: 4, sporePrint: 'white' },
+            'Black Trumpet': { name: 'Black Trumpet', points: 3, cost: { compost: 1, straw: 1 }, powerType: 'brown', powerText: 'When Activated in Lab: You may tuck 1 card to draw 1 card.', fruitCapacity: 2, count: 3, sporePrint: 'white' },
+            'False Morel': { name: 'False Morel', points: 0, cost: { wood: 1 }, powerType: 'pink', powerText: 'When Played: You may discard 1 card to gain 3 resources of one type.', fruitCapacity: 1, count: 3, sporePrint: 'white' },
+            'Shiitake': { name: 'Shiitake', points: 2, cost: { wood: 1, straw: 1 }, powerType: 'brown', powerText: 'When Activated in Container: You may pay 1 resource to place 2 fruits anywhere.', fruitCapacity: 4, count: 4, sporePrint: 'white' },
+            'Fly Agaric': { name: 'Fly Agaric', points: 1, cost: { compost: 1 }, powerType: 'blue', powerText: 'Between Turns (50% chance): Gain 1 food of your choice.', fruitCapacity: 2, count: 3, activationChance: 0.5, sporePrint: 'white' },
+            'Indigo Milk Cap': { name: 'Indigo Milk Cap', points: 2, cost: { straw: 1 }, powerType: 'blue', powerText: 'Between Turns (33% chance): Gain 1 fruit on this card.', fruitCapacity: 5, count: 3, activationChance: 0.33, sporePrint: 'blue' },
+            'Yellow Patches': { name: 'Yellow Patches', points: 2, cost: { compost: 1 }, powerType: 'brown', powerText: 'When Activated in Log: You may choose to "Forage Deeper" on your next turn.', fruitCapacity: 2, count: 3, sporePrint: 'white' },
+            'Witch\'s Butter': { name: 'Witch\'s Butter', points: 3, cost: { wood: 1, straw: 1 }, powerType: 'brown', powerText: 'When Activated in Container: You may tuck one card to gain 1 resource of your choice.', fruitCapacity: 3, count: 3, sporePrint: 'white' },
+            'Shaggy Mane': { name: 'Shaggy Mane', points: 2, cost: { straw: 1, compost: 1 }, powerType: 'brown', powerText: 'When Activated in Container: You may spend 1 fruit from this card to draw 2 cards.', fruitCapacity: 4, count: 3, sporePrint: 'black' },
+            'Honey Mushroom': { name: 'Honey Mushroom', points: 4, cost: { wood: 2, compost: 1 }, powerType: 'brown', powerText: 'When Activated: You may copy the "When Activated" power of another mushroom in this row.', fruitCapacity: 2, count: 2, sporePrint: 'white' },
+            'Artist\'s Conk': { name: 'Artist\'s Conk', points: 3, cost: { wood: 2, straw: 2 }, powerType: 'brown', powerText: 'When Activated in Lab: You may tuck up to 5 cards from your hand under this card.', fruitCapacity: 1, count: 1, sporePrint: 'gray' },
+            'Enoki': { name: 'Enoki', points: 2, cost: { wood: 1 }, powerType: 'pink', powerText: 'When Played: You may immediately play another mushroom from your hand, paying its full cost.', fruitCapacity: 5, count: 2, sporePrint: 'white' },
+            'Morel': { name: 'Morel', points: 5, cost: { wood: 2, straw: 1 }, powerType: 'green', powerText: 'End of Round: Gain 1 resource, place 1 fruit on this card, and draw 1 card.', fruitCapacity: 3, count: 2, sporePrint: 'white' },
+            'Devil\'s Cigar': { name: 'Devil\'s Cigar', points: 2, cost: { compost: 2 }, powerType: 'brown', powerText: 'When Activated in Container: 33% chance to gain 1 Spore.', fruitCapacity: 2, count: 3, sporePrint: 'gray' },
+            'Jack-o\'-Lantern': { name: 'Jack-o\'-Lantern', points: 1, cost: { wood: 1, straw: 1 }, powerType: 'brown', powerText: 'When Activated in Container: You may spend 2 fruits to gain 1 Spore.', fruitCapacity: 3, count: 3, sporePrint: 'white' },
+            'Destroying Angel': { name: 'Destroying Angel', points: 1, cost: { compost: 2 }, powerType: 'brown', powerText: 'When Activated in Container: Place 1 fruit on this card and on one other white spore print mushroom.', fruitCapacity: 3, count: 3, sporePrint: 'white' },
+            'Death Cap': { name: 'Death Cap', points: 2, cost: { wood: 1, compost: 1 }, powerType: 'brown', powerText: 'When Activated in Lab: You may tuck 1 card from your hand here and 1 behind another gray spore print mushroom.', fruitCapacity: 2, count: 3, sporePrint: 'gray' },
+            'Inky Cap': { name: 'Inky Cap', points: 2, cost: { straw: 1, compost: 1 }, powerType: 'pink', powerText: 'When Played: Place 1 fruit on each of your black spore print mushrooms.', fruitCapacity: 4, count: 4, sporePrint: 'black' },
+        };
+        const FORAGE_CARDS = {
+            'Bioluminescent Panellus': { name: 'Bioluminescent Panellus', points: 7, cost: { compost: 3 }, powerType: 'green', powerText: 'End of Round: Place up to 3 fruits in this card\'s row.', fruitCapacity: 3, sporePrint: 'white' },
+            'Psilocybe Cyanescens': { name: 'Psilocybe Cyanescens', points: 4, cost: { wood: 2 }, powerType: 'pink', powerText: 'When Played: You may discard your hand (min 1) to draw that many new cards.', fruitCapacity: 4, sporePrint: 'black' },
+            'Galerina Marginata': { name: 'Galerina Marginata', points: 9, cost: { wood: 1, straw: 1, compost: 1 }, powerType: 'blue', powerText: 'Between Turns (66% chance): Gain 1 resource of the most common type.', fruitCapacity: 1, activationChance: 0.66, sporePrint: 'gray' },
+            'Matsutake': { name: 'Matsutake', points: 8, cost: { wood: 2, compost: 2 }, powerType: 'none', powerText: '', fruitCapacity: 2, sporePrint: 'white' },
+            'White Truffle': { name: 'White Truffle', points: 9, cost: { straw: 3 }, powerType: 'none', powerText: '', fruitCapacity: 1, sporePrint: 'white' },
+            'Cordyceps': { name: 'Cordyceps', points: 0, cost: { wood: 1, straw: 1, compost: 1 }, powerType: 'brown', powerText: 'When Activated: Place a fruit on any other card.', fruitCapacity: 0, sporePrint: 'gray' },
+            'Yartsa Gunbu': { name: 'Yartsa Gunbu', points: 7, cost: { spore: 2 }, powerType: 'none', powerText: 'This rare fungus is prized for its value.', fruitCapacity: 1, sporePrint: 'gray' },
+            'Bleeding Blue Milk Cap': { name: 'Bleeding Blue Milk Cap', points: 6, cost: { wood: 2, straw: 1 }, powerType: 'brown', powerText: 'When Activated in Lab: You may activate the "When Activated" power of one other blue spore print mushroom.', fruitCapacity: 3, sporePrint: 'blue' },
+        };
+        const ROW_ACTIONS = {
+            log: { base: "Get Food", slots: ["Roll 3, Pick 1", "Roll 3, Pick 1 (+1)", "Roll 4, Pick 2<br>or 1 Spore", "Roll 4, Pick 2 (+1)<br>or 1 Spore", "Roll 5, Pick 2 (+1)<br>or 2 Spores", "Roll 5, Pick 3<br>or 2 Spores"] },
+            container: { base: "Place Fruits", slots: ["Place 1", "Place 1<br>(or 2)", "Place 2", "Place 2<br>(or 3)", "Place 3", "Place 4"] },
+            lab: { base: "Draw Cards", slots: ["Draw 1", "Draw 1<br>or Forage", "Draw 2<br>or Forage", "Draw 2<br>or Forage", "Draw 3<br>or Forage", "Draw 4<br>or Forage"] },
+        };
+
+        // --- GAME STATE ---
+        let gameState = {
+            player: null,
+            deck: [],
+            forageDeck: [],
+            round: 1,
+            turnInProgress: false,
+            fruitsToPlace: 0,
+        };
+
+        // --- DOM ELEMENTS ---
+        const DOMElements = {
+            resources: { spore: document.getElementById('res-spore'), wood: document.getElementById('res-wood'), straw: document.getElementById('res-straw'), compost: document.getElementById('res-compost') },
+            actionCubes: document.getElementById('action-cubes'),
+            roundDisplay: document.getElementById('round-display'),
+            sporePrintCount: document.getElementById('spore-print-count'),
+            handCount: document.getElementById('hand-count'),
+            playerHand: document.getElementById('player-hand'),
+            habitats: { log: document.getElementById('habitat-log'), container: document.getElementById('habitat-container'), lab: document.getElementById('habitat-lab') },
+            displays: { log: document.getElementById('display-log'), container: document.getElementById('display-container'), lab: document.getElementById('display-lab') },
+            placements: { cultivate: document.getElementById('placements-cultivate'), log: document.getElementById('placements-log'), container: document.getElementById('placements-container'), lab: document.getElementById('placements-lab') },
+            modal: document.getElementById('modal'), modalContent: document.getElementById('modal-content'),
+        };
+
+        // --- GAME LOGIC ---
+        function createPlayer() {
+            return {
+                hand: [],
+                habitats: { log: [], container: [], lab: [] },
+                resources: { spore: 0, wood: 0, straw: 0, compost: 0 },
+                actionCubes: 8,
+                actionsTaken: { cultivate: 0, log: 0, container: 0, lab: 0 },
+                isForaging: false,
+                isForagingFromCard: false,
+                forageTarget: 0,
+                sporePrintCount: 0,
+            };
+        }
+
+        function createDeck(cardData, isForage = false) {
+            const deck = [];
+            for (const cardName in cardData) {
+                const data = cardData[cardName];
+                for (let i = 0; i < (data.count || 1); i++) {
+                    deck.push({ ...data, instanceId: `${cardName.replace(/[\s']/g, '')}-${i}`, fruits: 0, tuckedCards: [], isForage });
+                }
+            }
+            return deck;
+        }
+
+        function shuffleDeck(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function drawCards(player, num, fromForage = false) {
+            const sourceDeck = fromForage ? gameState.forageDeck : gameState.deck;
+            for (let i = 0; i < num; i++) {
+                if (sourceDeck.length > 0) player.hand.push(sourceDeck.pop());
+                else { showMessage(`The ${fromForage ? 'Forage' : 'main'} deck is empty!`); break; }
+            }
+        }
+        
+        async function takeAction(actionKey) {
+            const player = gameState.player;
+            if (gameState.turnInProgress) { showMessage("Finish your current action first."); return; }
+            if (player.actionCubes <= 0) { showMessage("No action cubes left."); return; }
+            
+            if (player.isForaging) {
+                await resolveForage(player, 'lab');
+                return;
+            }
+            if (player.isForagingFromCard) {
+                await resolveForage(player, 'log');
+                return;
+            }
+
+            gameState.turnInProgress = true;
+            player.actionCubes--;
+            player.actionsTaken[actionKey]++;
+
+            if (actionKey === 'cultivate') {
+                await handleCultivateAction(player);
+            } else {
+                await handleRowAction(player, actionKey);
+            }
+        }
+
+        async function handleCultivateAction(player) {
+            await showMessage("Select a card from your hand to cultivate.");
+            const cardToPlay = await waitForCardSelection('hand');
+            if (!cardToPlay) { endTurn(player, true, 'cultivate'); return; }
+
+            const habitatChoice = await makeChoice("Cultivate in which row?", Object.keys(player.habitats).map(h => ({text: h, value: h})));
+            if(!habitatChoice || player.habitats[habitatChoice].length >= 5) {
+                if(habitatChoice) showMessage("Chosen row is full.");
+                endTurn(player, true, 'cultivate'); return;
+            }
+            
+            const fruitCosts = [0, 1, 1, 2, 2];
+            const fruitCost = fruitCosts[player.habitats[habitatChoice].length];
+            
+            let tempPlayerState = JSON.parse(JSON.stringify(player)); // Deep copy for simulation
+            
+            if (!canAfford(tempPlayerState, cardToPlay.cost)) {
+                const conversionPossible = await handleResourceConversion(tempPlayerState, cardToPlay.cost);
+                if (!conversionPossible) {
+                    showMessage("You cannot afford the resource cost, even with conversion.");
+                    endTurn(player, true, 'cultivate'); return;
+                }
+            }
+            
+            const totalFruits = tempPlayerState.habitats.log.concat(tempPlayerState.habitats.container, tempPlayerState.habitats.lab).reduce((sum, card) => sum + card.fruits, 0);
+            if (fruitCost > 0 && totalFruits < fruitCost) {
+                showMessage(`You need ${fruitCost} fruit(s) to play a card here.`);
+                endTurn(player, true, 'cultivate'); return;
+            }
+            
+            gameState.player = JSON.parse(JSON.stringify(tempPlayerState));
+            const freshPlayer = gameState.player;
+            
+            if(fruitCost > 0) {
+                await showMessage(`You must spend ${fruitCost} fruit(s).`);
+                for(let i = 0; i < fruitCost; i++) {
+                    const cardToSpendFrom = await chooseCardToSpendFruit(freshPlayer);
+                    if(!cardToSpendFrom) { showMessage("Action cancelled."); endTurn(freshPlayer, true, 'cultivate'); return; }
+                    cardToSpendFrom.fruits--;
+                }
+            }
+
+            spendResources(freshPlayer, cardToPlay.cost);
+            freshPlayer.hand = freshPlayer.hand.filter(c => c.instanceId !== cardToPlay.instanceId);
+            freshPlayer.habitats[habitatChoice].push(cardToPlay);
+            if (cardToPlay.powerType === 'pink') await executeCardPower(freshPlayer, cardToPlay, 'play', habitatChoice);
+            endTurn(freshPlayer, false, 'cultivate');
+        }
+
+        async function handleRowAction(player, rowKey) {
+            const slotIndex = player.habitats[rowKey].length;
+            if (slotIndex > 5) { showMessage("This row is full."); endTurn(player, true, rowKey); return; }
+
+            switch(rowKey) {
+                case 'log':
+                    const diceConfigs = [{d:3, p:1}, {d:3, p:1, t:true}, {d:4, p:2, s:1}, {d:4, p:2, t:true, s:1}, {d:5, p:2, t:true, s:2}, {d:5, p:3, s:2}];
+                    let config = diceConfigs[slotIndex];
+                    
+                    if (config.s) {
+                        const choice = await makeChoice(`Choose your reward:`, [{text: `Roll for Food`, value: 'food'}, {text: `Take ${config.s} Spore(s)`, value: 'spore'}]);
+                        if (choice === 'spore') {
+                            player.resources.spore += config.s;
+                            await activateRow(player, 'log');
+                            endTurn(player, false, 'log');
+                            return;
+                        }
+                    }
+
+                    if (config.t && player.hand.length > 0) {
+                        const trade = await makeChoice(`Keep ${config.p} picks, or discard 1 card for an extra pick?`, [{text: `Keep ${config.p}`, value: false}, {text: `Discard for +1`, value: true}]);
+                        if (trade) {
+                            const cardToDiscard = await chooseCardToDiscard(player, "Choose card to discard for an extra pick.");
+                            if(cardToDiscard) {
+                                player.hand = player.hand.filter(c => c.instanceId !== cardToDiscard.instanceId);
+                                config.p++;
+                            }
+                        }
+                    }
+                    await handleFoodDiceRoll(player, config.p, config.d);
+                    return; 
+                case 'container':
+                    const fruitAmounts = [1, 1, 2, 2, 3, 4];
+                    let fruitsToGain = fruitAmounts[slotIndex];
+                    if ((slotIndex === 1 || slotIndex === 3) && (player.resources.wood > 0 || player.resources.straw > 0 || player.resources.compost > 0)) {
+                        const choice = await makeChoice(`Place ${fruitsToGain} fruits, or pay 1 resource for ${fruitsToGain + 1}?`, [{text: `Place ${fruitsToGain}`, value: false}, {text: `Pay for ${fruitsToGain+1}`, value: true}]);
+                        if (choice) { 
+                            const resChoice = await makeChoice("Pay which resource?", [{text:"Wood", value:"wood"}, {text:"Straw", value:"straw"}, {text:"Compost", value:"compost"}]);
+                            if(resChoice && player.resources[resChoice] > 0) { player.resources[resChoice]--; fruitsToGain++; }
+                        }
+                    }
+                    gameState.fruitsToPlace += fruitsToGain;
+                    break;
+                case 'lab':
+                    const cardAmounts = [1, 1, 2, 2, 3, 4];
+                    let cardsToGain = cardAmounts[slotIndex];
+                    let forageChoice = false;
+                    if (slotIndex >= 1) {
+                        forageChoice = await makeChoice("Draw cards or Forage Deeper?", [{text: "Draw Cards", value: false}, {text: "Forage Deeper", value: true}]);
+                    }
+
+                    if (forageChoice) {
+                        player.isForaging = true;
+                        const forageTargets = [0, 6, 6, 5, 5, 4];
+                        player.forageTarget = forageTargets[slotIndex];
+                        await showMessage(`You will forage next turn (target: ${player.forageTarget}+). Now, draw your regular cards.`);
+                    }
+                    
+                    const totalFruits = Object.values(player.habitats).flat().reduce((sum, card) => sum + card.fruits, 0);
+                    if ((slotIndex === 1 || slotIndex === 3) && totalFruits > 0) {
+                        const choice = await makeChoice(`Draw ${cardsToGain} card(s), or spend 1 fruit to draw ${cardsToGain + 1}?`, [{text: `Draw ${cardsToGain}`, value: false}, {text: `Spend Fruit for ${cardsToGain+1}`, value: true}]);
+                        if (choice) {
+                            const cardWithFruit = await chooseCardToSpendFruit(player);
+                            if(cardWithFruit) { cardWithFruit.fruits--; cardsToGain++; }
+                        }
+                    }
+                    drawCards(player, cardsToGain);
+                    break;
+            }
+            
+            await activateRow(player, rowKey);
+
+            if (gameState.fruitsToPlace > 0) {
+                const canPlaceAny = Object.values(player.habitats).flat().some(c => c.fruits < c.fruitCapacity);
+                if (!canPlaceAny) {
+                    await showMessage("No space to place remaining fruits!");
+                    gameState.fruitsToPlace = 0;
+                    endTurn(player, false, rowKey);
+                } else {
+                    await showMessage(`You have ${gameState.fruitsToPlace} fruits to place. Click your cards on the board or skip.`, true, true);
+                }
+            } else {
+                endTurn(player, false, rowKey);
+            }
+        }
+        
+        async function handleFoodDiceRoll(player, picks, diceToRoll) {
+            let rerolled = false;
+            let currentDice = [];
+            const rollDice = (num) => Array.from({ length: num }, () => ['wood', 'straw', 'compost'][Math.floor(Math.random() * 3)]);
+
+            const updateDiceModal = () => {
+                const remainingDice = currentDice.filter(d => d.value !== null);
+                const canReroll = !rerolled && (remainingDice.length === 1 || remainingDice.every(d => d.value === remainingDice[0].value));
+                
+                let diceHTML = currentDice.map((die, index) => 
+                    die.value ? `<div class="dice" data-index="${index}">${{wood:'🪵', straw:'🌾', compost:'🍂'}[die.value]}</div>` : `<div class="dice taken"></div>`
+                ).join('');
+                
+                let buttonsHTML = `<button id="finish-dice" class="btn-primary">Finish</button>`;
+                if (canReroll) {
+                    buttonsHTML += `<button id="reroll-dice" class="btn-primary bg-blue-600 hover:bg-blue-700">Reroll</button>`;
+                }
+
+                DOMElements.modalContent.innerHTML = `
+                    <h2 class="text-2xl font-bold text-center mb-4">Get Food</h2>
+                    <p class="text-center mb-4">Picks left: ${picks}</p>
+                    <div class="flex justify-center gap-4 my-4">${diceHTML}</div>
+                    <div class="flex justify-center gap-4 mt-6">${buttonsHTML}</div>
+                `;
+
+                document.querySelectorAll('.dice[data-index]').forEach(el => el.onclick = handleDieClick);
+                document.getElementById('finish-dice').onclick = finishDiceRoll;
+                if (canReroll) {
+                    document.getElementById('reroll-dice').onclick = handleReroll;
+                }
+            };
+
+            const handleDieClick = (e) => {
+                if (picks <= 0) return;
+                const index = parseInt(e.target.dataset.index);
+                const die = currentDice[index];
+                if (die.value) {
+                    player.resources[die.value]++;
+                    die.value = null;
+                    picks--;
+                    if(picks === 0) finishDiceRoll();
+                    else updateDiceModal();
+                }
+            };
+
+            const handleReroll = () => {
+                rerolled = true;
+                const remainingIndices = currentDice.map((d, i) => d.value ? i : -1).filter(i => i !== -1);
+                const newRolls = rollDice(remainingIndices.length);
+                remainingIndices.forEach((originalIndex, i) => {
+                    currentDice[originalIndex].value = newRolls[i];
+                });
+                updateDiceModal();
+            };
+
+            const finishDiceRoll = async () => {
+                DOMElements.modal.classList.add('hidden');
+                await activateRow(player, 'log');
+                if (gameState.fruitsToPlace > 0) {
+                    await showMessage(`You have ${gameState.fruitsToPlace} fruits to place.`, true, true);
+                } else {
+                    endTurn(player, false, 'log');
+                }
+            };
+
+            currentDice = rollDice(diceToRoll).map(value => ({ value }));
+            updateDiceModal();
+            DOMElements.modal.classList.remove('hidden');
+        }
+
+        async function resolveForage(player, sourceRow) {
+            player.actionCubes--;
+            player.actionsTaken[sourceRow]++;
+            const roll = Math.floor(Math.random() * 6) + 1;
+            const target = player.isForagingFromCard ? 6 : player.forageTarget;
+
+            await showMessage(`You rolled a ${roll}... (need ${target} or higher)`);
+            if (roll >= target) {
+                await showMessage("Success! You found a rare mushroom!");
+                drawCards(player, 1, true);
+            } else {
+                await showMessage("Failure. You found nothing of interest.");
+            }
+            player.isForaging = false;
+            player.isForagingFromCard = false;
+            player.forageTarget = 0;
+            endTurn(player, false, sourceRow);
+        }
+
+        async function handleBoardCardClick(cardData) {
+            if (gameState.fruitsToPlace > 0) {
+                if (cardData.fruits < cardData.fruitCapacity) {
+                    cardData.fruits++;
+                    gameState.fruitsToPlace--;
+                    if (gameState.fruitsToPlace > 0) {
+                        await showMessage(`${gameState.fruitsToPlace} fruits left to place.`, true, true);
+                    } else {
+                        await showMessage(`All fruits placed.`);
+                        endTurn(gameState.player, false, 'container');
+                    }
+                    updateUI();
+                } else {
+                    showMessage(`${cardData.name} cannot hold more fruits.`);
+                }
+            }
+        }
+
+        async function activateRow(player, rowKey) {
+            const row = player.habitats[rowKey];
+            for (let i = row.length - 1; i >= 0; i--) { // Right to left
+                const card = row[i];
+                if (card && card.powerType === 'brown') {
+                    await showMessage(`Activating ${card.name}...`);
+                    await executeCardPower(player, card, 'activation', rowKey);
+                }
+            }
+        }
+        
+        async function executeCardPower(player, card, context, rowKey) {
+            switch(card.name) {
+                case 'Oyster Mushroom':
+                    if (context === 'play') {
+                        const choice = await makeChoice("Choose 2 resources:", [{text:"2 Wood", value:{wood:2}}, {text:"2 Straw", value:{straw:2}}, {text:"2 Compost", value:{compost:2}}]);
+                        if(choice.wood) player.resources.wood += choice.wood;
+                        if(choice.straw) player.resources.straw += choice.straw;
+                        if(choice.compost) player.resources.compost += choice.compost;
+                    }
+                    break;
+                case 'King Bolete':
+                    if(context === 'play') {
+                        const emptySlots = 5 - player.habitats[rowKey].length;
+                        gameState.fruitsToPlace += emptySlots;
+                        if (emptySlots > 0) await showMessage(`King Bolete gives you ${emptySlots} fruits to place!`);
+                    }
+                    break;
+                case 'False Morel':
+                     if (context === 'play' && player.hand.length > 0) {
+                        const cardToDiscard = await chooseCardToDiscard(player, "Discard 1 card to gain 3 resources?");
+                        if(cardToDiscard) {
+                            player.hand = player.hand.filter(c => c.instanceId !== cardToDiscard.instanceId);
+                            const resChoice = await makeChoice("Gain which resource?", [{text:"3 Wood", value:"wood"}, {text:"3 Straw", value:"straw"}, {text:"3 Compost", value:"compost"}]);
+                            if(resChoice) player.resources[resChoice] += 3;
+                        }
+                    }
+                    break;
+                case 'Psilocybe Cyanescens':
+                    if (context === 'play' && player.hand.length > 0) {
+                        const proceed = await makeChoice(`Discard your hand (${player.hand.length} cards) to draw that many new cards?`, [{text:"Yes", value:true}, {text:"No", value:false}]);
+                        if (proceed) {
+                            const cardsToDraw = player.hand.length;
+                            player.hand = [];
+                            drawCards(player, cardsToDraw);
+                        }
+                    }
+                    break;
+                case 'Puffball':
+                    if (context === 'activation' && rowKey === 'log' && card.fruits < card.fruitCapacity) {
+                        card.fruits++;
+                        await showMessage("Puffball power added a fruit to itself!");
+                    }
+                    break;
+                case 'Reishi':
+                     if (context === 'activation' && rowKey === 'container' && player.hand.length > 0) {
+                        const cardToTuck = await chooseCardToDiscard(player, "Tuck 1 card to draw 2 new cards?", true, "Tuck");
+                        if(cardToTuck) {
+                            card.tuckedCards.push(cardToTuck);
+                            player.hand = player.hand.filter(c => c.instanceId !== cardToTuck.instanceId);
+                            drawCards(player, 2);
+                            await showMessage("Tucked 1 card, drew 2.");
+                        }
+                    }
+                    break;
+                case 'Chanterelle':
+                    if (context === 'activation' && rowKey === 'log' && player.resources.wood > 0) {
+                        const pay = await makeChoice("Chanterelle: Pay 1 wood to place 1 fruit?", [{text: "Yes", value: true}, {text: "No", value: false}]);
+                        if(pay) {
+                            player.resources.wood--;
+                            gameState.fruitsToPlace++;
+                            await showMessage("You have 1 extra fruit to place.");
+                        }
+                    }
+                    break;
+                case 'Wine Cap':
+                     if (context === 'activation' && rowKey === 'lab' && card.fruits < card.fruitCapacity) {
+                        card.fruits++;
+                        await showMessage("Wine Cap power added a fruit to itself!");
+                    }
+                    break;
+                case 'Cremini':
+                     if (context === 'activation') {
+                         const resMap = { log: 'wood', container: 'straw', lab: 'compost' };
+                         const resToGain = resMap[rowKey];
+                         if(resToGain) {
+                             player.resources[resToGain]++;
+                             await showMessage(`Cremini found 1 ${resToGain} in the ${rowKey}!`);
+                         }
+                     }
+                    break;
+                case 'Turkey Tail':
+                    if (context === 'activation' && rowKey === 'container') {
+                        if (card.fruits < card.fruitCapacity) {
+                            card.fruits++;
+                            await showMessage("Turkey Tail added a fruit to itself.");
+                        }
+                        const isFirst = player.habitats[rowKey].indexOf(card) === 0;
+                        if (isFirst && card.fruits < card.fruitCapacity) {
+                            card.fruits++;
+                            await showMessage("It was first in the row and added another fruit!");
+                        }
+                    }
+                    break;
+                case 'Black Trumpet':
+                    if (context === 'activation' && rowKey === 'lab' && player.hand.length > 0) {
+                        const cardToTuck = await chooseCardToDiscard(player, "Tuck 1 card to draw 1 card?", true, "Tuck");
+                        if(cardToTuck) {
+                            card.tuckedCards.push(cardToTuck);
+                            player.hand = player.hand.filter(c => c.instanceId !== cardToTuck.instanceId);
+                            drawCards(player, 1);
+                        }
+                    }
+                    break;
+                case 'Shiitake':
+                    if (context === 'activation' && rowKey === 'container') {
+                        const availableRes = Object.keys(player.resources).filter(r => player.resources[r] > 0);
+                        if (availableRes.length > 0) {
+                            const choice = await makeChoice("Shiitake: Pay 1 resource to place 2 fruits?", [{text:"Yes", value:true}, {text:"No", value:false}]);
+                            if (choice) {
+                                const resChoice = await makeChoice("Pay which resource?", availableRes.map(r => ({text: `1 ${r}`, value: r})));
+                                if(resChoice) {
+                                    player.resources[resChoice]--;
+                                    gameState.fruitsToPlace += 2;
+                                    await showMessage("You have 2 extra fruits to place.");
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 'Yellow Patches':
+                    if (context === 'activation' && rowKey === 'log') {
+                        const choice = await makeChoice("Yellow Patches: Forage deeper next turn instead of taking a normal action?", [{text:"Yes", value:true}, {text:"No", value:false}]);
+                        if (choice) {
+                            player.isForagingFromCard = true;
+                            await showMessage("You will forage for a rare mushroom at the start of your next turn.");
+                        }
+                    }
+                    break;
+                case 'Jack-o\'-Lantern':
+                    if (context === 'activation' && rowKey === 'container') {
+                        const totalFruits = Object.values(player.habitats).flat().reduce((sum, c) => sum + c.fruits, 0);
+                        if (totalFruits >= 2) {
+                            const spend = await makeChoice("Jack-o'-Lantern: Spend 2 fruits to gain 1 Spore?", [{text:"Yes", value:true}, {text:"No", value:false}]);
+                            if (spend) {
+                                for(let i=0; i<2; i++) {
+                                    const cardToSpendFrom = await chooseCardToSpendFruit(player);
+                                    if(cardToSpendFrom) {
+                                        cardToSpendFrom.fruits--;
+                                    } else { // Cancelled
+                                        return;
+                                    }
+                                }
+                                player.resources.spore++;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        async function endTurn(player, revertAction = false, actionKey = '') {
+            if (revertAction) {
+                player.actionsTaken[actionKey]--;
+                player.actionCubes++;
+            }
+            
+            await handleBetweenTurnPowers(player);
+            gameState.turnInProgress = false;
+
+            if (player.actionCubes <= 0) {
+                endRound();
+            }
+            updateUI();
+        }
+        
+        async function handleBetweenTurnPowers(player) {
+            const allCards = Object.values(player.habitats).flat();
+            for (const card of allCards) {
+                if(card.powerType === 'blue' && Math.random() < card.activationChance) {
+                    await showMessage(`${card.name} activated between turns!`);
+                    // Simplified logic for now
+                    if (card.name === 'Fly Agaric') {
+                        player.resources.wood++;
+                        await showMessage("Gained 1 wood.");
+                    }
+                    if (card.name === 'Indigo Milk Cap' && card.fruits < card.fruitCapacity) {
+                        card.fruits++;
+                        await showMessage("Gained 1 fruit.");
+                    }
+                    if (card.name === 'Galerina Marginata') {
+                        player.resources.wood++;
+                        await showMessage("Gained 1 wood.");
+                    }
+                }
+            }
+        }
+
+        async function endRound() {
+            if (gameState.round < 4) {
+                await showMessage(`Round ${gameState.round} ends!`);
+                await handleEndOfRoundPowers(gameState.player);
+                gameState.round++;
+                gameState.player.actionCubes = 8;
+                gameState.player.actionsTaken = { cultivate: 0, log: 0, container: 0, lab: 0 };
+                updateUI();
+            } else {
+                await handleEndOfRoundPowers(gameState.player); // Handle last round's powers
+                endGame();
+            }
+        }
+
+        async function handleEndOfRoundPowers(player) {
+            const allCards = Object.values(player.habitats).flat();
+            for (const card of allCards) {
+                if (card.powerType === 'green') {
+                    await showMessage(`${card.name} end of round power activates!`);
+                    if (card.name === 'Bioluminescent Panellus') {
+                        const rowKey = Object.keys(player.habitats).find(key => player.habitats[key].includes(card));
+                        if(rowKey) {
+                            gameState.fruitsToPlace += 3;
+                            await showMessage(`You have 3 fruits to place in the ${rowKey} row.`);
+                            // This is a simplified version; a full implementation would restrict placement to that row.
+                        }
+                    }
+                    if (card.name === 'Morel') {
+                        player.resources.wood++; // Simplified choice
+                        if(card.fruits < card.fruitCapacity) card.fruits++;
+                        drawCards(player, 1);
+                        await showMessage("Morel gained 1 wood, 1 fruit, and 1 card.");
+                    }
+                }
+            }
+        }
+
+        function endGame() {
+            DOMElements.modalContent.innerHTML = `
+                <h2 class="text-2xl font-bold text-center mb-4">Game Over!</h2>
+                <p class="text-center mb-4">You've used all your action cubes for Round 4.</p>
+                <div class="text-center mt-6"><button id="see-score-btn" class="btn-primary">See Final Score</button></div>
+            `;
+            DOMElements.modal.classList.remove('hidden');
+            document.getElementById('see-score-btn').onclick = displayScoreScreen;
+        }
+
+        function displayScoreScreen() {
+            let cardPoints = 0;
+            let fruitScore = 0;
+            let tuckScore = 0;
+            const player = gameState.player;
+            Object.values(player.habitats).flat().forEach(card => {
+                cardPoints += card.points;
+                fruitScore += card.fruits;
+                tuckScore += card.tuckedCards.length;
+            });
+            const sporePrintScore = player.sporePrintCount;
+            const totalScore = cardPoints + fruitScore + tuckScore + sporePrintScore;
+
+            DOMElements.modalContent.innerHTML = `
+                <h2 class="text-3xl font-bold text-center mb-6">Final Score</h2>
+                <div class="space-y-2 text-lg">
+                    <div class="flex justify-between"><span>Points from Cards:</span> <span>${cardPoints}</span></div>
+                    <div class="flex justify-between"><span>Points from Fruits:</span> <span>${fruitScore}</span></div>
+                    <div class="flex justify-between"><span>Points from Tucked Cards:</span> <span>${tuckScore}</span></div>
+                    <div class="flex justify-between"><span>Points from Spore Prints:</span> <span>${sporePrintScore}</span></div>
+                    <hr class="my-2 border-gray-400"/>
+                    <div class="flex justify-between font-bold text-2xl"><span>Total Score:</span> <span>${totalScore}</span></div>
+                </div>
+            `;
+            DOMElements.modal.classList.remove('hidden');
+        }
+
+        // --- UI & UTILITIES ---
+        function updateUI() {
+            const player = gameState.player;
+            Object.keys(DOMElements.resources).forEach(res => DOMElements.resources[res].textContent = player.resources[res]);
+            DOMElements.actionCubes.innerHTML = Array(player.actionCubes).fill('<div class="action-cube-visual"></div>').join('');
+            DOMElements.roundDisplay.textContent = `Round: ${gameState.round} / 4`;
+            DOMElements.sporePrintCount.textContent = player.sporePrintCount;
+            DOMElements.handCount.textContent = player.hand.length;
+
+            DOMElements.playerHand.innerHTML = '';
+            player.hand.forEach(card => DOMElements.playerHand.appendChild(createCardElement(card, 'hand')));
+
+            Object.keys(player.habitats).forEach(rowKey => {
+                const habitatEl = DOMElements.habitats[rowKey];
+                const displayEl = DOMElements.displays[rowKey];
+                const placementEl = DOMElements.placements[rowKey];
+                habitatEl.innerHTML = '';
+                placementEl.innerHTML = Array(player.actionsTaken[rowKey]).fill('<div class="action-cube-visual"></div>').join('');
+
+                const slotIndex = player.habitats[rowKey].length;
+                displayEl.innerHTML = `<h3 class="font-bold mb-2">${ROW_ACTIONS[rowKey].base}</h3><p>${ROW_ACTIONS[rowKey].slots[slotIndex]}</p>`;
+
+                player.habitats[rowKey].forEach(card => habitatEl.appendChild(createCardElement(card, 'board')));
+                for (let i = slotIndex; i < 5; i++) {
+                    habitatEl.appendChild(document.createElement('div')).className = 'card-slot';
+                }
+            });
+            DOMElements.placements.cultivate.innerHTML = Array(player.actionsTaken.cultivate).fill('<div class="action-cube-visual"></div>').join('');
+        }
+
+        function createCardElement(cardData, source) {
+            const cardEl = document.createElement('div');
+            cardEl.className = `card ${'power-' + cardData.powerType} ${cardData.isForage ? 'forage-card' : ''}`;
+            let countersHTML = '';
+            if (source === 'board') {
+                countersHTML += `<div class="fruit-counter">🍄 ${cardData.fruits} / ${cardData.fruitCapacity}</div>`;
+                if (cardData.tuckedCards.length > 0) {
+                    countersHTML += `<div class="tuck-counter">📄 &times;${cardData.tuckedCards.length}</div>`;
+                }
+            }
+            const sporePrintColor = { white: 'bg-white', blue: 'bg-blue-400', gray: 'bg-gray-400', black: 'bg-black'}[cardData.sporePrint] || 'bg-transparent';
+            cardEl.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <span class="card-title">${cardData.name}</span>
+                    <div class="card-points-wrapper">
+                        <div class="spore-print ${sporePrintColor}"></div>
+                        <span class="card-points">${cardData.points}</span>
+                    </div>
+                </div>
+                <p class="card-power">${cardData.powerText}</p>
+                <div class="text-xs text-right text-amber-700 font-semibold">${Object.entries(cardData.cost).map(([r,v])=>`${v}${r[0].toUpperCase()}`).join(', ')}</div>
+                ${countersHTML}
+            `;
+            if (source === 'board') cardEl.onclick = () => handleBoardCardClick(cardData);
+            else cardEl.dataset.instanceId = cardData.instanceId;
+            return cardEl;
+        }
+        
+        function canAfford(player, cost) { return Object.keys(cost).every(res => player.resources[res] >= cost[res]); }
+        function spendResources(player, cost) { for (const res in cost) player.resources[res] -= cost[res]; }
+
+        async function handleResourceConversion(playerState, cost) {
+            let needed = {};
+            let canConvert = true;
+            for (const res in cost) {
+                if (playerState.resources[res] < cost[res]) {
+                    needed[res] = cost[res] - playerState.resources[res];
+                }
+            }
+            
+            // Prioritize using spores first
+            for (const resNeeded in needed) {
+                let toFulfill = needed[resNeeded];
+                while(toFulfill > 0 && playerState.resources.spore > 0) {
+                    const useSpore = await makeChoice(`Use 1 Spore as 1 ${resNeeded}?`, [{text: "Yes", value: true}, {text: "No", value: false}]);
+                    if (useSpore) {
+                        playerState.resources.spore--;
+                        playerState.sporePrintCount++;
+                        playerState.resources[resNeeded]++;
+                        toFulfill--;
+                    } else {
+                        break;
+                    }
+                }
+                needed[resNeeded] = toFulfill;
+            }
+
+            for (const resNeeded in needed) {
+                let toFulfill = needed[resNeeded];
+                while (toFulfill > 0) {
+                    const availablePayers = Object.keys(playerState.resources).filter(r => r !== 'spore' && r !== resNeeded && playerState.resources[r] >= 2);
+                    if (availablePayers.length === 0) {
+                        canConvert = false;
+                        break;
+                    }
+                    const payerChoice = await makeChoice(`Pay 2 resources to get 1 ${resNeeded}?`, availablePayers.map(p => ({text: `2 ${p}`, value: p})));
+                    if (!payerChoice) { canConvert = false; break; }
+                    playerState.resources[payerChoice] -= 2;
+                    playerState.resources[resNeeded]++;
+                    toFulfill--;
+                }
+                if (!canConvert) break;
+            }
+            return canConvert;
+        }
+
+        function showMessage(message, persistent = false, showSkip = false) {
+            return new Promise(resolve => {
+                let buttonsHTML = '';
+                if(showSkip) {
+                    buttonsHTML = `<div class="text-center mt-4"><button id="skip-fruit-btn" class="btn-primary bg-gray-500 hover:bg-gray-600">Skip Placing</button></div>`;
+                }
+                DOMElements.modalContent.innerHTML = `<p class="text-xl text-center">${message}</p>${buttonsHTML}`;
+                if (DOMElements.modal.classList.contains('hidden')) DOMElements.modal.classList.remove('hidden');
+                
+                if (showSkip) {
+                    document.getElementById('skip-fruit-btn').onclick = () => {
+                        gameState.fruitsToPlace = 0;
+                        DOMElements.modal.classList.add('hidden');
+                        endTurn(gameState.player, false);
+                        resolve();
+                    };
+                }
+
+                if (!persistent) setTimeout(() => { 
+                    if(!DOMElements.modal.classList.contains('hidden')) {
+                        DOMElements.modal.classList.add('hidden');
+                    }
+                    resolve(); 
+                }, 1500);
+            });
+        }
+
+        function makeChoice(prompt, choices) {
+             return new Promise(resolve => {
+                let buttonsHTML = choices.map(choice => `<button class="btn-primary choice-btn" data-value='${JSON.stringify(choice.value)}'>${choice.text}</button>`).join('');
+                DOMElements.modalContent.innerHTML = `<p class="text-xl text-center mb-4">${prompt}</p><div class="flex justify-center gap-4 flex-wrap">${buttonsHTML}</div>`;
+                DOMElements.modal.classList.remove('hidden');
+                const close = (value) => { DOMElements.modal.classList.add('hidden'); resolve(value); };
+                document.querySelectorAll('.choice-btn').forEach(btn => btn.onclick = (e) => close(JSON.parse(e.currentTarget.dataset.value)));
+                DOMElements.modal.onclick = (e) => { if(e.target === DOMElements.modal) close(null); };
+            });
+        }
+        
+        async function chooseCardToSpendFruit(player) {
+            const cardsWithFruit = Object.values(player.habitats).flat().filter(c => c.fruits > 0);
+            if(cardsWithFruit.length === 0) return null;
+
+            const choices = cardsWithFruit.map(c => ({ text: `${c.name} (${c.fruits} 🍄)`, value: c.instanceId }));
+            const chosenId = await makeChoice("Choose a mushroom to spend a fruit from:", choices);
+            return cardsWithFruit.find(c => c.instanceId === chosenId);
+        }
+
+        async function chooseCardToDiscard(player, prompt, optional = false, verb = "Discard") {
+            return new Promise(async resolve => {
+                if (player.hand.length === 0) { resolve(null); return; }
+                if (optional) {
+                    const proceed = await makeChoice(prompt, [{text: "Yes", value: true}, {text: "No", value: false}]);
+                    if (!proceed) { resolve(null); return; }
+                }
+                
+                DOMElements.modalContent.innerHTML = `
+                    <h2 class="text-2xl font-bold text-center mb-4">${verb} which card?</h2>
+                    <div id="discard-choice" class="flex justify-center gap-2 flex-wrap"></div>
+                `;
+                const cardContainer = document.getElementById('discard-choice');
+                player.hand.forEach(card => {
+                    const el = createCardElement(card, 'hand');
+                    el.onclick = () => {
+                        DOMElements.modal.classList.add('hidden');
+                        resolve(card);
+                    };
+                    cardContainer.appendChild(el);
+                });
+                DOMElements.modal.classList.remove('hidden');
+            });
+        }
+
+        function waitForCardSelection(source) {
+            return new Promise(resolve => {
+                const container = source === 'hand' ? DOMElements.playerHand : document.body;
+                const clickHandler = (e) => {
+                    const cardEl = e.target.closest('.card');
+                    if (cardEl && cardEl.dataset.instanceId) {
+                        const cardData = gameState.player.hand.find(c => c.instanceId === cardEl.dataset.instanceId);
+                        container.removeEventListener('click', clickHandler);
+                        resolve(cardData);
+                    }
+                };
+                container.addEventListener('click', clickHandler);
+            });
+        }
+
+        // --- INITIALIZATION ---
+        async function init() {
+            gameState.deck = createDeck(MUSHROOM_CARDS);
+            gameState.forageDeck = createDeck(FORAGE_CARDS, true);
+            shuffleDeck(gameState.deck);
+            shuffleDeck(gameState.forageDeck);
+
+            gameState.player = createPlayer();
+            
+            drawCards(gameState.player, 5);
+            
+            const keptCards = await handleInitialCardChoice(gameState.player.hand);
+            const resourcesToGain = 5 - keptCards.length;
+            gameState.player.hand = keptCards;
+            
+            if (resourcesToGain > 0) await handleInitialResourceChoice(gameState.player, resourcesToGain);
+
+            updateUI();
+            showMessage("Welcome to Myco-Sphere! Choose your action.", false);
+        }
+        
+        async function handleInitialCardChoice(cards) {
+            return new Promise(resolve => {
+                DOMElements.modalContent.innerHTML = `
+                    <h2 class="text-2xl font-bold text-center mb-4">Choose Your Starting Hand</h2>
+                    <p class="text-center mb-4">Select the cards you wish to keep. You will get 1 resource for each card you discard.</p>
+                    <div id="initial-card-choice" class="flex justify-center gap-2 flex-wrap"></div>
+                    <div class="text-center mt-6"><button id="confirm-card-choice" class="btn-primary">Confirm Selection</button></div>
+                `;
+                const cardContainer = document.getElementById('initial-card-choice');
+                cards.forEach(card => {
+                    const el = createCardElement(card, 'hand');
+                    el.onclick = () => el.classList.toggle('selected');
+                    cardContainer.appendChild(el);
+                });
+                DOMElements.modal.classList.remove('hidden');
+                
+                document.getElementById('confirm-card-choice').onclick = () => {
+                    const selectedCards = [];
+                    document.querySelectorAll('#initial-card-choice .card.selected').forEach(el => {
+                        selectedCards.push(cards.find(c => c.instanceId === el.dataset.instanceId));
+                    });
+                    DOMElements.modal.classList.add('hidden');
+                    resolve(selectedCards);
+                };
+            });
+        }
+        
+        async function handleInitialResourceChoice(player, amount) {
+            await showMessage(`Now, choose ${amount} starting resource(s).`);
+            let picked = [];
+            for (let i = 0; i < amount; i++) {
+                let choices = [{text:"Wood 🪵", value:"wood"}, {text:"Straw 🌾", value:"straw"}, {text:"Compost 🍂", value:"compost"}];
+                if (amount < 4) {
+                    choices = choices.filter(c => !picked.includes(c.value));
+                }
+                if (amount === 4 && picked.length === 3) {
+                    // Allow any for the 4th pick
+                }
+                 if (amount === 5 && picked.length >= 3) {
+                    // Allow any for 4th and 5th
+                }
+                
+                const choice = await makeChoice(`Choose resource ${i+1} of ${amount}`, choices);
+                if(choice) {
+                    player.resources[choice]++;
+                    picked.push(choice);
+                }
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
