@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turners Falls Turkey Trot</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Font: Inter --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Add Lobster font for the title --><link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <!-- Configure Tailwind to use Inter font and custom autumnal colors --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        lobster: ['Lobster', 'cursive'], // Add Lobster font
+                    },
+                    colors: {
+                        'autumn-brown': {
+                            DEFAULT: '#5D4037', // A deep, rich brown
+                            '700': '#4E342E',
+                            '300': '#8D6E63',
+                        },
+                        'autumn-orange': {
+                            DEFAULT: '#F57C00', // A bright, pumpkin orange
+                            '600': '#E65100', // A darker, burnt orange
+                        },
+                        'autumn-gold': {
+                            DEFAULT: '#FFB300', // A golden yellow
+                        },
+                        'autumn-cream': {
+                            DEFAULT: '#FFF8E1', // A warm, creamy off-white
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Custom styles for the MapMyRun embed footer --><style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style the MapMyRun embed footer to match the theme */
+        #embed-frame-footer {
+            text-align: center;
+            padding: 16px;
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff; /* White background for the footer part */
+            border-bottom-left-radius: 0.5rem; /* rounded-lg */
+            border-bottom-right-radius: 0.5rem; /* rounded-lg */
+            margin-top: -8px; /* Pull it closer to the iframe */
+        }
+        #embed-frame-footer a {
+            color: #E65100; /* autumn-orange-600 */
+            text-decoration: none;
+            font-weight: 500;
+        }
+        #embed-frame-footer a:hover {
+            color: #F57C00; /* autumn-orange */
+            text-decoration: underline;
+        }
+        #embed-frame-footer p {
+            margin: 0.5rem 0;
+            color: #4E342E; /* autumn-brown-700 */
+            font-size: 0.875rem; /* text-sm */
+        }
+        /* Hide the default MapMyRun <p> class text */
+        .jss2129[string="View Route Details"] {
+            font-size: 0; /* Hide text but keep link active */
+        }
+        /* Re-add the text using ::after */
+        .jss2129[string="View Route Details"]::after {
+            content: "View Route Details";
+            font-size: 1rem; /* Re-set font size */
+        }
+        /* Hide the default MapMyRun <p> class text */
+        .jss2152 p {
+             font-size: 0;
+        }
+        .jss2152 a[string="MapMyRun."] {
+             font-size: 0;
+        }
+        /* Re-add the text */
+        .jss2130 > p::before {
+            content: "Create routes or search for a route at ";
+            font-size: 0.875rem;
+            color: #4E342E;
+        }
+        .jss2130 a[string="MapMyRun."]::after {
+            content: "MapMyRun.";
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="bg-autumn-cream text-autumn-brown-700">
+
+    <!-- Header --><header class="bg-white shadow-md">
+        <!-- Centered header with new font and subtitle --><div class="container mx-auto px-6 py-6 text-center flex flex-col items-center">
+            <h1 class="text-5xl font-lobster text-autumn-brown-700">
+                Turners Falls Turkey Trot
+            </h1>
+            <p class="text-2xl text-autumn-orange-600 mt-2">
+                Join the flocks at the locks!
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content --><main class="container mx-auto px-6 py-12">
+
+        <!-- Hero Section - REMOVED --><!-- Race Map Section (Moved Up) --><section id="map" class="mb-20">
+            <h3 class="text-4xl font-bold text-center text-autumn-brown mb-10">
+                The Course
+            </h3>
+            
+            <!-- Container for the embed --><div class="w-full max-w-5xl mx-auto shadow-xl rounded-lg overflow-hidden">
+                
+                <!-- User's exact embed code --><iframe id='mapmyfitness_route' src='https://www.mapmyrun.com/routes/view/embedded/6645956740?width=600&height=561&elevation=true&line_color=E61900DC&rgbhex=DC0019&distance_markers=1&unit_type=imperial&map_mode=ROADMAP&show_marker_every=1&last_updated=2025-10-30T13:54:23+00:00' height='839px' width='100%' frameborder='0' ></iframe>
+                
+                <div class="jss2127" id="embed-frame-footer">
+                    <a rel="noopener noreferrer" target="_blank" href="https://www.mapmyrun.com/routes/view/6645956740" class="jss2128">
+                        <p class="MuiTypography-root jss2129 MuiTypography-body1" string="View Route Details">View Route Details</p>
+                    </a>
+                    <div class="jss2130">
+                        <p class="MuiTypography-root jss2131 jss2152 MuiTypography-body1">Create routes or search for a route at <span><a rel="noopener noreferrer" target="_blank" href="https://www.mapmyrun.com/" string="MapMyRun." class="jss2129">MapMyRun.</a></span></p>
+                    </div>
+                </div>
+                <!-- End of user's embed code --></div>
+        </section>
+
+        <!-- Race Details Section (Moved Down) --><section id="details" class="mb-20">
+            <h3 class="text-4xl font-bold text-center text-autumn-brown mb-10">
+                Race Details
+            </h3>
+            
+            <!-- Replacing placeholder content with new details --><div class="bg-white p-8 md:p-12 rounded-lg shadow-xl max-w-4xl mx-auto">
+                
+                <!-- New Content: Stroll Along the Canal --><h4 class="text-2xl font-bold text-autumn-orange-600 mb-4">
+                    Stroll Along the Canal
+                </h4>
+                <p class="text-lg text-autumn-brown-700 mb-8">
+                    The walkers will begin at the First Street starting location with the 10-milers. Their path is an out-and-back that will pass under the Gill-Montague bridge and turn around at the fifth street bridge.
+                </p>
+
+                <!-- New Content: 10k All Day --><h4 class="text-2xl font-bold text-autumn-orange-600 mb-4">
+                    10k All Day
+                </h4>
+                <p class="text-lg text-autumn-brown-700 mb-8">
+                    All 10k runners (just Zach) will start at Connecticut River pedestrian bridge just before the 10m mile 4 marker. They'll run the same path back as the 10-milers.
+                </p>
+
+                <!-- New Content: The ol' 10 Mile --><h4 class="text-2xl font-bold text-autumn-orange-600 mb-4">
+                    The ol' 10 Mile
+                </h4>
+                <p class="text-lg text-autumn-brown-700 mb-4">
+                    All 10-mile runners will start with the walkers at First Street and then follow these directions:
+                </p>
+                <!-- Replacing the <ol> with a <ul> and a new visual style -->
+                <ul class="list-none space-y-4 mt-6">
+                    
+                    <!-- Mile 0.0 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">0.0</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Run until the trail ends at Depot Street.</span>
+                    </li>
+                    
+                    <!-- Mile 2.3 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">2.3</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Take a right onto Montague City Road</span>
+                    </li>
+                    
+                    <!-- Mile 2.6 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">2.6</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Take a right on Greenfield Road</span>
+                    </li>
+                    
+                    <!-- Mile 2.8 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">2.8</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Take a right on the Canalside Rail Trail</span>
+                    </li>
+                    
+                    <!-- Mile 3.4 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">3.4</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Turn around at the corner and run along the trail until it ends at Masonic Avenue. 10k runners (Zach) will join on bridge (and guide you the rest of the way).</span>
+                    </li>
+                    
+                    <!-- Mile 4.2 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">4.2</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Turn right on Montague City Road</span>
+                    </li>
+                    
+                    <!-- Mile 5.6 + Water Station -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">5.6</span>
+                        <div class="pt-2.5">
+                            <span class="text-lg text-autumn-brown-700">Turn left on 11th Street</span>
+                            <span class="block text-base text-autumn-brown-300 mt-1">💧 A water station will be set up here just before the bridge.</span>
+                        </div>
+                    </li>
+                    
+                    <!-- Mile 5.7 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">5.7</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Turn left on G Street and run until trail starts.</span>
+                    </li>
+                    
+                    <!-- Mile 6.7 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">6.7</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Turn right onto wooded trail</span>
+                    </li>
+                    
+                    <!-- Mile 7.6 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">7.6</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Follow wooded trail until I Street and take a left.</span>
+                    </li>
+                    
+                    <!-- Mile 7.8 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">7.8</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Follow I Street to Tenth Street</span>
+                    </li>
+                    
+                    <!-- Mile 7.9 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">7.9</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Turn right on G Street and left on 11th Street.</span>
+                    </li>
+                    
+                    <!-- Mile 8.0 + Water Station -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">8.0</span>
+                        <div class="pt-2.5">
+                            <span class="text-lg text-autumn-brown-700">Cross the bridge and turn left on trail.</span>
+                            <span class="block text-base text-autumn-brown-300 mt-1">💧 A water station will be set up here.</span>
+                        </div>
+                    </li>
+                    
+                    <!-- Mile 8.8 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">8.8</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Follow trail until Great Falls Discovery Center.</span>
+                    </li>
+                    
+                    <!-- Mile 9.2 -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">9.2</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Turn Right in parking area and cross the Gill-Montague Bridge</span>
+                    </li>
+                    
+                    <!-- Mile 9.5 (Combined two steps) -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-orange-600 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">9.5</span>
+                        <span class="text-lg text-autumn-brown-700 pt-2.5">Turn around at the end of the bridge, then turn left at the Montague Town Hall and reconnect with the trail</span>
+                    </li>
+                    
+                    <!-- Mile 10.0 - Finish -->
+                    <li class="flex items-start min-h-[3.5rem]">
+                        <span class="bg-autumn-brown-700 text-white font-bold text-sm rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 mr-4" style="min-width: 3rem;">10.0</span>
+                        <span class="text-xl font-bold text-autumn-brown-700 pt-2">Finish at the Unity Park parking lot!</span>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- End of content box --></section>
+        <!-- End of Race Details Section --></main>
+
+    <!-- Footer --><footer class="bg-autumn-brown-700 text-autumn-cream p-8 text-center">
+        <p>&copy; 2025 Turners Falls Turkey Trot. All Rights Reserved.</p>
+        <p class="text-sm opacity-70 mt-2">Gobble gobble!</p>
+    </footer>
+
+</body>
+</html>
+
+
