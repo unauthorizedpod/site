@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated title for the new page -->
+    <title>Volunteer Info - Turners Falls Turkey Trot</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Add Lobster font for the title -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <!-- Configure Tailwind to use Inter font and custom autumnal colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        lobster: ['Lobster', 'cursive'], // Add Lobster font
+                    },
+                    colors: {
+                        'autumn-brown': {
+                            DEFAULT: '#5D4037', // A deep, rich brown
+                            '700': '#4E342E',
+                            '300': '#8D6E63',
+                        },
+                        'autumn-orange': {
+                            DEFAULT: '#F57C00', // A bright, pumpkin orange
+                            '600': '#E65100', // A darker, burnt orange
+                        },
+                        'autumn-gold': {
+                            DEFAULT: '#FFB300', // A golden yellow
+                        },
+                        'autumn-cream': {
+                            DEFAULT: '#FFF8E1', // A warm, creamy off-white
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Custom styles section (retained in case needed, though not strictly for this content) -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-autumn-cream text-autumn-brown-700">
+
+    <!-- Header (Re-used) -->
+    <header class="bg-white shadow-md">
+        <!-- Centered header with new font and subtitle -->
+        <div class="container mx-auto px-6 py-6 text-center flex flex-col items-center">
+            <h1 class="text-5xl font-lobster text-autumn-brown-700">
+                Turners Falls Turkey Trot
+            </h1>
+            <p class="text-2xl text-autumn-orange-600 mt-2">
+                Join the flocks at the locks!
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content (New) -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- New Volunteer Info Section -->
+        <section id="volunteer-info" class="mb-20">
+            <h3 class="text-4xl font-bold text-center text-autumn-brown mb-10">
+                Volunteer Info
+            </h3>
+            
+            <!-- Content box for the timeline -->
+            <div class="bg-white p-8 md:p-12 rounded-lg shadow-xl max-w-4xl mx-auto">
+                
+                <!-- Volunteer timeline list -->
+                <ul class="space-y-6">
+    
+                    <!-- 7:00a -->
+                    <li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">7:00</span>
+                        <p class="text-lg text-autumn-brown-700 ml-4">
+                            Race starts <a href="https://maps.app.goo.gl/arN3BauMXUpNKuks9" class="text-autumn-orange-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">here</a>
+                        </p>
+                    </li>
+                    
+                    <!-- 7:30a -->
+                    <li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">7:30</span>
+                        <div class="text-lg text-autumn-brown-700 ml-4 flex-1">
+                            <p>
+                                Walkers/volunteers finish and drive to <a href="https://maps.app.goo.gl/czpNbAJpJ6Ji1CqJ8" class="text-autumn-orange-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">11th St. Bridge parking</a>
+                            </p>
+                            <!-- Sub-item -->
+                            <p class="mt-2">
+                                Volunteers set up water station on the trail <a href="https://maps.app.goo.gl/N8R8SGApxxs5STy19" class="text-autumn-orange-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">here</a> at the end of the trail at the yellow pole
+                            </p>
+                        </div>
+                    </li>
+                
+                    <!-- 7:55a -->
+                    <li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">8:15</span>
+                        <p class="text-lg text-autumn-brown-700 ml-4">
+                            Runners pass the water station around this time
+                        </p>
+                    </li>
+                
+                    <!-- 8:20a -->
+                    <li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">8:45</span>
+                        <div class="text-lg text-autumn-brown-700 ml-4 flex-1">
+                            <p>
+                                Runners pass the water station again around this time
+                            </p>
+                            <!-- Sub-items -->
+                            <p class="mt-2">
+                                Volunteers immediately pack up and drive to <a href="https://maps.app.goo.gl/XPoDFb3gdMkQqFLe8" class="text-autumn-orange-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">finish line parking</a>
+                            </p>
+                            <p class="mt-2">
+                                Set up finish line and water station
+                            </p>
+                        </div>
+                    </li>
+                
+                    <!-- 8:45a -->
+                    <li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">9:15</span>
+                        <p class="text-lg text-autumn-brown-700 ml-4">
+                            Runners finish around this time!
+                        </p>
+                    </li>
+                
+                </ul>
+
+            </div>
+            <!-- End of content box -->
+        </section>
+        <!-- End of Volunteer Info Section -->
+
+    </main>
+
+    <!-- Footer (Re-used) -->
+    <footer class="bg-autumn-brown-700 text-autumn-cream p-8 text-center">
+        <p>&copy; 2025 Turners Falls Turkey Trot. All Rights Reserved.</p>
+        <p class="text-sm opacity-70 mt-2">Gobble gobble!</p>
+    </footer>
+
+</body>
+</html>
+
+
+
