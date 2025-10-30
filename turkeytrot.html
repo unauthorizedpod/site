@@ -71,28 +71,34 @@
             font-size: 0.875rem; /* text-sm */
         }
         /* Hide the default MapMyRun <p> class text */
-        .jss2129[string="View Route Details"] {
+        .jss2129[string="View Route Details"],
+        .jss1434[string="View Route Details"] {
             font-size: 0; /* Hide text but keep link active */
         }
         /* Re-add the text using ::after */
-        .jss2129[string="View Route Details"]::after {
+        .jss2129[string="View Route Details"]::after,
+        .jss1434[string="View Route Details"]::after {
             content: "View Route Details";
             font-size: 1rem; /* Re-set font size */
         }
         /* Hide the default MapMyRun <p> class text */
-        .jss2152 p {
+        .jss2152 p,
+        .jss1457 p {
              font-size: 0;
         }
-        .jss2152 a[string="MapMyRun."] {
+        .jss2152 a[string="MapMyRun."],
+        .jss1434[string="MapMyRun."] {
              font-size: 0;
         }
         /* Re-add the text */
-        .jss2130 > p::before {
+        .jss2130 > p::before,
+        .jss1435 > p::before {
             content: "Create routes or search for a route at ";
             font-size: 0.875rem;
             color: #4E342E;
         }
-        .jss2130 a[string="MapMyRun."]::after {
+        .jss2130 a[string="MapMyRun."]::after,
+        .jss1435 a[string="MapMyRun."]::after {
             content: "MapMyRun.";
             font-size: 0.875rem;
         }
@@ -100,36 +106,54 @@
 </head>
 <body class="bg-autumn-cream text-autumn-brown-700">
 
-    <!-- Header --><header class="bg-white shadow-md">
-        <!-- Centered header with new font and subtitle --><div class="container mx-auto px-6 py-6 text-center flex flex-col items-center">
-            <h1 class="text-5xl font-lobster text-autumn-brown-700">
-                Turners Falls Turkey Trot
-            </h1>
-            <p class="text-2xl text-autumn-orange-600 mt-2">
-                Join the flocks at the locks!
-            </p>
+    <!-- Header --><header class="bg-white shadow-md relative">
+        <!-- Centered header with new font and subtitle --><div class="container mx-auto px-6 py-6 flex justify-center items-center relative">
+            
+            <div class="text-center">
+                <h1 class="text-5xl font-lobster text-autumn-brown-700">
+                    Turners Falls Turkey Trot
+                </h1>
+                <p class="text-2xl text-autumn-orange-600 mt-2">
+                    Join the flocks at the locks!
+                </p>
+            </div>
+
+            <!-- Hamburger Button (Always Visible) -->
+            <div class="absolute right-6 top-1/2 -translate-y-1/2">
+                <button id="menu-btn" class="p-2 rounded-md text-autumn-brown-700 hover:bg-autumn-cream focus:outline-none focus:bg-autumn-cream">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Desktop Nav Links (Now Hidden) -->
+            <nav class="hidden absolute right-6 top-1/2 -translate-y-1/2 space-x-6">
+                <a href="#map" class="text-lg text-autumn-brown-700 hover:text-autumn-orange-600 font-medium">The Course</a>
+                <a href="#details" class="text-lg text-autumn-brown-700 hover:text-autumn-orange-600 font-medium">Race Details</a>
+                <a href="#volunteer-info" class="text-lg text-autumn-brown-700 hover:text-autumn-orange-600 font-medium">Volunteer Info</a>
+            </nav>
+
+        </div>
+
+        <!-- Menu (Dropdown for all sizes) -->
+        <div id="menu" class="hidden absolute right-6 w-56 bg-white rounded-lg shadow-xl py-2 z-50" style="top: 95%;"> <!-- Positioned just below the header -->
+            <a href="#map" class="block px-5 py-3 text-lg text-autumn-brown-700 hover:bg-autumn-cream">The Course</a>
+            <a href="#details" class="block px-5 py-3 text-lg text-autumn-brown-700 hover:bg-autumn-cream">Race Details</a>
+            <a href="#volunteer-info" class="block px-5 py-3 text-lg text-autumn-brown-700 hover:bg-autumn-cream">Volunteer Info</a>
         </div>
     </header>
 
     <!-- Main Content --><main class="container mx-auto px-6 py-12">
 
-        <!-- Hero Section - REMOVED --><!-- Race Map Section (Moved Up) --><section id="map" class="mb-20">
+        <!-- Race Map Section (Moved Up) --><section id="map" class="mb-20">
             <h3 class="text-4xl font-bold text-center text-autumn-brown mb-10">
                 The Course
             </h3>
             
             <!-- Container for the embed --><div class="w-full max-w-5xl mx-auto shadow-xl rounded-lg overflow-hidden">
                 
-                <!-- User's exact embed code --><iframe id='mapmyfitness_route' src='https://www.mapmyrun.com/routes/view/embedded/6645956740?width=600&height=561&elevation=true&line_color=E61900DC&rgbhex=DC0019&distance_markers=1&unit_type=imperial&map_mode=ROADMAP&show_marker_every=1&last_updated=2025-10-30T13:54:23+00:00' height='839px' width='100%' frameborder='0' ></iframe>
-                
-                <div class="jss2127" id="embed-frame-footer">
-                    <a rel="noopener noreferrer" target="_blank" href="https://www.mapmyrun.com/routes/view/6645956740" class="jss2128">
-                        <p class="MuiTypography-root jss2129 MuiTypography-body1" string="View Route Details">View Route Details</p>
-                    </a>
-                    <div class="jss2130">
-                        <p class="MuiTypography-root jss2131 jss2152 MuiTypography-body1">Create routes or search for a route at <span><a rel="noopener noreferrer" target="_blank" href="https://www.mapmyrun.com/" string="MapMyRun." class="jss2129">MapMyRun.</a></span></p>
-                    </div>
-                </div>
+                <!-- User's new embed code --><iframe id='mapmyfitness_route' src='https://www.mapmyrun.com/routes/view/embedded/6645956740?width=600&height=583&elevation=true&line_color=E637405D&rgbhex=5D4037&distance_markers=1&unit_type=imperial&map_mode=ROADMAP&show_marker_every=1&last_updated=2025-10-30T17:20:40+00:00' height='861px' width='100%' frameborder='0' ></iframe><div class="jss1432" id="embed-frame-footer"><a rel="noopener noreferrer" target="_blank" href="https://www.mapmyrun.com/routes/view/6645956740" class="jss1433"><p class="MuiTypography-root jss1434 MuiTypography-body1" string="View Route Details">View Route Details</p></a><div class="jss1435"><p class="MuiTypography-root jss1436 jss1457 MuiTypography-body1">Create routes or search for a route at <span><a rel="noopener noreferrer" target="_blank" href="https://www.mapmyrun.com/" string="MapMyRun." class="jss1434">MapMyRun.</a></span></p></div></div>
                 <!-- End of user's embed code --></div>
         </section>
 
@@ -141,7 +165,7 @@
             <!-- Added start time information as requested -->
             <p class="text-xl text-center text-autumn-brown-700 max-w-3xl mx-auto mb-8 italic">
                 The 1-mile walk and the 10-mile run will begin at 7am.<br>
-                The 10k run will begin around 7:35am.
+                The 10k run will begin around 7:50am.
             </p>
             
             <!-- Replacing placeholder content with new details --><div class="bg-white p-8 md:p-12 rounded-lg shadow-xl max-w-4xl mx-auto">
@@ -280,15 +304,104 @@
 
             </div>
             <!-- End of content box --></section>
-        <!-- End of Race Details Section --></main>
+        <!-- End of Race Details Section -->
+        
+        <!-- New Volunteer Info Section --><section id="volunteer-info" class="mb-20">
+            <h3 class="text-4xl font-bold text-center text-autumn-brown mb-10">
+                Volunteer Info
+            </h3>
+            
+            <!-- Content box for the timeline --><div class="bg-white p-8 md:p-12 rounded-lg shadow-xl max-w-4xl mx-auto">
+                
+                <!-- Volunteer timeline list --><ul class="space-y-6">
+    
+                    <!-- 7:00a --><li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">7:00</span>
+                        <p class="text-lg text-autumn-brown-700 ml-4">
+                            Race starts <a href="https://maps.app.goo.gl/arN3BauMXUpNKuks9" class="text-autumn-orange-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">here</a>
+                        </p>
+                    </li>
+                    
+                    <!-- 7:30a --><li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">7:30</span>
+                        <div class="text-lg text-autumn-brown-700 ml-4 flex-1">
+                            <p>
+                                Walkers/volunteers finish and drive to <a href="https://maps.app.goo.gl/czpNbAJpJ6Ji1CqJ8" class="text-autumn-orange-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">11th St. Bridge parking</a>
+                            </p>
+                            <!-- Sub-item --><p class="mt-2">
+                                Volunteers set up water station on the trail <a href="httpsa://maps.app.goo.gl/N8R8SGApxxs5STy19" class="text-autumn-orange-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">here</a> at the end of the trail at the yellow pole
+                            </p>
+                        </div>
+                    </li>
+                
+                    <!-- 7:55a --><li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">8:15</span>
+                        <p class="text-lg text-autumn-brown-700 ml-4">
+                            Runners pass the water station around this time
+                        </p>
+                    </li>
+                
+                    <!-- 8:20a --><li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">8:45</span>
+                        <div class="text-lg text-autumn-brown-700 ml-4 flex-1">
+                            <p>
+                                Runners pass the water station again around this time
+                            </p>
+                            <!-- Sub-items --><p class="mt-2">
+                                Volunteers immediately pack up and drive to <a href="https://maps.app.goo.gl/XPoDFb3gdMkQqFLe8" class="text-autumn-orange-600 hover:underline font-medium" target="_blank" rel="noopener noreferrer">finish line parking</a>
+                            </p>
+                            <p class="mt-2">
+                                Set up finish line and water station
+                            </p>
+                        </div>
+                    </li>
+                
+                    <!-- 8:45a --><li class="flex items-start">
+                        <span class="font-bold text-autumn-orange-600 w-20 flex-shrink-0 text-lg">9:15</span>
+                        <p class="text-lg text-autumn-brown-700 ml-4">
+                            Runners finish around this time!
+                        </p>
+                    </li>
+                
+                </ul>
+
+            </div>
+            <!-- End of content box --></section>
+        <!-- End of Volunteer Info Section --></main>
 
     <!-- Footer --><footer class="bg-autumn-brown-700 text-autumn-cream p-8 text-center">
         <p>&copy; 2025 Turners Falls Turkey Trot. All Rights Reserved.</p>
         <p class="text-sm opacity-70 mt-2">Gobble gobble!</p>
     </footer>
 
+    <!-- JavaScript for mobile menu toggle -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const menu = document.getElementById('menu');
+        const menuLinks = menu.querySelectorAll('a');
+
+        // Toggle menu
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent click from bubbling to document
+            menu.classList.toggle('hidden');
+        });
+
+        // Close menu when a link is clicked
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            // Check if the click is outside the menu AND not on the button itself
+            if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
-
 
 
