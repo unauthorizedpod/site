@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Some Like It Unauthorized Podcast</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0B14'/%3E%3Ctext x='16' y='13' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3ESL%3C/text%3E%3Ctext x='16' y='27' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3EIU%3C/text%3E%3C/svg%3E">
+    
+    <meta name="description" content="You might prefer to go to the experts for your film opinions, but... ">
+    <meta property="og:title" content="Some Like It Unauthorized Podcast">
+    <meta property="og:description" content="You might prefer to go to the experts for your film opinions, but... ">
+    <meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D0B14;
+            color: #D1D5DB;
+        }
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+            color: #F9FAFB;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-primary {
+            background-image: linear-gradient(to right, #8b5cf6, #9333ea);
+            color: #F9FAFB;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.6);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #a78bfa;
+            color: #a78bfa;
+            padding: 8px 20px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        .btn-secondary:hover {
+            background-color: #a78bfa;
+            color: #0D0B14;
+        }
+        .card {
+            background-color: #1A1625;
+            border: 1px solid #2a2438;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            border-color: #7c3aed;
+        }
+        .accent-link {
+            color: #a78bfa;
+            transition: color 0.3s ease;
+        }
+        .accent-link:hover {
+            color: #c4b5fd;
+        }
+        .custom-select {
+            background-color: #2a2438;
+            color: #D1D5DB;
+            border: 1px solid #4a4063;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a78bfa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+
+        .player-container {
+            background: #1A1625;
+            border: 1px solid #2a2438;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 6px;
+            background: #2a2438;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            border-radius: 3px;
+            width: 0%;
+        }
+        .episode-list-item {
+            border-bottom: 1px solid #2a2438;
+            transition: background 0.2s;
+        }
+        .episode-list-item:hover {
+            background: rgba(167, 139, 250, 0.05);
+        }
+        .episode-list-item.active {
+            background: rgba(167, 139, 250, 0.1);
+            border-left: 4px solid #a78bfa;
+        }
+        .episode-scroll-area::-webkit-scrollbar {
+            width: 6px;
+        }
+        .episode-scroll-area::-webkit-scrollbar-track {
+            background: #0D0B14;
+        }
+        .episode-scroll-area::-webkit-scrollbar-thumb {
+            background: #2a2438;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="text-center pt-24 pb-16 md:pt-32 md:pb-24 border-b border-gray-800 px-6 sm:px-8">
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">You might prefer to go to the experts for your film opinions, but... </p>
+        <br>
+        <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4 leading-tight">Some Like It <span class="gradient-text">Unauthorized</span></h1>
+    </header>
+
+    <main class="container mx-auto px-6 sm:px-8 py-16 md:py-24 space-y-20">
+
+        <section class="max-w-4xl mx-auto">
+            <div class="player-container shadow-2xl">
+                <div class="p-6 md:p-10 flex flex-col md:flex-row gap-8 items-center bg-gradient-to-br from-[#231d31] to-[#1A1625]">
+                    <div id="current-art-container" class="w-48 h-48 md:w-56 md:h-56 rounded-xl shadow-2xl bg-gray-800 flex-shrink-0 overflow-hidden">
+                        <img id="current-art" src="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp" class="w-full h-full object-cover" alt="Podcast Art">
+                    </div>
+                    <div class="flex-grow text-center md:text-left overflow-hidden">
+                        <h2 id="current-title" class="text-2xl md:text-3xl font-bold text-white mb-2 line-clamp-2">Loading episodes...</h2>
+                        <p id="current-date" class="text-gray-400 text-sm mb-6"></p>
+                        
+                        <div class="flex items-center justify-center md:justify-start gap-6 mb-6">
+                            <button id="skip-back" class="text-gray-400 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+                            </button>
+                            <button id="play-btn" class="w-16 h-16 rounded-full btn-primary flex items-center justify-center shadow-xl transform active:scale-95 transition-transform">
+                                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <button id="skip-forward" class="text-gray-400 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
+                            </button>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="progress-bar" id="progress-container">
+                                <div class="progress-fill" id="progress-bar"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 font-mono">
+                                <span id="time-current">0:00</span>
+                                <span id="time-total">0:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="max-h-96 overflow-y-auto bg-[#0D0B14] episode-scroll-area" id="episode-list"></div>
+            </div>
+            <audio id="audio-player"></audio>
+        </section>
+        
+        <section class="max-w-3xl mx-auto">
+             <h2 class="text-3xl font-bold mb-6 text-center">About the Show</h2>
+            <div class="prose text-gray-300 leading-relaxed max-w-2xl mx-auto text-left">
+                <p>Film by film, two siblings go through cinema history, from the blockbusters to the arthouse, with discussions on what these movies meant then and how we see them now.</p><br>
+                <p>Using the <i>BFI's Sight and Sound</i> list as a starting point, they explore canonical films and the decades when cinema exploded. No film degrees, no press passes, they like it unauthorized.</p>
+            </div>
+            
+            <div class="mt-12 text-center">
+                 <p class="text-gray-400 mb-4">
+                    <a href="https://letterboxd.com/hetchy/list/history-of-film-list/" target="_blank" rel="noopener noreferrer" class="accent-link">
+                        Watch a film from our featured list
+                    </a>
+                </p>
+                <button id="suggest-film-btn" class="btn-primary inline-block font-bold py-3 px-8 rounded-lg text-lg">
+                    Get a Film Suggestion
+                </button>
+                <div id="film-suggestion-output" class="mt-12 min-h-[100px] flex flex-col justify-center items-center text-left p-4 rounded-lg"></div>
+            </div>
+        </section>
+
+        <section class="max-w-4xl mx-auto mt-16">
+            <h2 class="text-3xl font-bold mb-6 text-center">Meet the Brothers</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
+                    <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="mx-auto">
+                        <img src="https://a.ltrbxd.com/resized/avatar/upload/6/2/0/4/2/1/6/shard/avtr-0-220-0-220-crop.jpg?v=20eeed6c12" alt="J Brooks Young" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
+                    </a>
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold mb-1">J Brooks Young</h3>
+                        <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: jyoun</a>
+                        <div class="mt-4">
+                            <select id="jbrooks-top-ten" class="custom-select">
+                                <option value="">J Brooks' Top Ten Films</option>
+                            </select>
+                        </div>
+                        <div id="jbrooks-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
+                    </div>
+                </div>
+                
+                <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
+                    <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="mx-auto">
+                        <img src="https://a.ltrbxd.com/resized/avatar/upload/3/9/8/4/3/5/shard/avtr-0-220-0-220-crop.jpg?v=9cc3fc5543" alt="Zachary Domes" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
+                    </a>
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold mb-1">Zachary Domes</h3>
+                        <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: hetchy</a>
+                        <div class="mt-4">
+                            <select id="zach-top-ten" class="custom-select">
+                                <option value="">Zach's Top Ten Films</option>
+                            </select>
+                        </div>
+                        <div id="zach-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-10 border-t border-gray-800 px-4 sm:px-0">
+        <p class="text-gray-500 mb-4">Got a Question?</p>
+        <form id="contact-form" action="https://formspree.io/f/xanjogvz" method="POST" class="max-w-xl mx-auto space-y-4">
+            <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <input type="email" name="email" placeholder="Your Email (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <input type="text" name="letterboxd" placeholder="Letterboxd Username (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <textarea name="message" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Hey guys..."></textarea>
+            <button type="submit" class="btn-primary mt-4 py-2 px-6 rounded-full font-bold">Send</button>
+        </form>
+        <p class="text-gray-600 text-sm mt-10">&copy; 2025 Some Like It Unauthorized. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('audio-player');
+            const playBtn = document.getElementById('play-btn');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('progress-container');
+            const timeCurrent = document.getElementById('time-current');
+            const timeTotal = document.getElementById('time-total');
+            const episodeListEl = document.getElementById('episode-list');
+            const currentTitleEl = document.getElementById('current-title');
+            const currentDateEl = document.getElementById('current-date');
+            const skipBack = document.getElementById('skip-back');
+            const skipForward = document.getElementById('skip-forward');
+            
+            const suggestFilmBtn = document.getElementById('suggest-film-btn');
+            const filmSuggestionOutput = document.getElementById('film-suggestion-output');
+            const jBrooksSelect = document.getElementById('jbrooks-top-ten');
+            const zachSelect = document.getElementById('zach-top-ten');
+            const jBrooksOutput = document.getElementById('jbrooks-top-ten-output');
+            const zachOutput = document.getElementById('zach-top-ten-output');
+
+            const rssUrl = "https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476";
+            let episodes = [];
+
+            function stripHtml(html) {
+                if (!html) return "";
+                let doc = new DOMParser().parseFromString(html, 'text/html');
+                return (doc.body.textContent || "").trim();
+            }
+
+            async function fetchEpisodes() {
+                // Trying multiple proxies to find one that works in this environment
+                const proxyOptions = [
+                    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+                ];
+
+                let xmlText = "";
+                let fetchError = null;
+
+                for (const getProxyUrl of proxyOptions) {
+                    try {
+                        const targetUrl = getProxyUrl(rssUrl);
+                        const response = await fetch(targetUrl);
+                        if (!response.ok) continue;
+
+                        if (targetUrl.includes('allorigins')) {
+                            const data = await response.json();
+                            xmlText = data.contents;
+                        } else {
+                            xmlText = await response.text();
+                        }
+                        
+                        if (xmlText && xmlText.includes("<rss")) {
+                            break; // Success
+                        }
+                    } catch (err) {
+                        fetchError = err;
+                        console.warn("Proxy attempt failed:", err);
+                    }
+                }
+
+                if (!xmlText) {
+                    console.error("Final RSS Fetching Error:", fetchError);
+                    currentTitleEl.innerText = "Feed temporarily unavailable.";
+                    return;
+                }
+
+                try {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+                    const items = xmlDoc.querySelectorAll("item");
+                    const podcastArt = xmlDoc.querySelector("channel > image > url")?.textContent;
+
+                    episodes = Array.from(items).map(item => {
+                        const title = item.querySelector("title")?.textContent;
+                        const pubDate = item.querySelector("pubDate")?.textContent;
+                        const description = item.querySelector("description")?.textContent;
+                        const enclosure = item.querySelector("enclosure")?.getAttribute("url");
+                        
+                        // Handle potential namespaces in XML (like itunes:image)
+                        let thumbnail = item.getElementsByTagName("itunes:image")[0]?.getAttribute("href") || 
+                                       item.querySelector("image")?.getAttribute("href") || 
+                                       podcastArt;
+
+                        return {
+                            title,
+                            pubDate,
+                            description,
+                            link: enclosure,
+                            thumbnail: thumbnail
+                        };
+                    });
+
+                    if (episodes.length > 0) {
+                        renderEpisodeList();
+                        loadEpisode(0, false);
+                    } else {
+                        currentTitleEl.innerText = "No episodes found.";
+                    }
+                } catch (err) {
+                    console.error("XML Parsing Error:", err);
+                    currentTitleEl.innerText = "Error parsing podcast data.";
+                }
+            }
+
+            function renderEpisodeList() {
+                episodeListEl.innerHTML = episodes.map((ep, idx) => {
+                    const cleanDescription = stripHtml(ep.description);
+                    return `
+                    <div class="episode-list-item p-4 flex gap-4 cursor-pointer items-start" onclick="window.loadEpisode(${idx}, true)">
+                        <img src="${ep.thumbnail || 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 mt-1" onerror="this.src='https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'">
+                        <div class="flex-grow overflow-hidden">
+                            <div class="flex justify-between items-start mb-1">
+                                <div class="text-sm font-bold text-white line-clamp-1 pr-4">${ep.title}</div>
+                                <div class="text-[10px] text-gray-500 font-mono whitespace-nowrap">${new Date(ep.pubDate).toLocaleDateString()}</div>
+                            </div>
+                            <div class="text-xs text-gray-400 line-clamp-2 leading-relaxed">
+                                ${cleanDescription}
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+            }
+
+            window.loadEpisode = (index, autoplay) => {
+                const ep = episodes[index];
+                if (!ep) return;
+                audio.src = ep.link;
+                currentTitleEl.innerText = ep.title;
+                currentDateEl.innerText = new Date(ep.pubDate).toLocaleDateString();
+                
+                document.querySelectorAll('.episode-list-item').forEach((el, i) => {
+                    el.classList.toggle('active', i === index);
+                });
+
+                if (autoplay) {
+                    audio.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                }
+            };
+
+            function togglePlay() {
+                if (audio.src === "") return;
+                if (audio.paused) {
+                    audio.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                } else {
+                    audio.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                }
+            }
+
+            playBtn.addEventListener('click', togglePlay);
+            skipBack.addEventListener('click', () => { audio.currentTime -= 15; });
+            skipForward.addEventListener('click', () => { audio.currentTime += 15; });
+
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return "0:00";
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }
+
+            audio.addEventListener('timeupdate', () => {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${percent}%`;
+                timeCurrent.innerText = formatTime(audio.currentTime);
+                timeTotal.innerText = formatTime(audio.duration);
+            });
+
+            progressContainer.addEventListener('click', (e) => {
+                const rect = progressContainer.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = pos * audio.duration;
+            });
+
+            // Film List Data
+            const filmList = [
+                { title: "Intolerance: Love's Struggle (1916)", jyoung_review: "https://letterboxd.com/jyoun/film/intolerance-loves-struggle-throughout-the-ages/", zach_review: "https://letterboxd.com/hetchy/film/intolerance-loves-struggle-throughout-the-ages/" },
+                { title: "Within Our Gates (1920)", jyoung_review: "https://letterboxd.com/jyoun/film/within-our-gates/", zach_review: "https://letterboxd.com/hetchy/film/within-our-gates/" },
+                { title: "The Cabinet of Dr. Caligari (1920)", jyoung_review: "https://letterboxd.com/jyoun/film/the-cabinet-of-dr-caligari-1920/", zach_review: "https://letterboxd.com/hetchy/film/the-cabinet-of-dr-caligari-1920/" },
+                { title: "Nosferatu (1922)", jyoung_review: "https://letterboxd.com/jyoun/film/nosferatu/", zach_review: "https://letterboxd.com/hetchy/film/nosferatu/" },
+                { title: "Michael (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/michael-1924/", zach_review: "https://letterboxd.com/hetchy/film/michael-1924/" },
+                { title: "Sherlock Jr. (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/sherlock-jr/", zach_review: "https://letterboxd.com/hetchy/film/sherlock-jr/" },
+                { title: "The Last Laugh (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/the-last-laugh/", zach_review: "https://letterboxd.com/hetchy/film/the-last-laugh/" },
+                { title: "The Gold Rush (1925)", jyoung_review: "https://letterboxd.com/jyoun/film/the-gold-rush/", zach_review: "https://letterboxd.com/hetchy/film/the-gold-rush/" },
+                { title: "Battleship Potemkin (1925)", jyoung_review: "https://letterboxd.com/jyoun/film/battleship-potemkin/", zach_review: "https://letterboxd.com/hetchy/film/battleship-potemkin/" },
+                { title: "The General (1926)", jyoung_review: "https://letterboxd.com/jyoun/film/the-general/", zach_review: "https://letterboxd.com/hetchy/film/the-general/" },
+                { title: "Sunrise (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/sunrise-a-song-of-two-humans/", zach_review: "https://letterboxd.com/hetchy/film/sunrise-a-song-of-two-humans/" },
+                { title: "Metropolis (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/metropolis/", zach_review: "https://letterboxd.com/hetchy/film/metropolis/" },
+                { title: "Napoleon (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/napoleon/", zach_review: "https://letterboxd.com/hetchy/film/napoleon/" },
+                { title: "Joan of Arc (1928)", jyoung_review: "https://letterboxd.com/jyoun/film/the-passion-of-joan-of-arc/", zach_review: "https://letterboxd.com/hetchy/film/the-passion-of-joan-of-arc/" },
+                { title: "Late Spring (1949)", jyoung_review: "https://letterboxd.com/jyoun/film/late-spring/", zach_review: "https://letterboxd.com/hetchy/film/late-spring/" },
+                { title: "Citizen Kane (1941)", jyoung_review: "https://letterboxd.com/jyoun/film/citizen-kane/" }
+            ];
+
+            const jBrooksTopTen = ["Sherlock Jr. (1924)", "Sunrise (1927)", "Joan of Arc (1928)", "Late Spring (1949)", "Citizen Kane (1941)"];
+            const zachTopTen = ["The Last Laugh (1924)", "Napoleon (1927)", "Metropolis (1927)"];
+
+            const displayFilm = (filmTitle, outputElement) => {
+                const film = filmList.find(f => f.title === filmTitle) || { title: filmTitle };
+                const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(film.title)}`;
+                let outputHTML = `<p class="text-xl font-bold text-center mb-8 leading-relaxed">${film.title}</p>`;
+                if (film.jyoung_review || film.zach_review) {
+                    outputHTML += `<div class="flex flex-wrap justify-center gap-6 mb-10">`;
+                    if (film.jyoung_review) outputHTML += `<a href="${film.jyoung_review}" target="_blank" class="accent-link">J Brooks' review</a>`;
+                    if (film.zach_review) outputHTML += `<a href="${film.zach_review}" target="_blank" class="accent-link">Zach's review</a>`;
+                    outputHTML += `</div>`;
+                }
+                outputHTML += `<div class="flex justify-center"><a href="${searchUrl}" target="_blank" class="btn-secondary">Where to watch</a></div>`;
+                outputElement.innerHTML = outputHTML;
+            };
+
+            suggestFilmBtn.addEventListener('click', () => {
+                const randomFilm = filmList[Math.floor(Math.random() * filmList.length)];
+                if (randomFilm) displayFilm(randomFilm.title, filmSuggestionOutput);
+                jBrooksSelect.value = ""; zachSelect.value = ""; jBrooksOutput.innerHTML = ""; zachOutput.innerHTML = "";
+            });
+
+            jBrooksSelect.addEventListener('change', (e) => {
+                if (e.target.value) { displayFilm(e.target.value, jBrooksOutput); zachSelect.value = ""; zachOutput.innerHTML = ""; }
+            });
+
+            zachSelect.addEventListener('change', (e) => {
+                if (e.target.value) { displayFilm(e.target.value, zachOutput); jBrooksSelect.value = ""; jBrooksOutput.innerHTML = ""; }
+            });
+
+            const populateDropdown = (selectElement, filmTitles) => {
+                filmTitles.forEach(title => {
+                    const option = document.createElement('option');
+                    option.value = title;
+                    option.textContent = title;
+                    selectElement.appendChild(option);
+                });
+            };
+
+            populateDropdown(jBrooksSelect, jBrooksTopTen);
+            populateDropdown(zachSelect, zachTopTen);
+
+            fetchEpisodes();
+        });
+    </script>
+</body>
+</html>
