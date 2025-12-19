@@ -119,6 +119,19 @@
             background: rgba(167, 139, 250, 0.1);
             border-left: 4px solid #a78bfa;
         }
+        
+        /* Custom Scrollbar Styles */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4a4063;
+            border-radius: 10px;
+        }
         .episode-scroll-area::-webkit-scrollbar {
             width: 6px;
         }
@@ -128,6 +141,15 @@
         .episode-scroll-area::-webkit-scrollbar-thumb {
             background: #2a2438;
             border-radius: 10px;
+        }
+
+        /* Clean Description Styling */
+        #current-description a {
+            color: #a78bfa;
+            text-decoration: underline;
+        }
+        #current-description a:hover {
+            color: #c4b5fd;
         }
     </style>
 </head>
@@ -143,13 +165,16 @@
 
         <section class="max-w-4xl mx-auto">
             <div class="player-container shadow-2xl">
-                <div class="p-6 md:p-10 flex flex-col md:flex-row gap-8 items-center bg-gradient-to-br from-[#231d31] to-[#1A1625]">
-                    <div id="current-art-container" class="w-48 h-48 md:w-56 md:h-56 rounded-xl shadow-2xl bg-gray-800 flex-shrink-0 overflow-hidden">
+                <div class="p-6 md:p-10 flex flex-col md:flex-row gap-8 items-start bg-gradient-to-br from-[#231d31] to-[#1A1625]">
+                    <div id="current-art-container" class="w-48 h-48 md:w-56 md:h-56 rounded-xl shadow-2xl bg-gray-800 flex-shrink-0 overflow-hidden sticky top-0">
                         <img id="current-art" src="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp" class="w-full h-full object-cover" alt="Podcast Art">
                     </div>
-                    <div class="flex-grow text-center md:text-left overflow-hidden">
-                        <h2 id="current-title" class="text-2xl md:text-3xl font-bold text-white mb-2 line-clamp-2">Loading episodes...</h2>
-                        <p id="current-date" class="text-gray-400 text-sm mb-6"></p>
+                    <div class="flex-grow text-center md:text-left overflow-hidden w-full">
+                        <h2 id="current-title" class="text-2xl md:text-3xl font-bold text-white mb-1 line-clamp-2">Loading episodes...</h2>
+                        <p id="current-date" class="text-gray-400 text-sm mb-4"></p>
+                        
+                        <!-- Full Description shown only for playing episode -->
+                        <div id="current-description" class="text-xs md:text-sm text-gray-400 mb-6 max-h-40 overflow-y-auto pr-2 custom-scrollbar leading-relaxed"></div>
                         
                         <div class="flex items-center justify-center md:justify-start gap-6 mb-6">
                             <button id="skip-back" class="text-gray-400 hover:text-white transition-colors">
@@ -175,7 +200,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="max-h-96 overflow-y-auto bg-[#0D0B14] episode-scroll-area" id="episode-list"></div>
+                <div class="max-h-80 overflow-y-auto bg-[#0D0B14] episode-scroll-area" id="episode-list"></div>
             </div>
             <audio id="audio-player"></audio>
         </section>
@@ -264,6 +289,7 @@
             const episodeListEl = document.getElementById('episode-list');
             const currentTitleEl = document.getElementById('current-title');
             const currentDateEl = document.getElementById('current-date');
+            const currentDescriptionEl = document.getElementById('current-description');
             const skipBack = document.getElementById('skip-back');
             const skipForward = document.getElementById('skip-forward');
             
@@ -277,22 +303,13 @@
             const rssUrl = "https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476";
             let episodes = [];
 
-            function stripHtml(html) {
-                if (!html) return "";
-                let doc = new DOMParser().parseFromString(html, 'text/html');
-                return (doc.body.textContent || "").trim();
-            }
-
             async function fetchEpisodes() {
-                // Trying multiple proxies to find one that works in this environment
                 const proxyOptions = [
                     url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
                     url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
                 ];
 
                 let xmlText = "";
-                let fetchError = null;
-
                 for (const getProxyUrl of proxyOptions) {
                     try {
                         const targetUrl = getProxyUrl(rssUrl);
@@ -306,17 +323,13 @@
                             xmlText = await response.text();
                         }
                         
-                        if (xmlText && xmlText.includes("<rss")) {
-                            break; // Success
-                        }
+                        if (xmlText && xmlText.includes("<rss")) break;
                     } catch (err) {
-                        fetchError = err;
                         console.warn("Proxy attempt failed:", err);
                     }
                 }
 
                 if (!xmlText) {
-                    console.error("Final RSS Fetching Error:", fetchError);
                     currentTitleEl.innerText = "Feed temporarily unavailable.";
                     return;
                 }
@@ -333,7 +346,6 @@
                         const description = item.querySelector("description")?.textContent;
                         const enclosure = item.querySelector("enclosure")?.getAttribute("url");
                         
-                        // Handle potential namespaces in XML (like itunes:image)
                         let thumbnail = item.getElementsByTagName("itunes:image")[0]?.getAttribute("href") || 
                                        item.querySelector("image")?.getAttribute("href") || 
                                        podcastArt;
@@ -360,22 +372,17 @@
             }
 
             function renderEpisodeList() {
-                episodeListEl.innerHTML = episodes.map((ep, idx) => {
-                    const cleanDescription = stripHtml(ep.description);
-                    return `
-                    <div class="episode-list-item p-4 flex gap-4 cursor-pointer items-start" onclick="window.loadEpisode(${idx}, true)">
-                        <img src="${ep.thumbnail || 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 mt-1" onerror="this.src='https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'">
+                episodeListEl.innerHTML = episodes.map((ep, idx) => `
+                    <div class="episode-list-item p-4 flex gap-4 cursor-pointer items-center" onclick="window.loadEpisode(${idx}, true)">
+                        <img src="${ep.thumbnail || 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" onerror="this.src='https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'">
                         <div class="flex-grow overflow-hidden">
-                            <div class="flex justify-between items-start mb-1">
+                            <div class="flex justify-between items-center">
                                 <div class="text-sm font-bold text-white line-clamp-1 pr-4">${ep.title}</div>
                                 <div class="text-[10px] text-gray-500 font-mono whitespace-nowrap">${new Date(ep.pubDate).toLocaleDateString()}</div>
                             </div>
-                            <div class="text-xs text-gray-400 line-clamp-2 leading-relaxed">
-                                ${cleanDescription}
-                            </div>
                         </div>
                     </div>
-                `}).join('');
+                `).join('');
             }
 
             window.loadEpisode = (index, autoplay) => {
@@ -384,6 +391,10 @@
                 audio.src = ep.link;
                 currentTitleEl.innerText = ep.title;
                 currentDateEl.innerText = new Date(ep.pubDate).toLocaleDateString();
+                
+                // Show the FULL description in the player area
+                currentDescriptionEl.innerHTML = ep.description || "No description available.";
+                currentDescriptionEl.scrollTop = 0; // Reset scroll position for the new description
                 
                 document.querySelectorAll('.episode-list-item').forEach((el, i) => {
                     el.classList.toggle('active', i === index);
