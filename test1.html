@@ -6,6 +6,7 @@
     <title>Some Like It Unauthorized Podcast</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0B14'/%3E%3Ctext x='16' y='13' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3ESL%3C/text%3E%3Ctext x='16' y='27' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3EIU%3C/text%3E%3C/svg%3E">
     
+    <!-- SEO and Social Sharing Meta Tags -->
     <meta name="description" content="You might prefer to go to the experts for your film opinions, but... ">
     <meta property="og:title" content="Some Like It Unauthorized Podcast">
     <meta property="og:description" content="You might prefer to go to the experts for your film opinions, but... ">
@@ -13,23 +14,27 @@
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* Custom styles with a dark purple and black theme and modern font */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0D0B14;
-            color: #D1D5DB;
+            background-color: #0D0B14; /* Near-black background */
+            color: #D1D5DB; /* text-gray-300 */
         }
         h1, h2, h3 {
-            font-family: 'Manrope', sans-serif;
-            color: #F9FAFB;
+            font-family: 'Manrope', sans-serif; /* Sleek, modern font */
+            color: #F9FAFB; /* text-gray-50 */
         }
         .gradient-text {
-            background: linear-gradient(to right, #a78bfa, #f472b6);
+            background: linear-gradient(to right, #a78bfa, #f472b6); /* purple-400 to pink-400 */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -38,11 +43,11 @@
             color: #F9FAFB;
             transition: all 0.3s ease;
             border: none;
-            box-shadow: 0 0 10px rgba(167, 139, 250, 0.4);
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.4), 0 0 15px rgba(147, 51, 234, 0.3);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(167, 139, 250, 0.6);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.6), 0 0 25px rgba(147, 51, 234, 0.4);
         }
         .btn-secondary {
             background-color: transparent;
@@ -60,20 +65,23 @@
             color: #0D0B14;
         }
         .card {
-            background-color: #1A1625;
+            background-color: #1A1625; /* Dark purple card background */
             border: 1px solid #2a2438;
             transition: all 0.3s ease;
         }
         .card:hover {
+            transform: translateY(-3px);
             border-color: #7c3aed;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         .accent-link {
-            color: #a78bfa;
+            color: #a78bfa; /* purple-400 */
             transition: color 0.3s ease;
         }
         .accent-link:hover {
-            color: #c4b5fd;
+            color: #c4b5fd; /* purple-300 */
         }
+        /* Custom Dropdown Style */
         .custom-select {
             background-color: #2a2438;
             color: #D1D5DB;
@@ -82,13 +90,38 @@
             padding: 0.5rem 1rem;
             width: 100%;
             cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
             appearance: none;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a78bfa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: right 0.5rem center;
             background-repeat: no-repeat;
             background-size: 1.5em 1.5em;
         }
+        .custom-select:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
+        }
+        .social-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+        .podcast-icon svg {
+            width: 2.5rem;
+            height: 2.5rem;
+            fill: #a78bfa;
+        }
+        .podcast-icon:hover svg {
+            fill: #c4b5fd;
+        }
+        #film-suggestion-output, #jbrooks-top-ten-output, #zach-top-ten-output {
+            transition: background-color 0.5s ease-in-out;
+        }
 
+        /* Player Specific Styles */
         .player-container {
             background: #1A1625;
             border: 1px solid #2a2438;
@@ -155,17 +188,20 @@
 </head>
 <body class="antialiased">
 
+    <!-- Header Section -->
     <header class="text-center pt-24 pb-16 md:pt-32 md:pb-24 border-b border-gray-800 px-6 sm:px-8">
         <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">You might prefer to go to the experts for your film opinions, but... </p>
         <br>
         <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4 leading-tight">Some Like It <span class="gradient-text">Unauthorized</span></h1>
     </header>
 
+    <!-- Main Content -->
     <main class="container mx-auto px-6 sm:px-8 py-16 md:py-24 space-y-20">
 
+        <!-- Custom Player Section -->
         <section class="max-w-4xl mx-auto">
             <div class="player-container shadow-2xl">
-                <div class="p-6 md:p-10 flex flex-col md:flex-row gap-8 items-start bg-gradient-to-br from-[#231d31] to-[#1A1625]">
+                <div class="p-6 md:p-10 flex flex-col md:flex-row gap-8 items-center md:items-start bg-gradient-to-br from-[#231d31] to-[#1A1625]">
                     <div id="current-art-container" class="w-48 h-48 md:w-56 md:h-56 rounded-xl shadow-2xl bg-gray-800 flex-shrink-0 overflow-hidden sticky top-0">
                         <img id="current-art" src="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp" class="w-full h-full object-cover" alt="Podcast Art">
                     </div>
@@ -203,8 +239,34 @@
                 <div class="max-h-80 overflow-y-auto bg-[#0D0B14] episode-scroll-area" id="episode-list"></div>
             </div>
             <audio id="audio-player"></audio>
+
+             <div class="text-center mt-12">
+                 <p class="text-gray-400 mb-4">Available on:</p>
+                 <div class="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
+                     <!-- Apple Podcasts -->
+                     <a href="https://podcasts.apple.com/us/podcast/some-like-it-unauthorized/id1810139168" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                         <svg viewBox="0 0 170 170"><title>Apple Logo</title><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71.12 1.083.17 2.166.17 3.24z"/></svg>
+                     </a>
+                     <!-- Spotify -->
+                     <a href="https://open.spotify.com/show/5H427OE7MwnVTBQ8JTOEmq?si=f7465f88215d4c5b" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1333.33 1333.3" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M666.66 0C298.48 0 0 298.47 0 666.65c0 368.19 298.48 666.65 666.66 666.65 368.22 0 666.67-298.45 666.67-666.65C1333.33 298.49 1034.88.03 666.65.03l.01-.04zm305.73 961.51c-11.94 19.58-37.57 25.8-57.16 13.77-156.52-95.61-353.57-117.26-585.63-64.24-22.36 5.09-44.65-8.92-49.75-31.29-5.12-22.37 8.84-44.66 31.26-49.75 253.95-58.02 471.78-33.04 647.51 74.35 19.59 12.02 25.8 37.57 13.77 57.16zm81.6-181.52c-15.05 24.45-47.05 32.17-71.49 17.13-179.2-110.15-452.35-142.05-664.31-77.7-27.49 8.3-56.52-7.19-64.86-34.63-8.28-27.49 7.22-56.46 34.66-64.82 242.11-73.46 543.1-37.88 748.89 88.58 24.44 15.05 32.16 47.05 17.12 71.46V780zm7.01-189.02c-214.87-127.62-569.36-139.35-774.5-77.09-32.94 9.99-67.78-8.6-77.76-41.55-9.98-32.96 8.6-67.77 41.56-77.78 235.49-71.49 626.96-57.68 874.34 89.18 29.69 17.59 39.41 55.85 21.81 85.44-17.52 29.63-55.89 39.4-85.42 21.8h-.03z" fill="#a78bfa" fill-rule="nonzero"/></svg>
+                     </a>
+                     <!-- YouTube -->
+                     <a href="https://www.youtube.com/@UnauthorizedPod" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                         <svg class="w-12 h-12" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#a78bfa"/></svg>
+                     </a>
+                 </div>
         </section>
-        
+
+        <!-- Featured Video Section -->
+        <section class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center">We Made a Short Film!</h2>
+            <div class="relative pb-[56.25%] h-0">
+                <iframe class="absolute top-0 left-0 w-full h-full" width="560" height="315" src="https://www.youtube.com/embed/CfHHI1OIm60?si=bkgrgoyV2unZA1SB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- About and Suggestion Section -->
         <section class="max-w-3xl mx-auto">
              <h2 class="text-3xl font-bold mb-6 text-center">About the Show</h2>
             <div class="prose text-gray-300 leading-relaxed max-w-2xl mx-auto text-left">
@@ -212,49 +274,57 @@
                 <p>Using the <i>BFI's Sight and Sound</i> list as a starting point, they explore canonical films and the decades when cinema exploded. No film degrees, no press passes, they like it unauthorized.</p>
             </div>
             
+            <!-- Film Suggestion Section -->
             <div class="mt-12 text-center">
                  <p class="text-gray-400 mb-4">
-                    <a href="https://letterboxd.com/hetchy/list/history-of-film-list/" target="_blank" rel="noopener noreferrer" class="accent-link">
-                        Watch a film from our featured list
-                    </a>
-                </p>
+                     <a href="https://letterboxd.com/hetchy/list/history-of-film-list/" target="_blank" rel="noopener noreferrer" class="accent-link">
+                         Watch a film from our featured list
+                     </a>
+                 </p>
                 <button id="suggest-film-btn" class="btn-primary inline-block font-bold py-3 px-8 rounded-lg text-lg">
                     Get a Film Suggestion
                 </button>
-                <div id="film-suggestion-output" class="mt-12 min-h-[100px] flex flex-col justify-center items-center text-left p-4 rounded-lg"></div>
+                <div id="film-suggestion-output" class="mt-4 min-h-[60px] flex flex-col justify-center items-center text-left p-4 rounded-lg"></div>
             </div>
         </section>
 
+        <!-- Hosts Section -->
         <section class="max-w-4xl mx-auto mt-16">
             <h2 class="text-3xl font-bold mb-6 text-center">Meet the Brothers</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <!-- Host 1: J Brooks Young -->
                 <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
                     <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="mx-auto">
                         <img src="https://a.ltrbxd.com/resized/avatar/upload/6/2/0/4/2/1/6/shard/avtr-0-220-0-220-crop.jpg?v=20eeed6c12" alt="J Brooks Young" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
                     </a>
                     <div class="mt-4">
                         <h3 class="text-xl font-bold mb-1">J Brooks Young</h3>
-                        <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: jyoun</a>
+                        <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm mb-4 inline-block">Letterboxd: jyoun</a>
+                        <div id="jbrooks-rss-feed" class="text-center text-sm mt-6 mb-8"></div>
                         <div class="mt-4">
-                            <select id="jbrooks-top-ten" class="custom-select">
-                                <option value="">J Brooks' Top Ten Films</option>
-                            </select>
+                            <label for="jbrooks-top-ten" class="sr-only">J Brooks' Top Ten Films</label>
+                             <select id="jbrooks-top-ten" class="custom-select">
+                                 <option value="">J Brooks' Top Ten Films</option>
+                             </select>
                         </div>
                         <div id="jbrooks-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
                     </div>
                 </div>
                 
+                <!-- Host 2: Zachary Domes -->
                 <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
                     <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="mx-auto">
                         <img src="https://a.ltrbxd.com/resized/avatar/upload/3/9/8/4/3/5/shard/avtr-0-220-0-220-crop.jpg?v=9cc3fc5543" alt="Zachary Domes" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
                     </a>
                     <div class="mt-4">
                         <h3 class="text-xl font-bold mb-1">Zachary Domes</h3>
-                        <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm">Letterboxd: hetchy</a>
+                        <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm mb-4 inline-block">Letterboxd: hetchy</a>
+                        <div id="zach-rss-feed" class="text-center text-sm mt-6 mb-8"></div>
                         <div class="mt-4">
-                            <select id="zach-top-ten" class="custom-select">
-                                <option value="">Zach's Top Ten Films</option>
-                            </select>
+                             <label for="zach-top-ten" class="sr-only">Zach's Top Ten Films</label>
+                             <select id="zach-top-ten" class="custom-select">
+                                 <option value="">Zach's Top Ten Films</option>
+                             </select>
                         </div>
                         <div id="zach-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
                     </div>
@@ -264,20 +334,23 @@
 
     </main>
 
+    <!-- Footer -->
     <footer class="text-center py-10 border-t border-gray-800 px-4 sm:px-0">
         <p class="text-gray-500 mb-4">Got a Question?</p>
         <form id="contact-form" action="https://formspree.io/f/xanjogvz" method="POST" class="max-w-xl mx-auto space-y-4">
             <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
             <input type="email" name="email" placeholder="Your Email (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
             <input type="text" name="letterboxd" placeholder="Letterboxd Username (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <textarea name="message" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Hey guys..."></textarea>
+            <textarea name="message" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Hey guys, what are your favorite films of 2025 so far..."></textarea>
             <button type="submit" class="btn-primary mt-4 py-2 px-6 rounded-full font-bold">Send</button>
         </form>
+        <div id="thank-you-message" class="hidden text-center mt-4 text-green-400"></div>
         <p class="text-gray-600 text-sm mt-10">&copy; 2025 Some Like It Unauthorized. All rights reserved.</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- PLAYER ELEMENTS ---
             const audio = document.getElementById('audio-player');
             const playBtn = document.getElementById('play-btn');
             const playIcon = document.getElementById('play-icon');
@@ -292,17 +365,238 @@
             const currentDescriptionEl = document.getElementById('current-description');
             const skipBack = document.getElementById('skip-back');
             const skipForward = document.getElementById('skip-forward');
-            
+
+            // --- PAGE ELEMENTS ---
             const suggestFilmBtn = document.getElementById('suggest-film-btn');
             const filmSuggestionOutput = document.getElementById('film-suggestion-output');
             const jBrooksSelect = document.getElementById('jbrooks-top-ten');
             const zachSelect = document.getElementById('zach-top-ten');
             const jBrooksOutput = document.getElementById('jbrooks-top-ten-output');
             const zachOutput = document.getElementById('zach-top-ten-output');
+            const contactForm = document.getElementById('contact-form');
+            const thankYouMessage = document.getElementById('thank-you-message');
 
+            // --- DATA ---
             const rssUrl = "https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476";
             let episodes = [];
 
+            // Full Film List
+            const filmList = [
+                { title: "Intolerance: Love's Struggle Throughout the Ages (1916)", jyoung_review: "https://letterboxd.com/jyoun/film/intolerance-loves-struggle-throughout-the-ages/", zach_review: "https://letterboxd.com/hetchy/film/intolerance-loves-struggle-throughout-the-ages/" }, 
+                { title: "Within Our Gates (1920)", jyoung_review: "https://letterboxd.com/jyoun/film/within-our-gates/", zach_review: "https://letterboxd.com/hetchy/film/within-our-gates/" }, 
+                { title: "The Cabinet of Dr. Caligari (1920)", jyoung_review: "https://letterboxd.com/jyoun/film/the-cabinet-of-dr-caligari-1920/", zach_review: "https://letterboxd.com/hetchy/film/the-cabinet-of-dr-caligari-1920/" }, 
+                { title: "Nosferatu (1922)", jyoung_review: "https://letterboxd.com/jyoun/film/nosferatu/", zach_review: "https://letterboxd.com/hetchy/film/nosferatu/" },
+                { title: "Sherlock Jr. (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/sherlock-jr/", zach_review: "https://letterboxd.com/hetchy/film/sherlock-jr/" }, 
+                { title: "The Last Laugh (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/the-last-laugh", zach_review: "https://letterboxd.com/hetchy/film/the-last-laugh" },
+                { title: "Michael (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/michael-1924/", zach_review: "https://letterboxd.com/hetchy/film/michael-1924/" },
+                { title: "The Gold Rush (1925)", jyoung_review: "https://letterboxd.com/jyoun/film/the-gold-rush", zach_review: "https://letterboxd.com/hetchy/film/the-gold-rush" },
+                { title: "Battleship Potemkin (1925)", jyoung_review: "https://letterboxd.com/jyoun/film/battleship-potemkin", zach_review: "https://letterboxd.com/hetchy/film/battleship-potemkin" },
+                { title: "The General (1926)", jyoung_review: "https://letterboxd.com/jyoun/film/the-general/", zach_review: "https://letterboxd.com/hetchy/film/the-general/" },
+                { title: "Sunrise: A Song of Two Humans (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/sunrise-a-song-of-two-humans/", zach_review: "https://letterboxd.com/hetchy/film/sunrise-a-song-of-two-humans/" },
+                { title: "Metropolis (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/metropolis", zach_review: "https://letterboxd.com/hetchy/film/metropolis" },
+                { title: "Napoleon (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/napoleon", zach_review: "https://letterboxd.com/hetchy/film/napoleon" },
+                { title: "The Passion of Joan of Arc (1928)", jyoung_review: "https://letterboxd.com/jyoun/film/the-passion-of-joan-of-arc/", zach_review: "https://letterboxd.com/hetchy/film/the-passion-of-joan-of-arc/" },
+                { title: "The Crowd (1928)", jyoung_review: "https://letterboxd.com/jyoun/film/the-crowd/", zach_review: "https://letterboxd.com/hetchy/film/the-crowd/" },
+                { title: "Pandora's Box (1929)", jyoung_review: "https://letterboxd.com/jyoun/film/pandoras-box/", zach_review: "https://letterboxd.com/hetchy/film/pandoras-box/" },
+                { title: "Man with a Movie Camera (1929)", jyoung_review: "https://letterboxd.com/jyoun/film/man-with-a-movie-camera/" },
+                { title: "Un Chien Andalou (1929)", jyoung_review: "https://letterboxd.com/jyoun/film/un-chien-andalou/", zach_review: "https://letterboxd.com/hetchy/film/un-chien-andalou/" },
+                { title: "Earth (1930)", jyoung_review: "https://letterboxd.com/jyoun/film/earth-1930/", zach_review: "https://letterboxd.com/hetchy/film/earth-1930/" },
+                { title: "L'Âge d'or (1930)", zach_review: "https://letterboxd.com/hetchy/film/lage-dor/" },
+                { title: "The Blood of a Poet (1932)", zach_review: "https://letterboxd.com/hetchy/film/the-blood-of-a-poet/" }, 
+                { title: "City Lights (1931)", jyoung_review: "https://letterboxd.com/jyoun/film/city-lights/", zach_review: "https://letterboxd.com/hetchy/film/city-lights/" }, 
+                { title: "Mädchen in Uniform (1931)", jyoung_review: "https://letterboxd.com/jyoun/film/madchen-in-uniform/", zach_review: "https://letterboxd.com/hetchy/film/madchen-in-uniform/" }, 
+                { title: "Le Million (1931)", jyoung_review: "https://letterboxd.com/jyoun/film/le-million/", zach_review: "https://letterboxd.com/hetchy/film/le-million/" }, 
+                { title: "M (1931)", jyoung_review: "https://letterboxd.com/jyoun/film/m/", zach_review: "https://letterboxd.com/hetchy/film/m/" }, 
+                { title: "Limite (1931)", jyoung_review: "https://letterboxd.com/jyoun/film/limite/", zach_review: "https://letterboxd.com/hetchy/film/limite/" }, 
+                { title: "Vampyr (1932)", jyoung_review: "https://letterboxd.com/jyoun/film/vampyr/", zach_review: "https://letterboxd.com/hetchy/film/vampyr/" }, 
+                { title: "Trouble in Paradise (1932)", jyoung_review: "https://letterboxd.com/jyoun/film/trouble-in-paradise/", zach_review: "https://letterboxd.com/hetchy/film/trouble-in-paradise/" }, 
+                { title: "I Was Born, But... (1932)", jyoung_review: "https://letterboxd.com/jyoun/film/i-was-born-but/" }, 
+                { title: "Duck Soup (1933)", jyoung_review: "https://letterboxd.com/jyoun/film/duck-soup-1933/", zach_review: "https://letterboxd.com/hetchy/film/duck-soup-1933/" }, 
+                { title: "Emperor Jones (1933)", jyoung_review: "https://letterboxd.com/jyoun/film/emperor-jones-1933/" }, 
+                { title: "Zero for Conduct (1933)", jyoung_review: "https://letterboxd.com/jyoun/film/zero-for-conduct-1933/", zach_review: "https://letterboxd.com/hetchy/film/zero-for-conduct-1933/" }, 
+                { title: "L'Atalante (1934)", jyoung_review: "https://letterboxd.com/jyoun/film/latalante/", zach_review: "https://letterboxd.com/hetchy/film/latalante/" }, 
+                { title: "The 39 Steps (1935)", jyoung_review: "https://letterboxd.com/jyoun/film/the-39-steps/", zach_review: "https://letterboxd.com/hetchy/film/the-39-steps/" }, 
+                { title: "Modern Times (1936)", zach_review: "https://letterboxd.com/hetchy/film/modern-times/" }, 
+                { title: "By the Bluest of Seas (1936)", jyoung_review: "https://letterboxd.com/jyoun/film/by-the-bluest-of-seas/", zach_review: "https://letterboxd.com/hetchy/film/by-the-bluest-of-seas/" }, 
+                { title: "A Day in the Country (1946)", jyoung_review: "https://letterboxd.com/jyoun/film/a-day-in-the-country/", zach_review: "https://letterboxd.com/hetchy/film/a-day-in-the-country/" }, 
+                { title: "Grand Illusion (1937)", jyoung_review: "https://letterboxd.com/jyoun/film/grand-illusion/", zach_review: "https://letterboxd.com/hetchy/film/grand-illusion/" }, 
+                { title: "Bringing Up Baby (1938)", jyoung_review: "https://letterboxd.com/jyoun/film/bringing-up-baby/", zach_review: "https://letterboxd.com/hetchy/film/bringing-up-baby/" }, 
+                { title: "Daybreak (1939)", jyoung_review: "https://letterboxd.com/jyoun/film/daybreak-1939/", zach_review: "https://letterboxd.com/hetchy/film/daybreak-1939/" }, 
+                { title: "Only Angels Have Wings (1939)", zach_review: "https://letterboxd.com/hetchy/film/only-angels-have-wings/" },
+                { title: "Gone with the Wind (1939)", zach_review: "https://letterboxd.com/hetchy/film/gone-with-the-wind/" },
+                { title: "The Rules of the Game (1939)", jyoung_review: "https://letterboxd.com/jyoun/film/the-rules-of-the-game/", zach_review: "https://letterboxd.com/hetchy/film/the-rules-of-the-game/" },
+                { title: "The Wizard of Oz (1939)", jyoung_review: "https://letterboxd.com/jyoun/film/the-wizard-of-oz/", zach_review: "https://letterboxd.com/hetchy/film/the-wizard-of-oz/" },
+                { title: "Rebecca (1940)", jyoung_review: "https://letterboxd.com/jyoun/film/rebecca/", zach_review: "https://letterboxd.com/hetchy/film/rebecca/" },
+                { title: "The Grapes of Wrath (1940)", jyoung_review: "https://letterboxd.com/jyoun/film/the-grapes-of-wrath/", zach_review: "https://letterboxd.com/hetchy/film/the-grapes-of-wrath/" },
+                { title: "The Letter (1940)", zach_review: "https://letterboxd.com/hetchy/film/the-letter/" },
+                { title: "Dance, Girl, Dance (1940)", jyoung_review: "https://letterboxd.com/jyoun/film/dance-girl-dance/", zach_review: "https://letterboxd.com/hetchy/film/dance-girl-dance/" },
+                { title: "His Girl Friday (1940)", jyoung_review: "https://letterboxd.com/jyoun/film/his-girl-friday/", zach_review: "https://letterboxd.com/hetchy/film/his-girl-friday/" },
+                { title: "49th Parallel (1941)", jyoung_review: "https://letterboxd.com/jyoun/film/49th-parallel/", zach_review: "https://letterboxd.com/hetchy/film/49th-parallel/" },
+                { title: "The Maltese Falcon (1941)", zach_review: "https://letterboxd.com/hetchy/film/the-maltese-falcon/" },
+                { title: "Brothers and Sisters of the Toda Family (1941)", jyoung_review: "https://letterboxd.com/jyoun/film/brothers-and-sisters-of-the-toda-family/", zach_review: "https://letterboxd.com/hetchy/film/brothers-and-sisters-of-the-toda-family/" },
+                { title: "Stormy Waters (1941)", zach_review: "https://letterboxd.com/hetchy/film/stormy-waters/" },
+                { title: "Sullivan's Travels (1941)", zach_review: "https://letterboxd.com/hetchy/film/sullivans-travels/" },
+                { title: "Casablanca (1942)", zach_review: "https://letterboxd.com/hetchy/film/casablanca/" },
+                { title: "To Be or Not to Be (1942)", jyoung_review: "https://letterboxd.com/jyoun/film/to-be-or-not-to-be/", zach_review: "https://letterboxd.com/hetchy/film/to-be-or-not-to-be/" },
+                { title: "The Magnificent Ambersons (1942)", zach_review: "https://letterboxd.com/hetchy/film/the-magnificent-ambersons/" },
+                { title: "Meshes of the Afternoon (1943)", jyoung_review: "https://letterboxd.com/jyoun/film/meshes-of-the-afternoon/", zach_review: "https://letterboxd.com/hetchy/film/meshes-of-the-afternoon/" },
+                { title: "The Life and Death of Colonel Blimp (1943)", jyoung_review: "https://letterboxd.com/jyoun/film/the-life-and-death-of-colonel-blimp/", zach_review: "https://letterboxd.com/hetchy/film/the-life-and-death-of-colonel-blimp/" },
+                { title: "The Seventh Victim (1943)", zach_review: "https://letterboxd.com/hetchy/film/the-seventh-victim/" },
+                { title: "Obsession (1943)", jyoung_review: "https://letterboxd.com/jyoun/film/obsession/", zach_review: "https://letterboxd.com/hetchy/film/obsession/" },
+                { title: "Sanshiro Sugata (1943)", zach_review: "https://letterboxd.com/hetchy/film/sanshiro-sugata/" },
+                { title: "Laura (1944)", zach_review: "https://letterboxd.com/hetchy/film/laura/" },
+                { title: "Ivan the Terrible, Part I (1944)", jyoung_review: "https://letterboxd.com/jyoun/film/ivan-the-terrible-part-i/", zach_review: "https://letterboxd.com/hetchy/film/ivan-the-terrible-part-i/" },
+                { title: "Double Indemnity (1944)", zach_review: "https://letterboxd.com/hetchy/film/double-indemnity/" },
+                { title: "A Canterbury Tale (1944)", jyoung_review: "https://letterboxd.com/jyoun/film/a-canterbury-tale/", zach_review: "https://letterboxd.com/hetchy/film/a-canterbury-tale/" },
+                { title: "Brief Encounter (1945)", jyoung_review: "https://letterboxd.com/jyoun/film/brief-encounter/", zach_review: "https://letterboxd.com/hetchy/film/brief-encounter/" },
+                { title: "Children of Paradise (1945)", zach_review: "https://letterboxd.com/hetchy/film/children-of-paradise/" },
+                { title: "Les Dames du bois de Boulogne (1945)", jyoung_review: "https://letterboxd.com/jyoun/film/les-dames-du-bois-de-boulogne/", },
+                { title: "Rome, Open City (1945)", jyoung_review: "https://letterboxd.com/jyoun/film/rome-open-city/", zach_review: "https://letterboxd.com/hetchy/film/rome-open-city/" },
+                { title: "A Matter of Life and Death (1946)", jyoung_review: "https://letterboxd.com/jyoun/film/a-matter-of-life-and-death/", },
+                { title: "Paisan (1946)", zach_review: "https://letterboxd.com/hetchy/film/paisan/" },
+                { title: "Notorious (1946)", jyoung_review: "https://letterboxd.com/jyoun/film/notorious/", zach_review: "https://letterboxd.com/hetchy/film/notorious/" },
+                { title: "My Darling Clementine (1946)", zach_review: "https://letterboxd.com/hetchy/film/my-darling-clementine/" },
+                { title: "It's a Wonderful Life (1946)", jyoung_review: "https://letterboxd.com/jyoun/film/its-a-wonderful-life/", },
+                { title: "Out of the Past (1947)", zach_review: "https://letterboxd.com/hetchy/film/out-of-the-past/" },
+                { title: "Jenny Lamour (1947)", jyoung_review: "https://letterboxd.com/jyoun/film/jenny-lamour/", zach_review: "https://letterboxd.com/hetchy/film/jenny-lamour/" },
+                { title: "Black Narcissus (1947)", jyoung_review: "https://letterboxd.com/jyoun/film/black-narcissus/", zach_review: "https://letterboxd.com/hetchy/film/black-narcissus/" },
+                { title: "The Treasure of the Sierra Madre (1948)", jyoung_review: "https://letterboxd.com/jyoun/film/the-treasure-of-the-sierra-madre/", zach_review: "https://letterboxd.com/hetchy/film/the-treasure-of-the-sierra-madre/" },
+                { title: "Bicycle Thieves (1948)", jyoung_review: "https://letterboxd.com/jyoun/film/bicycle-thieves/", zach_review: "https://letterboxd.com/hetchy/film/bicycle-thieves/" },
+                { title: "Louisiana Story (1948)", zach_review: "https://letterboxd.com/hetchy/film/louisiana-story/" },
+                { title: "La Terra Trema (1948)", zach_review: "https://letterboxd.com/hetchy/film/la-terra-trema/" },
+                { title: "The Red Shoes (1948)", jyoung_review: "https://letterboxd.com/jyoun/film/the-red-shoes/", zach_review: "https://letterboxd.com/hetchy/film/the-red-shoes/" },
+                { title: "Letter from an Unknown Woman (1948)", zach_review: "https://letterboxd.com/hetchy/film/letter-from-an-unknown-woman/" },
+                { title: "Drunken Angel (1948)", jyoung_review: "https://letterboxd.com/jyoun/film/drunken-angel/", zach_review: "https://letterboxd.com/hetchy/film/drunken-angel/" },
+                { title: "The Naked City (1948)", zach_review: "https://letterboxd.com/hetchy/film/the-naked-city/" },
+                { title: "Spring in a Small Town (1948)", zach_review: "https://letterboxd.com/hetchy/film/spring-in-a-small-town/" },
+                { title: "Late Spring (1949)", jyoung_review: "https://letterboxd.com/jyoun/film/late-spring/", zach_review: "https://letterboxd.com/hetchy/film/late-spring/" },
+                { title: "Jour de Fête (1949)", zach_review: "https://letterboxd.com/film/jour-de-fete/" },
+                { title: "The Third Man (1949)", jyoung_review: "https://letterboxd.com/jyoun/film/the-third-man/", zach_review: "https://letterboxd.com/hetchy/film/the-third-man/" },
+                { title: "Song of Love (1954)" }, 
+                { title: "In a Lonely Place (1950)", jyoung_review: "https://letterboxd.com/jyoun/film/in-a-lonely-place/", zach_review: "https://letterboxd.com/hetchy/film/in-a-lonely-place/" },
+                { title: "Rashomon (1950)", jyoung_review: "https://letterboxd.com/jyoun/film/rashomon/", zach_review: "https://letterboxd.com/hetchy/film/rashomon/" },
+                { title: "Sunset Boulevard (1950)", jyoung_review: "https://letterboxd.com/jyoun/film/sunset-boulevard/", zach_review: "https://letterboxd.com/hetchy/film/sunset-boulevard/" },
+                { title: "Orpheus (1950)", jyoung_review: "https://letterboxd.com/jyoun/film/orpheus/", zach_review: "https://letterboxd.com/hetchy/film/orpheus/" },
+                { title: "The Young and the Damned (1950)", zach_review: "https://letterboxd.com/hetchy/film/the-young-and-the-damned/" },
+                { title: "No Way Out (1950)", zach_review: "https://letterboxd.com/hetchy/film/no-way-out/" },
+                { title: "All About Eve (1950)", jyoung_review: "https://letterboxd.com/jyoun/film/all-about-eve/", },
+                { title: "A Streetcar Named Desire (1951)", jyoung_review: "https://letterboxd.com/jyoun/film/a-streetcar-named-desire/", zach_review: "https://letterboxd.com/hetchy/film/a-streetcar-named-desire/" },
+                { title: "The Steel Helmet (1951)", zach_review: "https://letterboxd.com/hetchy/film/the-steel-helmet/" },
+                { title: "The River (1951)", zach_review: "https://letterboxd.com/hetchy/film/the-river/" },
+                { title: "Diary of a Country Priest (1951)", zach_review: "https://letterboxd.com/hetchy/film/diary-of-a-country-priest/" },
+                { title: "Europe '51 (1952)", zach_review: "https://letterboxd.com/hetchy/film/europe-51/" },
+                { title: "Ikiru (1952)", jyoung_review: "https://letterboxd.com/jyoun/film/ikiru/", zach_review: "https://letterboxd.com/hetchy/film/ikiru/" },
+                { title: "Umberto D. (1952)", jyoung_review: "https://letterboxd.com/jyoun/film/umberto-d/", zach_review: "https://letterboxd.com/hetchy/film/umberto-d/" },
+                { title: "The Quiet Man (1952)", zach_review: "https://letterboxd.com/hetchy/film/the-quiet-man/" },
+                { title: "Singin' in the Rain (1952)", zach_review: "https://letterboxd.com/hetchy/film/singin-in-the-rain/" },
+                { title: "The Bigamist (1953)", zach_review: "https://letterboxd.com/hetchy/film/the-bigamist/" },
+                { title: "Tokyo Story (1953)", jyoung_review: "https://letterboxd.com/jyoun/film/tokyo-story/", zach_review: "https://letterboxd.com/hetchy/film/tokyo-story/" },
+                { title: "Roman Holiday (1953)", zach_review: "https://letterboxd.com/hetchy/film/roman-holiday/" },
+                { title: "The Earrings of Madame de... (1953)", zach_review: "https://letterboxd.com/hetchy/film/the-earrings-of-madame-de/" },
+                { title: "Little Fugitive (1953)", zach_review: "https://letterboxd.com/hetchy/film/little-fugitive/" },
+                { title: "The Wages of Fear (1953)", jyoung_review: "https://letterboxd.com/jyoun/film/the-wages-of-fear/", zach_review: "https://letterboxd.com/hetchy/film/the-wages-of-fear/" },
+                { title: "Ugetsu (1953)", zach_review: "https://letterboxd.com/hetchy/film/ugetsu/" },
+                { title: "Seven Samurai (1954)", jyoung_review: "https://letterboxd.com/jyoun/film/seven-samurai/", zach_review: "https://letterboxd.com/hetchy/film/seven-samurai/" },
+                { title: "La Strada (1954)", jyoung_review: "https://letterboxd.com/jyoun/film/la-strada/", zach_review: "https://letterboxd.com/hetchy/film/la-strada/" },
+                { title: "Rear Window (1954)", zach_review: "https://letterboxd.com/hetchy/film/rear-window/" },
+                { title: "Journey to Italy (1954)", zach_review: "https://letterboxd.com/hetchy/film/journey-to-italy/" },
+                { title: "Sansho the Bailiff (1954)", zach_review: "https://letterboxd.com/hetchy/film/sansho-the-bailiff/" },
+                { title: "Johnny Guitar (1954)", jyoung_review: "https://letterboxd.com/jyoun/film/johnny-guitar/", zach_review: "https://letterboxd.com/hetchy/film/johnny-guitar/" },
+                { title: "Salt of the Earth (1954)", zach_review: "https://letterboxd.com/hetchy/film/salt-of-the-earth/" },
+                { title: "On the Waterfront (1954)", jyoung_review: "https://letterboxd.com/jyoun/film/on-the-waterfront/", zach_review: "https://letterboxd.com/hetchy/film/on-the-waterfront/" },
+                { title: "Pather Panchali (1955)", jyoung_review: "https://letterboxd.com/jyoun/film/pather-panchali/", zach_review: "https://letterboxd.com/hetchy/film/pather-panchali/" },
+                { title: "All That Heaven Allows (1955)", jyoung_review: "https://letterboxd.com/jyoun/film/all-that-heaven-allows/", zach_review: "https://letterboxd.com/hetchy/film/all-that-heaven-allows/" },
+                { title: "Ordet (1955)", jyoung_review: "https://letterboxd.com/jyoun/film/ordet/", zach_review: "https://letterboxd.com/hetchy/film/ordet/" },
+                { title: "Forever a Woman (1955)", jyoung_review: "https://letterboxd.com/jyoun/film/forever-a-woman/", zach_review: "https://letterboxd.com/hetchy/film/forever-a-woman/" },
+                { title: "Diabolique (1955)", jyoung_review: "https://letterboxd.com/jyoun/film/diabolique/", zach_review: "https://letterboxd.com/hetchy/film/diabolique/" },
+                { title: "La Pointe Courte (1955)", zach_review: "https://letterboxd.com/hetchy/film/la-pointe-courte/" },
+                { title: "The Night of the Hunter (1955)", jyoung_review: "https://letterboxd.com/jyoun/film/the-night-of-the-hunter/", zach_review: "https://letterboxd.com/hetchy/film/the-night-of-the-hunter/" },
+                { title: "The Searchers (1956)", jyoung_review: "https://letterboxd.com/jyoun/film/the-searchers/", zach_review: "https://letterboxd.com/hetchy/film/the-searchers/" },
+                { title: "A Man Escaped (1956)", jyoung_review: "https://letterboxd.com/jyoun/film/a-man-escaped/", zach_review: "https://letterboxd.com/hetchy/film/a-man-escaped/" },
+                { title: "While the City Sleeps (1956)", zach_review: "https://letterboxd.com/hetchy/film/while-the-city-sleeps/" },
+                { title: "Flowing (1956)", jyoung_review: "https://letterboxd.com/jyoun/film/flowing/", },
+                { title: "Sweet Smell of Success (1957)", zach_review: "https://letterboxd.com/hetchy/film/sweet-smell-of-success/" },
+                { title: "Wild Strawberries (1957)", jyoung_review: "https://letterboxd.com/jyoun/film/wild-strawberries/", zach_review: "https://letterboxd.com/hetchy/film/wild-strawberries/" },
+                { title: "Nights of Cabiria (1957)", jyoung_review: "https://letterboxd.com/jyoun/film/nights-of-cabiria/", zach_review: "https://letterboxd.com/hetchy/film/nights-of-cabiria/" },
+                { title: "The Cranes Are Flying (1957)", zach_review: "https://letterboxd.com/hetchy/film/the-cranes-are-flying/" },
+                { title: "Throne of Blood (1957)", jyoung_review: "https://letterboxd.com/jyoun/film/throne-of-blood/", zach_review: "https://letterboxd.com/hetchy/film/throne-of-blood/" },
+                { title: "The Seventh Seal (1957)", zach_review: "https://letterboxd.com/hetchy/film/the-seventh-seal/" },
+                { title: "Pyaasa (1957)", jyoung_review: "https://letterboxd.com/jyoun/film/pyaasa/", zach_review: "https://letterboxd.com/hetchy/film/pyaasa/" },
+                { title: "The Defiant Ones (1958)", zach_review: "https://letterboxd.com/hetchy/film/the-defiant-ones/" },
+                { title: "Elevator to the Gallows (1958)", zach_review: "https://letterboxd.com/hetchy/film/elevator-to-the-gallows/" },
+                { title: "Vertigo (1958)", jyoung_review: "https://letterboxd.com/jyoun/film/vertigo/", },
+                { title: "Anna Lucasta (1958)", jyoung_review: "https://letterboxd.com/jyoun/film/anna-lucasta/", },
+                { title: "Some Came Running (1958)", jyoung_review: "https://letterboxd.com/jyoun/film/some-came-running/", },
+                { title: "Touch of Evil (1958)", jyoung_review: "https://letterboxd.com/jyoun/film/touch-of-evil/", },
+                { title: "Cairo Station (1958)", jyoung_review: "https://letterboxd.com/jyoun/film/cairo-station/", },
+                { title: "Handsome Serge (1958)", jyoung_review: "https://letterboxd.com/jyoun/film/handsome-serge/", },
+                { title: "The 400 Blows (1959)", jyoung_review: "https://letterboxd.com/jyoun/film/the-400-blows/", },
+                { title: "Come Back, Africa (1959)", zach_review: "https://letterboxd.com/hetchy/film/come-back-africa/" },
+                { title: "Hiroshima Mon Amour (1959)", jyoung_review: "https://letterboxd.com/jyoun/film/hiroshima-mon-amour/", },
+                { title: "Some Like It Hot (1959)", jyoung_review: "https://letterboxd.com/jyoun/film/some-like-it-hot/", },
+                { title: "North by Northwest (1959)", jyoung_review: "https://letterboxd.com/jyoun/film/north-by-northwest/", },
+                { title: "Pickpocket (1959)", zach_review: "https://letterboxd.com/hetchy/film/pickpocket/" },
+                { title: "Anatomy of a Murder (1959)", zach_review: "https://letterboxd.com/hetchy/film/anatomy-of-a-murder/" },
+                { title: "Kaagaz Ke Phool (1959)", jyoung_review: "https://letterboxd.com/jyoun/film/kaagaz-ke-phool/", },
+                { title: "Rio Bravo (1959)", jyoung_review: "https://letterboxd.com/jyoun/film/rio-bravo/", },
+                { title: "L'Avventura (1960)", jyoung_review: "https://letterboxd.com/jyoun/film/lavventura/", zach_review: "https://letterboxd.com/hetchy/film/lavventura/" },
+                { title: "Psycho (1960)", jyoung_review: "https://letterboxd.com/jyoun/film/psycho/", },
+                { title: "Peeping Tom (1960)", jyoung_review: "https://letterboxd.com/jyoun/film/peeping-tom/", },
+                { title: "Breathless (1960)", jyoung_review: "https://letterboxd.com/jyoun/film/breathless/", },
+                { title: "The Good Girls (1960)", jyoung_review: "https://letterboxd.com/jyoun/film/the-good-girls/", },
+                { title: "The Cloud-Capped Star (1960)", jyoung_review: "https://letterboxd.com/jyoun/film/the-cloud-capped-star/", },
+                { title: "When a Woman Ascends the Stairs (1960)", jyoung_review: "https://letterboxd.com/jyoun/film/when-a-woman-ascends-the-stairs/", },
+                { title: "Lola (1961)", jyoung_review: "https://letterboxd.com/jyoun/film/lola/", },
+                { title: "Victim (1961)", jyoung_review: "https://letterboxd.com/jyoun/film/victim/", },
+                { title: "Viridiana (1961)", jyoung_review: "https://letterboxd.com/jyoun/film/viridiana/", },
+                { title: "Yojimbo (1961)", jyoung_review: "https://letterboxd.com/jyoun/film/yojimbo/", },
+                { title: "Last Year at Marienbad (1961)", jyoung_review: "https://letterboxd.com/jyoun/film/last-year-at-marienbad/", },
+                { title: "The Connection (1961)", jyoung_review: "https://letterboxd.com/jyoun/film/the-connection/", },
+                { title: "Chronicle of Flaming Years (1961)", jyoung_review: "https://letterboxd.com/jyoun/film/chronicle-of-flaming-years/", },
+                { title: "La Notte (1961)", jyoung_review: "https://letterboxd.com/jyoun/film/la-notte/", zach_review: "https://letterboxd.com/hetchy/film/la-notte/" },
+                { title: "Lawrence of Arabia (1962)", jyoung_review: "https://letterboxd.com/jyoun/film/lawrence-of-arabia/", },
+                { title: "Jules and Jim (1962)", jyoung_review: "https://letterboxd.com/jyoun/film/jules-and-jim/", zach_review: "https://letterboxd.com/hetchy/film/jules-and-jim/" },
+                { title: "La Jetée (1962)", jyoung_review: "https://letterboxd.com/jyoun/film/la-jetee/", },
+                { title: "L'Eclisse (1962)", jyoung_review: "https://letterboxd.com/jyoun/film/leclisse/", zach_review: "https://letterboxd.com/hetchy/film/leclisse/" },
+                { title: "An Autumn Afternoon (1962)", zach_review: "https://letterboxd.com/hetchy/film/an-autumn-afternoon/" },
+                { title: "Ivan's Childhood (1962)", jyoung_review: "https://letterboxd.com/jyoun/film/ivans-childhood/", },
+                { title: "The Exterminating Angel (1962)", jyoung_review: "https://letterboxd.com/jyoun/film/the-exterminating-angel/", },
+                { title: "The Man Who Shot Liberty Valance (1962)", jyoung_review: "https://letterboxd.com/jyoun/film/the-man-who-shot-liberty-valance/", },
+                { title: "Harakiri (1962)", zach_review: "https://letterboxd.com/hetchy/film/harakiri/" },
+                { title: "Vivre Sa Vie (1962)", zach_review: "https://letterboxd.com/hetchy/film/vivre-sa-vie/" },
+                { title: "8½ (1963)", jyoung_review: "https://letterboxd.com/jyoun/film/8-half/", zach_review: "https://letterboxd.com/film/8-half/" },
+                { title: "Contempt (1963)", jyoung_review: "https://letterboxd.com/jyoun/film/contempt/", zach_review: "https://letterboxd.com/hetchy/film/contempt/" },
+                { title: "The Leopard (1963)", zach_review: "https://letterboxd.com/hetchy/film/the-leopard/" },
+                { title: "Scorpio Rising (1963)", zach_review: "https://letterboxd.com/hetchy/film/scorpio-rising/" },
+                { title: "High and Low (1963)", jyoung_review: "https://letterboxd.com/jyoun/film/high-and-low/", },
+                { title: "The Birds (1963)", jyoung_review: "https://letterboxd.com/jyoun/film/the-birds/", },
+                { title: "Pale Flower (1964)", zach_review: "https://letterboxd.com/hetchy/film/pale-flower/" },
+                { title: "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)", jyoung_review: "https://letterboxd.com/jyoun/film/dr-strangelove-or-how-i-learned-to-stop-worrying-and-love-the-bomb/", zach_review: "https://letterboxd.com/hetchy/film/dr-strangelove-or-how-i-learned-to-stop-worrying-and-love-the-bomb/" },
+                { title: "The Umbrellas of Cherbourg (1964)", jyoung_review: "https://letterboxd.com/jyoun/film/the-umbrellas-of-cherbourg/", },
+                { title: "A Fistful of Dollars (1964)", zach_review: "https://letterboxd.com/hetchy/film/a-fistful-of-dollars/" },
+                { title: "Red Desert (1964)", jyoung_review: "https://letterboxd.com/jyoun/film/red-desert/", zach_review: "https://letterboxd.com/hetchy/film/red-desert/" },
+                { title: "Black God, White Devil (1964)", jyoung_review: "https://letterboxd.com/jyoun/film/black-god-white-devil/", },
+                { title: "Woman in the Dunes (1964)", jyoung_review: "https://letterboxd.com/jyoun/film/woman-in-the-dunes/", },
+                { title: "I Am Cuba (1964)", jyoung_review: "https://letterboxd.com/jyoun/film/i-am-cuba/", },
+                { title: "Charulata (1964)", zach_review: "https://letterboxd.com/hetchy/film/charulata/" },
+                { title: "The Gospel According to Matthew (1964)", zach_review: "https://letterboxd.com/hetchy/film/the-gospel-according-to-matthew/" },
+                { title: "Gertrud (1964)", zach_review: "https://letterboxd.com/hetchy/film/gertrud/" },
+                { 
+                    title: "Pierrot le Fou (1965)", 
+                    thought: "This film is very much of its time in some sense, densely referential of the films and art of interest to Godard and his fellow intelligentsia, but also very beholden to the conventions of film then, insomuch as he could create an ostentatious show of subverting them. You had to be there to get the full effect.",
+                    attribution: "— J Brooks",
+                    jyoung_review: "https://letterboxd.com/jyoun/film/pierrot-le-fou/1/",
+                    zach_review: "https://letterboxd.com/hetchy/film/pierrot-le-fou/1/"
+                },
+                { title: "For a Few Dollars More (1965)" }, { title: "Black Girl (1966)" }, { title: "Shadows of Forgotten Ancestors (1965)" }, { title: "Le Bonheur (1965)" }, { title: "Chimes at Midnight (1965)" }, { title: "The Good, the Bad and the Ugly (1966)" }, { title: "Who's Afraid of Virginia Woolf? (1966)" }, { title: "Andrei Rublev (1966)" }, { title: "Au Hasard Balthazar (1966)" }, { title: "Daisies (1966)" }, { title: "The Round-Up (1966)" }, { title: "The Battle of Algiers (1966)" }, { title: "Wings (1966)" }, { title: "Persona (1966)" }, { title: "Mouchette (1967)" }, { title: "Don't Look Back (1967)" }, { title: "PlayTime (1967)" }, { title: "In the Heat of the Night (1967)" }, { title: "Portrait of Jason (1967)" }, { title: "Le Samouraï (1967)" }, { title: "Entranced Earth (1967)" }, { title: "The Firemen's Ball (1967)" }, { title: "The Young Girls of Rochefort (1967)" }, { title: "Wavelength (1967)" }, { title: "Once Upon a Time in the West (1968)" }, { title: "The Color of Pomegranates (1969)" }, { title: "Theorem (1968)" }, { title: "Symbiopsychotaxiplasm: Take One (1968)" }, { title: "2001: A Space Odyssey (1968)" }, { title: "The Hour of the Furnaces (1968)" }, { title: "Memories of Underdevelopment (1968)" }, { title: "Easy Rider (1969)" }, { title: "Putney Swope (1969)" }, { title: "A Touch of Zen (1970)" }, { title: "Women in Love (1969)" }, { title: "Funeral Parade of Roses (1969)" }, { title: "Lions Love (1969)" }, { title: "Uski Roti (1970)" }, { title: "The Night of Counting the Years (1969)" }, { title: "The Wild Bunch (1969)" }, { title: "Army of Shadows (1969)" }, { title: "Kes (1969)" }, { title: "Five Easy Pieces (1970)" }, { title: "Le Cercle Rouge (1970)" }, { title: "Wanda (1970)" }, { title: "The Conformist (1970)" }, { title: "Oh, Sun (1970)" }, { title: "McCabe & Mrs. Miller (1971)" }, { title: "Klute (1971)" }, { title: "Shaft (1971)" }, { title: "A New Leaf (1971)" }, { title: "The French Connection (1971)" }, { title: "The Go-Between (1971)" }, { title: "Carnal Knowledge (1971)" }, { title: "A Clockwork Orange (1971)" }, { title: "Death in Venice (1971)" }, { title: "Pink Narcissus (1971)" }, { title: "Amarcord (1973)" }, { title: "Top of the Heap (1972)" }, { title: "The Seduction of Mimi (1972)" }, { title: "Pink Flamingos (1972)" }, { title: "The Bitter Tears of Petra von Kant (1972)" }, { title: "Aguirre, the Wrath of God (1972)" }, { title: "Cabaret (1972)" }, { title: "Sambizanga (1972)" }, { title: "Trouble Man (1972)" }, { title: "Last Tango in Paris (1972)" }, { title: "Solaris (1972)" }, { title: "The Godfather (1972)" }, { title: "Cries and Whispers (1972)" }, { title: "Touki Bouki (1973)" }, { title: "Mean Streets (1973)" }, { title: "The Spirit of the Beehive (1973)" }, { title: "American Graffiti (1973)" }, { title: "Don't Look Now (1973)" }, { title: "F for Fake (1973)" }, { title: "The Exorcist (1973)" }, { title: "The Mother and the Whore (1973)" }, { title: "Chinatown (1974)" }, { title: "The Godfather Part II (1974)" }, { title: "Ali: Fear Eats the Soul (1974)" }, { title: "Céline and Julie Go Boating (1974)" }, { title: "Je Tu Il Elle (1974)" }, { title: "Female Trouble (1974)" }, { title: "The Conversation (1974)" }, { title: "A Woman Under the Influence (1974)" }, { title: "Foxy Brown (1974)" }, { title: "Blazing Saddles (1974)" }, { title: "The Texas Chain Saw Massacre (1974)" }, { title: "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles (1975)" }, { title: "Mirror (1975)" }, { title: "Grey Gardens (1975)" }, { title: "Barry Lyndon (1975)" }, { title: "Pressure (1975)" }, { title: "Seven Beauties (1975)" }, { title: "Dolemite (1975)" }, { title: "Letter from My Village (1976)" }, { title: "Dog Day Afternoon (1975)" }, { title: "India Song (1975)" }, { title: "Nashville (1975)" }, { title: "Jaws (1975)" }, { title: "Salò, or the 120 Days of Sodom (1975)" }, { title: "News from Home (1976)" }, { title: "Harlan County U.S.A. (1976)" }, { title: "Eraserhead (1977)" }, { title: "Network (1976)" }, { title: "Sebastiane (1976)" }, { title: "Chess of the Wind (1976)" }, { title: "Taxi Driver (1976)" }, { title: "The Ascent (1977)" }, { title: "Opening Night (1977)" }, { title: "One Way or Another (1975)" }, { title: "Suspiria (1977)" }, { title: "3 Women (1977)" }, { title: "Star Wars (1977)" }, { title: "Annie Hall (1977)" }, { title: "Girlfriends (1978)" }, { title: "In a Year with 13 Moons (1978)" }, { title: "Killer of Sheep (1978)" }, { title: "The Meetings of Anna (1978)" }, { title: "Days of Heaven (1978)" }, { title: "The Deer Hunter (1978)" }, { title: "West Indies (1979)" }, { title: "Kummatty (1979)" }, { title: "Ticket of No Return (1979)" }, { title: "Apocalypse Now (1979)" }, { title: "Stalker (1979)" }, { title: "All That Jazz (1979)" }, { title: "Alien (1979)" }, { title: "The Shining (1980)" }, { title: "Ordinary People (1980)" }, { title: "Loulou (1980)" }, { title: "Cruising (1980)" }, { title: "Babylon (1980)" }, { title: "Raging Bull (1980)" }, { title: "Polyester (1981)" }, { title: "Burning an Illusion (1981)" }, { title: "The Decline of Western Civilization (1981)" }, { title: "Marianne and Juliane (1981)" }, { title: "Possession (1981)" }, { title: "Raiders of the Lost Ark (1981)" }, { title: "Koyaanisqatsi (1982)" }, { title: "Losing Ground (1982)" }, { title: "Reassemblage: From the Firelight to the Screen (1983)" }, { title: "Illusions (1982)" }, { title: "Smithereens (1982)" }, { title: "Blade Runner (1982)" }, { title: "The Thing (1982)" }, { title: "Fanny and Alexander (1982)" }, { title: "Yentl (1983)" }, { title: "Sans Soleil (1983)" }, { title: "Born in Flames (1983)" }, { title: "Sugar Cane Alley (1983)" }, { title: "Nostalgia (1983)" }, { title: "L'Argent (1983)" }, { title: "Once Upon a Time in America (1984)" }, { title: "Videodrome (1983)" }, { title: "Paris, Texas (1984)" }, { title: "Twenty Years Later (1984)" }, { title: "The Terminator (1984)" }, { title: "Stranger Than Paradise (1984)" }, { title: "This Is Spinal Tap (1984)" }, { title: "Stop Making Sense (1984)" }, { title: "Love Streams (1984)" }, { title: "My Beautiful Laundrette (1985)" }, { title: "Lost in America (1985)" }, { title: "Vagabond (1985)" }, { title: "Desert Hearts (1985)" }, { title: "Faces of Women (1985)" }, { title: "Come and See (1985)" }, { title: "Ran (1985)" }, { title: "Shoah (1985)" }, { title: "Blue Velvet (1986)" }, { title: "The Green Ray (1986)" }, { title: "River's Edge (1986)" }, { title: "Working Girls (1986)" }, { title: "Report to Mother (1986)" }, { title: "Where Is the Friend's House? (1987)" }, { title: "Law of Desire (1987)" }, { title: "Wings of Desire (1987)" }, { title: "The Thin Blue Line (1988)" }, { title: "Histoire(s) du cinéma (1989)" }, { title: "Hairspray (1988)" }, { title: "Grave of the Fireflies (1988)" }, { title: "Distant Voices, Still Lives (1988)" }, { title: "My Neighbor Totoro (1988)" }, { title: "Do the Right Thing (1989)" }, { title: "Looking for Langston (1989)" }, { title: "Tongues Untied (1989)" }, { title: "sex, lies, and videotape (1989)" }, { title: "A City of Sadness (1989)" }, { title: "Close-Up (1990)" }, { title: "Paris Is Burning (1990)" }, { title: "Out 1 (1971)" }, { title: "GoodFellas (1990)" }, { title: "Boyz n the Hood (1991)" }, { title: "My Own Private Idaho (1991)" }, { title: "Daughters of the Dust (1991)" }, { title: "A Brighter Summer Day (1991)" }, { title: "Young Soul Rebels (1991)" }, { title: "Orlando (1992)" }, { title: "Juice (1992)" }, { title: "The Piano (1993)" }, { title: "Dream of Light (1992)" }, { title: "Twin Peaks: Fire Walk with Me (1992)" }, { title: "Blue (1993)" }, { title: "Three Colours: Blue (1993)" }, { title: "Menace II Society (1993)" }, { title: "The Puppetmaster (1993)" }, { title: "Satantango (1994)" }, { title: "Blue Chips (1994)" }, { title: "Chungking Express (1994)" }, { title: "Hoop Dreams (1994)" }, { title: "Pulp Fiction (1994)" }, { title: "La Haine (1995)" }, { title: "Heat (1995)" }, { title: "Crash (1996)" }, { title: "Yang ± Yin: Gender in Chinese Cinema (1997)" }, { title: "The Watermelon Woman (1996)" }, { title: "Happy Together (1997)" }, { title: "Taste of Cherry (1997)" }, { title: "Flowers of Shanghai (1998)" }, { title: "Love & Pop (1998)" }, { title: "Drylongso (1998)" }, { title: "Beau Travail (1999)" }, { title: "Yi Yi (2000)" }, { title: "Magnolia (1999)" }, { title: "All About My Mother (1999)" }, { title: "The Matrix (1999)" }, { title: "In the Mood for Love (2000)" }, { title: "The Gleaners and I (2000)" }, { title: "Werckmeister Harmonies (2000)" }, { title: "In Vanda's Room (2000)" }, { title: "As I Was Moving Ahead, Occasionally I Saw Brief Glimpses of Beauty (2000)" }, { title: "Mulholland Drive (2001)" }, { title: "Morvern Callar (2002)" }, { title: "Spirited Away (2001)" }, { title: "La Ciénaga (2001)" }, { title: "Tie Xi Qu: West of the Tracks (2002)" }, { title: "The Lost City of the Monkey God (2018)" }, { title: "Goodbye, Dragon Inn (2003)" }, { title: "Tropical Malady (2004)" }, { title: "Caché (2005)" }, { title: "Eternal Sunshine of the Spotless Mind (2004)" }, { title: "The Intruder (2004)" }, { title: "Syndromes and a Century (2006)" }, { title: "There Will Be Blood (2007)" }, { title: "The Headless Woman (2008)" }, { title: "The White Ribbon (2009)" }, { title: "Uncle Boonmee Who Can Recall His Past Lives (2010)" }, { title: "The Tree of Life (2011)" }, { title: "Nostalgia for the Light (2010)" }, { title: "Melancholia (2011)" }, { title: "A Separation (2011)" }, { title: "Once Upon a Time in Anatolia (2011)" }, { title: "The Act of Killing (2012)" }, { title: "Holy Motors (2012)" }, { title: "Under the Skin (2013)" }, { title: "Mad Max: Fury Road (2015)" }, { title: "Moonlight (2016)" }, { title: "Get Out (2017)" }, { title: "Twin Peaks: The Return (2017)" }, { title: "Zama (2017)" }, { title: "Phantom Thread (2017)" }, { title: "Portrait of a Lady on Fire (2019)" }, { title: "Parasite (2019)" }, { title: "Petite Maman (2021)" }, { title: "Citizen Kane (1941)" }
+            ].map(item => (typeof item === 'string' ? { title: item } : item));
+
+            const jBrooksTopTen = ["Sherlock Jr. (1924)", "Sunrise: A Song of Two Humans (1927)", "The Passion of Joan of Arc (1928)", "Mädchen in Uniform (1931)", "Zero for Conduct (1933)", "Rome, Open City (1945)", "Bicycle Thieves (1948)", "Late Spring (1949)", "Stalker (1979)", "Do the Right Thing (1989)"];
+            const zachTopTen = ["The Last Laugh (1924)", "Mädchen in Uniform (1931)", "L'Atalante (1934)", "The Rules of the Game (1939)", "Pather Panchali (1955)", "The 400 Blows (1959)", "2001: A Space Odyssey (1968)", "Stalker (1979)", "Satantango (1994)", "Yi Yi (2000)"];
+
+            // --- FUNCTIONS ---
+
+            // --- PODCAST PLAYER FUNCTIONS ---
             async function fetchEpisodes() {
                 const proxyOptions = [
                     url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
@@ -347,8 +641,8 @@
                         const enclosure = item.querySelector("enclosure")?.getAttribute("url");
                         
                         let thumbnail = item.getElementsByTagName("itunes:image")[0]?.getAttribute("href") || 
-                                       item.querySelector("image")?.getAttribute("href") || 
-                                       podcastArt;
+                                        item.querySelector("image")?.getAttribute("href") || 
+                                        podcastArt;
 
                         return {
                             title,
@@ -420,16 +714,17 @@
                 }
             }
 
-            playBtn.addEventListener('click', togglePlay);
-            skipBack.addEventListener('click', () => { audio.currentTime -= 15; });
-            skipForward.addEventListener('click', () => { audio.currentTime += 15; });
-
             function formatTime(seconds) {
                 if (isNaN(seconds)) return "0:00";
                 const min = Math.floor(seconds / 60);
                 const sec = Math.floor(seconds % 60);
                 return `${min}:${sec < 10 ? '0' : ''}${sec}`;
             }
+
+            // Player Event Listeners
+            playBtn.addEventListener('click', togglePlay);
+            skipBack.addEventListener('click', () => { audio.currentTime -= 15; });
+            skipForward.addEventListener('click', () => { audio.currentTime += 15; });
 
             audio.addEventListener('timeupdate', () => {
                 const percent = (audio.currentTime / audio.duration) * 100;
@@ -444,57 +739,8 @@
                 audio.currentTime = pos * audio.duration;
             });
 
-            // Film List Data
-            const filmList = [
-                { title: "Intolerance: Love's Struggle (1916)", jyoung_review: "https://letterboxd.com/jyoun/film/intolerance-loves-struggle-throughout-the-ages/", zach_review: "https://letterboxd.com/hetchy/film/intolerance-loves-struggle-throughout-the-ages/" },
-                { title: "Within Our Gates (1920)", jyoung_review: "https://letterboxd.com/jyoun/film/within-our-gates/", zach_review: "https://letterboxd.com/hetchy/film/within-our-gates/" },
-                { title: "The Cabinet of Dr. Caligari (1920)", jyoung_review: "https://letterboxd.com/jyoun/film/the-cabinet-of-dr-caligari-1920/", zach_review: "https://letterboxd.com/hetchy/film/the-cabinet-of-dr-caligari-1920/" },
-                { title: "Nosferatu (1922)", jyoung_review: "https://letterboxd.com/jyoun/film/nosferatu/", zach_review: "https://letterboxd.com/hetchy/film/nosferatu/" },
-                { title: "Michael (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/michael-1924/", zach_review: "https://letterboxd.com/hetchy/film/michael-1924/" },
-                { title: "Sherlock Jr. (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/sherlock-jr/", zach_review: "https://letterboxd.com/hetchy/film/sherlock-jr/" },
-                { title: "The Last Laugh (1924)", jyoung_review: "https://letterboxd.com/jyoun/film/the-last-laugh/", zach_review: "https://letterboxd.com/hetchy/film/the-last-laugh/" },
-                { title: "The Gold Rush (1925)", jyoung_review: "https://letterboxd.com/jyoun/film/the-gold-rush/", zach_review: "https://letterboxd.com/hetchy/film/the-gold-rush/" },
-                { title: "Battleship Potemkin (1925)", jyoung_review: "https://letterboxd.com/jyoun/film/battleship-potemkin/", zach_review: "https://letterboxd.com/hetchy/film/battleship-potemkin/" },
-                { title: "The General (1926)", jyoung_review: "https://letterboxd.com/jyoun/film/the-general/", zach_review: "https://letterboxd.com/hetchy/film/the-general/" },
-                { title: "Sunrise (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/sunrise-a-song-of-two-humans/", zach_review: "https://letterboxd.com/hetchy/film/sunrise-a-song-of-two-humans/" },
-                { title: "Metropolis (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/metropolis/", zach_review: "https://letterboxd.com/hetchy/film/metropolis/" },
-                { title: "Napoleon (1927)", jyoung_review: "https://letterboxd.com/jyoun/film/napoleon/", zach_review: "https://letterboxd.com/hetchy/film/napoleon/" },
-                { title: "Joan of Arc (1928)", jyoung_review: "https://letterboxd.com/jyoun/film/the-passion-of-joan-of-arc/", zach_review: "https://letterboxd.com/hetchy/film/the-passion-of-joan-of-arc/" },
-                { title: "Late Spring (1949)", jyoung_review: "https://letterboxd.com/jyoun/film/late-spring/", zach_review: "https://letterboxd.com/hetchy/film/late-spring/" },
-                { title: "Citizen Kane (1941)", jyoung_review: "https://letterboxd.com/jyoun/film/citizen-kane/" }
-            ];
 
-            const jBrooksTopTen = ["Sherlock Jr. (1924)", "Sunrise (1927)", "Joan of Arc (1928)", "Late Spring (1949)", "Citizen Kane (1941)"];
-            const zachTopTen = ["The Last Laugh (1924)", "Napoleon (1927)", "Metropolis (1927)"];
-
-            const displayFilm = (filmTitle, outputElement) => {
-                const film = filmList.find(f => f.title === filmTitle) || { title: filmTitle };
-                const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(film.title)}`;
-                let outputHTML = `<p class="text-xl font-bold text-center mb-8 leading-relaxed">${film.title}</p>`;
-                if (film.jyoung_review || film.zach_review) {
-                    outputHTML += `<div class="flex flex-wrap justify-center gap-6 mb-10">`;
-                    if (film.jyoung_review) outputHTML += `<a href="${film.jyoung_review}" target="_blank" class="accent-link">J Brooks' review</a>`;
-                    if (film.zach_review) outputHTML += `<a href="${film.zach_review}" target="_blank" class="accent-link">Zach's review</a>`;
-                    outputHTML += `</div>`;
-                }
-                outputHTML += `<div class="flex justify-center"><a href="${searchUrl}" target="_blank" class="btn-secondary">Where to watch</a></div>`;
-                outputElement.innerHTML = outputHTML;
-            };
-
-            suggestFilmBtn.addEventListener('click', () => {
-                const randomFilm = filmList[Math.floor(Math.random() * filmList.length)];
-                if (randomFilm) displayFilm(randomFilm.title, filmSuggestionOutput);
-                jBrooksSelect.value = ""; zachSelect.value = ""; jBrooksOutput.innerHTML = ""; zachOutput.innerHTML = "";
-            });
-
-            jBrooksSelect.addEventListener('change', (e) => {
-                if (e.target.value) { displayFilm(e.target.value, jBrooksOutput); zachSelect.value = ""; zachOutput.innerHTML = ""; }
-            });
-
-            zachSelect.addEventListener('change', (e) => {
-                if (e.target.value) { displayFilm(e.target.value, zachOutput); jBrooksSelect.value = ""; jBrooksOutput.innerHTML = ""; }
-            });
-
+            // --- FILM SUGGESTION & DROPDOWN FUNCTIONS ---
             const populateDropdown = (selectElement, filmTitles) => {
                 filmTitles.forEach(title => {
                     const option = document.createElement('option');
@@ -504,11 +750,138 @@
                 });
             };
 
+            const displayFilm = (filmTitle, outputElement) => {
+                 const film = filmList.find(f => f.title === filmTitle);
+                 if (!film) {
+                     outputElement.innerHTML = `<p class="text-gray-400">Details not found for this film.</p>`;
+                     return;
+                 }
+
+                const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(film.title)}`;
+                
+                let outputHTML = `<p class="text-lg font-bold text-center mb-4">${film.title}</p>`;
+
+                if (film.thought && film.attribution) {
+                    outputHTML += `
+                        <blockquote class="text-gray-400 italic my-4 max-w-prose mx-auto">
+                            <p class="text-center">"${film.thought}"</p>
+                            <footer class="text-right not-italic text-sm mt-2 pr-4">${film.attribution}</footer>
+                        </blockquote>
+                    `;
+                } else if (film.jyoung_review || film.zach_review) {
+                    // Fallback to review links if no quote available, styled like file 2 but within file 1 structure
+                     outputHTML += `<div class="flex flex-wrap justify-center gap-4 mb-4 text-sm">`;
+                    if (film.jyoung_review) outputHTML += `<a href="${film.jyoung_review}" target="_blank" class="accent-link">J Brooks' review</a>`;
+                    if (film.jyoung_review && film.zach_review) outputHTML += `<span class="text-gray-600">|</span>`;
+                    if (film.zach_review) outputHTML += `<a href="${film.zach_review}" target="_blank" class="accent-link">Zach's review</a>`;
+                    outputHTML += `</div>`;
+                }
+                
+                outputHTML += `<div class="text-center"><a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Where to watch</a></div>`;
+                outputElement.innerHTML = outputHTML;
+            };
+
+             // Generic function to fetch and display a Letterboxd RSS feed
+            const fetchAndDisplayLetterboxdFeed = async (rssUrl, containerId) => {
+                const feedContainer = document.getElementById(containerId);
+                if (!feedContainer) return;
+
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+
+                    if (data.status === 'ok' && data.items && data.items.length > 0) {
+                        const latestItems = data.items.slice(0, 3);
+                        let feedHtml = '<h4 class="text-base font-bold text-gray-50 mb-3">Latest Reviews</h4>';
+                        latestItems.forEach(item => {
+                            feedHtml += `
+                                <div class="mb-2">
+                                    <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="accent-link">${item.title}</a>
+                                </div>
+                            `;
+                        });
+                        feedContainer.innerHTML = feedHtml;
+                    } else {
+                        feedContainer.innerHTML = '<p class="text-gray-400 text-xs">Could not load recent reviews.</p>';
+                    }
+                } catch (error) {
+                    console.error('Error fetching Letterboxd feed:', error);
+                    feedContainer.innerHTML = '<p class="text-gray-400 text-xs">Error loading recent reviews.</p>';
+                }
+            };
+        
+            // Event listeners
+            suggestFilmBtn.addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * filmList.length);
+                const randomFilm = filmList[randomIndex];
+                displayFilm(randomFilm.title, filmSuggestionOutput);
+                // Clear dropdowns when random button is clicked
+                jBrooksSelect.value = "";
+                zachSelect.value = "";
+                jBrooksOutput.innerHTML = "";
+                zachOutput.innerHTML = "";
+            });
+
+            jBrooksSelect.addEventListener('change', (e) => {
+                if (e.target.value) {
+                    displayFilm(e.target.value, jBrooksOutput);
+                    zachSelect.value = ""; // Reset other dropdown
+                    zachOutput.innerHTML = ""; // Clear other dropdown output
+                } else {
+                    jBrooksOutput.innerHTML = "";
+                }
+            });
+
+            zachSelect.addEventListener('change', (e) => {
+                if (e.target.value) {
+                    displayFilm(e.target.value, zachOutput);
+                    jBrooksSelect.value = ""; // Reset other dropdown
+                     jBrooksOutput.innerHTML = ""; // Clear other dropdown output
+                } else {
+                     zachOutput.innerHTML = "";
+                }
+            });
+
+            // Contact Form
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const data = new FormData(form);
+                
+                try {
+                    const response = await fetch(form.action, {
+                        method: form.method,
+                        body: data,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        contactForm.style.display = 'none';
+                        thankYouMessage.innerHTML = `<p>Thank you for getting in touch! We might answer your question on the pod so be sure to tune in!</p>`;
+                        thankYouMessage.classList.remove('hidden');
+                    } else {
+                        thankYouMessage.innerHTML = `<p class="text-red-400">Oops! There was a problem submitting your form.</p>`;
+                        thankYouMessage.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    thankYouMessage.innerHTML = `<p class="text-red-400">Oops! There was a problem submitting your form.</p>`;
+                    thankYouMessage.classList.remove('hidden');
+                }
+            });
+
+
+            // --- INITIALIZATION ---
             populateDropdown(jBrooksSelect, jBrooksTopTen);
             populateDropdown(zachSelect, zachTopTen);
-
-            fetchEpisodes();
+            fetchAndDisplayLetterboxdFeed('https://letterboxd.com/jyoun/rss/', 'jbrooks-rss-feed');
+            fetchAndDisplayLetterboxdFeed('https://letterboxd.com/hetchy/rss/', 'zach-rss-feed');
+            fetchEpisodes(); // Start fetching podcast episodes
         });
     </script>
+
 </body>
 </html>
