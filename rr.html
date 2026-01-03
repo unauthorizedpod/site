@@ -3,142 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Preview</title>
     
-    <!-- PRIMARY META TAGS -->
-    <title>Check this out!</title>
-    <meta name="title" content="Check this out!">
-    <meta name="description" content="You won't believe what's on this page.">
-
-    <!-- OPEN GRAPH / FACEBOOK / DISCORD -->
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Watch the Latest Film">
+    <meta property="og:description" content="Click to play the video experience.">
+    <!-- Using the direct image link for social shares -->
+    <meta property="og:image" content="https://i.ibb.co/L5hY6Xy/IMG-3294.jpg">
     <meta property="og:type" content="website">
-    <!-- Replace 'https://yourdomain.com' with your actual URL once hosted -->
-    <meta property="og:url" content="https://yourdomain.com/">
-    <meta property="og:title" content="Check this out!">
-    <meta property="og:description" content="You won't believe what's on this page.">
-    <!-- Platforms prefer an absolute URL for the image -->
-    <meta property="og:image" content="image.png"> 
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://i.ibb.co/L5hY6Xy/IMG-3294.jpg">
 
-    <!-- TWITTER -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://yourdomain.com/">
-    <meta property="twitter:title" content="Check this out!">
-    <meta property="twitter:description" content="You won't believe what's on this page.">
-    <meta property="twitter:image" content="image.png">
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body, html {
             margin: 0;
             padding: 0;
-            width: 100%;
             height: 100%;
             overflow: hidden;
             background-color: #000;
         }
-
-        /* The cover image container */
-        #cover {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 999;
-            background-image: url('image.png');
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+        
+        .img-container:hover .main-photo {
+            transform: scale(1.03);
         }
 
-        /* The video container */
-        #video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
+        .main-photo {
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        iframe {
-            width: 100vw;
-            height: 56.25vw; /* 16:9 ratio */
-            min-height: 100vh;
-            min-width: 177.77vh; 
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none; /* User can't pause it */
+        .play-button {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
-        .hidden {
-            opacity: 0 !important;
-            visibility: hidden;
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.08);
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .vignette {
+            background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.6) 100%);
             pointer-events: none;
         }
     </style>
 </head>
-<body>
+<body class="bg-black flex items-center justify-center cursor-pointer select-none">
 
-    <!-- First click unmutes and hides the cover -->
-    <div id="cover" onclick="startRickRoll()"></div>
+    <!-- Background Image Container -->
+    <div class="img-container absolute inset-0 w-full h-full overflow-hidden">
+        <img 
+            src="https://i.ibb.co/L5hY6Xy/IMG-3294.jpg" 
+            alt="Cinematic Background" 
+            class="main-photo w-full h-full object-cover block"
+            onerror="this.src='https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1920'; console.warn('Provided URL failed to load. Using fallback.');"
+        >
+        
+        <!-- Deep Vignette -->
+        <div class="vignette absolute inset-0 z-10"></div>
+    </div>
 
-    <div id="video-container">
-        <div id="player"></div>
+    <!-- Play Button Overlay -->
+    <div class="play-button absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-36 md:h-36 bg-white/10 border border-white/30 rounded-full flex items-center justify-center z-20 shadow-2xl">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-12 h-12 md:w-20 md:h-20 ml-2 drop-shadow-lg">
+            <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+        </svg>
+    </div>
+
+    <!-- Bottom Branding/Status -->
+    <div id="status" class="opacity-0 transition-opacity duration-500 fixed bottom-12 bg-white/10 text-white px-8 py-3 rounded-full text-xs font-light tracking-[0.2em] uppercase z-30 border border-white/5 backdrop-blur-md">
+        Initializing Film...
     </div>
 
     <script>
-        let player;
-        const videoId = 'dQw4w9WgXcQ'; 
+        const body = document.body;
+        const status = document.getElementById('status');
 
-        // Load YouTube API
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '100%',
-                width: '100%',
-                videoId: videoId,
-                playerVars: {
-                    'autoplay': 1,
-                    'mute': 1, // Required for autoplay on load
-                    'controls': 0,        
-                    'showinfo': 0,
-                    'rel': 0,             
-                    'iv_load_policy': 3,  
-                    'modestbranding': 1,  
-                    'disablekb': 1,       
-                    'playsinline': 1,
-                    'loop': 1,
-                    'playlist': videoId // Required for looping
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            // Video plays silently behind the cover immediately
-            event.target.playVideo();
-        }
-
-        function startRickRoll() {
-            const cover = document.getElementById('cover');
-            if (player) {
-                // UNMUTE and reveal
-                player.unMute();
-                player.setVolume(100);
-                player.playVideo();
-                cover.classList.add('hidden');
-            }
-        }
+        body.addEventListener('click', () => {
+            status.style.opacity = '1';
+            
+            // Interaction logic: Redirect to video or open player
+            setTimeout(() => {
+                status.style.opacity = '0';
+            }, 3000);
+        });
     </script>
 </body>
 </html>
