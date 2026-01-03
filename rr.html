@@ -104,12 +104,13 @@
                 width: '100%',
                 videoId: videoId,
                 playerVars: {
-                    'autoplay': 0,        // We will trigger play manually
+                    'autoplay': 1,        // Attempt to autoplay
+                    'mute': 1,            // Browsers allow autoplay ONLY if muted
                     'controls': 0,        // Hide all play buttons and progress bars
                     'showinfo': 0,
                     'rel': 0,             // Don't show related videos
                     'iv_load_policy': 3,  // Hide annotations
-                    'modestbranding': 1,  // Hide YouTube logo as much as possible
+                    'modestbranding': 1,  // Hide YouTube logo
                     'disablekb': 1,       // Disable keyboard shortcuts
                     'playsinline': 1
                 },
@@ -120,14 +121,16 @@
         }
 
         function onPlayerReady(event) {
-            // Player is ready, but we wait for user interaction to play with sound
+            // Video should start playing automatically (muted) behind the cover
         }
 
         function startRickRoll() {
             const cover = document.getElementById('cover');
             
-            // Start playing the video
-            if (player && player.playVideo) {
+            if (player) {
+                // Unmute the video and ensure it's playing
+                player.unMute();
+                player.setVolume(100);
                 player.playVideo();
                 
                 // Fade out the cover image
