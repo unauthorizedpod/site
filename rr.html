@@ -3,94 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinema Preview</title>
+    <title>Watch my latest Sora video!</title>
     
-    <!-- Open Graph / Social Media Meta Tags -->
+    <!-- Open Graph Metadata for Social Sharing -->
     <meta property="og:title" content="Watch my latest Sora video!">
-    <meta property="og:description" content="Click to play the video experience.">
-    <!-- Using the direct image link for social shares -->
-    <meta property="og:image" content="https://i.ibb.co/L5hY6Xy/IMG-3294.jpg">
+    <meta property="og:description" content="Check out this incredible new footage generated with AI.">
+    <meta property="og:image" content="https://i.ibb.co/YF8rdkhm/IMG-3294.jpg">
     <meta property="og:type" content="website">
+
+    <!-- Twitter Card Metadata -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://i.ibb.co/L5hY6Xy/IMG-3294.jpg">
+    <meta name="twitter:title" content="Watch my latest Sora video!">
+    <meta name="twitter:image" content="https://i.ibb.co/YF8rdkhm/IMG-3294.jpg">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body, html {
+            height: 100%;
             margin: 0;
             padding: 0;
-            height: 100%;
             overflow: hidden;
             background-color: #000;
         }
-        
-        .img-container:hover .main-photo {
-            transform: scale(1.03);
+
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
         }
 
-        .main-photo {
-            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.15); /* Slight darkening to make button pop */
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Play Button Styling */
         .play-button {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            width: 90px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
         .play-button:hover {
-            transform: translate(-50%, -50%) scale(1.08);
-            background-color: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.4);
+            border-color: #fff;
         }
 
-        .vignette {
-            background: radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,0.6) 100%);
-            pointer-events: none;
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-top: 18px solid transparent;
+            border-bottom: 18px solid transparent;
+            border-left: 30px solid white;
+            margin-left: 10px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* Loading state placeholder */
+        .loader {
+            position: absolute;
+            color: white;
+            font-family: sans-serif;
+            opacity: 0.5;
         }
     </style>
 </head>
-<body class="bg-black flex items-center justify-center cursor-pointer select-none">
+<body>
 
     <!-- Background Image Container -->
-    <div class="img-container absolute inset-0 w-full h-full overflow-hidden">
+    <div class="bg-container">
         <img 
-            src="https://i.ibb.co/L5hY6Xy/IMG-3294.jpg" 
-            alt="Cinematic Background" 
-            class="main-photo w-full h-full object-cover block"
-            onerror="this.src='https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1920'; console.warn('Provided URL failed to load. Using fallback.');"
+            src="https://i.ibb.co/YF8rdkhm/IMG-3294.jpg" 
+            class="bg-image" 
+            alt="Sora Video Background"
+            onerror="this.style.display='none'; document.getElementById('error-msg').style.display='block';"
         >
-        
-        <!-- Deep Vignette -->
-        <div class="vignette absolute inset-0 z-10"></div>
+        <div id="error-msg" class="loader" style="display:none; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            Image not found. Please check the URL.
+        </div>
     </div>
 
-    <!-- Play Button Overlay -->
-    <div class="play-button absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-36 md:h-36 bg-white/10 border border-white/30 rounded-full flex items-center justify-center z-20 shadow-2xl">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-12 h-12 md:w-20 md:h-20 ml-2 drop-shadow-lg">
-            <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
-        </svg>
+    <!-- UI Overlay -->
+    <div class="overlay">
+        <!-- Play Button -->
+        <div class="play-button" aria-label="Play Video">
+            <div class="play-icon"></div>
+        </div>
     </div>
 
-    <!-- Bottom Branding/Status -->
-    <div id="status" class="opacity-0 transition-opacity duration-500 fixed bottom-12 bg-white/10 text-white px-8 py-3 rounded-full text-xs font-light tracking-[0.2em] uppercase z-30 border border-white/5 backdrop-blur-md">
-        Redirecting to film...
-    </div>
-
-    <script>
-        const body = document.body;
-        const status = document.getElementById('status');
-        const videoUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-
-        body.addEventListener('click', () => {
-            // Show status feedback
-            status.style.opacity = '1';
-            
-            // Short delay to allow the UI to respond before navigating
-            setTimeout(() => {
-                window.location.href = videoUrl;
-            }, 800);
-        });
-    </script>
 </body>
 </html>
