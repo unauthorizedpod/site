@@ -4,20 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Social Media Sharing Meta Tags (Open Graph) -->
+    <!-- PRIMARY META TAGS -->
     <title>Check this out!</title>
+    <meta name="title" content="Check this out!">
     <meta name="description" content="You won't believe what's on this page.">
-    
-    <!-- This ensures your image shows up when the link is shared -->
+
+    <!-- OPEN GRAPH / FACEBOOK / DISCORD -->
+    <meta property="og:type" content="website">
+    <!-- Replace 'https://yourdomain.com' with your actual URL once hosted -->
+    <meta property="og:url" content="https://yourdomain.com/">
     <meta property="og:title" content="Check this out!">
     <meta property="og:description" content="You won't believe what's on this page.">
-    <meta property="og:image" content="image.png">
-    <meta property="og:type" content="website">
-    
-    <!-- Twitter Card tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Check this out!">
-    <meta name="twitter:image" content="image.png">
+    <!-- Platforms prefer an absolute URL for the image -->
+    <meta property="og:image" content="image.png"> 
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- TWITTER -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourdomain.com/">
+    <meta property="twitter:title" content="Check this out!">
+    <meta property="twitter:description" content="You won't believe what's on this page.">
+    <meta property="twitter:image" content="image.png">
 
     <style>
         body, html {
@@ -27,7 +35,6 @@
             height: 100%;
             overflow: hidden;
             background-color: #000;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         /* The cover image container */
@@ -42,27 +49,7 @@
             background-size: cover;
             background-position: center;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease-out, visibility 0.5s;
-        }
-
-        /* Subtle hint for the user - making it look like a play-worthy image */
-        #cover::after {
-            content: "";
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: block;
-            opacity: 0;
-            transition: opacity 0.3s;
-            border: 2px solid white;
-        }
-
-        #cover:hover::after {
-            opacity: 0.5;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
         }
 
         /* The video container */
@@ -72,29 +59,31 @@
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
+            background: black;
         }
 
         iframe {
             width: 100vw;
-            height: 56.25vw; /* 16:9 Aspect Ratio */
+            height: 56.25vw; /* 16:9 ratio */
             min-height: 100vh;
-            min-width: 177.77vh; /* 16:9 Aspect Ratio */
+            min-width: 177.77vh; 
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            pointer-events: none; /* User can't pause it */
         }
 
         .hidden {
             opacity: 0 !important;
             visibility: hidden;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- This is the image provided by the user -->
+    <!-- First click unmutes and hides the cover -->
     <div id="cover" onclick="startRickRoll()"></div>
 
     <div id="video-container">
@@ -105,6 +94,7 @@
         let player;
         const videoId = 'dQw4w9WgXcQ'; 
 
+        // Load YouTube API
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -117,14 +107,16 @@
                 videoId: videoId,
                 playerVars: {
                     'autoplay': 1,
-                    'mute': 1,            // Starts muted to satisfy browser autoplay policies
+                    'mute': 1, // Required for autoplay on load
                     'controls': 0,        
                     'showinfo': 0,
                     'rel': 0,             
                     'iv_load_policy': 3,  
                     'modestbranding': 1,  
                     'disablekb': 1,       
-                    'playsinline': 1
+                    'playsinline': 1,
+                    'loop': 1,
+                    'playlist': videoId // Required for looping
                 },
                 events: {
                     'onReady': onPlayerReady
@@ -133,19 +125,17 @@
         }
 
         function onPlayerReady(event) {
-            // Video starts playing muted behind the cover image immediately
+            // Video plays silently behind the cover immediately
+            event.target.playVideo();
         }
 
         function startRickRoll() {
             const cover = document.getElementById('cover');
-            
             if (player) {
-                // The moment they click the cover, we unmute and play with sound
+                // UNMUTE and reveal
                 player.unMute();
                 player.setVolume(100);
                 player.playVideo();
-                
-                // Hide the cover image to reveal the video
                 cover.classList.add('hidden');
             }
         }
