@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surprise!</title>
+    
+    <!-- Social Media Sharing Meta Tags (Open Graph) -->
+    <title>Check this out!</title>
+    <meta name="description" content="You won't believe what's on this page.">
+    
+    <!-- This ensures your image shows up when the link is shared -->
+    <meta property="og:title" content="Check this out!">
+    <meta property="og:description" content="You won't believe what's on this page.">
+    <meta property="og:image" content="image.png">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Check this out!">
+    <meta name="twitter:image" content="image.png">
+
     <style>
         body, html {
             margin: 0;
@@ -30,23 +45,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.8s ease-out, visibility 0.8s;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
         }
 
-        /* Subtle hint for the user to click if it's not obvious */
+        /* Subtle hint for the user - making it look like a play-worthy image */
         #cover::after {
-            content: "Click to View";
-            color: white;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: bold;
+            content: "";
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: block;
             opacity: 0;
             transition: opacity 0.3s;
+            border: 2px solid white;
         }
 
         #cover:hover::after {
-            opacity: 1;
+            opacity: 0.5;
         }
 
         /* The video container */
@@ -56,7 +72,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Prevents interaction with the iframe directly */
+            pointer-events: none;
         }
 
         iframe {
@@ -82,36 +98,32 @@
     <div id="cover" onclick="startRickRoll()"></div>
 
     <div id="video-container">
-        <!-- We use the YouTube IFrame API for better control -->
         <div id="player"></div>
     </div>
 
     <script>
         let player;
-        const videoId = 'dQw4w9WgXcQ'; // Rick Astley - Never Gonna Give You Up
+        const videoId = 'dQw4w9WgXcQ'; 
 
-        // 1. Load the IFrame Player API code asynchronously.
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // 2. This function creates an <iframe> (and YouTube player)
-        //    after the API code downloads.
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '100%',
                 width: '100%',
                 videoId: videoId,
                 playerVars: {
-                    'autoplay': 1,        // Attempt to autoplay
-                    'mute': 1,            // Browsers allow autoplay ONLY if muted
-                    'controls': 0,        // Hide all play buttons and progress bars
+                    'autoplay': 1,
+                    'mute': 1,            // Starts muted to satisfy browser autoplay policies
+                    'controls': 0,        
                     'showinfo': 0,
-                    'rel': 0,             // Don't show related videos
-                    'iv_load_policy': 3,  // Hide annotations
-                    'modestbranding': 1,  // Hide YouTube logo
-                    'disablekb': 1,       // Disable keyboard shortcuts
+                    'rel': 0,             
+                    'iv_load_policy': 3,  
+                    'modestbranding': 1,  
+                    'disablekb': 1,       
                     'playsinline': 1
                 },
                 events: {
@@ -121,19 +133,19 @@
         }
 
         function onPlayerReady(event) {
-            // Video should start playing automatically (muted) behind the cover
+            // Video starts playing muted behind the cover image immediately
         }
 
         function startRickRoll() {
             const cover = document.getElementById('cover');
             
             if (player) {
-                // Unmute the video and ensure it's playing
+                // The moment they click the cover, we unmute and play with sound
                 player.unMute();
                 player.setVolume(100);
                 player.playVideo();
                 
-                // Fade out the cover image
+                // Hide the cover image to reveal the video
                 cover.classList.add('hidden');
             }
         }
