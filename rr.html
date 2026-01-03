@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise!</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* The cover image container */
+        #cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            background-image: url('image.png');
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+
+        /* Subtle hint for the user to click if it's not obvious */
+        #cover::after {
+            content: "Click to View";
+            color: white;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #cover:hover::after {
+            opacity: 1;
+        }
+
+        /* The video container */
+        #video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Prevents interaction with the iframe directly */
+        }
+
+        iframe {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Aspect Ratio */
+            min-height: 100vh;
+            min-width: 177.77vh; /* 16:9 Aspect Ratio */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .hidden {
+            opacity: 0 !important;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- This is the image provided by the user -->
+    <div id="cover" onclick="startRickRoll()"></div>
+
+    <div id="video-container">
+        <!-- We use the YouTube IFrame API for better control -->
+        <div id="player"></div>
+    </div>
+
+    <script>
+        let player;
+        const videoId = 'dQw4w9WgXcQ'; // Rick Astley - Never Gonna Give You Up
+
+        // 1. Load the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 2. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                videoId: videoId,
+                playerVars: {
+                    'autoplay': 0,        // We will trigger play manually
+                    'controls': 0,        // Hide all play buttons and progress bars
+                    'showinfo': 0,
+                    'rel': 0,             // Don't show related videos
+                    'iv_load_policy': 3,  // Hide annotations
+                    'modestbranding': 1,  // Hide YouTube logo as much as possible
+                    'disablekb': 1,       // Disable keyboard shortcuts
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Player is ready, but we wait for user interaction to play with sound
+        }
+
+        function startRickRoll() {
+            const cover = document.getElementById('cover');
+            
+            // Start playing the video
+            if (player && player.playVideo) {
+                player.playVideo();
+                
+                // Fade out the cover image
+                cover.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
