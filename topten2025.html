@@ -3,406 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 Film Ranker | Some Like It Unauthorized</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0B14'/%3E%3Ctext x='16' y='13' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3ESL%3C/text%3E%3Ctext x='16' y='27' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3EIU%3C/text%3E%3C/svg%3E">
+    <title>Film Gallery | Some Like It Unauthorized</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Libraries for Zipping files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;800&display=swap" rel="stylesheet">
     
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0D0B14;
-            color: #D1D5DB;
-            overflow-x: hidden;
-        }
-        h1, h2, h3 {
+            background-color: #050505;
+            color: #ffffff;
             font-family: 'Manrope', sans-serif;
-            color: #F9FAFB;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #a78bfa, #f472b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .slot {
-            aspect-ratio: 16/9;
-            background-color: #1A1625;
-            border: 2px dashed #2a2438;
-            border-radius: 0.75rem;
-            position: relative;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .slot.drag-over {
-            border-color: #a78bfa;
-            background-color: rgba(167, 139, 250, 0.1);
-        }
-        .slot-number {
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            width: 24px;
-            height: 24px;
-            background: #a78bfa;
-            color: #0D0B14;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.65rem;
-            z-index: 20;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            padding: 20px;
         }
 
-        .film-item {
-            width: 100%;
-            height: 100%;
-            cursor: grab;
-            position: relative;
-            border-radius: 0.6rem;
-            overflow: hidden;
-            transition: transform 0.2s;
-            z-index: 10;
+        /* Controls Area */
+        #controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
         }
-        .film-item:active { cursor: grabbing; }
-        .film-item img {
+
+        .action-btn {
+            background-color: #a78bfa;
+            color: #050505;
+            font-weight: 800;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background-color: #c4b5fd;
+            transform: translateY(-2px);
+        }
+
+        .action-btn:disabled {
+            background-color: #4b5563;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 4px;
+        }
+
+        .film-square {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            cursor: pointer; /* Indicates clickable for download */
+        }
+
+        /* Visual representation (HTML/CSS layer) */
+        .visual-layer img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0.8;
         }
-        .film-overlay {
+
+        .film-square:hover .visual-layer img {
+            transform: scale(1.05);
+            opacity: 0.5;
+        }
+
+        .visual-layer .film-title {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 0.4rem;
-            background: linear-gradient(to top, rgba(13, 11, 20, 0.95), transparent);
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 700;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            pointer-events: none;
-            text-transform: uppercase;
-        }
-
-        .pool-container {
-            background-color: #1A1625;
-            border: 1px solid #2a2438;
-            border-radius: 1rem;
             padding: 1rem;
-            position: relative;
-        }
-        
-        .pool-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 1rem;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 0.5rem;
+            background: rgba(0,0,0,0.2);
+            pointer-events: none;
+            transition: background 0.3s;
         }
 
-        .pool-item {
-            aspect-ratio: 16/9;
-            background: #2a2438;
-            border-radius: 0.5rem;
-            cursor: grab;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid transparent;
-            transition: all 0.2s;
-        }
-        .pool-item:hover {
-            border-color: #a78bfa;
-            transform: scale(1.05);
-            z-index: 30;
+        .film-square:hover .visual-layer .film-title {
+            background: rgba(0,0,0,0.6);
         }
 
-        .consensus-card {
-            background: linear-gradient(145deg, #1A1625, #0D0B14);
-            border: 1px solid #2a2438;
-            border-radius: 1rem;
-            padding: 1.5rem;
+        .title-text {
+            font-weight: 800;
+            font-size: 1.1rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            letter-spacing: 0.05em;
         }
 
-        /* General scroller */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #2a2438; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4a4063; }
+        /* Download overlay icon */
+        .download-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            padding: 6px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .film-square:hover .download-icon {
+            opacity: 1;
+        }
+
+        #status-msg {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            font-family: monospace;
+        }
     </style>
 </head>
-<body class="antialiased min-h-screen p-4 md:p-8">
+<body>
 
-    <main class="max-w-7xl mx-auto space-y-12">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-8">
-            <!-- J Brooks Section -->
-            <section id="jbrooks-grid">
-                <h2 class="text-xl font-bold mb-6 text-purple-400 uppercase tracking-widest flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-xs">JB</span>
-                    J Brooks' Top Ten
-                </h2>
-                <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
-                    <div class="slot" data-user="jbrooks" data-rank="1"><div class="slot-number">1</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="2"><div class="slot-number">2</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="3"><div class="slot-number">3</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="4"><div class="slot-number">4</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="5"><div class="slot-number">5</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="6"><div class="slot-number">6</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="7"><div class="slot-number">7</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="8"><div class="slot-number">8</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="9"><div class="slot-number">9</div></div>
-                    <div class="slot" data-user="jbrooks" data-rank="10"><div class="slot-number">10</div></div>
-                </div>
-            </section>
+    <div id="controls">
+        <button id="download-zip-btn" class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download All (ZIP)
+        </button>
+        <span id="status-msg"></span>
+    </div>
 
-            <!-- Zach Section -->
-            <section id="zach-grid">
-                <h2 class="text-xl font-bold mb-6 text-purple-400 uppercase tracking-widest flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-xs">ZD</span>
-                    Zach's Top Ten
-                </h2>
-                <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
-                    <div class="slot" data-user="zach" data-rank="1"><div class="slot-number">1</div></div>
-                    <div class="slot" data-user="zach" data-rank="2"><div class="slot-number">2</div></div>
-                    <div class="slot" data-user="zach" data-rank="3"><div class="slot-number">3</div></div>
-                    <div class="slot" data-user="zach" data-rank="4"><div class="slot-number">4</div></div>
-                    <div class="slot" data-user="zach" data-rank="5"><div class="slot-number">5</div></div>
-                    <div class="slot" data-user="zach" data-rank="6"><div class="slot-number">6</div></div>
-                    <div class="slot" data-user="zach" data-rank="7"><div class="slot-number">7</div></div>
-                    <div class="slot" data-user="zach" data-rank="8"><div class="slot-number">8</div></div>
-                    <div class="slot" data-user="zach" data-rank="9"><div class="slot-number">9</div></div>
-                    <div class="slot" data-user="zach" data-rank="10"><div class="slot-number">10</div></div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Pool of Films (Grid) -->
-        <section>
-            <div class="flex justify-between items-end mb-4">
-                <h2 class="text-xl font-bold text-gray-400 uppercase tracking-widest">Film Pool</h2>
-                <button id="reset-btn" class="text-xs text-gray-500 hover:text-white transition-colors underline">Clear All Slots</button>
-            </div>
-            <div class="pool-container">
-                <div id="pool" class="pool-grid">
-                    <div class="col-span-full py-10 text-center text-gray-600 animate-pulse">Loading film pool...</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Consensus Section -->
-        <section id="consensus-section">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-2xl font-bold mb-6 text-center gradient-text uppercase tracking-[0.2em]">The Consensus</h2>
-                <div class="consensus-card">
-                    <div id="consensus-list" class="space-y-4">
-                        <p class="text-center text-gray-500 italic py-4">Build both lists to see the shared top ten...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
+    <div id="gallery" class="gallery-grid"></div>
 
     <script>
         const apiKey = "746e663319009236f390938e29383ae0";
-        const poolEl = document.getElementById('pool');
-        const slots = document.querySelectorAll('.slot');
-        const consensusListEl = document.getElementById('consensus-list');
-        const resetBtn = document.getElementById('reset-btn');
+        const gallery = document.getElementById('gallery');
+        const downloadBtn = document.getElementById('download-zip-btn');
+        const statusMsg = document.getElementById('status-msg');
 
-        const filmTitles = [
-            "Marty Supreme", "One Battle After Another", "No Other Choice", "Bugonia", "Dracula Radu Jude", 
-            "Weapons", "28 Years Later", "Materialists", "Mastermind", "Sentimental Value",
-            "It Was Just an Accident", "Phoenician Scheme", "Nouvelle Vague", "Eddington", "Sinners", 
-            "What Does the Nature Say to You", "Kontinental 25", "Blue Moon", "Mickey 17", "Magic Farm",
-            "Peter Hujars Day", "Sorry, Baby", "Train Dreams", "If I Had Legs I’d Kick You", 
-            "Caught By the Tides", "On Becoming a Guinea Fowl", "Secret Agent", "Roofman", 
-            "Jay Kelly", "Springsteen", "Dreams (Sex Love Dreams)", "Friendship"
+        // Cache found image URLs so we don't re-fetch for the zip
+        const imageCache = {};
+
+        const films = [
+            "Halloween", "Behindert", "Vengeance Is Mine", "Throw Away Your Books, Rally in the Streets", 
+            "Two-Lane Blacktop", "Perfect Blue", "Underground", "Miller's Crossing", "Fargo", 
+            "Naked", "Secrets & Lies", "The Travelling Players", "Eternity and a Day", 
+            "Landscape in the Mist", "Raise the Red Lantern", "The Company of Strangers", 
+            "All the President's Men", "Autumn Sonata", "Incendies", "Mishima: A Life in Four Chapters", 
+            "Memories of Murder", "The Pianist", "The Killing of a Chinese Bookie", "Nobody Knows", 
+            "Life Is Beautiful", "Farewell My Concubine", "An Elephant Sitting Still", "A Special Day", 
+            "Das Boot", "Dersu Uzala", "Akira", "Life, and Nothing More…", "Malcolm X", "Cure", 
+            "The Lovers on the Bridge", "A Moment of Innocence", "Poetry", "Streetwise", 
+            "The Emperor's Naked Army Marches On", "Crumb", "Manila in the Claws of Light", 
+            "Nowhere", "Safe", "Exotica", "The Cook, the Thief, His Wife & Her Lover", 
+            "In the Realm of the Senses", "Southern Comfort", "Beautiful Thing", "Show Me Love", 
+            "Eating Raoul", "Y Tu Mamá También", "La Cérémonie", "Day for Night", 
+            "The Long Goodbye", "Ms .45", "Pastoral: To Die in the Country", "Jodorowsky's Dune", 
+            "Eureka", "The New Land", "Songs from the Second Floor", "Ritual", "Lilya 4-ever", 
+            "Maborosi", "Portrait of a Young Girl at the End of the 60s in Brussels", "Peppermint Candy", 
+            "Happy Hour", "The Life of Jesus", "Motorama", "El Norte", "The Holy Innocents", 
+            "Ganja & Hess", "Colossal Youth", "Hard to Be a God", "Death of Yazdgerd", "Nayakan", 
+            "Comrades, Almost a Love Story", "Dead Man's Letters", "Twelve Monkeys", "JFK", 
+            "Man of Marble", "The World According to Garp", "Flesh for Frankenstein", "Breaking the Waves"
         ];
 
-        let draggedElement = null;
-        let isFromPool = false;
+        async function fetchImage(title) {
+            if (title === "Underground") {
+                // Specific ID for Underground (1995) to avoid conflict
+                try {
+                    const response = await fetch(`https://api.themoviedb.org/3/movie/11902?api_key=${apiKey}`);
+                    const data = await response.json();
+                    if (data.poster_path) return `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+                    if (data.backdrop_path) return `https://image.tmdb.org/t/p/w780${data.backdrop_path}`;
+                    return null;
+                } catch { return null; }
+            }
 
-        async function init() {
-            poolEl.innerHTML = '';
-            const films = await Promise.all(filmTitles.map(async (title) => {
-                const backdrop = await fetchBackdrop(title);
-                return { title, backdrop };
-            }));
-            films.forEach(film => poolEl.appendChild(createFilmElement(film, true)));
-            setupDragAndDrop();
-        }
-
-        async function fetchBackdrop(title) {
             try {
-                let url;
-                // Specifically targeting Radu Jude's Dracula by ID
-                if (title.includes("Dracula Radu Jude")) {
-                    url = `https://api.themoviedb.org/3/movie/1323409?api_key=${apiKey}`;
-                } else {
-                    let query = title;
-                    if (title.includes("Dreams (Sex Love Dreams)")) {
-                        query = "Sex, Love, Dreams";
-                    }
-                    url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&year=2025`;
-                }
-
-                let response = await fetch(url);
-                let data = await response.json();
+                let query = title;
+                let year = null;
+                if (title === "Halloween") year = 1978;
+                if (title === "Malcolm X") year = 1992;
                 
-                // If direct ID fetch, data is the film. If search, it's in results.
-                let match = data.results ? data.results[0] : data;
+                let url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`;
+                if (year) url += `&year=${year}`;
 
-                if (!match && data.results) { // If search failed with year, try without
-                    response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)}`);
-                    data = await response.json();
-                    match = data.results?.[0];
-                }
+                const response = await fetch(url);
+                const data = await response.json();
                 
-                if (match) {
-                    return match.backdrop_path ? `https://image.tmdb.org/t/p/w780${match.backdrop_path}` : (match.poster_path ? `https://image.tmdb.org/t/p/w500${match.poster_path}` : null);
+                if (data.results && data.results.length > 0) {
+                    const match = data.results[0];
+                    if (match.poster_path) return `https://image.tmdb.org/t/p/w500${match.poster_path}`;
+                    if (match.backdrop_path) return `https://image.tmdb.org/t/p/w780${match.backdrop_path}`;
                 }
                 return null;
-            } catch { return null; }
-        }
-
-        function createFilmElement(film, inPool = false) {
-            const div = document.createElement('div');
-            div.className = 'film-item shadow-lg';
-            if (inPool) div.className += ' pool-item';
-            div.draggable = true;
-            
-            let displayTitle = film.title
-                .replace(" Radu Jude", "")
-                .replace(" (Sex Love Dreams)", "");
-                
-            div.dataset.title = displayTitle;
-            div.dataset.backdrop = film.backdrop || "";
-            
-            if (film.backdrop) {
-                div.innerHTML = `<img src="${film.backdrop}" alt="${displayTitle}" loading="lazy"><div class="film-overlay">${displayTitle}</div>`;
-            } else {
-                div.innerHTML = `<div class="w-full h-full flex items-center justify-center p-2 text-center text-[10px] bg-gray-900 text-gray-500 border border-gray-800">${displayTitle}</div><div class="film-overlay">${displayTitle}</div>`;
+            } catch (e) {
+                console.error(e);
+                return null;
             }
-            return div;
         }
 
-        function calculateConsensus() {
-            const jRankings = {};
-            const zRankings = {};
-            const allFilmsSet = new Set();
+        // Creates a Blob (image file) where the text is permanently drawn onto the image
+        async function createCompositeBlob(title, imageUrl) {
+            return new Promise((resolve, reject) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const size = 600; // Resolution of downloaded image
+                canvas.width = size;
+                canvas.height = size;
 
-            document.querySelectorAll('.slot').forEach(slot => {
-                const filmItem = slot.querySelector('.film-item');
-                if (filmItem) {
-                    const title = filmItem.dataset.title;
-                    const rank = parseInt(slot.dataset.rank);
-                    if (slot.dataset.user === 'jbrooks') jRankings[title] = rank;
-                    else zRankings[title] = rank;
-                    allFilmsSet.add(title);
-                }
-            });
+                // Load image
+                const img = new Image();
+                img.crossOrigin = "anonymous"; // Essential for manipulating external images
+                img.src = imageUrl;
 
-            if (allFilmsSet.size === 0) {
-                consensusListEl.innerHTML = '<p class="text-center text-gray-500 italic py-4">Build both lists to see the shared top ten...</p>';
-                return;
-            }
+                img.onload = () => {
+                    // 1. Draw Image (Object-fit: cover logic)
+                    let sWidth = img.width;
+                    let sHeight = img.height;
+                    let sX = 0;
+                    let sY = 0;
+                    const aspect = sWidth / sHeight;
+                    
+                    if (aspect > 1) { // Landscape source
+                        sWidth = sHeight; // Crop center square
+                        sX = (img.width - sWidth) / 2;
+                    } else { // Portrait source
+                        sHeight = sWidth;
+                        sY = (img.height - sHeight) / 2;
+                    }
+                    
+                    // Draw slightly dimmed image
+                    ctx.fillStyle = "#000";
+                    ctx.fillRect(0,0,size,size);
+                    ctx.globalAlpha = 0.8; // Match CSS opacity
+                    ctx.drawImage(img, sX, sY, sWidth, sHeight, 0, 0, size, size);
+                    ctx.globalAlpha = 1.0;
 
-            const consensus = Array.from(allFilmsSet).map(title => {
-                const r1 = jRankings[title] || 15;
-                const r2 = zRankings[title] || 15;
-                return { title, score: (r1 + r2) / 2 };
-            });
+                    // 2. Draw Text Overlay Background
+                    // Gradient at bottom for readability
+                    const gradient = ctx.createLinearGradient(0, size, 0, 0);
+                    gradient.addColorStop(0, "rgba(0,0,0,0.9)");
+                    gradient.addColorStop(0.4, "rgba(0,0,0,0.5)");
+                    gradient.addColorStop(1, "rgba(0,0,0,0.1)");
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, size, size);
 
-            consensus.sort((a, b) => a.score - b.score);
-
-            consensusListEl.innerHTML = consensus.slice(0, 10).map((item, index) => `
-                <div class="flex items-center justify-between p-3 bg-[#2a2438]/30 rounded-lg border border-[#2a2438]">
-                    <div class="flex items-center gap-4">
-                        <span class="text-purple-400 font-bold w-6">#${index + 1}</span>
-                        <span class="text-white font-semibold">${item.title}</span>
-                    </div>
-                    <div class="flex gap-4 items-center">
-                        <span class="text-[10px] text-gray-500 uppercase tracking-tighter">Score: ${item.score.toFixed(1)}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function setupDragAndDrop() {
-            document.addEventListener('dragstart', (e) => {
-                const target = e.target.closest('.film-item');
-                if (target) {
-                    draggedElement = target;
-                    isFromPool = target.closest('#pool') !== null;
-                    target.style.opacity = '0.4';
-                }
-            });
-
-            document.addEventListener('dragend', () => {
-                if (draggedElement) draggedElement.style.opacity = '1';
-                calculateConsensus();
-            });
-
-            slots.forEach(slot => {
-                slot.addEventListener('dragover', (e) => { e.preventDefault(); slot.classList.add('drag-over'); });
-                slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
-                slot.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    slot.classList.remove('drag-over');
-                    if (!draggedElement) return;
-
-                    if (isFromPool) {
-                        const existingInSlot = slot.querySelector('.film-item');
-                        if (existingInSlot) existingInSlot.remove();
-                        
-                        const clone = createFilmElement({
-                            title: draggedElement.dataset.title,
-                            backdrop: draggedElement.dataset.backdrop
-                        }, false);
-                        slot.appendChild(clone);
-                    } else {
-                        const existingInSlot = slot.querySelector('.film-item');
-                        const sourceParent = draggedElement.parentNode;
-                        
-                        if (existingInSlot && sourceParent && sourceParent.classList.contains('slot')) {
-                            sourceParent.appendChild(existingInSlot);
-                            slot.appendChild(draggedElement);
+                    // 3. Draw Text
+                    ctx.fillStyle = "white";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    // Try to match font roughly
+                    ctx.font = "800 50px sans-serif"; 
+                    
+                    // Simple word wrap logic
+                    const words = title.toUpperCase().split(' ');
+                    let line = '';
+                    let lines = [];
+                    const maxWidth = size - 60; // Padding
+                    
+                    for(let n = 0; n < words.length; n++) {
+                        let testLine = line + words[n] + ' ';
+                        let metrics = ctx.measureText(testLine);
+                        let testWidth = metrics.width;
+                        if (testWidth > maxWidth && n > 0) {
+                            lines.push(line);
+                            line = words[n] + ' ';
                         } else {
-                            if (existingInSlot) existingInSlot.remove();
-                            slot.appendChild(draggedElement);
+                            line = testLine;
                         }
                     }
-                    calculateConsensus();
-                });
-            });
+                    lines.push(line);
 
-            poolEl.addEventListener('dragover', (e) => e.preventDefault());
-            poolEl.addEventListener('drop', (e) => {
-                e.preventDefault();
-                if (draggedElement && !isFromPool) {
-                    draggedElement.remove();
-                    calculateConsensus();
-                }
+                    // Center text vertically
+                    const lineHeight = 60;
+                    const totalTextHeight = lines.length * lineHeight;
+                    let startY = (size / 2) - (totalTextHeight / 2) + (lineHeight/2);
+
+                    // Add shadow for pop
+                    ctx.shadowColor = "rgba(0,0,0,0.9)";
+                    ctx.shadowBlur = 15;
+                    ctx.shadowOffsetY = 4;
+
+                    for (let i = 0; i < lines.length; i++) {
+                        ctx.fillText(lines[i], size/2, startY + (i * lineHeight));
+                    }
+
+                    // Export
+                    canvas.toBlob((blob) => {
+                        resolve(blob);
+                    }, 'image/jpeg', 0.9);
+                };
+
+                img.onerror = (err) => {
+                    console.error("Failed to load image for canvas", title);
+                    resolve(null); // Resolve null to skip without crashing
+                };
             });
         }
 
-        resetBtn.addEventListener('click', () => {
-            document.querySelectorAll('.slot .film-item').forEach(film => film.remove());
-            calculateConsensus();
+        async function createGalleryItem(title) {
+            const div = document.createElement('div');
+            div.className = 'film-square';
+            div.onclick = () => downloadSingleImage(title);
+            div.title = "Click to download image";
+            
+            // Initial placeholder HTML
+            div.innerHTML = `
+                <div class="visual-layer w-full h-full relative">
+                    <div class="w-full h-full bg-gray-900 flex items-center justify-center"></div>
+                    <div class="film-title"><span class="title-text">${title}</span></div>
+                </div>
+                <div class="download-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                </div>
+            `;
+            gallery.appendChild(div);
+
+            const imageUrl = await fetchImage(title);
+            
+            if (imageUrl) {
+                // Store in cache for the zipper
+                imageCache[title] = imageUrl;
+
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = title;
+                img.loading = "lazy";
+                img.crossOrigin = "anonymous"; // Important for canvas later
+                div.querySelector('.visual-layer div:first-child').replaceWith(img);
+            }
+        }
+
+        // --- Download Logic ---
+
+        async function downloadSingleImage(title) {
+            const url = imageCache[title];
+            if (!url) {
+                alert("Image not found or loading...");
+                return;
+            }
+            
+            statusMsg.textContent = `Generating ${title}...`;
+            const blob = await createCompositeBlob(title, url);
+            if (blob) {
+                saveAs(blob, `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.jpg`);
+                statusMsg.textContent = "";
+            } else {
+                statusMsg.textContent = "Error generating image.";
+            }
+        }
+
+        downloadBtn.addEventListener('click', async () => {
+            const zip = new JSZip();
+            let count = 0;
+            const total = films.length;
+            
+            downloadBtn.disabled = true;
+            statusMsg.textContent = `Starting... 0/${total}`;
+
+            // We process sequentially to avoid nuking the browser/network
+            for (const title of films) {
+                const url = imageCache[title];
+                
+                if (url) {
+                    const blob = await createCompositeBlob(title, url);
+                    if (blob) {
+                        const filename = `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.jpg`;
+                        zip.file(filename, blob);
+                    }
+                }
+                
+                count++;
+                statusMsg.textContent = `Processing... ${count}/${total}`;
+            }
+
+            statusMsg.textContent = "Zipping files...";
+            zip.generateAsync({type:"blob"}).then(function(content) {
+                saveAs(content, "unauthorized_films.zip");
+                statusMsg.textContent = "Done!";
+                downloadBtn.disabled = false;
+            });
         });
 
-        init();
+        // Initialize display
+        films.forEach(title => createGalleryItem(title));
+
     </script>
 </body>
 </html>
