@@ -3,403 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Gallery | Some Like It Unauthorized</title>
+    <title>Top Ten of 2025 | Some Like It Unauthorized</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0B14'/%3E%3Ctext x='16' y='13' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3ESL%3C/text%3E%3Ctext x='16' y='27' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3EIU%3C/text%3E%3C/svg%3E">
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="From the Some Like it Unauthorized Podcast, J Brooks and Zach name their favorite releases of the year.">
+    <meta property="og:title" content="Top Ten of 2025 | Some Like It Unauthorized">
+    <meta property="og:description" content="From the Some Like it Unauthorized Podcast, J Brooks and Zach name their favorite releases of the year.">
+    <meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Libraries for Zipping files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* Custom styles matching main site */
         body {
-            background-color: #050505;
-            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            background-color: #0D0B14;
+            color: #D1D5DB;
+        }
+        h1, h2, h3, h4 {
             font-family: 'Manrope', sans-serif;
-            padding: 20px;
+            color: #F9FAFB;
         }
-
-        /* Controls Area */
-        #controls {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
+        .gradient-text {
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        .action-btn {
-            background-color: #a78bfa;
-            color: #050505;
-            font-weight: 800;
-            padding: 10px 20px;
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .action-btn:hover {
-            background-color: #c4b5fd;
-            transform: translateY(-2px);
-        }
-
-        .action-btn:disabled {
-            background-color: #4b5563;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 4px;
-        }
-
-        .film-square {
+        .film-card {
             position: relative;
-            aspect-ratio: 1 / 1;
             overflow: hidden;
-            background-color: #1a1a1a;
-            cursor: pointer; /* Indicates clickable for download */
+            border-radius: 1rem;
+            background-color: #1A1625;
+            border: 1px solid #2a2438;
+            transition: all 0.3s ease;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
         }
-
-        /* Visual representation (HTML/CSS layer) */
-        .visual-layer img {
+        .film-card:hover {
+            transform: translateY(-5px);
+            border-color: #7c3aed;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+        .film-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0.8;
-        }
-
-        .film-square:hover .visual-layer img {
-            transform: scale(1.05);
             opacity: 0.5;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
         }
-
-        .visual-layer .film-title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            top: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 1rem;
-            background: rgba(0,0,0,0.2);
-            pointer-events: none;
-            transition: background 0.3s;
+        .film-card:hover .film-backdrop {
+            opacity: 0.3;
+            transform: scale(1.05);
         }
-
-        .film-square:hover .visual-layer .film-title {
-            background: rgba(0,0,0,0.6);
+        .film-content {
+            position: relative;
+            z-index: 10;
+            padding: 2.5rem;
+            background: linear-gradient(to top, #0D0B14 30%, rgba(13, 11, 20, 0.8) 80%, transparent 100%);
+            width: 100%;
         }
-
-        .title-text {
+        .rank-number {
+            font-family: 'Manrope', sans-serif;
             font-weight: 800;
-            font-size: 1.1rem;
-            line-height: 1.2;
-            text-transform: uppercase;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-            letter-spacing: 0.05em;
-        }
-
-        /* Download overlay icon */
-        .download-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
-            border-radius: 50%;
-            padding: 6px;
-            opacity: 0;
-            transition: opacity 0.2s;
-            pointer-events: none;
-        }
-        .film-square:hover .download-icon {
+            font-size: 5rem;
+            line-height: 0.8;
             opacity: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px #a78bfa;
+            margin-bottom: 0.5rem;
+        }
+        .accent-tag {
+            background-color: rgba(139, 92, 246, 0.15);
+            color: #c4b5fd;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            backdrop-filter: blur(4px);
+        }
+        .director-name {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        .film-blurb {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+            max-width: 65ch;
+        }
+        .accent-link {
+            color: #a78bfa;
+            transition: color 0.3s ease;
+        }
+        .accent-link:hover {
+            color: #c4b5fd;
         }
 
-        #status-msg {
-            color: #9ca3af;
-            font-size: 0.9rem;
-            font-family: monospace;
+        /* --- Podcast Player Styles --- */
+        .player-container {
+            background: #1A1625;
+            border: 1px solid #2a2438;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 6px;
+            background: #2a2438;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #a78bfa, #f472b6);
+            border-radius: 3px;
+            width: 0%;
+        }
+        .episode-list-item {
+            border-bottom: 1px solid #2a2438;
+            transition: background 0.2s;
+        }
+        .episode-list-item:hover {
+            background: rgba(167, 139, 250, 0.05);
+        }
+        .episode-list-item.active {
+            background: rgba(167, 139, 250, 0.1);
+            border-left: 4px solid #a78bfa;
+        }
+        .social-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+        .podcast-icon svg {
+            width: 2.5rem;
+            height: 2.5rem;
+            fill: #a78bfa;
+        }
+        .podcast-icon:hover svg {
+            fill: #c4b5fd;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2438;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a4063;
+        }
+        .btn-primary {
+            background-image: linear-gradient(to right, #8b5cf6, #9333ea);
+            color: #F9FAFB;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.6);
         }
     </style>
 </head>
-<body>
+<body class="antialiased min-h-screen flex flex-col">
 
-    <div id="controls">
-        <button id="download-zip-btn" class="action-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Download All (ZIP)
-        </button>
-        <span id="status-msg"></span>
-    </div>
+    <!-- Header Section -->
+    <header class="text-center pt-24 pb-12 border-b border-gray-800 px-6 sm:px-8">
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto uppercase tracking-widest text-sm mb-4"></p>
+        <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4 leading-tight">Top Ten Films of <span class="gradient-text">2025</span></h1>
+        <p class="text-gray-400 mt-6 max-w-xl mx-auto">
+            From the <a href="https://unauthorizedpod.com" class="accent-link font-bold hover:underline">Some Like it Unauthorized Podcast</a>, J Brooks and Zach name their favorite releases of the year. Here is the consensus...
+        </p>
+    </header>
 
-    <div id="gallery" class="gallery-grid"></div>
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 sm:px-8 py-16 flex-grow">
+        
+        <!-- Film List Container -->
+        <div id="film-list" class="max-w-4xl mx-auto space-y-20 mb-24">
+            <!-- Content will be injected here by JS -->
+            <div class="text-center text-gray-500 animate-pulse">Loading films...</div>
+        </div>
+
+        <!-- Custom Player Section -->
+        <section class="max-w-4xl mx-auto mb-16">
+            <h2 class="text-2xl font-bold mb-8 text-center text-white">Listen to our recent episodes:</h2>
+            <div class="player-container shadow-2xl">
+                <!-- Current Playing Header -->
+                <div class="p-6 md:p-10 flex flex-col md:flex-row gap-8 items-start bg-gradient-to-br from-[#231d31] to-[#1A1625]">
+                    <div id="current-art-container" class="w-48 h-48 md:w-56 md:h-56 rounded-xl shadow-2xl bg-gray-800 flex-shrink-0 overflow-hidden mx-auto md:mx-0">
+                        <img id="current-art" src="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp" class="w-full h-full object-cover" alt="Podcast Art">
+                    </div>
+                    <div class="flex-grow text-center md:text-left overflow-hidden w-full">
+                        <span class="text-purple-400 text-xs font-bold uppercase tracking-widest mb-2 block" id="playing-status">Latest Episode</span>
+                        <h2 id="current-title" class="text-2xl md:text-3xl font-bold text-white mb-2 line-clamp-2">Loading episodes...</h2>
+                        <p id="current-date" class="text-gray-400 text-sm mb-4"></p>
+                        
+                        <!-- Main Description in Player (Increased height to show more) -->
+                        <div id="current-description" class="text-gray-300 text-sm mb-6 max-h-40 overflow-y-auto leading-relaxed pr-2 custom-scrollbar">
+                            Select an episode to read more...
+                        </div>
+                        
+                        <!-- Controls -->
+                        <div class="flex items-center justify-center md:justify-start gap-6 mb-6">
+                            <button id="skip-back" class="text-gray-400 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+                            </button>
+                            <button id="play-btn" class="w-16 h-16 rounded-full btn-primary flex items-center justify-center shadow-xl transform active:scale-95 transition-transform">
+                                <!-- Optically centered play icon with ml-1 -->
+                                <svg id="play-icon" class="ml-1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <button id="skip-forward" class="text-gray-400 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
+                            </button>
+                        </div>
+
+                        <!-- Progress -->
+                        <div class="space-y-2">
+                            <div class="progress-bar" id="progress-container">
+                                <div class="progress-fill" id="progress-bar"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 font-mono">
+                                <span id="time-current">0:00</span>
+                                <span id="time-total">0:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scrollable Episode List -->
+                <div class="max-h-[400px] overflow-y-auto bg-[#0D0B14]" id="episode-list"></div>
+            </div>
+            <audio id="audio-player"></audio>
+
+             <div class="text-center mt-12">
+                 <p class="text-gray-400 mb-6">Available on:</p>
+                 <div class="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
+                     <!-- Apple Podcasts (Custom SVG) -->
+                     <a href="https://podcasts.apple.com/us/podcast/some-like-it-unauthorized/id1810139168" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                        <svg viewBox="0 0 170 170" fill="currentColor">
+                          <title>Apple Logo</title>
+                          <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71.12 1.083.17 2.166.17 3.24z"/></svg>
+                     </a>
+                     <!-- Spotify (Custom SVG - Color Fixed) -->
+                     <a href="https://open.spotify.com/show/5H427OE7MwnVTBQ8JTOEmq?si=f7465f88215d4c5b" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1333.33 1333.3" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M666.66 0C298.48 0 0 298.47 0 666.65c0 368.19 298.48 666.65 666.66 666.65 368.22 0 666.67-298.45 666.67-666.65C1333.33 298.49 1034.88.03 666.65.03l.01-.04zm305.73 961.51c-11.94 19.58-37.57 25.8-57.16 13.77-156.52-95.61-353.57-117.26-585.63-64.24-22.36 5.09-44.65-8.92-49.75-31.29-5.12-22.37 8.84-44.66 31.26-49.75 253.95-58.02 471.78-33.04 647.51 74.35 19.59 12.02 25.8 37.57 13.77 57.16zm81.6-181.52c-15.05 24.45-47.05 32.17-71.49 17.13-179.2-110.15-452.35-142.05-664.31-77.7-27.49 8.3-56.52-7.19-64.86-34.63-8.28-27.49 7.22-56.46 34.66-64.82 242.11-73.46 543.1-37.88 748.89 88.58 24.44 15.05 32.16 47.05 17.12 71.46V780zm7.01-189.02c-214.87-127.62-569.36-139.35-774.5-77.09-32.94 9.99-67.78-8.6-77.76-41.55-9.98-32.96 8.6-67.77 41.56-77.78 235.49-71.49 626.96-57.68 874.34 89.18 29.69 17.59 39.41 55.85 21.81 85.44-17.52 29.63-55.89 39.4-85.42 21.8h-.03z" fill="#a78bfa" fill-rule="nonzero"/></svg>
+                     </a>
+                     <!-- YouTube (Custom SVG) -->
+                     <a href="https://www.youtube.com/@UnauthorizedPod" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                         <svg class="w-12 h-12" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#a78bfa"/></svg>
+                     </a>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-10 border-t border-gray-800">
+        <a href="index.html" class="text-gray-500 hover:text-purple-400 transition-colors">← Back to Podcast</a>
+        <p class="text-gray-600 text-sm mt-6">&copy; 2025 Some Like It Unauthorized. All rights reserved.</p>
+    </footer>
 
     <script>
-        const apiKey = "746e663319009236f390938e29383ae0";
-        const gallery = document.getElementById('gallery');
-        const downloadBtn = document.getElementById('download-zip-btn');
-        const statusMsg = document.getElementById('status-msg');
+        const apiKey = "746e663319009236f390938e29383ae0"; // TMDB API Key
+        const filmListContainer = document.getElementById('film-list');
 
-        // Cache found image URLs so we don't re-fetch for the zip
-        const imageCache = {};
-
-        const films = [
-            "Halloween", "Behindert", "Vengeance Is Mine", "Throw Away Your Books, Rally in the Streets", 
-            "Two-Lane Blacktop", "Perfect Blue", "Underground", "Miller's Crossing", "Fargo", 
-            "Naked", "Secrets & Lies", "The Travelling Players", "Eternity and a Day", 
-            "Landscape in the Mist", "Raise the Red Lantern", "The Company of Strangers", 
-            "All the President's Men", "Autumn Sonata", "Incendies", "Mishima: A Life in Four Chapters", 
-            "Memories of Murder", "The Pianist", "The Killing of a Chinese Bookie", "Nobody Knows", 
-            "Life Is Beautiful", "Farewell My Concubine", "An Elephant Sitting Still", "A Special Day", 
-            "Das Boot", "Dersu Uzala", "Akira", "Life, and Nothing More…", "Malcolm X", "Cure", 
-            "The Lovers on the Bridge", "A Moment of Innocence", "Poetry", "Streetwise", 
-            "The Emperor's Naked Army Marches On", "Crumb", "Manila in the Claws of Light", 
-            "Nowhere", "Safe", "Exotica", "The Cook, the Thief, His Wife & Her Lover", 
-            "In the Realm of the Senses", "Southern Comfort", "Beautiful Thing", "Show Me Love", 
-            "Eating Raoul", "Y Tu Mamá También", "La Cérémonie", "Day for Night", 
-            "The Long Goodbye", "Ms .45", "Pastoral: To Die in the Country", "Jodorowsky's Dune", 
-            "Eureka", "The New Land", "Songs from the Second Floor", "Ritual", "Lilya 4-ever", 
-            "Maborosi", "Portrait of a Young Girl at the End of the 60s in Brussels", "Peppermint Candy", 
-            "Happy Hour", "The Life of Jesus", "Motorama", "El Norte", "The Holy Innocents", 
-            "Ganja & Hess", "Colossal Youth", "Hard to Be a God", "Death of Yazdgerd", "Nayakan", 
-            "Comrades, Almost a Love Story", "Dead Man's Letters", "Twelve Monkeys", "JFK", 
-            "Man of Marble", "The World According to Garp", "Flesh for Frankenstein", "Breaking the Waves"
+        // Consensus Order (10 to 1 will be rendered)
+        // Ranks derived from provided lists
+        const topTenFilms = [
+            { 
+                rank: 10, 
+                title: "On Becoming a Guinea Fowl", 
+                director: "Rungano Nyoni", 
+                zRank: 20, 
+                jRank: 6,
+                blurb: "Rungano Nyoni’s follow-up is a surreal and striking fable. It blends social commentary with magical realism to create a unique cinematic language that is both bizarre and beautiful, marking one of the most distinct voices of the year."
+            },
+            { 
+                rank: 9, 
+                title: "Sentimental Value", 
+                director: "Joachim Trier", 
+                zRank: 6, 
+                jRank: 18,
+                blurb: "Joachim Trier explores memory and loss with a tender touch. It’s a film that asks what we hold onto and why, featuring performances that are raw, honest, and deeply affecting in their portrayal of modern melancholy."
+            },
+            { 
+                rank: 8, 
+                title: "The Mastermind", 
+                director: "Kelly Reichardt", 
+                zRank: 5, 
+                jRank: 11,
+                blurb: "Kelly Reichardt delivers a quiet, observational drama about the intricacies of art and theft. It’s a slow-burn heist movie where the stakes are emotional rather than financial, meticulously detailing the cost of obsession."
+            },
+            { 
+                rank: 7, 
+                title: "The Phoenician Scheme", 
+                director: "Wes Anderson", 
+                zRank: 11, 
+                jRank: 5,
+                blurb: "Wes Anderson creates another intricate diorama of human folly. It’s colorful, meticulous, and filled with a melancholy charm that sneaks up on you amidst the whimsy, proving his style remains as poignant as ever."
+            },
+            { 
+                rank: 6, 
+                title: "Eddington", 
+                director: "Ari Aster", 
+                zRank: 8, 
+                jRank: 7,
+                blurb: "Ari Aster takes us to the American West for a noir-tinged nightmare. It’s a visually stunning and deeply unsettling film that digs into the rot beneath the surface of a small town, subverting the western genre with surreal horror."
+            },
+            { 
+                rank: 5, 
+                title: "Marty Supreme", 
+                director: "Josh Safdie", 
+                zRank: 3, 
+                jRank: 9,
+                blurb: "Josh Safdie brings his frantic energy to the world of table tennis. It’s a high-octane character study that moves at the speed of light, anchored by a performance that is nothing short of electric and exhaustingly brilliant."
+            },
+            { 
+                rank: 4, 
+                title: "Bugonia", 
+                director: "Yorgos Lanthimos", 
+                zRank: 9, 
+                jRank: 3,
+                blurb: "Lanthimos is back with another surreal and disturbing vision. It’s a beautifully crafted nightmare that explores the darkest corners of human behavior with a dark, twisted sense of humor that only he can deliver."
+            },
+            { 
+                rank: 3, 
+                title: "It Was Just an Accident", 
+                director: "Jafar Panahi", 
+                zRank: 4, 
+                jRank: 4,
+                blurb: "A surprising jolt of cinematic energy that defies easy categorization. It’s a film that keeps you guessing until the very end, blending genres in a way that feels completely fresh, untamed, and startlingly original."
+            },
+            { 
+                rank: 2, 
+                title: "One Battle After Another", 
+                director: "Paul Thomas Anderson", 
+                zRank: 1, 
+                jRank: 2,
+                blurb: "Paul Thomas Anderson delivers a sprawling, complex epic that examines the cyclical nature of conflict. With breathtaking cinematography and a powerhouse ensemble, it’s a masterwork that demands to be seen on the biggest screen possible."
+            },
+            { 
+                rank: 1, 
+                title: "Dracula", 
+                director: "Radu Jude", 
+                zRank: 2, 
+                jRank: 1,
+                blurb: "Radu Jude returns with a biting satire that revamps the vampire mythos for the modern age. It's a chaotic, hilarious, and deeply political work that proves the count still has plenty of bite left in him."
+            }
         ];
 
-        async function fetchImage(title) {
-            if (title === "Underground") {
-                // Specific ID for Underground (1995) to avoid conflict
-                try {
-                    const response = await fetch(`https://api.themoviedb.org/3/movie/11902?api_key=${apiKey}`);
-                    const data = await response.json();
-                    if (data.poster_path) return `https://image.tmdb.org/t/p/w500${data.poster_path}`;
-                    if (data.backdrop_path) return `https://image.tmdb.org/t/p/w780${data.backdrop_path}`;
-                    return null;
-                } catch { return null; }
-            }
-
+        async function fetchFilmImage(title) {
             try {
+                // Direct ID lookup for Dracula
+                if (title === "Dracula") {
+                    const response = await fetch(`https://api.themoviedb.org/3/movie/1323409?api_key=${apiKey}`);
+                    const data = await response.json();
+                    if (data.backdrop_path) return `https://image.tmdb.org/t/p/w1280${data.backdrop_path}`;
+                    if (data.poster_path) return `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+                    return null;
+                }
+
                 let query = title;
-                let year = null;
-                if (title === "Halloween") year = 1978;
-                if (title === "Malcolm X") year = 1992;
+                let year = 2025;
                 
-                let url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`;
-                if (year) url += `&year=${year}`;
+                // Specific overrides for search accuracy
+                if (title === "Bugonia") query = "Bugonia"; 
+                if (title === "The Phoenician Scheme") query = "The Phoenician Scheme";
+                
+                // Attempt search with year first
+                let response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&year=${year}`);
+                let data = await response.json();
+                
+                // Fallback to broader search if year fails (sometimes release dates vary in DB)
+                if (!data.results || data.results.length === 0) {
+                     response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
+                     data = await response.json();
+                }
 
-                const response = await fetch(url);
-                const data = await response.json();
-                
                 if (data.results && data.results.length > 0) {
-                    const match = data.results[0];
-                    if (match.poster_path) return `https://image.tmdb.org/t/p/w500${match.poster_path}`;
-                    if (match.backdrop_path) return `https://image.tmdb.org/t/p/w780${match.backdrop_path}`;
-                }
-                return null;
-            } catch (e) {
-                console.error(e);
-                return null;
-            }
-        }
-
-        // Creates a Blob (image file) where the text is permanently drawn onto the image
-        async function createCompositeBlob(title, imageUrl) {
-            return new Promise((resolve, reject) => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                const size = 600; // Resolution of downloaded image
-                canvas.width = size;
-                canvas.height = size;
-
-                // Load image
-                const img = new Image();
-                img.crossOrigin = "anonymous"; // Essential for manipulating external images
-                img.src = imageUrl;
-
-                img.onload = () => {
-                    // 1. Draw Image (Object-fit: cover logic)
-                    let sWidth = img.width;
-                    let sHeight = img.height;
-                    let sX = 0;
-                    let sY = 0;
-                    const aspect = sWidth / sHeight;
-                    
-                    if (aspect > 1) { // Landscape source
-                        sWidth = sHeight; // Crop center square
-                        sX = (img.width - sWidth) / 2;
-                    } else { // Portrait source
-                        sHeight = sWidth;
-                        sY = (img.height - sHeight) / 2;
-                    }
-                    
-                    // Draw slightly dimmed image
-                    ctx.fillStyle = "#000";
-                    ctx.fillRect(0,0,size,size);
-                    ctx.globalAlpha = 0.8; // Match CSS opacity
-                    ctx.drawImage(img, sX, sY, sWidth, sHeight, 0, 0, size, size);
-                    ctx.globalAlpha = 1.0;
-
-                    // 2. Draw Text Overlay Background
-                    // Gradient at bottom for readability
-                    const gradient = ctx.createLinearGradient(0, size, 0, 0);
-                    gradient.addColorStop(0, "rgba(0,0,0,0.9)");
-                    gradient.addColorStop(0.4, "rgba(0,0,0,0.5)");
-                    gradient.addColorStop(1, "rgba(0,0,0,0.1)");
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, size, size);
-
-                    // 3. Draw Text
-                    ctx.fillStyle = "white";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    // Try to match font roughly
-                    ctx.font = "800 50px sans-serif"; 
-                    
-                    // Simple word wrap logic
-                    const words = title.toUpperCase().split(' ');
-                    let line = '';
-                    let lines = [];
-                    const maxWidth = size - 60; // Padding
-                    
-                    for(let n = 0; n < words.length; n++) {
-                        let testLine = line + words[n] + ' ';
-                        let metrics = ctx.measureText(testLine);
-                        let testWidth = metrics.width;
-                        if (testWidth > maxWidth && n > 0) {
-                            lines.push(line);
-                            line = words[n] + ' ';
-                        } else {
-                            line = testLine;
-                        }
-                    }
-                    lines.push(line);
-
-                    // Center text vertically
-                    const lineHeight = 60;
-                    const totalTextHeight = lines.length * lineHeight;
-                    let startY = (size / 2) - (totalTextHeight / 2) + (lineHeight/2);
-
-                    // Add shadow for pop
-                    ctx.shadowColor = "rgba(0,0,0,0.9)";
-                    ctx.shadowBlur = 15;
-                    ctx.shadowOffsetY = 4;
-
-                    for (let i = 0; i < lines.length; i++) {
-                        ctx.fillText(lines[i], size/2, startY + (i * lineHeight));
-                    }
-
-                    // Export
-                    canvas.toBlob((blob) => {
-                        resolve(blob);
-                    }, 'image/jpeg', 0.9);
-                };
-
-                img.onerror = (err) => {
-                    console.error("Failed to load image for canvas", title);
-                    resolve(null); // Resolve null to skip without crashing
-                };
-            });
-        }
-
-        async function createGalleryItem(title) {
-            const div = document.createElement('div');
-            div.className = 'film-square';
-            div.onclick = () => downloadSingleImage(title);
-            div.title = "Click to download image";
-            
-            // Initial placeholder HTML
-            div.innerHTML = `
-                <div class="visual-layer w-full h-full relative">
-                    <div class="w-full h-full bg-gray-900 flex items-center justify-center"></div>
-                    <div class="film-title"><span class="title-text">${title}</span></div>
-                </div>
-                <div class="download-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                </div>
-            `;
-            gallery.appendChild(div);
-
-            const imageUrl = await fetchImage(title);
-            
-            if (imageUrl) {
-                // Store in cache for the zipper
-                imageCache[title] = imageUrl;
-
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.alt = title;
-                img.loading = "lazy";
-                img.crossOrigin = "anonymous"; // Important for canvas later
-                div.querySelector('.visual-layer div:first-child').replaceWith(img);
-            }
-        }
-
-        // --- Download Logic ---
-
-        async function downloadSingleImage(title) {
-            const url = imageCache[title];
-            if (!url) {
-                alert("Image not found or loading...");
-                return;
-            }
-            
-            statusMsg.textContent = `Generating ${title}...`;
-            const blob = await createCompositeBlob(title, url);
-            if (blob) {
-                saveAs(blob, `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.jpg`);
-                statusMsg.textContent = "";
-            } else {
-                statusMsg.textContent = "Error generating image.";
-            }
-        }
-
-        downloadBtn.addEventListener('click', async () => {
-            const zip = new JSZip();
-            let count = 0;
-            const total = films.length;
-            
-            downloadBtn.disabled = true;
-            statusMsg.textContent = `Starting... 0/${total}`;
-
-            // We process sequentially to avoid nuking the browser/network
-            for (const title of films) {
-                const url = imageCache[title];
-                
-                if (url) {
-                    const blob = await createCompositeBlob(title, url);
-                    if (blob) {
-                        const filename = `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.jpg`;
-                        zip.file(filename, blob);
+                    const movie = data.results[0];
+                    if (movie.backdrop_path) {
+                        return `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
+                    } else if (movie.poster_path) {
+                         return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
                     }
                 }
+                return null;
+            } catch (error) {
+                console.error("Error fetching image for", title, error);
+                return null;
+            }
+        }
+
+        async function renderFilms() {
+            filmListContainer.innerHTML = '';
+
+            for (const film of topTenFilms) {
+                const imageUrl = await fetchFilmImage(film.title);
                 
-                count++;
-                statusMsg.textContent = `Processing... ${count}/${total}`;
+                const card = document.createElement('div');
+                card.className = 'film-card group';
+                
+                let imageHtml = '';
+                if (imageUrl) {
+                    imageHtml = `<img src="${imageUrl}" alt="${film.title} Still" class="film-backdrop">`;
+                } else {
+                    imageHtml = `<div class="film-backdrop" style="background: linear-gradient(45deg, #1a1625, #2d2438);"></div>`;
+                }
+                
+                const directorHtml = film.director ? `<div class="director-name">${film.director}</div>` : '';
+
+                card.innerHTML = `
+                    ${imageHtml}
+                    <div class="film-content">
+                        <div class="rank-number">#${film.rank}</div>
+                        <h2 class="text-3xl md:text-5xl font-bold mb-1 text-white leading-tight">${film.title}</h2>
+                        ${directorHtml}
+                        <div class="film-blurb">
+                            <p>${film.blurb}</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="accent-tag">J Brooks: #${film.jRank}</span>
+                            <span class="accent-tag">Zach: #${film.zRank}</span>
+                        </div>
+                    </div>
+                `;
+                
+                filmListContainer.appendChild(card);
+            }
+        }
+
+        renderFilms();
+
+        // --- Podcast Player Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('audio-player');
+            const playBtn = document.getElementById('play-btn');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('progress-container');
+            const timeCurrent = document.getElementById('time-current');
+            const timeTotal = document.getElementById('time-total');
+            const episodeListEl = document.getElementById('episode-list');
+            const currentTitleEl = document.getElementById('current-title');
+            const currentDateEl = document.getElementById('current-date');
+            const currentDescriptionEl = document.getElementById('current-description');
+            const skipBack = document.getElementById('skip-back');
+            const skipForward = document.getElementById('skip-forward');
+            
+            const rssUrl = "https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476";
+            let episodes = [];
+
+            async function fetchEpisodes() {
+                try {
+                    // Using rss2json proxy to fetch full feed (bypassing corsproxy.io due to some issues, using allorigins + manual parse)
+                    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`);
+                    const data = await response.json();
+                    
+                    if (data.contents) {
+                        const parser = new DOMParser();
+                        const xml = parser.parseFromString(data.contents, "text/xml");
+                        const items = xml.querySelectorAll("item");
+                        
+                        episodes = Array.from(items).map(item => {
+                            const title = item.querySelector("title").textContent;
+                            const pubDate = item.querySelector("pubDate").textContent;
+                            const link = item.querySelector("enclosure").getAttribute("url");
+                            const description = item.querySelector("description").textContent;
+                            // Fallback image logic if needed, but redcircle usually includes it in itunes:image
+                            let thumbnail = 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp';
+                            const itunesImage = item.getElementsByTagName("itunes:image")[0];
+                            if (itunesImage) thumbnail = itunesImage.getAttribute("href");
+
+                            return { title, pubDate, link, description, thumbnail };
+                        });
+                        
+                        renderEpisodeList();
+                        loadEpisode(0, false);
+                    } else {
+                        currentTitleEl.innerText = "Check available platforms below.";
+                    }
+                } catch (err) {
+                    console.error("Feed error:", err);
+                    currentTitleEl.innerText = "Player unavailable. See links below.";
+                }
             }
 
-            statusMsg.textContent = "Zipping files...";
-            zip.generateAsync({type:"blob"}).then(function(content) {
-                saveAs(content, "unauthorized_films.zip");
-                statusMsg.textContent = "Done!";
-                downloadBtn.disabled = false;
+            function renderEpisodeList() {
+                if (!episodes.length) return;
+                episodeListEl.innerHTML = episodes.map((ep, idx) => `
+                    <div class="episode-list-item p-4 flex flex-col gap-2 cursor-pointer border-b border-gray-800" onclick="window.loadEpisode(${idx}, true)">
+                        <div class="flex gap-4 items-center">
+                            <img src="${ep.thumbnail}" class="w-12 h-12 rounded object-cover shadow-lg">
+                            <div class="overflow-hidden">
+                                <div class="text-sm font-bold text-white truncate">${ep.title}</div>
+                                <div class="text-xs text-gray-500">${new Date(ep.pubDate).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-400 line-clamp-2 mt-1 ml-16 italic">${ep.description.replace(/<[^>]*>?/gm, '')}</div>
+                    </div>
+                `).join('');
+            }
+
+            window.loadEpisode = (index, autoplay) => {
+                const ep = episodes[index];
+                if (!ep) return;
+                audio.src = ep.link;
+                currentTitleEl.innerText = ep.title;
+                currentDateEl.innerText = new Date(ep.pubDate).toLocaleDateString();
+                
+                let cleanDesc = ep.description.replace(/<[^>]*>?/gm, '');
+                currentDescriptionEl.innerText = cleanDesc;
+                
+                document.querySelectorAll('.episode-list-item').forEach((el, i) => {
+                    el.classList.toggle('active', i === index);
+                });
+
+                if (autoplay) {
+                    audio.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                }
+            };
+
+            function togglePlay() {
+                if (audio.src === "") return;
+                if (audio.paused) {
+                    audio.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                } else {
+                    audio.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                }
+            }
+
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return "0:00";
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }
+
+            playBtn.addEventListener('click', togglePlay);
+            skipBack.addEventListener('click', () => { audio.currentTime -= 15; });
+            skipForward.addEventListener('click', () => { audio.currentTime += 15; });
+            
+            audio.addEventListener('timeupdate', () => {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${percent}%`;
+                timeCurrent.innerText = formatTime(audio.currentTime);
+                timeTotal.innerText = formatTime(audio.duration);
             });
+
+            progressContainer.addEventListener('click', (e) => {
+                const rect = progressContainer.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = pos * audio.duration;
+            });
+
+            fetchEpisodes();
         });
-
-        // Initialize display
-        films.forEach(title => createGalleryItem(title));
-
     </script>
+
 </body>
 </html>
