@@ -44,17 +44,14 @@
             border-radius: 1rem;
             background-color: #1A1625;
             border: 1px solid #2a2438;
-            transition: all 0.3s ease;
+            /* Removed hover transition */
             min-height: 500px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
         }
-        .film-card:hover {
-            transform: translateY(-5px);
-            border-color: #7c3aed;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-        }
+        /* Removed .film-card:hover block */
+
         .film-backdrop {
             position: absolute;
             top: 0;
@@ -63,15 +60,12 @@
             height: 100%;
             object-fit: cover;
             opacity: 0.5;
-            transition: opacity 0.3s ease;
             z-index: 0;
             mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
             -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
         }
-        .film-card:hover .film-backdrop {
-            opacity: 0.3;
-            transform: scale(1.05);
-        }
+        /* Removed .film-card:hover .film-backdrop block */
+
         .film-content {
             position: relative;
             z-index: 10;
