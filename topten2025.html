@@ -216,6 +216,7 @@
             justify-content: center;
             flex-shrink: 0;
             transition: transform 0.2s;
+            cursor: pointer;
         }
         .mini-play-btn:hover {
             background: #c4b5fd;
@@ -325,181 +326,9 @@
     </footer>
 
     <script>
-        const apiKey = "746e663319009236f390938e29383ae0"; // TMDB API Key
-        const filmListContainer = document.getElementById('film-list');
-
-        // Consensus Order (10 to 1 will be rendered)
-        // Ranks derived from provided lists
-        const topTenFilms = [
-            { 
-                rank: 10, 
-                title: "On Becoming a Guinea Fowl", 
-                director: "Rungano Nyoni", 
-                zRank: 20, 
-                jRank: 6,
-                blurb: "Rungano Nyoni’s follow-up is a surreal and striking fable. It blends social commentary with magical realism to create a unique cinematic language that is both bizarre and beautiful, marking one of the most distinct voices of the year."
-            },
-            { 
-                rank: 9, 
-                title: "Sentimental Value", 
-                director: "Joachim Trier", 
-                zRank: 6, 
-                jRank: 18,
-                blurb: "Joachim Trier explores memory and loss with a tender touch. It’s a film that asks what we hold onto and why, featuring performances that are raw, honest, and deeply affecting in their portrayal of modern melancholy."
-            },
-            { 
-                rank: 8, 
-                title: "The Mastermind", 
-                director: "Kelly Reichardt", 
-                zRank: 5, 
-                jRank: 11,
-                blurb: "Kelly Reichardt delivers a quiet, observational drama about the intricacies of art and theft. It’s a slow-burn heist movie where the stakes are emotional rather than financial, meticulously detailing the cost of obsession."
-            },
-            { 
-                rank: 7, 
-                title: "The Phoenician Scheme", 
-                director: "Wes Anderson", 
-                zRank: 11, 
-                jRank: 5,
-                blurb: "Wes Anderson creates another intricate diorama of human folly. It’s colorful, meticulous, and filled with a melancholy charm that sneaks up on you amidst the whimsy, proving his style remains as poignant as ever."
-            },
-            { 
-                rank: 6, 
-                title: "Eddington", 
-                director: "Ari Aster", 
-                zRank: 8, 
-                jRank: 7,
-                blurb: "Ari Aster takes us to the American West for a noir-tinged nightmare. It’s a visually stunning and deeply unsettling film that digs into the rot beneath the surface of a small town, subverting the western genre with surreal horror."
-            },
-            { 
-                rank: 5, 
-                title: "Marty Supreme", 
-                director: "Josh Safdie", 
-                zRank: 3, 
-                jRank: 9,
-                blurb: "Josh Safdie brings his frantic energy to the world of table tennis. It’s a high-octane character study that moves at the speed of light, anchored by a performance that is nothing short of electric and exhaustingly brilliant."
-            },
-            { 
-                rank: 4, 
-                title: "Bugonia", 
-                director: "Yorgos Lanthimos", 
-                zRank: 9, 
-                jRank: 3,
-                blurb: "Lanthimos is back with another surreal and disturbing vision. It’s a beautifully crafted nightmare that explores the darkest corners of human behavior with a dark, twisted sense of humor that only he can deliver."
-            },
-            { 
-                rank: 3, 
-                title: "It Was Just an Accident", 
-                director: "Jafar Panahi", 
-                zRank: 4, 
-                jRank: 4,
-                blurb: "A surprising jolt of cinematic energy that defies easy categorization. It’s a film that keeps you guessing until the very end, blending genres in a way that feels completely fresh, untamed, and startlingly original."
-            },
-            { 
-                rank: 2, 
-                title: "One Battle After Another", 
-                director: "Paul Thomas Anderson", 
-                zRank: 1, 
-                jRank: 2,
-                blurb: "Paul Thomas Anderson delivers a sprawling, complex epic that examines the cyclical nature of conflict. With breathtaking cinematography and a powerhouse ensemble, it’s a masterwork that demands to be seen on the biggest screen possible."
-            },
-            { 
-                rank: 1, 
-                title: "Dracula", 
-                director: "Radu Jude", 
-                zRank: 2, 
-                jRank: 1,
-                blurb: "Radu Jude returns with a biting satire that revamps the vampire mythos for the modern age. It's a chaotic, hilarious, and deeply political work that proves the count still has plenty of bite left in him."
-            }
-        ];
-
-        async function fetchFilmImage(title) {
-            try {
-                // Direct ID lookup for Dracula
-                if (title === "Dracula") {
-                    const response = await fetch(`https://api.themoviedb.org/3/movie/1323409?api_key=${apiKey}`);
-                    const data = await response.json();
-                    if (data.backdrop_path) return `https://image.tmdb.org/t/p/w1280${data.backdrop_path}`;
-                    if (data.poster_path) return `https://image.tmdb.org/t/p/w500${data.poster_path}`;
-                    return null;
-                }
-
-                let query = title;
-                let year = 2025;
-                
-                // Specific overrides for search accuracy
-                if (title === "Bugonia") query = "Bugonia"; 
-                if (title === "The Phoenician Scheme") query = "The Phoenician Scheme";
-                
-                // Attempt search with year first
-                let response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&year=${year}`);
-                let data = await response.json();
-                
-                // Fallback to broader search if year fails (sometimes release dates vary in DB)
-                if (!data.results || data.results.length === 0) {
-                     response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
-                     data = await response.json();
-                }
-
-                if (data.results && data.results.length > 0) {
-                    const movie = data.results[0];
-                    if (movie.backdrop_path) {
-                        return `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
-                    } else if (movie.poster_path) {
-                         return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-                    }
-                }
-                return null;
-            } catch (error) {
-                console.error("Error fetching image for", title, error);
-                return null;
-            }
-        }
-
-        async function renderFilms() {
-            filmListContainer.innerHTML = '';
-
-            for (const film of topTenFilms) {
-                const imageUrl = await fetchFilmImage(film.title);
-                
-                const card = document.createElement('div');
-                card.className = 'film-card group';
-                // Attach title as data attribute for later matching
-                card.dataset.title = film.title;
-                
-                let imageHtml = '';
-                if (imageUrl) {
-                    imageHtml = `<img src="${imageUrl}" alt="${film.title} Still" class="film-backdrop">`;
-                } else {
-                    imageHtml = `<div class="film-backdrop" style="background: linear-gradient(45deg, #1a1625, #2d2438);"></div>`;
-                }
-                
-                const directorHtml = film.director ? `<div class="director-name">${film.director}</div>` : '';
-
-                card.innerHTML = `
-                    ${imageHtml}
-                    <div class="film-content">
-                        <div class="rank-number">#${film.rank}</div>
-                        <h2 class="text-3xl md:text-5xl font-bold mb-1 text-white leading-tight">${film.title}</h2>
-                        ${directorHtml}
-                        <div class="film-blurb">
-                            <p>${film.blurb}</p>
-                        </div>
-                        <div class="flex flex-wrap gap-2 mt-2">
-                            <span class="accent-tag">J Brooks: #${film.jRank}</span>
-                            <span class="accent-tag">Zach: #${film.zRank}</span>
-                        </div>
-                    </div>
-                `;
-                
-                filmListContainer.appendChild(card);
-            }
-        }
-
-        renderFilms();
-
-        // --- Podcast Player Logic ---
         document.addEventListener('DOMContentLoaded', () => {
+            const apiKey = "746e663319009236f390938e29383ae0"; // TMDB API Key
+            const filmListContainer = document.getElementById('film-list');
             const audio = document.getElementById('audio-player');
             const playBtn = document.getElementById('play-btn');
             const playIcon = document.getElementById('play-icon');
@@ -518,55 +347,237 @@
             const rssUrl = "https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476";
             let episodes = [];
 
-            async function fetchEpisodes() {
-                try {
-                    // Try fetching raw XML via corsproxy.io to get all episodes
-                    const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(rssUrl)}`);
-                    if (!response.ok) throw new Error('Proxy failed');
-                    
-                    const str = await response.text();
-                    const parser = new DOMParser();
-                    const xml = parser.parseFromString(str, "text/xml");
-                    const items = xml.querySelectorAll("item");
-                    
-                    episodes = Array.from(items).map(item => {
-                        const title = item.querySelector("title")?.textContent || "";
-                        const pubDate = item.querySelector("pubDate")?.textContent || "";
-                        const enclosure = item.querySelector("enclosure");
-                        const link = enclosure ? enclosure.getAttribute("url") : "";
-                        const description = item.querySelector("description")?.textContent || "";
-                        
-                        // Parse iTunes image if available, else fallback
-                        const itunesImage = item.getElementsByTagName("itunes:image")[0];
-                        const thumbnail = itunesImage ? itunesImage.getAttribute("href") : 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp';
-
-                        return { title, pubDate, link, description, thumbnail };
-                    });
-                    
-                    if (episodes.length > 0) {
-                        renderEpisodeList();
-                        loadEpisode(0, false);
-                        injectFilmPlayers();
-                    } else {
-                        throw new Error("No episodes found in feed");
-                    }
-                } catch (err) {
-                    console.error("Feed error:", err);
-                    // Fallback to rss2json if raw XML fetch fails (limited episodes but reliable)
-                     try {
-                        const fallbackResponse = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
-                        const data = await fallbackResponse.json();
-                        if (data.status === 'ok') {
-                             episodes = data.items;
-                             renderEpisodeList();
-                             loadEpisode(0, false);
-                             injectFilmPlayers();
-                             return;
-                        }
-                    } catch (e) { console.error("Fallback failed", e); }
-                    
-                    currentTitleEl.innerText = "Player unavailable. Check links below.";
+            // 1. Fetch Films
+            const topTenFilms = [
+                { 
+                    rank: 10, 
+                    title: "On Becoming a Guinea Fowl", 
+                    director: "Rungano Nyoni", 
+                    zRank: 20, 
+                    jRank: 6,
+                    blurb: "Rungano Nyoni’s follow-up is a surreal and striking fable. It blends social commentary with magical realism to create a unique cinematic language that is both bizarre and beautiful, marking one of the most distinct voices of the year."
+                },
+                { 
+                    rank: 9, 
+                    title: "Sentimental Value", 
+                    director: "Joachim Trier", 
+                    zRank: 6, 
+                    jRank: 18,
+                    blurb: "Joachim Trier explores memory and loss with a tender touch. It’s a film that asks what we hold onto and why, featuring performances that are raw, honest, and deeply affecting in their portrayal of modern melancholy."
+                },
+                { 
+                    rank: 8, 
+                    title: "The Mastermind", 
+                    director: "Kelly Reichardt", 
+                    zRank: 5, 
+                    jRank: 11,
+                    blurb: "Kelly Reichardt delivers a quiet, observational drama about the intricacies of art and theft. It’s a slow-burn heist movie where the stakes are emotional rather than financial, meticulously detailing the cost of obsession."
+                },
+                { 
+                    rank: 7, 
+                    title: "The Phoenician Scheme", 
+                    director: "Wes Anderson", 
+                    zRank: 11, 
+                    jRank: 5,
+                    blurb: "Wes Anderson creates another intricate diorama of human folly. It’s colorful, meticulous, and filled with a melancholy charm that sneaks up on you amidst the whimsy, proving his style remains as poignant as ever."
+                },
+                { 
+                    rank: 6, 
+                    title: "Eddington", 
+                    director: "Ari Aster", 
+                    zRank: 8, 
+                    jRank: 7,
+                    blurb: "Ari Aster takes us to the American West for a noir-tinged nightmare. It’s a visually stunning and deeply unsettling film that digs into the rot beneath the surface of a small town, subverting the western genre with surreal horror."
+                },
+                { 
+                    rank: 5, 
+                    title: "Marty Supreme", 
+                    director: "Josh Safdie", 
+                    zRank: 3, 
+                    jRank: 9,
+                    blurb: "Josh Safdie brings his frantic energy to the world of table tennis. It’s a high-octane character study that moves at the speed of light, anchored by a performance that is nothing short of electric and exhaustingly brilliant."
+                },
+                { 
+                    rank: 4, 
+                    title: "Bugonia", 
+                    director: "Yorgos Lanthimos", 
+                    zRank: 9, 
+                    jRank: 3,
+                    blurb: "Lanthimos is back with another surreal and disturbing vision. It’s a beautifully crafted nightmare that explores the darkest corners of human behavior with a dark, twisted sense of humor that only he can deliver."
+                },
+                { 
+                    rank: 3, 
+                    title: "It Was Just an Accident", 
+                    director: "Jafar Panahi", 
+                    zRank: 4, 
+                    jRank: 4,
+                    blurb: "A surprising jolt of cinematic energy that defies easy categorization. It’s a film that keeps you guessing until the very end, blending genres in a way that feels completely fresh, untamed, and startlingly original."
+                },
+                { 
+                    rank: 2, 
+                    title: "One Battle After Another", 
+                    director: "Paul Thomas Anderson", 
+                    zRank: 1, 
+                    jRank: 2,
+                    blurb: "Paul Thomas Anderson delivers a sprawling, complex epic that examines the cyclical nature of conflict. With breathtaking cinematography and a powerhouse ensemble, it’s a masterwork that demands to be seen on the biggest screen possible."
+                },
+                { 
+                    rank: 1, 
+                    title: "Dracula", 
+                    director: "Radu Jude", 
+                    zRank: 2, 
+                    jRank: 1,
+                    blurb: "Radu Jude returns with a biting satire that revamps the vampire mythos for the modern age. It's a chaotic, hilarious, and deeply political work that proves the count still has plenty of bite left in him."
                 }
+            ];
+
+            async function fetchFilmImage(title) {
+                try {
+                    // Direct ID lookup for Dracula
+                    if (title === "Dracula") {
+                        const response = await fetch(`https://api.themoviedb.org/3/movie/1323409?api_key=${apiKey}`);
+                        const data = await response.json();
+                        if (data.backdrop_path) return `https://image.tmdb.org/t/p/w1280${data.backdrop_path}`;
+                        if (data.poster_path) return `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+                        return null;
+                    }
+
+                    let query = title;
+                    let year = 2025;
+                    
+                    // Specific overrides for search accuracy
+                    if (title === "Bugonia") query = "Bugonia"; 
+                    if (title === "The Phoenician Scheme") query = "The Phoenician Scheme";
+                    
+                    // Attempt search with year first
+                    let response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&year=${year}`);
+                    let data = await response.json();
+                    
+                    // Fallback to broader search if year fails (sometimes release dates vary in DB)
+                    if (!data.results || data.results.length === 0) {
+                         response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
+                         data = await response.json();
+                    }
+
+                    if (data.results && data.results.length > 0) {
+                        const movie = data.results[0];
+                        if (movie.backdrop_path) {
+                            return `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
+                        } else if (movie.poster_path) {
+                             return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+                        }
+                    }
+                    return null;
+                } catch (error) {
+                    console.error("Error fetching image for", title, error);
+                    return null;
+                }
+            }
+
+            async function renderFilms() {
+                filmListContainer.innerHTML = '';
+                for (const film of topTenFilms) {
+                    const imageUrl = await fetchFilmImage(film.title);
+                    const card = document.createElement('div');
+                    card.className = 'film-card group';
+                    card.dataset.title = film.title; 
+                    
+                    let imageHtml = '';
+                    if (imageUrl) {
+                        imageHtml = `<img src="${imageUrl}" alt="${film.title} Still" class="film-backdrop">`;
+                    } else {
+                        imageHtml = `<div class="film-backdrop" style="background: linear-gradient(45deg, #1a1625, #2d2438);"></div>`;
+                    }
+                    
+                    const directorHtml = film.director ? `<div class="director-name">${film.director}</div>` : '';
+
+                    card.innerHTML = `
+                        ${imageHtml}
+                        <div class="film-content">
+                            <div class="rank-number">#${film.rank}</div>
+                            <h2 class="text-3xl md:text-5xl font-bold mb-1 text-white leading-tight">${film.title}</h2>
+                            ${directorHtml}
+                            <div class="film-blurb">
+                                <p>${film.blurb}</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="accent-tag">J Brooks: #${film.jRank}</span>
+                                <span class="accent-tag">Zach: #${film.zRank}</span>
+                            </div>
+                        </div>
+                    `;
+                    filmListContainer.appendChild(card);
+                }
+                if (episodes.length > 0) injectFilmPlayers();
+            }
+
+            // 2. Fetch Podcast
+            async function fetchEpisodes() {
+                const proxies = [
+                    { url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`, type: 'xml' },
+                    { url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`, type: 'json_contents' },
+                    { url: `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`, type: 'rss2json' }
+                ];
+
+                for (const proxy of proxies) {
+                    try {
+                        const response = await fetch(proxy.url);
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        
+                        let items = [];
+                        if (proxy.type === 'xml') {
+                            const str = await response.text();
+                            const parser = new DOMParser();
+                            const xml = parser.parseFromString(str, "text/xml");
+                            items = Array.from(xml.querySelectorAll("item")).map(item => parseXmlItem(item));
+                        } else if (proxy.type === 'json_contents') {
+                            const data = await response.json();
+                            const parser = new DOMParser();
+                            const xml = parser.parseFromString(data.contents, "text/xml");
+                            items = Array.from(xml.querySelectorAll("item")).map(item => parseXmlItem(item));
+                        } else if (proxy.type === 'rss2json') {
+                            const data = await response.json();
+                            if(data.items) items = data.items.map(item => parseJsonItem(item));
+                        }
+
+                        if (items.length > 0) {
+                            episodes = items;
+                            renderEpisodeList();
+                            loadEpisode(0, false);
+                            injectFilmPlayers();
+                            return; // Success, exit loop
+                        }
+                    } catch (e) {
+                        console.warn(`Failed to fetch via ${proxy.url}:`, e);
+                        // Continue to next proxy
+                    }
+                }
+                
+                // If all fail
+                currentTitleEl.innerText = "Player unavailable. Check links below.";
+            }
+
+            function parseXmlItem(item) {
+                const title = item.querySelector("title")?.textContent || "";
+                const pubDate = item.querySelector("pubDate")?.textContent || "";
+                const enclosure = item.querySelector("enclosure");
+                const link = enclosure ? enclosure.getAttribute("url") : "";
+                const description = item.querySelector("description")?.textContent || "";
+                // iTunes image or fallback
+                const itunesImage = item.getElementsByTagName("itunes:image")[0];
+                const thumbnail = itunesImage ? itunesImage.getAttribute("href") : 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp';
+                return { title, pubDate, link, description, thumbnail };
+            }
+
+            function parseJsonItem(item) {
+                // rss2json format
+                return {
+                    title: item.title,
+                    pubDate: item.pubDate,
+                    link: item.enclosure.link,
+                    description: item.description,
+                    thumbnail: item.thumbnail || 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'
+                };
             }
 
             function renderEpisodeList() {
@@ -603,6 +614,9 @@
                     audio.play();
                     playIcon.classList.add('hidden');
                     pauseIcon.classList.remove('hidden');
+                    // Scroll to player
+                    const mainPlayer = document.querySelector('.player-container');
+                    if(mainPlayer) mainPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             };
 
@@ -642,29 +656,27 @@
                 const pos = (e.clientX - rect.left) / rect.width;
                 audio.currentTime = pos * audio.duration;
             });
-
-            // --- Inject Mini Players ---
+            
             function injectFilmPlayers() {
-                // Wait briefly for films to render if needed, though they usually render fast
                 const cards = document.querySelectorAll('.film-card');
-                if (cards.length === 0) return;
+                if (episodes.length === 0 || cards.length === 0) return;
 
                 cards.forEach(card => {
                     const title = card.dataset.title;
-                    const matchingEpisodeIndex = episodes.findIndex(ep => {
-                         // Loose match: check if film title is in episode title
-                         // Also handle edge cases like "Dracula"
-                         return ep.title.toLowerCase().includes(title.toLowerCase());
-                    });
+                    if (!title) return;
                     
-                    if (matchingEpisodeIndex !== -1 && !card.querySelector('.mini-player-container')) {
-                        const ep = episodes[matchingEpisodeIndex];
+                    const matchingIndex = episodes.findIndex(ep => 
+                        ep.title.toLowerCase().includes(title.toLowerCase())
+                    );
+                    
+                    if (matchingIndex !== -1 && !card.querySelector('.mini-player-container')) {
+                        const ep = episodes[matchingIndex];
                         const miniPlayer = document.createElement('div');
                         miniPlayer.className = 'mini-player-container flex items-center gap-4';
                         
                         miniPlayer.innerHTML = `
-                            <button class="mini-play-btn" onclick="window.loadEpisode(${matchingEpisodeIndex}, true)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            <button class="mini-play-btn" onclick="window.loadEpisode(${matchingIndex}, true)">
+                                <svg style="margin-left: 3px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             </button>
                             <div class="flex-grow overflow-hidden">
                                 <div class="text-xs text-purple-300 font-bold uppercase tracking-wider mb-1">Listen to Review</div>
@@ -672,7 +684,6 @@
                             </div>
                         `;
                         
-                        // Insert after blurb or before tags
                         const contentDiv = card.querySelector('.film-content');
                         const blurb = contentDiv.querySelector('.film-blurb');
                         if (blurb) {
@@ -684,9 +695,9 @@
                 });
             }
 
+            renderFilms();
             fetchEpisodes();
         });
     </script>
-
 </body>
 </html>
