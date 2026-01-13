@@ -44,13 +44,11 @@
             border-radius: 1rem;
             background-color: #1A1625;
             border: 1px solid #2a2438;
-            /* Removed hover transition */
             min-height: 500px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
         }
-        /* Removed .film-card:hover block */
 
         .film-backdrop {
             position: absolute;
@@ -64,7 +62,6 @@
             mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
             -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
         }
-        /* Removed .film-card:hover .film-backdrop block */
 
         .film-content {
             position: relative;
@@ -216,6 +213,35 @@
             background: #c4b5fd;
             transform: scale(1.05);
         }
+        
+        /* Honorable Mentions */
+        .poster-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .poster-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 20;
+        }
+        .poster-img {
+            border-radius: 0.75rem;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            background: #1A1625;
+            border: 1px solid #2a2438;
+        }
+        .poster-tooltip {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+        }
+        .poster-card:hover .poster-tooltip {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
@@ -237,6 +263,19 @@
             <!-- Content will be injected here by JS -->
             <div class="text-center text-gray-500 animate-pulse">Loading films...</div>
         </div>
+
+        <!-- Honorable Mentions Section -->
+        <section class="max-w-5xl mx-auto mb-24 px-2 md:px-8">
+            <h2 class="text-3xl font-bold mb-8 text-center text-white flex items-center justify-center gap-4">
+                <span class="h-px bg-gray-800 w-12 md:w-24"></span>
+                Honorable Mentions
+                <span class="h-px bg-gray-800 w-12 md:w-24"></span>
+            </h2>
+            <div id="honorable-mentions-grid" class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+                <!-- Posters injected by JS -->
+                <div class="text-gray-500 text-center col-span-full">Loading mentions...</div>
+            </div>
+        </section>
 
         <!-- Custom Player Section -->
         <section class="max-w-4xl mx-auto mb-16">
@@ -425,6 +464,20 @@
                 }
             ];
 
+            // List of honorable mentions (Placeholders - Edit these!)
+            const honorableMentionsData = [
+                "Materialists", 
+                "No Other Choice", 
+                "28 Years Later", 
+                "Sinners", 
+                "Caught by the Tides", 
+                "If I Had Legs I’d Kick You", 
+                "Secret Agent", 
+                "By the Stream", 
+                "Nouvelle Vague", 
+                "Peter Hujar’s Day"
+            ];
+
             async function fetchFilmImage(title) {
                 try {
                     // Direct ID lookup for Dracula
@@ -439,15 +492,12 @@
                     let query = title;
                     let year = 2025;
                     
-                    // Specific overrides for search accuracy
                     if (title === "Bugonia") query = "Bugonia"; 
                     if (title === "The Phoenician Scheme") query = "The Phoenician Scheme";
                     
-                    // Attempt search with year first
                     let response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&year=${year}`);
                     let data = await response.json();
                     
-                    // Fallback to broader search if year fails (sometimes release dates vary in DB)
                     if (!data.results || data.results.length === 0) {
                          response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
                          data = await response.json();
@@ -467,6 +517,34 @@
                     return null;
                 }
             }
+
+            // New function specifically for fetching vertical posters
+            async function fetchFilmPoster(title) {
+                try {
+                    let query = title;
+                    let year = 2025;
+                    
+                    let response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&year=${year}`);
+                    let data = await response.json();
+                    
+                    if (!data.results || data.results.length === 0) {
+                         response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
+                         data = await response.json();
+                    }
+
+                    if (data.results && data.results.length > 0) {
+                        const movie = data.results[0];
+                        if (movie.poster_path) {
+                            return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+                        }
+                    }
+                    return null;
+                } catch (error) {
+                    console.error("Error fetching poster for", title, error);
+                    return null;
+                }
+            }
+
 
             async function renderFilms() {
                 filmListContainer.innerHTML = '';
@@ -503,6 +581,37 @@
                     filmListContainer.appendChild(card);
                 }
                 if (episodes.length > 0) injectFilmPlayers();
+            }
+
+            async function renderHonorableMentions() {
+                const grid = document.getElementById('honorable-mentions-grid');
+                grid.innerHTML = '';
+                
+                for (const title of honorableMentionsData) {
+                    const posterUrl = await fetchFilmPoster(title);
+                    const card = document.createElement('div');
+                    card.className = 'poster-card';
+                    
+                    let imgHtml = '';
+                    if (posterUrl) {
+                        imgHtml = `<img src="${posterUrl}" alt="${title}" class="poster-img">`;
+                    } else {
+                        // Fallback placeholder
+                        imgHtml = `
+                            <div class="poster-img flex items-center justify-center bg-gray-800 text-gray-500 text-center p-4">
+                                <span class="text-sm font-bold">${title}</span>
+                            </div>
+                        `;
+                    }
+
+                    card.innerHTML = `
+                        ${imgHtml}
+                        <div class="poster-tooltip absolute bottom-0 left-0 right-0 p-2 text-center">
+                            <span class="text-white text-xs font-bold">${title}</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
             }
 
             // 2. Fetch Podcast
@@ -690,6 +799,7 @@
             }
 
             renderFilms();
+            renderHonorableMentions();
             fetchEpisodes();
         });
     </script>
