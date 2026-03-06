@@ -4,209 +4,306 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Movie Night Poll</title>
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg: #f7f5f2;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --muted: #888;
+      --accent: #2c2c2c;
+      --check: #3a3a3a;
+      --border: #e0ddd8;
+      --hover: #f0ede8;
+      --selected-bg: #1a1a1a;
+      --selected-text: #ffffff;
+      --btn: #1a1a1a;
+      --btn-hover: #333;
+    }
+
     body {
-      background: #000;
-      color: #fff;
-      font-family: 'Special Elite', 'Courier New', Courier, monospace;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 2rem 1rem;
     }
 
-    .container {
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      max-width: 480px;
       width: 100%;
-      max-width: 560px;
+      animation: fadeUp 0.5s ease both;
     }
 
-    .question {
-      font-size: clamp(1.2rem, 3vw, 1.6rem);
-      line-height: 1.5;
-      letter-spacing: 0.04em;
-      margin-bottom: 40px;
-      border-bottom: 1px solid #fff;
-      padding-bottom: 24px;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .days {
-      list-style: none;
+    .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtext {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .options {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-bottom: 48px;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
     }
 
-    .day-item {
+    .option {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 0.85rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
       cursor: pointer;
-    }
-
-    .day-item input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      border: 1px solid #fff;
-      background: #000;
-      cursor: pointer;
-      flex-shrink: 0;
-      position: relative;
-      transition: background 0.15s;
-    }
-
-    .day-item input[type="checkbox"]:checked {
-      background: #fff;
-    }
-
-    .day-item input[type="checkbox"]:checked::after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 7px;
-      width: 5px;
-      height: 10px;
-      border: 2px solid #000;
-      border-top: none;
-      border-left: none;
-      transform: rotate(45deg);
-    }
-
-    .day-label {
-      font-size: 1.15rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
       user-select: none;
     }
 
-    .submit-btn {
-      background: #000;
-      color: #fff;
-      border: 1px solid #fff;
-      font-family: 'Special Elite', 'Courier New', Courier, monospace;
-      font-size: 1rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 14px 40px;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+    .option:hover {
+      background: var(--hover);
+    }
+
+    .option.selected {
+      background: var(--selected-bg);
+      border-color: var(--selected-bg);
+      color: var(--selected-text);
+    }
+
+    .option input[type="checkbox"] {
+      display: none;
+    }
+
+    .box {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+      background: transparent;
+    }
+
+    .option.selected .box {
+      background: #fff;
+      border-color: #fff;
+    }
+
+    .box svg {
+      display: none;
+      width: 11px;
+      height: 11px;
+    }
+
+    .option.selected .box svg {
       display: block;
     }
 
-    .submit-btn:hover {
-      background: #fff;
-      color: #000;
+    .label {
+      font-size: 0.95rem;
+      font-weight: 400;
     }
 
-    .error-msg {
-      margin-top: 16px;
-      font-size: 0.85rem;
-      letter-spacing: 0.06em;
-      opacity: 0;
-      transition: opacity 0.2s;
+    .submit-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--btn);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+      letter-spacing: 0.01em;
     }
 
-    .error-msg.visible {
-      opacity: 1;
-    }
-
-    .voted-msg {
-      font-size: 0.88rem;
-      letter-spacing: 0.08em;
-      opacity: 0.5;
-      margin-bottom: 40px;
-      text-transform: uppercase;
-    }
-
-    .day-item.disabled {
-      opacity: 0.3;
-      pointer-events: none;
+    .submit-btn:hover:not(:disabled) {
+      background: var(--btn-hover);
     }
 
     .submit-btn:disabled {
-      opacity: 0.25;
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
-    .submit-btn:disabled:hover {
-      background: #000;
-      color: #fff;
-    }
-
-    .results-link {
-      display: inline-block;
-      margin-top: 12px;
+    .status {
+      margin-top: 1rem;
       font-size: 0.85rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #fff;
-      text-decoration: none;
-      border-bottom: 1px solid #fff;
-      padding-bottom: 2px;
-      transition: opacity 0.2s;
+      color: var(--muted);
+      text-align: center;
+      min-height: 1.2em;
     }
 
-    .results-link:hover { opacity: 0.5; }
+    .status.success { color: #3a7d44; }
+    .status.error   { color: #b94040; }
+
+    /* Thank you state */
+    .thank-you {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .thank-you .icon {
+      font-size: 2.5rem;
+    }
+
+    .thank-you h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .thank-you p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .poll-body.hidden { display: none; }
+    .thank-you.visible { display: flex; }
+
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.5rem; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <p class="question">What day(s) of the week is best for movie nights?</p>
-    <p class="voted-msg" id="votedMsg" style="display:none;">— you have already voted —</p>
-    <ul class="days" id="daysList">
-      <li class="day-item"><input type="checkbox" id="mon" value="Monday"><label class="day-label" for="mon">Monday</label></li>
-      <li class="day-item"><input type="checkbox" id="tue" value="Tuesday"><label class="day-label" for="tue">Tuesday</label></li>
-      <li class="day-item"><input type="checkbox" id="wed" value="Wednesday"><label class="day-label" for="wed">Wednesday</label></li>
-      <li class="day-item"><input type="checkbox" id="thu" value="Thursday"><label class="day-label" for="thu">Thursday</label></li>
-      <li class="day-item"><input type="checkbox" id="fri" value="Friday"><label class="day-label" for="fri">Friday</label></li>
-      <li class="day-item"><input type="checkbox" id="sat" value="Saturday"><label class="day-label" for="sat">Saturday</label></li>
-      <li class="day-item"><input type="checkbox" id="sun" value="Sunday"><label class="day-label" for="sun">Sunday</label></li>
-    </ul>
-    <button class="submit-btn" id="submitBtn">Submit</button>
-    <p class="error-msg" id="errorMsg">— please select at least one day —</p>
-    <a href="results.html" class="results-link" id="resultsLink" style="display:none;">view results →</a>
+<div class="card">
+
+  <!-- Poll -->
+  <div class="poll-body" id="pollBody">
+    <p class="eyebrow">Quick Poll</p>
+    <h1>Which day(s) of the week work best for movie nights?</h1>
+    <p class="subtext">Select all that apply.</p>
+
+    <div class="options" id="options">
+      <!-- Days rendered by JS -->
+    </div>
+
+    <button class="submit-btn" id="submitBtn" disabled>Submit</button>
+    <p class="status" id="status"></p>
   </div>
 
-  <script>
-    const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  <!-- Thank you -->
+  <div class="thank-you" id="thankYou">
+    <div class="icon">🎬</div>
+    <h2>Thanks for responding!</h2>
+    <p>Your answer has been recorded.</p>
+  </div>
 
-    // Check if already voted (persists across sessions)
-    if (localStorage.getItem('pollSubmitted') === '1') {
-      document.getElementById('votedMsg').style.display = 'block';
-      document.getElementById('resultsLink').style.display = 'inline-block';
-      document.getElementById('submitBtn').disabled = true;
-      document.querySelectorAll('.day-item').forEach(el => el.classList.add('disabled'));
-    }
+</div>
 
-    document.getElementById('submitBtn').addEventListener('click', () => {
-      if (localStorage.getItem('pollSubmitted') === '1') return;
+<script>
+  // ─── CONFIG ────────────────────────────────────────────────────────────────
+  const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
+  // ───────────────────────────────────────────────────────────────────────────
 
-      const checked = DAYS.filter(d => document.getElementById(d.slice(0,3).toLowerCase()).checked);
-      const errEl = document.getElementById('errorMsg');
+  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const selected = new Set();
 
-      if (checked.length === 0) {
-        errEl.classList.add('visible');
-        return;
+  const optionsEl  = document.getElementById("options");
+  const submitBtn  = document.getElementById("submitBtn");
+  const statusEl   = document.getElementById("status");
+  const pollBody   = document.getElementById("pollBody");
+  const thankYou   = document.getElementById("thankYou");
+
+  // Build options
+  days.forEach(day => {
+    const label = document.createElement("label");
+    label.className = "option";
+    label.innerHTML = `
+      <input type="checkbox" value="${day}" />
+      <span class="box">
+        <svg viewBox="0 0 12 12" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1.5,6 4.5,9 10.5,3"/>
+        </svg>
+      </span>
+      <span class="label">${day}</span>
+    `;
+    label.addEventListener("click", () => {
+      const cb = label.querySelector("input");
+      // toggle
+      if (selected.has(day)) {
+        selected.delete(day);
+        label.classList.remove("selected");
+        cb.checked = false;
+      } else {
+        selected.add(day);
+        label.classList.add("selected");
+        cb.checked = true;
       }
-      errEl.classList.remove('visible');
-
-      // Load existing votes from localStorage (persists across sessions)
-      const stored = localStorage.getItem('pollVotes');
-      const votes = stored ? JSON.parse(stored) : {};
-      DAYS.forEach(d => { if (!votes[d]) votes[d] = 0; });
-      checked.forEach(d => { votes[d]++; });
-      localStorage.setItem('pollVotes', JSON.stringify(votes));
-      localStorage.setItem('pollSubmitted', '1');
-
-      window.location.href = 'results.html';
+      submitBtn.disabled = selected.size === 0;
     });
-  </script>
+    optionsEl.appendChild(label);
+  });
+
+  // Submit
+  submitBtn.addEventListener("click", async () => {
+    if (selected.size === 0) return;
+
+    submitBtn.disabled = true;
+    statusEl.textContent = "Submitting…";
+    statusEl.className = "status";
+
+    const payload = { days: [...selected].join(", ") };
+
+    try {
+      await fetch(https://script.google.com/macros/s/AKfycbwyykR2vp8Ae4w0QSF9WdtlBJWKvZE4uVaWBKnJrHPZbtyw9mHDVOVL3xSzm70jQ3pVcg/exec, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      // no-cors means we can't read the response, but if it didn't throw, assume success
+      pollBody.classList.add("hidden");
+      thankYou.classList.add("visible");
+    } catch (err) {
+      statusEl.textContent = "Something went wrong. Please try again.";
+      statusEl.className = "status error";
+      submitBtn.disabled = false;
+    }
+  });
+</script>
 </body>
 </html>
