@@ -1,271 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Night Poll</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie Night Poll</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            background-color: black;
-            color: white;
-            font-family: 'Courier Prime', 'Courier New', monospace;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 24px;
-        }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Special Elite', 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
 
-        .container {
-            max-width: 450px;
-            width: 100%;
-        }
+    .container {
+      width: 100%;
+      max-width: 560px;
+    }
 
-        h1 {
-            font-size: 1.25rem;
-            line-height: 1.5;
-            margin-bottom: 32px;
-            font-weight: normal;
-        }
+    .question {
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      margin-bottom: 40px;
+      border-bottom: 1px solid #fff;
+      padding-bottom: 24px;
+    }
 
-        .days-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 40px;
-        }
+    .days {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
 
-        .day-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            user-select: none;
-        }
+    .day-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+    }
 
-        .checkbox {
-            width: 20px;
-            height: 20px;
-            border: 1px solid white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
+    .day-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #fff;
+      background: #000;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      transition: background 0.15s;
+    }
 
-        .checkbox-inner {
-            width: 10px;
-            height: 10px;
-            background-color: white;
-            display: none;
-        }
+    .day-item input[type="checkbox"]:checked {
+      background: #fff;
+    }
 
-        input[type="checkbox"]:checked + .checkbox .checkbox-inner {
-            display: block;
-        }
+    .day-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 7px;
+      width: 5px;
+      height: 10px;
+      border: 2px solid #000;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
 
-        input[type="checkbox"] {
-            display: none;
-        }
+    .day-label {
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      user-select: none;
+    }
 
-        .day-label {
-            font-size: 1.125rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
+    .submit-btn {
+      background: #000;
+      color: #fff;
+      border: 1px solid #fff;
+      font-family: 'Special Elite', 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 14px 40px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: block;
+    }
 
-        button {
-            background: none;
-            border: none;
-            color: white;
-            font-family: inherit;
-            font-size: 1.125rem;
-            text-decoration: underline;
-            text-underline-offset: 8px;
-            cursor: pointer;
-            padding: 0;
-            transition: opacity 0.2s;
-        }
+    .submit-btn:hover {
+      background: #fff;
+      color: #000;
+    }
 
-        button:hover:not(:disabled) {
-            opacity: 0.6;
-        }
+    .error-msg {
+      margin-top: 16px;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
 
-        button:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-        }
-
-        #thank-you {
-            display: none;
-            font-size: 1.125rem;
-        }
-
-        #poll-form {
-            display: none;
-        }
-
-        .loading-state {
-            opacity: 0.5;
-        }
-
-        #error-msg {
-            color: #ff5555;
-            font-size: 0.9rem;
-            margin-top: 20px;
-            display: none;
-        }
-    </style>
+    .error-msg.visible {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <p class="question">What day(s) of the week is best for movie nights?</p>
+    <ul class="days" id="daysList">
+      <li class="day-item"><input type="checkbox" id="mon" value="Monday"><label class="day-label" for="mon">Monday</label></li>
+      <li class="day-item"><input type="checkbox" id="tue" value="Tuesday"><label class="day-label" for="tue">Tuesday</label></li>
+      <li class="day-item"><input type="checkbox" id="wed" value="Wednesday"><label class="day-label" for="wed">Wednesday</label></li>
+      <li class="day-item"><input type="checkbox" id="thu" value="Thursday"><label class="day-label" for="thu">Thursday</label></li>
+      <li class="day-item"><input type="checkbox" id="fri" value="Friday"><label class="day-label" for="fri">Friday</label></li>
+      <li class="day-item"><input type="checkbox" id="sat" value="Saturday"><label class="day-label" for="sat">Saturday</label></li>
+      <li class="day-item"><input type="checkbox" id="sun" value="Sunday"><label class="day-label" for="sun">Sunday</label></li>
+    </ul>
+    <button class="submit-btn" id="submitBtn">Submit</button>
+    <p class="error-msg" id="errorMsg">— please select at least one day —</p>
+  </div>
 
-    <div class="container">
-        <div id="loading" class="loading-state">Initializing...</div>
-        <div id="thank-you">Thank you.</div>
+  <script>
+    const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
-        <form id="poll-form">
-            <h1>Which days of the week are best for a 7:00 movie?</h1>
-            
-            <div class="days-list" id="days-container">
-                <!-- Days injected by script -->
-            </div>
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      const checked = DAYS.filter(d => document.getElementById(d.slice(0,3).toLowerCase()).checked);
+      const errEl = document.getElementById('errorMsg');
 
-            <button type="submit" id="submit-btn" disabled>Submit</button>
-        </form>
+      if (checked.length === 0) {
+        errEl.classList.add('visible');
+        return;
+      }
+      errEl.classList.remove('visible');
 
-        <div id="error-msg"></div>
-    </div>
+      // Load existing votes from sessionStorage (shared between pages in same tab)
+      const stored = sessionStorage.getItem('pollVotes');
+      const votes = stored ? JSON.parse(stored) : {};
+      DAYS.forEach(d => { if (!votes[d]) votes[d] = 0; });
+      checked.forEach(d => { votes[d]++; });
+      sessionStorage.setItem('pollVotes', JSON.stringify(votes));
+      sessionStorage.setItem('pollSubmitted', '1');
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Constants and UI Elements
-        const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const pollForm = document.getElementById('poll-form');
-        const thankYou = document.getElementById('thank-you');
-        const loading = document.getElementById('loading');
-        const daysContainer = document.getElementById('days-container');
-        const submitBtn = document.getElementById('submit-btn');
-        const errorMsg = document.getElementById('error-msg');
-
-        let selectedDays = [];
-
-        // Build UI checkboxes
-        DAYS.forEach(day => {
-            const label = document.createElement('label');
-            label.className = 'day-item';
-            label.innerHTML = `
-                <input type="checkbox" value="${day}">
-                <div class="checkbox"><div class="checkbox-inner"></div></div>
-                <span class="day-label">${day}</span>
-            `;
-            
-            label.querySelector('input').addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    selectedDays.push(day);
-                } else {
-                    selectedDays = selectedDays.filter(d => d !== day);
-                }
-                submitBtn.disabled = selectedDays.length === 0;
-            });
-
-            daysContainer.appendChild(label);
-        });
-
-        // Initialize App
-        async function init() {
-            try {
-                // Safely get config
-                const firebaseConfig = JSON.parse(__firebase_config);
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'movie-poll-v3';
-                
-                const app = initializeApp(firebaseConfig);
-                const auth = getAuth(app);
-                const db = getFirestore(app);
-
-                // 1. Set up Auth Listener first to catch the state change
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        try {
-                            // Check if this user has already voted
-                            const voteDocPath = doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status');
-                            const voteDoc = await getDoc(voteDocPath);
-                            
-                            loading.style.display = 'none';
-                            if (voteDoc.exists()) {
-                                thankYou.style.display = 'block';
-                            } else {
-                                pollForm.style.display = 'block';
-                            }
-                        } catch (err) {
-                            console.error("Firestore Check Error:", err);
-                            showError("Error connecting to database.");
-                        }
-                    }
-                });
-
-                // 2. Trigger Auth
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                // 3. Handle Form Submission
-                pollForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const user = auth.currentUser;
-                    if (!user || selectedDays.length === 0) return;
-
-                    submitBtn.disabled = true;
-                    submitBtn.innerText = 'Submitting...';
-
-                    try {
-                        // Record single-vote status (Private)
-                        await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status'), {
-                            votedAt: new Date().toISOString()
-                        });
-
-                        // Add to tally (Public)
-                        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'votes'), {
-                            selections: selectedDays,
-                            timestamp: new Date().toISOString()
-                        });
-
-                        pollForm.style.display = 'none';
-                        thankYou.style.display = 'block';
-                    } catch (err) {
-                        console.error("Submission error:", err);
-                        submitBtn.disabled = false;
-                        submitBtn.innerText = 'Submit';
-                        showError("Failed to submit. Please try again.");
-                    }
-                });
-
-            } catch (err) {
-                console.error("Initialization error:", err);
-                showError("System initialization failed.");
-            }
-        }
-
-        function showError(msg) {
-            loading.style.display = 'none';
-            errorMsg.innerText = msg;
-            errorMsg.style.display = 'block';
-        }
-
-        init();
-    </script>
+      window.location.href = 'results.html';
+    });
+  </script>
 </body>
 </html>
