@@ -117,6 +117,13 @@
         .loading-state {
             opacity: 0.5;
         }
+
+        #error-msg {
+            color: #ff5555;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -134,6 +141,8 @@
 
             <button type="submit" id="submit-btn" disabled>Submit</button>
         </form>
+
+        <div id="error-msg"></div>
     </div>
 
     <script type="module">
@@ -141,22 +150,18 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'movie-poll-v3';
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
+        // Constants and UI Elements
         const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const pollForm = document.getElementById('poll-form');
         const thankYou = document.getElementById('thank-you');
         const loading = document.getElementById('loading');
         const daysContainer = document.getElementById('days-container');
         const submitBtn = document.getElementById('submit-btn');
+        const errorMsg = document.getElementById('error-msg');
 
         let selectedDays = [];
 
+        // Build UI checkboxes
         DAYS.forEach(day => {
             const label = document.createElement('label');
             label.className = 'day-item';
@@ -178,55 +183,87 @@
             daysContainer.appendChild(label);
         });
 
+        // Initialize App
         async function init() {
             try {
+                // Safely get config
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'movie-poll-v3';
+                
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                const db = getFirestore(app);
+
+                // 1. Set up Auth Listener first to catch the state change
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        try {
+                            // Check if this user has already voted
+                            const voteDocPath = doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status');
+                            const voteDoc = await getDoc(voteDocPath);
+                            
+                            loading.style.display = 'none';
+                            if (voteDoc.exists()) {
+                                thankYou.style.display = 'block';
+                            } else {
+                                pollForm.style.display = 'block';
+                            }
+                        } catch (err) {
+                            console.error("Firestore Check Error:", err);
+                            showError("Error connecting to database.");
+                        }
+                    }
+                });
+
+                // 2. Trigger Auth
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
 
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        const voteDoc = await getDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status'));
-                        loading.style.display = 'none';
-                        if (voteDoc.exists()) {
-                            thankYou.style.display = 'block';
-                        } else {
-                            pollForm.style.display = 'block';
-                        }
+                // 3. Handle Form Submission
+                pollForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const user = auth.currentUser;
+                    if (!user || selectedDays.length === 0) return;
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerText = 'Submitting...';
+
+                    try {
+                        // Record single-vote status (Private)
+                        await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status'), {
+                            votedAt: new Date().toISOString()
+                        });
+
+                        // Add to tally (Public)
+                        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'votes'), {
+                            selections: selectedDays,
+                            timestamp: new Date().toISOString()
+                        });
+
+                        pollForm.style.display = 'none';
+                        thankYou.style.display = 'block';
+                    } catch (err) {
+                        console.error("Submission error:", err);
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = 'Submit';
+                        showError("Failed to submit. Please try again.");
                     }
                 });
-            } catch (error) {
-                loading.innerText = "Connection error.";
+
+            } catch (err) {
+                console.error("Initialization error:", err);
+                showError("System initialization failed.");
             }
         }
 
-        pollForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const user = auth.currentUser;
-            if (!user || selectedDays.length === 0) return;
-
-            submitBtn.disabled = true;
-            submitBtn.innerText = 'Submitting...';
-
-            try {
-                await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status'), {
-                    votedAt: new Date().toISOString()
-                });
-
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'votes'), {
-                    selections: selectedDays,
-                    timestamp: new Date().toISOString()
-                });
-
-                pollForm.style.display = 'none';
-                thankYou.style.display = 'block';
-            } catch (err) {
-                submitBtn.disabled = false;
-                submitBtn.innerText = 'Submit';
-            }
-        });
+        function showError(msg) {
+            loading.style.display = 'none';
+            errorMsg.innerText = msg;
+            errorMsg.style.display = 'block';
+        }
 
         init();
     </script>
