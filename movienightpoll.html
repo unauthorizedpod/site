@@ -236,7 +236,7 @@
 
 <script>
   // ─── CONFIG ────────────────────────────────────────────────────────────────
-  const APPS_SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyykR2vp8Ae4w0QSF9WdtlBJWKvZE4uVaWBKnJrHPZbtyw9mHDVOVL3xSzm70jQ3pVcg/exec";
   // ───────────────────────────────────────────────────────────────────────────
 
   const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -289,13 +289,15 @@
     const payload = { days: [...selected].join(", ") };
 
     try {
-      await fetch(https://script.google.com/macros/s/AKfycbwyykR2vp8Ae4w0QSF9WdtlBJWKvZE4uVaWBKnJrHPZbtyw9mHDVOVL3xSzm70jQ3pVcg/exec, {
+      const formData = new FormData();
+      formData.append("days", [...selected].join(", "));
+
+      await fetch(APPS_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: formData,
       });
-      // no-cors means we can't read the response, but if it didn't throw, assume success
+
       pollBody.classList.add("hidden");
       thankYou.classList.add("visible");
     } catch (err) {
