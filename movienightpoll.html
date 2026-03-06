@@ -1,0 +1,151 @@
+import React, { useState, useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+
+// Firebase configuration
+const firebaseConfig = JSON.parse(__firebase_config);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'movie-poll-app';
+
+const DAYS = [
+  'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+];
+
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+      } catch (err) {
+        console.error("Auth error", err);
+      }
+    };
+    initAuth();
+    const unsubscribe = onAuthStateChanged(auth, (u) => setUser(u));
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const checkVoteStatus = async () => {
+      try {
+        const voteDoc = await getDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status'));
+        if (voteDoc.exists()) setHasVoted(true);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkVoteStatus();
+  }, [user]);
+
+  const toggleDay = (day) => {
+    setSelectedDays(prev => 
+      prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
+    );
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!user || selectedDays.length === 0 || submitting) return;
+
+    setSubmitting(true);
+    try {
+      // Record vote locally
+      await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status'), {
+        votedAt: new Date().toISOString(),
+        choices: selectedDays
+      });
+
+      // Submit to Formspree for email delivery
+      await fetch('https://formspree.io/f/zjdomes@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: "Which days of the week are best for a 7:00 movie?",
+          selections: selectedDays.join(', '),
+          email: 'zjdomes@gmail.com'
+        })
+      });
+
+      setHasVoted(true);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) return <div className="min-h-screen bg-black" />;
+
+  return (
+    <div className="min-h-screen bg-black text-white font-mono flex items-center justify-center p-6">
+      <div className="max-w-md w-full">
+        {hasVoted ? (
+          <p className="text-lg">Thank you.</p>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <h1 className="text-xl leading-relaxed">
+              Which day(s) of the week are best for a 7:00p movie night?
+            </h1>
+
+            <div className="space-y-3">
+              {DAYS.map((day) => (
+                <label 
+                  key={day} 
+                  className="flex items-center space-x-4 cursor-pointer"
+                >
+                  <div className="w-5 h-5 border border-white flex items-center justify-center flex-shrink-0">
+                    {selectedDays.includes(day) && (
+                      <div className="w-2.5 h-2.5 bg-white" />
+                    )}
+                  </div>
+                  <input
+                    type="checkbox"
+                    className="hidden"
+                    checked={selectedDays.includes(day)}
+                    onChange={() => toggleDay(day)}
+                  />
+                  <span className="text-lg">{day}</span>
+                </label>
+              ))}
+            </div>
+
+            <button
+              type="submit"
+              disabled={selectedDays.length === 0 || submitting}
+              className={`pt-4 text-lg underline underline-offset-8 transition-opacity ${
+                (selectedDays.length === 0 || submitting) ? 'opacity-20 cursor-not-allowed' : 'opacity-100 hover:opacity-70'
+              }`}
+            >
+              {submitting ? 'Submitting...' : 'Submit'}
+            </button>
+          </form>
+        )}
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+        body {
+          font-family: 'Courier Prime', 'Courier New', monospace;
+          background-color: black;
+          color: white;
+        }
+      `}} />
+    </div>
+  );
+}
