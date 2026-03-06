@@ -116,11 +116,50 @@
     .error-msg.visible {
       opacity: 1;
     }
+
+    .voted-msg {
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      opacity: 0.5;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+    }
+
+    .day-item.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+
+    .submit-btn:disabled:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    .results-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid #fff;
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+
+    .results-link:hover { opacity: 0.5; }
   </style>
 </head>
 <body>
   <div class="container">
     <p class="question">What day(s) of the week is best for movie nights?</p>
+    <p class="voted-msg" id="votedMsg" style="display:none;">— you have already voted —</p>
     <ul class="days" id="daysList">
       <li class="day-item"><input type="checkbox" id="mon" value="Monday"><label class="day-label" for="mon">Monday</label></li>
       <li class="day-item"><input type="checkbox" id="tue" value="Tuesday"><label class="day-label" for="tue">Tuesday</label></li>
@@ -132,12 +171,23 @@
     </ul>
     <button class="submit-btn" id="submitBtn">Submit</button>
     <p class="error-msg" id="errorMsg">— please select at least one day —</p>
+    <a href="results.html" class="results-link" id="resultsLink" style="display:none;">view results →</a>
   </div>
 
   <script>
     const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
+    // Check if already voted (persists across sessions)
+    if (localStorage.getItem('pollSubmitted') === '1') {
+      document.getElementById('votedMsg').style.display = 'block';
+      document.getElementById('resultsLink').style.display = 'inline-block';
+      document.getElementById('submitBtn').disabled = true;
+      document.querySelectorAll('.day-item').forEach(el => el.classList.add('disabled'));
+    }
+
     document.getElementById('submitBtn').addEventListener('click', () => {
+      if (localStorage.getItem('pollSubmitted') === '1') return;
+
       const checked = DAYS.filter(d => document.getElementById(d.slice(0,3).toLowerCase()).checked);
       const errEl = document.getElementById('errorMsg');
 
@@ -147,13 +197,13 @@
       }
       errEl.classList.remove('visible');
 
-      // Load existing votes from sessionStorage (shared between pages in same tab)
-      const stored = sessionStorage.getItem('pollVotes');
+      // Load existing votes from localStorage (persists across sessions)
+      const stored = localStorage.getItem('pollVotes');
       const votes = stored ? JSON.parse(stored) : {};
       DAYS.forEach(d => { if (!votes[d]) votes[d] = 0; });
       checked.forEach(d => { votes[d]++; });
-      sessionStorage.setItem('pollVotes', JSON.stringify(votes));
-      sessionStorage.setItem('pollSubmitted', '1');
+      localStorage.setItem('pollVotes', JSON.stringify(votes));
+      localStorage.setItem('pollSubmitted', '1');
 
       window.location.href = 'results.html';
     });
