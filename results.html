@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Poll Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            padding: 40px 24px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        header {
+            border-bottom: 1px solid white;
+            padding-bottom: 16px;
+            margin-bottom: 48px;
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: normal;
+        }
+
+        .stats-summary {
+            font-size: 0.75rem;
+            opacity: 0.5;
+            margin-top: 8px;
+        }
+
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .result-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .bar-container {
+            width: 100%;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .bar-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: white;
+            transition: width 1s ease-out;
+            width: 0%;
+        }
+
+        #loading {
+            opacity: 0.5;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Poll Results</h1>
+            <div id="total-count" class="stats-summary">Responses: 0</div>
+        </header>
+
+        <div id="loading">Syncing data...</div>
+
+        <div class="results-list" id="results-container" style="display: none;">
+            <!-- Tally will be injected here -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'movie-poll-v3';
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const resultsContainer = document.getElementById('results-container');
+        const totalCountEl = document.getElementById('total-count');
+        const loading = document.getElementById('loading');
+
+        // Create UI elements once
+        const dayElements = {};
+        DAYS.forEach(day => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.innerHTML = `
+                <div class="result-header">
+                    <span>${day}</span>
+                    <span id="count-${day}">0</span>
+                </div>
+                <div class="bar-container">
+                    <div id="bar-${day}" class="bar-fill"></div>
+                </div>
+            `;
+            resultsContainer.appendChild(div);
+            dayElements[day] = {
+                count: div.querySelector(`#count-${day}`),
+                bar: div.querySelector(`#bar-${day}`)
+            };
+        });
+
+        async function init() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        const q = collection(db, 'artifacts', appId, 'public', 'data', 'votes');
+                        onSnapshot(q, (snapshot) => {
+                            loading.style.display = 'none';
+                            resultsContainer.style.display = 'flex';
+
+                            const tallies = {};
+                            DAYS.forEach(d => tallies[d] = 0);
+                            let total = 0;
+
+                            snapshot.forEach(doc => {
+                                const data = doc.data();
+                                if (data.selections) {
+                                    total++;
+                                    data.selections.forEach(d => tallies[d]++);
+                                }
+                            });
+
+                            totalCountEl.innerText = `Responses: ${total}`;
+
+                            DAYS.forEach(day => {
+                                const count = tallies[day];
+                                const percentage = total > 0 ? (count / total) * 100 : 0;
+                                dayElements[day].count.innerText = count;
+                                dayElements[day].bar.style.width = `${percentage}%`;
+                            });
+                        });
+                    }
+                });
+            } catch (err) {
+                loading.innerText = "Error loading results.";
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
