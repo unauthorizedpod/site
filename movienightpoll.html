@@ -1,151 +1,229 @@
-import React, { useState, useEffect } from 'react';
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Night Poll</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
 
-// Firebase configuration
-const firebaseConfig = JSON.parse(__firebase_config);
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'movie-poll-app';
-
-const DAYS = [
-  'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
-];
-
-export default function App() {
-  const [user, setUser] = useState(null);
-  const [hasVoted, setHasVoted] = useState(false);
-  const [selectedDays, setSelectedDays] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    const initAuth = async () => {
-      try {
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
-        } else {
-          await signInAnonymously(auth);
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-      } catch (err) {
-        console.error("Auth error", err);
-      }
-    };
-    initAuth();
-    const unsubscribe = onAuthStateChanged(auth, (u) => setUser(u));
-    return () => unsubscribe();
-  }, []);
 
-  useEffect(() => {
-    if (!user) return;
-    const checkVoteStatus = async () => {
-      try {
-        const voteDoc = await getDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status'));
-        if (voteDoc.exists()) setHasVoted(true);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    checkVoteStatus();
-  }, [user]);
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-  const toggleDay = (day) => {
-    setSelectedDays(prev => 
-      prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
-    );
-  };
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!user || selectedDays.length === 0 || submitting) return;
+        h1 {
+            font-size: 1.25rem;
+            font-weight: normal;
+            margin-bottom: 2.5rem;
+            line-height: 1.4;
+        }
 
-    setSubmitting(true);
-    try {
-      // Record vote locally
-      await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'submission', 'status'), {
-        votedAt: new Date().toISOString(),
-        choices: selectedDays
-      });
+        /* Poll Options */
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
 
-      // Submit to Formspree for email delivery
-      await fetch('https://formspree.io/f/zjdomes@gmail.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          question: "Which days of the week are best for a 7:00 movie?",
-          selections: selectedDays.join(', '),
-          email: 'zjdomes@gmail.com'
-        })
-      });
+        .option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.2s;
+        }
 
-      setHasVoted(true);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+        .option:hover {
+            opacity: 0.7;
+        }
 
-  if (loading) return <div className="min-h-screen bg-black" />;
+        .box {
+            width: 22px;
+            height: 22px;
+            border: 1px solid white;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
 
-  return (
-    <div className="min-h-screen bg-black text-white font-mono flex items-center justify-center p-6">
-      <div className="max-w-md w-full">
-        {hasVoted ? (
-          <p className="text-lg">Thank you.</p>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <h1 className="text-xl leading-relaxed">
-              Which day(s) of the week are best for a 7:00p movie night?
-            </h1>
+        .option.selected .box::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: white;
+        }
 
-            <div className="space-y-3">
-              {DAYS.map((day) => (
-                <label 
-                  key={day} 
-                  className="flex items-center space-x-4 cursor-pointer"
-                >
-                  <div className="w-5 h-5 border border-white flex items-center justify-center flex-shrink-0">
-                    {selectedDays.includes(day) && (
-                      <div className="w-2.5 h-2.5 bg-white" />
-                    )}
-                  </div>
-                  <input
-                    type="checkbox"
-                    className="hidden"
-                    checked={selectedDays.includes(day)}
-                    onChange={() => toggleDay(day)}
-                  />
-                  <span className="text-lg">{day}</span>
-                </label>
-              ))}
+        .day-label {
+            font-size: 1.1rem;
+        }
+
+        /* Submit Button */
+        #submit-btn {
+            margin-top: 3rem;
+            background: transparent;
+            color: white;
+            border: none;
+            border-bottom: 1px solid white;
+            font-family: inherit;
+            font-size: 1.1rem;
+            padding-bottom: 4px;
+            cursor: pointer;
+            opacity: 0.2;
+            pointer-events: none;
+            transition: opacity 0.3s, border-color 0.3s;
+        }
+
+        #submit-btn.ready {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #submit-btn:hover {
+            border-bottom-color: transparent;
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none;
+        }
+
+        #status-msg {
+            font-size: 1.1rem;
+            animation: fadein 1s;
+        }
+
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Main Form -->
+        <div id="poll-content">
+            <h1>Which days of the week are best for a 7:00 movie?</h1>
+            
+            <div id="days-container" class="options-group">
+                <!-- Generated by JavaScript -->
             </div>
 
-            <button
-              type="submit"
-              disabled={selectedDays.length === 0 || submitting}
-              className={`pt-4 text-lg underline underline-offset-8 transition-opacity ${
-                (selectedDays.length === 0 || submitting) ? 'opacity-20 cursor-not-allowed' : 'opacity-100 hover:opacity-70'
-              }`}
-            >
-              {submitting ? 'Submitting...' : 'Submit'}
-            </button>
-          </form>
-        )}
-      </div>
+            <button id="submit-btn">Submit</button>
+        </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
-        body {
-          font-family: 'Courier Prime', 'Courier New', monospace;
-          background-color: black;
-          color: white;
-        }
-      `}} />
+        <!-- Success Message -->
+        <div id="success-content" class="hidden">
+            <p id="status-msg">Thank you.</p>
+        </div>
     </div>
-  );
-}
+
+    <script>
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const selectedDays = new Set();
+        const STORAGE_KEY = 'movie_poll_v1_submitted';
+        
+        const pollContent = document.getElementById('poll-content');
+        const successContent = document.getElementById('success-content');
+        const daysContainer = document.getElementById('days-container');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // 1. Check if user already voted
+        if (localStorage.getItem(STORAGE_KEY)) {
+            showSuccess();
+        }
+
+        // 2. Render Days
+        days.forEach(day => {
+            const div = document.createElement('div');
+            div.className = 'option';
+            div.innerHTML = `
+                <div class="box"></div>
+                <span class="day-label">${day}</span>
+            `;
+            div.onclick = () => toggleDay(day, div);
+            daysContainer.appendChild(div);
+        });
+
+        // 3. Selection Logic
+        function toggleDay(day, element) {
+            if (selectedDays.has(day)) {
+                selectedDays.delete(day);
+                element.classList.remove('selected');
+            } else {
+                selectedDays.add(day);
+                element.classList.add('selected');
+            }
+            updateButtonState();
+        }
+
+        function updateButtonState() {
+            if (selectedDays.size > 0) {
+                submitBtn.classList.add('ready');
+            } else {
+                submitBtn.classList.remove('ready');
+            }
+        }
+
+        function showSuccess() {
+            pollContent.classList.add('hidden');
+            successContent.classList.remove('hidden');
+        }
+
+        // 4. Submission Logic
+        submitBtn.onclick = async () => {
+            if (selectedDays.size === 0) return;
+
+            submitBtn.innerText = 'Submitting...';
+            submitBtn.classList.remove('ready');
+
+            const selections = Array.from(selectedDays).join(', ');
+
+            try {
+                // Submit to Formspree
+                const response = await fetch('https://formspree.io/f/zjdomes@gmail.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: "Which days of the week are best for a 7:00 movie?",
+                        results: selections
+                    })
+                });
+
+                if (response.ok) {
+                    localStorage.setItem(STORAGE_KEY, 'true');
+                    showSuccess();
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch (err) {
+                console.error(err);
+                submitBtn.innerText = 'Error. Try again?';
+                submitBtn.classList.add('ready');
+            }
+        };
+    </script>
+</body>
+</html>
