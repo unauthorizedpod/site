@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xiomé | Official</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --text: #f0f0f0;
+            --accent: #555;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            overflow: hidden; 
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Film Grain & Noise Overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.04;
+            z-index: 10;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        header {
+            text-align: center;
+            z-index: 5;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 12vw, 8rem);
+            font-weight: 200;
+            /* Increased spacing as requested */
+            letter-spacing: 0.25em; 
+            text-transform: lowercase;
+            transition: transform 0.1s linear;
+            user-select: none;
+            will-change: transform;
+            padding-left: 0.25em; /* Offset for centering due to letter-spacing */
+
+            /* Reflective / Colorful Effect */
+            background: linear-gradient(
+                135deg, 
+                #f0f0f0 20%, 
+                #a2c2e1 35%, 
+                #e1a2d1 50%, 
+                #f0f0f0 65%, 
+                #a2c2e1 80%
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 12s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .cta {
+            display: inline-block;
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            color: var(--text);
+            opacity: 0.5;
+            transition: opacity 0.3s ease, letter-spacing 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        .cta:hover {
+            opacity: 1;
+            letter-spacing: 0.25em;
+        }
+
+        .cta::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--text);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .cta:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 40px;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            z-index: 5;
+            text-transform: uppercase;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--text);
+        }
+
+        /* Discreet Cursor Spotlight Effect */
+        #spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40vw;
+            height: 40vw;
+            min-width: 300px;
+            min-height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            will-change: left, top;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 3.5rem;
+                letter-spacing: 0.15em;
+            }
+            .cta {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise"></div>
+    <div id="spotlight"></div>
+
+    <header>
+        <h1 id="logo">xiomé</h1>
+        <a href="https://open.spotify.com/track/6AADBy8oPR6AxE7BfC3lKi?si=4860fd89d3714238" target="_blank" class="cta">
+            New Single Out Now
+        </a>
+    </header>
+
+    <footer>
+        <a href="mailto:domer15@gmail.com">Contact</a>
+    </footer>
+
+    <script>
+        const logo = document.getElementById('logo');
+        const spotlight = document.getElementById('spotlight');
+
+        // Handle mouse movement for kinetic interactions
+        document.addEventListener('mousemove', (e) => {
+            requestAnimationFrame(() => {
+                // Spotlight movement
+                spotlight.style.left = e.clientX + 'px';
+                spotlight.style.top = e.clientY + 'px';
+
+                // Text subtle skew/parallax
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const x = (centerX - e.clientX) / 50;
+                const y = (centerY - e.clientY) / 50;
+                
+                logo.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Touch support for mobile spotlight
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            spotlight.style.left = touch.clientX + 'px';
+            spotlight.style.top = touch.clientY + 'px';
+        }, { passive: true });
+
+        // Breathe animation
+        let breath = 0;
+        function animate() {
+            breath += 0.015;
+            const scale = 1 + Math.sin(breath) * 0.01;
+            logo.style.scale = scale;
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = () => {
+            animate();
+        };
+    </script>
+</body>
+</html>
