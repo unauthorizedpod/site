@@ -250,10 +250,9 @@
 
   // Build options
   days.forEach(day => {
-    const label = document.createElement("label");
-    label.className = "option";
-    label.innerHTML = `
-      <input type="checkbox" value="${day}" />
+    const div = document.createElement("div");
+    div.className = "option";
+    div.innerHTML = `
       <span class="box">
         <svg viewBox="0 0 12 12" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="1.5,6 4.5,9 10.5,3"/>
@@ -261,21 +260,17 @@
       </span>
       <span class="label">${day}</span>
     `;
-    label.addEventListener("click", () => {
-      const cb = label.querySelector("input");
-      // toggle
+    div.addEventListener("click", () => {
       if (selected.has(day)) {
         selected.delete(day);
-        label.classList.remove("selected");
-        cb.checked = false;
+        div.classList.remove("selected");
       } else {
         selected.add(day);
-        label.classList.add("selected");
-        cb.checked = true;
+        div.classList.add("selected");
       }
       submitBtn.disabled = selected.size === 0;
     });
-    optionsEl.appendChild(label);
+    optionsEl.appendChild(div);
   });
 
   // Submit
