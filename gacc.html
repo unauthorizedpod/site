@@ -95,10 +95,11 @@
             <!-- Thank You Container -->
             <div id="thank-you-container" class="text-center bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 hidden">
                 <h2 class="text-3xl font-bold text-white">Thank you for your submission!</h2>
-                <p class="text-gray-400 mt-4">The Letterboxd list linked below will update as more votes are cast.</p>
-                <a href="https://boxd.it/JOikk" class="mt-8 inline-block bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition-colors">
-                    See More Underrated Films
-                </a>
+                <p class="text-gray-400 mt-4">Your choices have been recorded.</p>
+                
+                <button id="submitMoreBtn" class="mt-8 inline-block bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors">
+                    Submit More Films
+                </button>
                 
                 <!-- r/Criterion Section -->
                 <div class="text-center mt-16 border-t-2 border-gray-700 pt-8">
@@ -131,6 +132,7 @@
         const customAddFields = document.getElementById('custom-add-fields');
         const customMovieTitleInput = document.getElementById('customMovieTitle');
         const addCustomMovieBtn = document.getElementById('addCustomMovieBtn');
+        const submitMoreBtn = document.getElementById('submitMoreBtn');
 
         const submissionKey = 'hasSubmittedUnderratedFilms';
 
@@ -167,6 +169,26 @@
             if (selectedFilms.length > 0) {
                 submitToGoogleSheet();
             }
+        });
+
+        submitMoreBtn.addEventListener('click', () => {
+            // Reset for a fresh submission
+            localStorage.removeItem(submissionKey);
+            selectedFilms = [];
+            
+            // UI Reset
+            updateSelectedFilmsUI();
+            searchInput.value = '';
+            searchResultsContainer.innerHTML = '';
+            
+            // Reset button state
+            submitBtn.disabled = true;
+            submitBtnText.classList.remove('hidden');
+            submitSpinner.classList.add('hidden');
+            
+            // Switch views
+            thankYouContainer.classList.add('hidden');
+            formContainer.classList.remove('hidden');
         });
         
         showCustomAddBtn.addEventListener('click', () => {
