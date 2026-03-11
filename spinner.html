@@ -1,372 +1,351 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { RotateCw, CheckCircle2, Database, Settings2, ExternalLink, AlertCircle, Loader2, X, RefreshCcw, Lock, Film } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Night Spinner</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Babel for JSX Compilation in browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes slideInFromBottom {
+            0% { transform: translateY(0.5rem); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .animate-in { animation: fadeIn 0.5s ease-out forwards; }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .slide-in-from-bottom-2 { animation: slideInFromBottom 0.3s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-slate-950">
+    <div id="root"></div>
 
-// Default items used only if fetching fails
-const FALLBACK_ITEMS = [
-  "Golden Ticket", "Mystery Box", "Discount Code", "Free Coffee", 
-  "VIP Access", "Sticker Pack", "Limited Edition Poster", "Signed Jersey",
-  "Gift Card", "Early Entry", "Backstage Pass", "Merch Bundle"
-];
+    <script type="text/babel">
+        const { useState, useEffect, useCallback, useMemo } = React;
 
-const App = () => {
-  // --- Auth State ---
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [passwordInput, setPasswordInput] = useState('');
-  const [authError, setAuthError] = useState(false);
+        // Mock Lucide Icons for React (Simple SVG wrapper)
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const [svg, setSvg] = useState("");
+            useEffect(() => {
+                if (window.lucide) {
+                    const iconSvg = window.lucide.icons[name];
+                    if (iconSvg) {
+                        // Create temporary container to get the inner content
+                        const container = document.createElement('div');
+                        // Note: Lucide icons are arrays of [tag, attrs, children]
+                        // We use the browser's lucide.createIcons or just direct mapping
+                        // For simplicity in this build, we'll manually handle the icons used in the app
+                    }
+                }
+            }, [name]);
+            
+            // Inline SVGs for the specific icons used to ensure they render correctly without complex mapping
+            const icons = {
+                RotateCw: <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8m0-5v5h-5" />,
+                CheckCircle2: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></>,
+                Database: <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></>,
+                Settings2: <><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></>,
+                ExternalLink: <><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></>,
+                AlertCircle: <><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></>,
+                Loader2: <path d="M21 12a9 9 0 1 1-6.219-8.56" />,
+                X: <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>,
+                RefreshCcw: <><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></>,
+                Lock: <><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></>,
+                Film: <><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></>
+            };
 
-  // --- State for Google Sheet Integration ---
-  const [sheetId, setSheetId] = useState('1tcb3cAQn-tb9oS5z7LQnj9NJ4mQhvoCy1tcvWXqAeAo'); 
-  const [isConfigOpen, setIsConfigOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+            return (
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={size}
+                    height={size}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`${className} ${name === 'Loader2' ? 'animate-spin' : ''}`}
+                >
+                    {icons[name]}
+                </svg>
+            );
+        };
 
-  // --- Game State ---
-  const [masterItems, setMasterItems] = useState(FALLBACK_ITEMS);
-  const [slots, setSlots] = useState([null, null, null]);
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [displayValues, setDisplayValues] = useState([null, null, null]);
+        const FALLBACK_ITEMS = [
+            "Golden Ticket", "Mystery Box", "Discount Code", "Free Coffee", 
+            "VIP Access", "Sticker Pack", "Limited Edition Poster", "Signed Jersey",
+            "Gift Card", "Early Entry", "Backstage Pass", "Merch Bundle"
+        ];
 
-  // --- Computed Logic ---
-  
-  // Available pool: masterItems minus anything currently in the slots (including all duplicates of picked items)
-  const availableItems = useMemo(() => {
-    const pickedTitles = slots.filter(s => s !== null);
-    return masterItems.filter(item => !pickedTitles.includes(item));
-  }, [masterItems, slots]);
+        const App = () => {
+            const [isLoggedIn, setIsLoggedIn] = useState(false);
+            const [passwordInput, setPasswordInput] = useState('');
+            const [authError, setAuthError] = useState(false);
+            const [sheetId, setSheetId] = useState('1tcb3cAQn-tb9oS5z7LQnj9NJ4mQhvoCy1tcvWXqAeAo'); 
+            const [isConfigOpen, setIsConfigOpen] = useState(false);
+            const [isLoading, setIsLoading] = useState(false);
+            const [error, setError] = useState(null);
+            const [masterItems, setMasterItems] = useState(FALLBACK_ITEMS);
+            const [slots, setSlots] = useState([null, null, null]);
+            const [isSpinning, setIsSpinning] = useState(false);
+            const [displayValues, setDisplayValues] = useState([null, null, null]);
 
-  const spinsLeft = useMemo(() => slots.filter(s => s === null).length, [slots]);
-  
-  // Target the first empty slot
-  const currentSlotIndex = useMemo(() => slots.findIndex(s => s === null), [slots]);
+            const availableItems = useMemo(() => {
+                const pickedTitles = slots.filter(s => s !== null);
+                return masterItems.filter(item => !pickedTitles.includes(item));
+            }, [masterItems, slots]);
 
-  // --- Auth Handler ---
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (passwordInput.toLowerCase() === 'kubrick') {
-      setIsLoggedIn(true);
-      setAuthError(false);
-    } else {
-      setAuthError(true);
-      setPasswordInput('');
-    }
-  };
+            const spinsLeft = useMemo(() => slots.filter(s => s === null).length, [slots]);
+            const currentSlotIndex = useMemo(() => slots.findIndex(s => s === null), [slots]);
 
-  // --- Fetching Logic ---
-  const fetchSheetData = useCallback(async (targetId) => {
-    if (!targetId) return;
+            const handleLogin = (e) => {
+                e.preventDefault();
+                if (passwordInput.toLowerCase() === 'kubrick') {
+                    setIsLoggedIn(true);
+                    setAuthError(false);
+                } else {
+                    setAuthError(true);
+                    setPasswordInput('');
+                }
+            };
 
-    setIsLoading(true);
-    setError(null);
+            const fetchSheetData = useCallback(async (targetId) => {
+                if (!targetId) return;
+                setIsLoading(true);
+                setError(null);
+                try {
+                    const url = `https://docs.google.com/spreadsheets/d/${targetId}/gviz/tq?tqx=out:csv`;
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Access denied. Check sheet sharing permissions.');
+                    const csvText = await response.text();
+                    const rows = csvText.split('\n');
+                    const items = rows
+                        .slice(1) 
+                        .flatMap(row => {
+                            const columns = row.split(',');
+                            return columns.slice(1); 
+                        }) 
+                        .map(cell => cell.replace(/^"|"$/g, '').trim())
+                        .filter(item => (
+                            item !== "" && 
+                            !item.toLowerCase().includes('result') && 
+                            item.length > 0 &&
+                            !item.startsWith('/*') 
+                        ));
+                    if (items.length < 3) throw new Error('Insufficient items in B2 grid.');
+                    setMasterItems(items);
+                    setSlots([null, null, null]);
+                    setDisplayValues([null, null, null]);
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setIsLoading(false);
+                }
+            }, []);
 
-    try {
-      const url = `https://docs.google.com/spreadsheets/d/${targetId}/gviz/tq?tqx=out:csv`;
-      const response = await fetch(url);
-      
-      if (!response.ok) throw new Error('Could not access sheet. Ensure it is shared as "Anyone with link can view".');
-      
-      const csvText = await response.text();
-      
-      const rows = csvText.split('\n');
-      const items = rows
-        .slice(1) 
-        .flatMap(row => {
-          const columns = row.split(',');
-          return columns.slice(1); 
-        }) 
-        .map(cell => cell.replace(/^"|"$/g, '').trim())
-        .filter(item => (
-          item !== "" && 
-          !item.toLowerCase().includes('result') && 
-          item.length > 0 &&
-          !item.startsWith('/*') 
-        ));
+            useEffect(() => {
+                if (isLoggedIn) fetchSheetData(sheetId);
+            }, [fetchSheetData, sheetId, isLoggedIn]);
 
-      if (items.length < 3) {
-        throw new Error('Found too few items in the B2 area. Check your sheet data.');
-      }
+            const handleSpin = () => {
+                if (currentSlotIndex === -1 || isSpinning || availableItems.length === 0) return;
+                setIsSpinning(true);
+                let duration = 2000; 
+                let interval = 80; 
+                let elapsed = 0;
+                const spinTimer = setInterval(() => {
+                    const randomIndex = Math.floor(Math.random() * availableItems.length);
+                    const newDisplayValues = [...displayValues];
+                    newDisplayValues[currentSlotIndex] = availableItems[randomIndex];
+                    setDisplayValues(newDisplayValues);
+                    elapsed += interval;
+                    if (elapsed >= duration) {
+                        clearInterval(spinTimer);
+                        finalizeSpin();
+                    }
+                }, interval);
+            };
 
-      setMasterItems(items);
-      setSlots([null, null, null]);
-      setDisplayValues([null, null, null]);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+            const finalizeSpin = () => {
+                const randomIndex = Math.floor(Math.random() * availableItems.length);
+                const finalItem = availableItems[randomIndex];
+                setSlots(prev => {
+                    const newSlots = [...prev];
+                    newSlots[currentSlotIndex] = finalItem;
+                    return newSlots;
+                });
+                setDisplayValues(prev => {
+                    const newValues = [...prev];
+                    newValues[currentSlotIndex] = finalItem;
+                    return newValues;
+                });
+                setIsSpinning(false);
+            };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchSheetData(sheetId);
-    }
-  }, [fetchSheetData, sheetId, isLoggedIn]);
+            const resetSlot = (index) => {
+                if (isSpinning) return;
+                setSlots(prev => {
+                    const newSlots = [...prev];
+                    newSlots[index] = null;
+                    return newSlots;
+                });
+                setDisplayValues(prev => {
+                    const newValues = [...prev];
+                    newValues[index] = null;
+                    return newValues;
+                });
+            };
 
-  const handleConnect = () => {
-    fetchSheetData(sheetId);
-    setIsConfigOpen(false);
-  };
+            if (!isLoggedIn) {
+                return (
+                    <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col items-center justify-center p-4">
+                        <div className="w-full max-w-sm">
+                            <div className="flex justify-center mb-10">
+                                <div className="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-center text-blue-400">
+                                    <Icon name="Film" size={32} />
+                                </div>
+                            </div>
+                            <form onSubmit={handleLogin} className="space-y-4">
+                                <div className="relative">
+                                    <Icon name="Lock" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                                    <input 
+                                        type="password"
+                                        value={passwordInput}
+                                        onChange={(e) => setPasswordInput(e.target.value)}
+                                        placeholder="Enter password"
+                                        className={`w-full bg-slate-900 border ${authError ? 'border-red-500' : 'border-slate-800'} rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition-all`}
+                                        autoFocus
+                                    />
+                                </div>
+                                {authError && (
+                                    <p className="text-red-400 text-xs font-medium text-center animate-pulse">Incorrect password. Try again.</p>
+                                )}
+                                <button type="submit" className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-slate-200 active:scale-[0.98] transition-all">
+                                    Login
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                );
+            }
 
-  const handleSpin = () => {
-    if (currentSlotIndex === -1 || isSpinning || availableItems.length === 0) return;
+            return (
+                <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col items-center justify-center p-4">
+                    <button onClick={() => setIsConfigOpen(!isConfigOpen)} className="fixed top-6 right-6 p-3 rounded-full bg-slate-900 border border-slate-800 hover:border-blue-500 transition-all z-50 shadow-lg">
+                        <Icon name="Settings2" size={20} className={isConfigOpen ? 'text-blue-400' : 'text-slate-400'} />
+                    </button>
 
-    setIsSpinning(true);
-    let duration = 2000; 
-    let interval = 80; 
-    let elapsed = 0;
+                    {isConfigOpen && (
+                        <div className="fixed top-20 right-6 w-80 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl z-50 animate-in">
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                                <Icon name="Database" size={14} /> Spreadsheet Config
+                            </h3>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="text-xs text-slate-500 mb-1 block">Spreadsheet ID</label>
+                                    <input 
+                                        type="text" 
+                                        value={sheetId}
+                                        onChange={(e) => setSheetId(e.target.value)}
+                                        placeholder="Paste ID here..."
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <button onClick={() => fetchSheetData(sheetId)} disabled={isLoading} className="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50">
+                                    {isLoading ? <Icon name="Loader2" size={16} /> : <Icon name="RefreshCcw" size={16} />}
+                                    Reload Data
+                                </button>
+                                <div className="mt-2 pt-2 border-t border-slate-800 text-blue-400 flex items-center gap-1 text-[10px]">
+                                    <Icon name="ExternalLink" size={10} />
+                                    <a href={`https://docs.google.com/spreadsheets/d/${sheetId}`} target="_blank" rel="noreferrer" className="hover:underline text-[10px]">View Google Sheet</a>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
-    const spinTimer = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * availableItems.length);
-      const newDisplayValues = [...displayValues];
-      newDisplayValues[currentSlotIndex] = availableItems[randomIndex];
-      setDisplayValues(newDisplayValues);
-      
-      elapsed += interval;
-      if (elapsed >= duration) {
-        clearInterval(spinTimer);
-        finalizeSpin();
-      }
-    }, interval);
-  };
+                    <div className="text-center mb-10">
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-200 mb-4 lowercase">what movies will we vote on next week?</h1>
+                        <div className="flex flex-col items-center gap-2">
+                            {isLoading && !error && (
+                                <div className="flex items-center gap-2 text-blue-400 text-xs font-bold animate-pulse">
+                                    <Icon name="Loader2" size={14} /> Syncing weighted entries...
+                                </div>
+                            )}
+                            {error && (
+                                <div className="flex items-center gap-2 text-red-400 text-xs font-bold bg-red-400/10 px-3 py-1 rounded-full border border-red-400/20 mb-2">
+                                    <Icon name="AlertCircle" size={14} /> {error}
+                                </div>
+                            )}
+                            {!isLoading && !error && (
+                                <div className="flex items-center justify-center gap-2 text-slate-500 uppercase tracking-widest text-[10px] font-bold">
+                                    <Icon name="Database" size={12} className="text-emerald-500/50" />
+                                    <span>{availableItems.length} entries in pool</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
-  const finalizeSpin = () => {
-    const randomIndex = Math.floor(Math.random() * availableItems.length);
-    const finalItem = availableItems[randomIndex];
-    
-    setSlots(prev => {
-      const newSlots = [...prev];
-      newSlots[currentSlotIndex] = finalItem;
-      return newSlots;
-    });
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-12">
+                        {[0, 1, 2].map((i) => (
+                            <div key={i} className={`relative h-48 rounded-2xl border-2 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 ${currentSlotIndex === i && !isSpinning ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_20px_rgba(59,130,246,0.1)]' : 'border-slate-800 bg-slate-900/40'} ${slots[i] ? 'border-emerald-500/30 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.05)]' : ''}`}>
+                                <div className="absolute top-3 left-3 text-[10px] font-bold text-slate-700 uppercase tracking-tighter">Slot {i + 1}</div>
+                                {slots[i] && !isSpinning && (
+                                    <button onClick={() => resetSlot(i)} className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-slate-800 text-slate-600 hover:text-red-400 transition-colors">
+                                        <Icon name="X" size={16} />
+                                    </button>
+                                )}
+                                <div className="px-6 text-center">
+                                    {displayValues[i] ? (
+                                        <div className={`text-xl font-bold slide-in-from-bottom-2 ${isSpinning && currentSlotIndex === i ? 'opacity-40 blur-[1px]' : 'opacity-100'}`}>{displayValues[i]}</div>
+                                    ) : (
+                                        <div className="text-slate-800 flex flex-col items-center">
+                                            <Icon name="RotateCw" size={24} className="opacity-10 mb-2" />
+                                            <span className="text-[10px] uppercase tracking-widest font-bold opacity-20">empty</span>
+                                        </div>
+                                    )}
+                                </div>
+                                {slots[i] && !isSpinning && (
+                                    <div className="absolute bottom-3 right-3 text-emerald-500/40">
+                                        <Icon name="CheckCircle2" size={18} />
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
 
-    setDisplayValues(prev => {
-      const newValues = [...prev];
-      newValues[currentSlotIndex] = finalItem;
-      return newValues;
-    });
-
-    setIsSpinning(false);
-  };
-
-  const resetSlot = (index) => {
-    if (isSpinning) return;
-    setSlots(prev => {
-      const newSlots = [...prev];
-      newSlots[index] = null;
-      return newSlots;
-    });
-    setDisplayValues(prev => {
-      const newValues = [...prev];
-      newValues[index] = null;
-      return newValues;
-    });
-  };
-
-  // --- Render Login Screen ---
-  if (!isLoggedIn) {
-    return (
-      <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col items-center justify-center p-4">
-        <div className="w-full max-w-sm">
-          <div className="flex justify-center mb-10">
-            <div className="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-center text-blue-400">
-              <Film size={32} />
-            </div>
-          </div>
-          
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-              <input 
-                type="password"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                placeholder="Enter password"
-                className={`w-full bg-slate-900 border ${authError ? 'border-red-500' : 'border-slate-800'} rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition-all`}
-                autoFocus
-              />
-            </div>
-            {authError && (
-              <p className="text-red-400 text-xs font-medium text-center animate-pulse">
-                Incorrect password. Try again.
-              </p>
-            )}
-            <button 
-              type="submit"
-              className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-slate-200 active:scale-[0.98] transition-all"
-            >
-              Login
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
-  // --- Render Main App ---
-  return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col items-center justify-center p-4">
-      
-      {/* Settings Toggle */}
-      <button 
-        onClick={() => setIsConfigOpen(!isConfigOpen)}
-        className="fixed top-6 right-6 p-3 rounded-full bg-slate-900 border border-slate-800 hover:border-blue-500 transition-all z-50 shadow-lg"
-      >
-        <Settings2 size={20} className={isConfigOpen ? 'text-blue-400' : 'text-slate-400'} />
-      </button>
-
-      {/* Configuration Panel */}
-      {isConfigOpen && (
-        <div className="fixed top-20 right-6 w-80 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl z-50 animate-in slide-in-from-top-4 duration-300">
-          <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-            <Database size={14} /> Spreadsheet Config
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label className="text-xs text-slate-500 mb-1 block">Spreadsheet ID</label>
-              <input 
-                type="text" 
-                value={sheetId}
-                onChange={(e) => setSheetId(e.target.value)}
-                placeholder="Paste ID here..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
-              />
-            </div>
-            <button 
-              onClick={handleConnect}
-              disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
-            >
-              {isLoading ? <Loader2 size={16} className="animate-spin" /> : <RefreshCcw size={16} />}
-              Reload Data
-            </button>
-            <div className="mt-2 pt-2 border-t border-slate-800 text-blue-400 flex items-center gap-1 text-[10px]">
-              <ExternalLink size={10} />
-              <a href={`https://docs.google.com/spreadsheets/d/${sheetId}`} target="_blank" rel="noreferrer" className="hover:underline text-[10px]">View Google Sheet</a>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Header Section */}
-      <div className="text-center mb-10">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-200 mb-4 lowercase">
-          what movies will we vote on next week?
-        </h1>
-        <div className="flex flex-col items-center gap-2">
-          {isLoading && !error && (
-            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold animate-pulse">
-              <Loader2 size={14} className="animate-spin" />
-              Syncing weighted entries...
-            </div>
-          )}
-          {error && (
-            <div className="flex items-center gap-2 text-red-400 text-xs font-bold bg-red-400/10 px-3 py-1 rounded-full border border-red-400/20 mb-2">
-              <AlertCircle size={14} />
-              {error}
-            </div>
-          )}
-          {!isLoading && !error && (
-            <div className="flex items-center justify-center gap-2 text-slate-500 uppercase tracking-widest text-[10px] font-bold">
-              <Database size={12} className="text-emerald-500/50" />
-              <span>
-                {availableItems.length} entries in pool
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Slots Container */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-12">
-        {[0, 1, 2].map((i) => (
-          <div 
-            key={i}
-            className={`
-              relative h-48 rounded-2xl border-2 flex flex-col items-center justify-center overflow-hidden transition-all duration-500
-              ${currentSlotIndex === i && !isSpinning ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_20px_rgba(59,130,246,0.1)]' : 'border-slate-800 bg-slate-900/40'}
-              ${slots[i] ? 'border-emerald-500/30 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.05)]' : ''}
-            `}
-          >
-            {/* Slot Label */}
-            <div className="absolute top-3 left-3 text-[10px] font-bold text-slate-700 uppercase tracking-tighter">
-              Slot {i + 1}
-            </div>
-
-            {/* Individual Slot Reset Button */}
-            {slots[i] && !isSpinning && (
-              <button 
-                onClick={() => resetSlot(i)}
-                className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-slate-800 text-slate-600 hover:text-red-400 transition-colors"
-                title="Reset Slot"
-              >
-                <X size={16} />
-              </button>
-            )}
-
-            {/* Item Display */}
-            <div className="px-6 text-center">
-              {displayValues[i] ? (
-                <div className={`text-xl font-bold animate-in fade-in slide-in-from-bottom-2 duration-300 ${isSpinning && currentSlotIndex === i ? 'opacity-40 blur-[1px]' : 'opacity-100'}`}>
-                  {displayValues[i]}
+                    <div className="flex flex-col items-center gap-6">
+                        <button onClick={handleSpin} disabled={isSpinning || spinsLeft === 0 || availableItems.length === 0 || isLoading} className={`group relative px-10 py-4 rounded-full font-bold text-lg flex items-center gap-3 transition-all ${isSpinning || spinsLeft === 0 || availableItems.length === 0 || isLoading ? 'bg-slate-900 text-slate-600 cursor-not-allowed opacity-50' : 'bg-white text-black hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.2)]'}`}>
+                            {isSpinning ? <Icon name="Loader2" size={20} /> : <Icon name="RotateCw" size={20} className="group-hover:rotate-180 transition-transform duration-700" />}
+                            {spinsLeft === 0 ? "Selections Made" : isSpinning ? "Spinning..." : `Spin Slot ${currentSlotIndex + 1}`}
+                        </button>
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="text-slate-600 flex items-center gap-2">
+                                <div className="flex gap-1.5">
+                                    {[0, 1, 2].map(idx => (
+                                        <div key={idx} className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${slots[idx] !== null ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-slate-800'}`} />
+                                    ))}
+                                </div>
+                                <span className="text-[10px] uppercase tracking-widest font-bold ml-2">{spinsLeft} {spinsLeft === 1 ? 'slot' : 'slots'} available</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              ) : (
-                <div className="text-slate-800 flex flex-col items-center">
-                  <RotateCw className="w-6 h-6 opacity-10 mb-2" />
-                  <span className="text-[10px] uppercase tracking-widest font-bold opacity-20">empty</span>
-                </div>
-              )}
-            </div>
+            );
+        };
 
-            {/* Success Icon */}
-            {slots[i] && !isSpinning && (
-              <div className="absolute bottom-3 right-3 text-emerald-500/40">
-                <CheckCircle2 size={18} />
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Controls */}
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={handleSpin}
-            disabled={isSpinning || spinsLeft === 0 || availableItems.length === 0 || isLoading}
-            className={`
-              group relative px-10 py-4 rounded-full font-bold text-lg flex items-center gap-3 transition-all
-              ${isSpinning || spinsLeft === 0 || availableItems.length === 0 || isLoading
-                ? 'bg-slate-900 text-slate-600 cursor-not-allowed opacity-50' 
-                : 'bg-white text-black hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.2)]'}
-            `}
-          >
-            {isSpinning ? (
-              <Loader2 className="animate-spin" size={20} />
-            ) : (
-              <RotateCw className="group-hover:rotate-180 transition-transform duration-700" size={20} />
-            )}
-            {spinsLeft === 0 ? "Selections Made" : isSpinning ? "Spinning..." : `Spin Slot ${currentSlotIndex + 1}`}
-          </button>
-        </div>
-
-        {/* Status Indicators */}
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-slate-600 flex items-center gap-2">
-            <div className="flex gap-1.5">
-              {[0, 1, 2].map(idx => (
-                <div 
-                  key={idx} 
-                  className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${slots[idx] !== null ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-slate-800'}`} 
-                />
-              ))}
-            </div>
-            <span className="text-[10px] uppercase tracking-widest font-bold ml-2">
-              {spinsLeft} {spinsLeft === 1 ? 'slot' : 'slots'} available
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default App;
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
