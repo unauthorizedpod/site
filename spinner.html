@@ -1,0 +1,312 @@
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { RotateCw, CheckCircle2, Database, Settings2, ExternalLink, AlertCircle, Loader2, X, RefreshCcw } from 'lucide-react';
+
+// Default items used only if fetching fails
+const FALLBACK_ITEMS = [
+  "Golden Ticket", "Mystery Box", "Discount Code", "Free Coffee", 
+  "VIP Access", "Sticker Pack", "Limited Edition Poster", "Signed Jersey",
+  "Gift Card", "Early Entry", "Backstage Pass", "Merch Bundle"
+];
+
+const App = () => {
+  // --- State for Google Sheet Integration ---
+  const [sheetId, setSheetId] = useState('1tcb3cAQn-tb9oS5z7LQnj9NJ4mQhvoCy1tcvWXqAeAo'); 
+  const [isConfigOpen, setIsConfigOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // --- Game State ---
+  const [masterItems, setMasterItems] = useState(FALLBACK_ITEMS);
+  const [slots, setSlots] = useState([null, null, null]);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [displayValues, setDisplayValues] = useState([null, null, null]);
+
+  // --- Computed Logic ---
+  
+  // Available pool: masterItems minus anything currently in the slots (including all duplicates of picked items)
+  const availableItems = useMemo(() => {
+    const pickedTitles = slots.filter(s => s !== null);
+    return masterItems.filter(item => !pickedTitles.includes(item));
+  }, [masterItems, slots]);
+
+  const spinsLeft = useMemo(() => slots.filter(s => s === null).length, [slots]);
+  
+  // Target the first empty slot
+  const currentSlotIndex = useMemo(() => slots.findIndex(s => s === null), [slots]);
+
+  // --- Fetching Logic ---
+  const fetchSheetData = useCallback(async (targetId) => {
+    if (!targetId) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/${targetId}/gviz/tq?tqx=out:csv`;
+      const response = await fetch(url);
+      
+      if (!response.ok) throw new Error('Could not access sheet. Ensure it is shared as "Anyone with link can view".');
+      
+      const csvText = await response.text();
+      
+      const rows = csvText.split('\n');
+      const items = rows
+        .slice(1) 
+        .flatMap(row => {
+          const columns = row.split(',');
+          return columns.slice(1); 
+        }) 
+        .map(cell => cell.replace(/^"|"$/g, '').trim())
+        .filter(item => (
+          item !== "" && 
+          !item.toLowerCase().includes('result') && 
+          item.length > 0 &&
+          !item.startsWith('/*') 
+        ));
+
+      if (items.length < 3) {
+        throw new Error('Found too few items in the B2 area. Check your sheet data.');
+      }
+
+      setMasterItems(items);
+      setSlots([null, null, null]);
+      setDisplayValues([null, null, null]);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSheetData(sheetId);
+  }, [fetchSheetData, sheetId]);
+
+  const handleConnect = () => {
+    fetchSheetData(sheetId);
+    setIsConfigOpen(false);
+  };
+
+  const handleSpin = () => {
+    if (currentSlotIndex === -1 || isSpinning || availableItems.length === 0) return;
+
+    setIsSpinning(true);
+    let duration = 2000; 
+    let interval = 80; 
+    let elapsed = 0;
+
+    const spinTimer = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * availableItems.length);
+      const newDisplayValues = [...displayValues];
+      newDisplayValues[currentSlotIndex] = availableItems[randomIndex];
+      setDisplayValues(newDisplayValues);
+      
+      elapsed += interval;
+      if (elapsed >= duration) {
+        clearInterval(spinTimer);
+        finalizeSpin();
+      }
+    }, interval);
+  };
+
+  const finalizeSpin = () => {
+    const randomIndex = Math.floor(Math.random() * availableItems.length);
+    const finalItem = availableItems[randomIndex];
+    
+    setSlots(prev => {
+      const newSlots = [...prev];
+      newSlots[currentSlotIndex] = finalItem;
+      return newSlots;
+    });
+
+    setDisplayValues(prev => {
+      const newValues = [...prev];
+      newValues[currentSlotIndex] = finalItem;
+      return newValues;
+    });
+
+    setIsSpinning(false);
+  };
+
+  const resetSlot = (index) => {
+    if (isSpinning) return;
+    setSlots(prev => {
+      const newSlots = [...prev];
+      newSlots[index] = null;
+      return newSlots;
+    });
+    setDisplayValues(prev => {
+      const newValues = [...prev];
+      newValues[index] = null;
+      return newValues;
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col items-center justify-center p-4">
+      
+      {/* Settings Toggle */}
+      <button 
+        onClick={() => setIsConfigOpen(!isConfigOpen)}
+        className="fixed top-6 right-6 p-3 rounded-full bg-slate-900 border border-slate-800 hover:border-blue-500 transition-all z-50 shadow-lg"
+      >
+        <Settings2 size={20} className={isConfigOpen ? 'text-blue-400' : 'text-slate-400'} />
+      </button>
+
+      {/* Configuration Panel */}
+      {isConfigOpen && (
+        <div className="fixed top-20 right-6 w-80 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl z-50 animate-in slide-in-from-top-4 duration-300">
+          <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+            <Database size={14} /> Spreadsheet Config
+          </h3>
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs text-slate-500 mb-1 block">Spreadsheet ID</label>
+              <input 
+                type="text" 
+                value={sheetId}
+                onChange={(e) => setSheetId(e.target.value)}
+                placeholder="Paste ID here..."
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <button 
+              onClick={handleConnect}
+              disabled={isLoading}
+              className="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+            >
+              {isLoading ? <Loader2 size={16} className="animate-spin" /> : <RefreshCcw size={16} />}
+              Reload Data
+            </button>
+            <div className="mt-2 pt-2 border-t border-slate-800 text-blue-400 flex items-center gap-1 text-[10px]">
+              <ExternalLink size={10} />
+              <a href={`https://docs.google.com/spreadsheets/d/${sheetId}`} target="_blank" rel="noreferrer" className="hover:underline text-[10px]">View Google Sheet</a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Header Section */}
+      <div className="text-center mb-10">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-200 mb-4 lowercase">
+          what movies will we vote on next week?
+        </h1>
+        <div className="flex flex-col items-center gap-2">
+          {isLoading && !error && (
+            <div className="flex items-center gap-2 text-blue-400 text-xs font-bold animate-pulse">
+              <Loader2 size={14} className="animate-spin" />
+              Syncing weighted entries...
+            </div>
+          )}
+          {error && (
+            <div className="flex items-center gap-2 text-red-400 text-xs font-bold bg-red-400/10 px-3 py-1 rounded-full border border-red-400/20 mb-2">
+              <AlertCircle size={14} />
+              {error}
+            </div>
+          )}
+          {!isLoading && !error && (
+            <div className="flex items-center justify-center gap-2 text-slate-500 uppercase tracking-widest text-[10px] font-bold">
+              <Database size={12} className="text-emerald-500/50" />
+              <span>
+                {availableItems.length} entries in pool
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Slots Container */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-12">
+        {[0, 1, 2].map((i) => (
+          <div 
+            key={i}
+            className={`
+              relative h-48 rounded-2xl border-2 flex flex-col items-center justify-center overflow-hidden transition-all duration-500
+              ${currentSlotIndex === i && !isSpinning ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_20px_rgba(59,130,246,0.1)]' : 'border-slate-800 bg-slate-900/40'}
+              ${slots[i] ? 'border-emerald-500/30 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.05)]' : ''}
+            `}
+          >
+            {/* Slot Label */}
+            <div className="absolute top-3 left-3 text-[10px] font-bold text-slate-700 uppercase tracking-tighter">
+              Slot {i + 1}
+            </div>
+
+            {/* Individual Slot Reset Button */}
+            {slots[i] && !isSpinning && (
+              <button 
+                onClick={() => resetSlot(i)}
+                className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-slate-800 text-slate-600 hover:text-red-400 transition-colors"
+                title="Reset Slot"
+              >
+                <X size={16} />
+              </button>
+            )}
+
+            {/* Item Display */}
+            <div className="px-6 text-center">
+              {displayValues[i] ? (
+                <div className={`text-xl font-bold animate-in fade-in slide-in-from-bottom-2 duration-300 ${isSpinning && currentSlotIndex === i ? 'opacity-40 blur-[1px]' : 'opacity-100'}`}>
+                  {displayValues[i]}
+                </div>
+              ) : (
+                <div className="text-slate-800 flex flex-col items-center">
+                  <RotateCw className="w-6 h-6 opacity-10 mb-2" />
+                  <span className="text-[10px] uppercase tracking-widest font-bold opacity-20">empty</span>
+                </div>
+              )}
+            </div>
+
+            {/* Success Icon */}
+            {slots[i] && !isSpinning && (
+              <div className="absolute bottom-3 right-3 text-emerald-500/40">
+                <CheckCircle2 size={18} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Controls */}
+      <div className="flex flex-col items-center gap-6">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleSpin}
+            disabled={isSpinning || spinsLeft === 0 || availableItems.length === 0 || isLoading}
+            className={`
+              group relative px-10 py-4 rounded-full font-bold text-lg flex items-center gap-3 transition-all
+              ${isSpinning || spinsLeft === 0 || availableItems.length === 0 || isLoading
+                ? 'bg-slate-900 text-slate-600 cursor-not-allowed opacity-50' 
+                : 'bg-white text-black hover:scale-105 active:scale-95 shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.2)]'}
+            `}
+          >
+            {isSpinning ? (
+              <Loader2 className="animate-spin" size={20} />
+            ) : (
+              <RotateCw className="group-hover:rotate-180 transition-transform duration-700" size={20} />
+            )}
+            {spinsLeft === 0 ? "Selections Made" : isSpinning ? "Spinning..." : `Spin Slot ${currentSlotIndex + 1}`}
+          </button>
+        </div>
+
+        {/* Status Indicators */}
+        <div className="flex flex-col items-center gap-4">
+          <div className="text-slate-600 flex items-center gap-2">
+            <div className="flex gap-1.5">
+              {[0, 1, 2].map(idx => (
+                <div 
+                  key={idx} 
+                  className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${slots[idx] !== null ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-slate-800'}`} 
+                />
+              ))}
+            </div>
+            <span className="text-[10px] uppercase tracking-widest font-bold ml-2">
+              {spinsLeft} {spinsLeft === 1 ? 'slot' : 'slots'} available
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
