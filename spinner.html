@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { RotateCw, CheckCircle2, Database, Settings2, ExternalLink, AlertCircle, Loader2, X, RefreshCcw } from 'lucide-react';
+import { RotateCw, CheckCircle2, Database, Settings2, ExternalLink, AlertCircle, Loader2, X, RefreshCcw, Lock, Film } from 'lucide-react';
 
 // Default items used only if fetching fails
 const FALLBACK_ITEMS = [
@@ -9,6 +9,11 @@ const FALLBACK_ITEMS = [
 ];
 
 const App = () => {
+  // --- Auth State ---
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [authError, setAuthError] = useState(false);
+
   // --- State for Google Sheet Integration ---
   const [sheetId, setSheetId] = useState('1tcb3cAQn-tb9oS5z7LQnj9NJ4mQhvoCy1tcvWXqAeAo'); 
   const [isConfigOpen, setIsConfigOpen] = useState(false);
@@ -33,6 +38,18 @@ const App = () => {
   
   // Target the first empty slot
   const currentSlotIndex = useMemo(() => slots.findIndex(s => s === null), [slots]);
+
+  // --- Auth Handler ---
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (passwordInput.toLowerCase() === 'kubrick') {
+      setIsLoggedIn(true);
+      setAuthError(false);
+    } else {
+      setAuthError(true);
+      setPasswordInput('');
+    }
+  };
 
   // --- Fetching Logic ---
   const fetchSheetData = useCallback(async (targetId) => {
@@ -79,8 +96,10 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    fetchSheetData(sheetId);
-  }, [fetchSheetData, sheetId]);
+    if (isLoggedIn) {
+      fetchSheetData(sheetId);
+    }
+  }, [fetchSheetData, sheetId, isLoggedIn]);
 
   const handleConnect = () => {
     fetchSheetData(sheetId);
@@ -142,6 +161,47 @@ const App = () => {
     });
   };
 
+  // --- Render Login Screen ---
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-sm">
+          <div className="flex justify-center mb-10">
+            <div className="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-center text-blue-400">
+              <Film size={32} />
+            </div>
+          </div>
+          
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+              <input 
+                type="password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="Enter password"
+                className={`w-full bg-slate-900 border ${authError ? 'border-red-500' : 'border-slate-800'} rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition-all`}
+                autoFocus
+              />
+            </div>
+            {authError && (
+              <p className="text-red-400 text-xs font-medium text-center animate-pulse">
+                Incorrect password. Try again.
+              </p>
+            )}
+            <button 
+              type="submit"
+              className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-slate-200 active:scale-[0.98] transition-all"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // --- Render Main App ---
   return (
     <div className="min-h-screen bg-slate-950 text-white font-sans flex flex-col items-center justify-center p-4">
       
