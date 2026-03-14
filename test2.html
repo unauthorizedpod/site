@@ -119,15 +119,15 @@
             transition: background-color 0.5s ease-in-out;
         }
 
-        /* Player Specific Styles */
-        .player-container {
-            background: #1A1625;
+        /* ── Player ── */
+        .player-now-playing {
+            background: linear-gradient(135deg, #231d31 0%, #1A1625 100%);
             border: 1px solid #2a2438;
             border-radius: 1.5rem;
             overflow: hidden;
         }
-        .progress-bar {
-            height: 6px;
+        .progress-track {
+            height: 5px;
             background: #2a2438;
             border-radius: 3px;
             cursor: pointer;
@@ -138,68 +138,109 @@
             background: linear-gradient(to right, #a78bfa, #f472b6);
             border-radius: 3px;
             width: 0%;
+            pointer-events: none;
         }
-        .episode-list-item {
-            border-bottom: 1px solid #2a2438;
-            transition: background 0.2s;
+        /* Description scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4a4063; border-radius: 10px; }
+        #now-playing-description a { color: #a78bfa; text-decoration: underline; }
+
+        /* ── Episode cards ── */
+        .ep-card {
+            background: #1A1625;
+            border: 1px solid #2a2438;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.875rem 1rem;
         }
-        .episode-list-item:hover {
-            background: rgba(167, 139, 250, 0.05);
+        .ep-card:hover {
+            border-color: #7c3aed;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.4);
         }
-        .episode-list-item.active {
-            background: rgba(167, 139, 250, 0.1);
-            border-left: 4px solid #a78bfa;
+        .ep-card.active {
+            border-color: #a78bfa;
+            background: rgba(167,139,250,0.07);
         }
-        
-        /* Custom Scrollbar Styles */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
+        .ep-card.active .ep-num { color: #a78bfa; }
+        .ep-num {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #4a4063;
+            min-width: 1.5rem;
+            text-align: right;
+            flex-shrink: 0;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+        .ep-art {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            flex-shrink: 0;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #4a4063;
-            border-radius: 10px;
+        .ep-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #F9FAFB;
+            line-height: 1.3;
+            flex-grow: 1;
+            min-width: 0;
         }
-        .episode-scroll-area::-webkit-scrollbar {
-            width: 6px;
+        .ep-date {
+            font-size: 0.7rem;
+            color: #6b7280;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: monospace;
         }
-        .episode-scroll-area::-webkit-scrollbar-track {
-            background: #0D0B14;
+        /* playing pulse icon */
+        .ep-playing-indicator {
+            display: none;
+            gap: 2px;
+            align-items: flex-end;
+            height: 14px;
+            flex-shrink: 0;
         }
-        .episode-scroll-area::-webkit-scrollbar-thumb {
-            background: #2a2438;
-            border-radius: 10px;
+        .ep-card.active .ep-playing-indicator { display: flex; }
+        .ep-card.active.paused .ep-playing-indicator { display: none; }
+        .ep-bar {
+            width: 3px;
+            border-radius: 2px;
+            background: #a78bfa;
+            animation: epbar 0.8s ease-in-out infinite alternate;
+        }
+        .ep-bar:nth-child(2) { animation-delay: 0.2s; }
+        .ep-bar:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes epbar {
+            from { height: 4px; }
+            to   { height: 14px; }
         }
 
-        /* Clean Description Styling */
-        #current-description a {
-            color: #a78bfa;
-            text-decoration: underline;
-        }
-        #current-description a:hover {
-            color: #c4b5fd;
-        }
-
-        /* Loading skeleton animation */
+        /* ── Skeleton ── */
         @keyframes shimmer {
-            0% { background-position: -400px 0; }
-            100% { background-position: 400px 0; }
+            0%   { background-position: -400px 0; }
+            100% { background-position:  400px 0; }
         }
         .skeleton {
             background: linear-gradient(90deg, #1A1625 25%, #2a2438 50%, #1A1625 75%);
             background-size: 400px 100%;
             animation: shimmer 1.4s infinite;
-            border-radius: 4px;
+            border-radius: 6px;
         }
-        .episode-skeleton {
-            padding: 1rem;
+        .ep-card-skeleton {
+            background: #1A1625;
+            border: 1px solid #2a2438;
+            border-radius: 1rem;
+            padding: 0.875rem 1rem;
             display: flex;
-            gap: 1rem;
             align-items: center;
-            border-bottom: 1px solid #2a2438;
+            gap: 1rem;
         }
     </style>
 </head>
@@ -232,54 +273,68 @@
                 </a>
             </div>
 
-            <div class="player-container shadow-2xl">
-                <div class="p-6 md:p-10 flex flex-col md:flex-row gap-8 items-center md:items-start bg-gradient-to-br from-[#231d31] to-[#1A1625]">
-                    <div id="current-art-container" class="w-48 h-48 md:w-56 md:h-56 rounded-xl shadow-2xl bg-gray-800 flex-shrink-0 overflow-hidden sticky top-0">
-                        <img id="current-art" src="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp" class="w-full h-full object-cover" alt="Podcast Art">
-                    </div>
-                    <div class="flex-grow text-center md:text-left overflow-hidden w-full">
-                        <h2 id="current-title" class="text-2xl md:text-3xl font-bold text-white mb-1 line-clamp-2">Loading episodes...</h2>
-                        <p id="current-date" class="text-gray-400 text-sm mb-4"></p>
-                        
-                        <div id="current-description" class="text-xs md:text-sm text-gray-400 mb-6 max-h-40 overflow-y-auto pr-2 custom-scrollbar leading-relaxed"></div>
-                        
-                        <div class="flex items-center justify-center md:justify-start gap-6 mb-6">
-                            <button id="skip-back" class="text-gray-400 hover:text-white transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+            <!-- Now Playing panel -->
+            <div class="player-now-playing shadow-2xl mb-6">
+                <div class="p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center md:items-start">
+                    <!-- Art -->
+                    <img id="now-playing-art"
+                         src="https://media.redcircle.com/images/2025/4/21/19/0c0937c5-a5ba-4ae6-b4e9-eba816e30ff6_9023c4d2-7849-4430-86a6-4e6a595de50c.jpg"
+                         class="w-36 h-36 md:w-44 md:h-44 rounded-xl shadow-2xl object-cover flex-shrink-0"
+                         alt="Episode art">
+                    <!-- Info + controls -->
+                    <div class="flex-grow w-full min-w-0 text-center md:text-left">
+                        <p id="now-playing-date" class="text-xs text-purple-400 font-semibold uppercase tracking-widest mb-1"></p>
+                        <h2 id="now-playing-title" class="text-xl md:text-2xl font-bold text-white mb-3 leading-snug">Loading episodes…</h2>
+                        <div id="now-playing-description"
+                             class="text-xs text-gray-400 leading-relaxed mb-5 max-h-24 overflow-y-auto pr-1 custom-scrollbar hidden md:block"></div>
+
+                        <!-- Transport -->
+                        <div class="flex items-center justify-center md:justify-start gap-5 mb-4">
+                            <button id="skip-back" title="Back 15s" class="text-gray-500 hover:text-white transition-colors">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
                             </button>
-                            <button id="play-btn" class="w-16 h-16 rounded-full btn-primary flex items-center justify-center shadow-xl transform active:scale-95 transition-transform">
-                                <svg id="play-icon" class="ml-1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            <button id="play-btn"
+                                    class="w-14 h-14 rounded-full btn-primary flex items-center justify-center shadow-lg active:scale-95 transition-transform flex-shrink-0">
+                                <svg id="play-icon" class="ml-1" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                <svg id="pause-icon" class="hidden" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
                             </button>
-                            <button id="skip-forward" class="text-gray-400 hover:text-white transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
+                            <button id="skip-forward" title="Forward 15s" class="text-gray-500 hover:text-white transition-colors">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
                             </button>
+                            <!-- skip labels -->
+                            <span class="text-xs text-gray-600 select-none hidden sm:inline">−15s / +15s</span>
                         </div>
 
-                        <div class="space-y-2">
-                            <div class="progress-bar" id="progress-container">
-                                <div class="progress-fill" id="progress-bar"></div>
-                            </div>
-                            <div class="flex justify-between text-xs text-gray-500 font-mono">
-                                <span id="time-current">0:00</span>
-                                <span id="time-total">0:00</span>
-                            </div>
+                        <!-- Progress -->
+                        <div class="progress-track" id="progress-container">
+                            <div class="progress-fill" id="progress-fill"></div>
                         </div>
-                    </div>
-                </div>
-                <!-- Episode list with skeleton loader built in -->
-                <div class="max-h-80 overflow-y-auto bg-[#0D0B14] episode-scroll-area" id="episode-list">
-                    <!-- Skeleton placeholders shown while loading -->
-                    <div id="episode-skeletons">
-                        <div class="episode-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow"><div class="skeleton h-3 w-3/4 mb-2"></div><div class="skeleton h-2 w-1/3"></div></div></div>
-                        <div class="episode-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow"><div class="skeleton h-3 w-2/3 mb-2"></div><div class="skeleton h-2 w-1/4"></div></div></div>
-                        <div class="episode-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow"><div class="skeleton h-3 w-3/4 mb-2"></div><div class="skeleton h-2 w-1/3"></div></div></div>
-                        <div class="episode-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow"><div class="skeleton h-3 w-1/2 mb-2"></div><div class="skeleton h-2 w-1/4"></div></div></div>
-                        <div class="episode-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow"><div class="skeleton h-3 w-3/5 mb-2"></div><div class="skeleton h-2 w-1/3"></div></div></div>
+                        <div class="flex justify-between text-xs text-gray-600 font-mono mt-1">
+                            <span id="time-current">0:00</span>
+                            <span id="time-total">0:00</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <audio id="audio-player"></audio>
+
+            <!-- Episode list -->
+            <div id="episode-list" class="space-y-2">
+                <!-- Skeleton placeholders -->
+                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/4"></div><div class="skeleton h-2 w-1/3"></div></div></div>
+                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-2/3"></div><div class="skeleton h-2 w-1/4"></div></div></div>
+                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/4"></div><div class="skeleton h-2 w-1/3"></div></div></div>
+                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-1/2"></div><div class="skeleton h-2 w-1/4"></div></div></div>
+                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/5"></div><div class="skeleton h-2 w-1/3"></div></div></div>
+            </div>
+
+            <!-- Load more -->
+            <div id="load-more-wrap" class="hidden text-center mt-4">
+                <button id="load-more-btn"
+                        class="btn-secondary px-8 py-2 rounded-full font-semibold text-sm">
+                    Load more episodes
+                </button>
+            </div>
 
              <div class="text-center mt-12">
                  <p class="text-gray-400 mb-4">Available on:</p>
@@ -381,20 +436,23 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- PLAYER ELEMENTS ---
-            const audio = document.getElementById('audio-player');
-            const playBtn = document.getElementById('play-btn');
-            const playIcon = document.getElementById('play-icon');
-            const pauseIcon = document.getElementById('pause-icon');
-            const progressBar = document.getElementById('progress-bar');
+            const audio         = document.getElementById('audio-player');
+            const playBtn       = document.getElementById('play-btn');
+            const playIcon      = document.getElementById('play-icon');
+            const pauseIcon     = document.getElementById('pause-icon');
+            const progressFill  = document.getElementById('progress-fill');
             const progressContainer = document.getElementById('progress-container');
-            const timeCurrent = document.getElementById('time-current');
-            const timeTotal = document.getElementById('time-total');
+            const timeCurrent   = document.getElementById('time-current');
+            const timeTotal     = document.getElementById('time-total');
             const episodeListEl = document.getElementById('episode-list');
-            const currentTitleEl = document.getElementById('current-title');
-            const currentDateEl = document.getElementById('current-date');
-            const currentDescriptionEl = document.getElementById('current-description');
-            const skipBack = document.getElementById('skip-back');
-            const skipForward = document.getElementById('skip-forward');
+            const nowTitle      = document.getElementById('now-playing-title');
+            const nowDate       = document.getElementById('now-playing-date');
+            const nowDesc       = document.getElementById('now-playing-description');
+            const nowArt        = document.getElementById('now-playing-art');
+            const skipBack      = document.getElementById('skip-back');
+            const skipForward   = document.getElementById('skip-forward');
+            const loadMoreWrap  = document.getElementById('load-more-wrap');
+            const loadMoreBtn   = document.getElementById('load-more-btn');
 
             // --- PAGE ELEMENTS ---
             const suggestFilmBtn = document.getElementById('suggest-film-btn');
@@ -694,7 +752,7 @@
                 // Try rss2json first — it's a JSON API, more reliable than raw CORS proxies
                 try {
                     episodes = await tryRss2json(rssUrl);
-                    renderEpisodeList();
+                    renderInitialEpisodes();
                     loadEpisode(0, false);
                     return;
                 } catch (err) {
@@ -708,7 +766,7 @@
                 ];
                 try {
                     episodes = await Promise.any(proxies.map(p => tryProxyXml(p, rssUrl)));
-                    renderEpisodeList();
+                    renderInitialEpisodes();
                     loadEpisode(0, false);
                 } catch (err) {
                     console.error("All fetch methods failed:", err);
@@ -716,56 +774,96 @@
                 }
             }
 
+            // ── Pagination state ──
+            const PAGE_SIZE = 5;
+            let visibleCount = 0;
+            let activeIndex = -1;
+            let isPlaying = false;
+
             function showFeedError() {
-                currentTitleEl.innerText = "Couldn't load episodes.";
+                nowTitle.innerText = "Couldn't load episodes.";
                 episodeListEl.innerHTML = `
-                    <div class="p-6 text-center text-gray-400 text-sm">
-                        <p class="mb-3">Feed temporarily unavailable.</p>
+                    <div class="p-6 text-center text-gray-400 text-sm rounded-xl border border-[#2a2438] bg-[#1A1625]">
+                        <p class="mb-4">Feed temporarily unavailable.</p>
                         <button onclick="window.retryFetchEpisodes()" class="btn-secondary" style="margin-top:0">Try again</button>
                     </div>`;
+                loadMoreWrap.classList.add('hidden');
             }
 
             window.retryFetchEpisodes = () => {
-                episodeListEl.innerHTML = `<div id="episode-skeletons">
-                    <div class="episode-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow"><div class="skeleton h-3 w-3/4 mb-2"></div><div class="skeleton h-2 w-1/3"></div></div></div>
-                    <div class="episode-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow"><div class="skeleton h-3 w-2/3 mb-2"></div><div class="skeleton h-2 w-1/4"></div></div></div>
-                    <div class="episode-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow"><div class="skeleton h-3 w-3/4 mb-2"></div><div class="skeleton h-2 w-1/3"></div></div></div>
-                </div>`;
-                currentTitleEl.innerText = "Loading episodes...";
+                nowTitle.innerText = "Loading episodes…";
+                episodeListEl.innerHTML = `
+                    <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/4"></div><div class="skeleton h-2 w-1/3"></div></div></div>
+                    <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-2/3"></div><div class="skeleton h-2 w-1/4"></div></div></div>
+                    <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/4"></div><div class="skeleton h-2 w-1/3"></div></div></div>`;
                 fetchEpisodes();
             };
 
-            function renderEpisodeList() {
-                episodeListEl.innerHTML = episodes.map((ep, idx) => `
-                    <div class="episode-list-item p-4 flex gap-4 cursor-pointer items-center" onclick="window.loadEpisode(${idx}, true)">
-                        <img src="${ep.thumbnail}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" onerror="this.src='${FALLBACK_ART}'">
-                        <div class="flex-grow overflow-hidden">
-                            <div class="flex justify-between items-center">
-                                <div class="text-sm font-bold text-white line-clamp-1 pr-4">${ep.title}</div>
-                                <div class="text-[10px] text-gray-500 font-mono whitespace-nowrap">${new Date(ep.pubDate).toLocaleDateString()}</div>
-                            </div>
-                        </div>
+            // Render one episode card and append it to the list
+            function renderEpisodeCard(idx) {
+                const ep = episodes[idx];
+                const card = document.createElement('div');
+                card.className = 'ep-card' + (idx === activeIndex ? ' active' : '') + (!isPlaying && idx === activeIndex ? ' paused' : '');
+                card.dataset.idx = idx;
+                card.innerHTML = `
+                    <span class="ep-num">${idx + 1}</span>
+                    <img class="ep-art" src="${ep.thumbnail}" alt="" onerror="this.src='${FALLBACK_ART}'">
+                    <span class="ep-title">${ep.title}</span>
+                    <div class="ep-playing-indicator" aria-hidden="true">
+                        <div class="ep-bar" style="height:6px"></div>
+                        <div class="ep-bar" style="height:10px"></div>
+                        <div class="ep-bar" style="height:7px"></div>
                     </div>
-                `).join('');
+                    <span class="ep-date">${new Date(ep.pubDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+                `;
+                card.addEventListener('click', () => loadEpisode(idx, true));
+                return card;
+            }
+
+            function renderInitialEpisodes() {
+                episodeListEl.innerHTML = '';
+                visibleCount = 0;
+                appendEpisodes(PAGE_SIZE);
+            }
+
+            function appendEpisodes(count) {
+                const end = Math.min(visibleCount + count, episodes.length);
+                for (let i = visibleCount; i < end; i++) {
+                    episodeListEl.appendChild(renderEpisodeCard(i));
+                }
+                visibleCount = end;
+                loadMoreWrap.classList.toggle('hidden', visibleCount >= episodes.length);
+            }
+
+            function updateCardStates() {
+                episodeListEl.querySelectorAll('.ep-card').forEach(card => {
+                    const i = parseInt(card.dataset.idx);
+                    card.classList.toggle('active', i === activeIndex);
+                    card.classList.toggle('paused', i === activeIndex && !isPlaying);
+                });
             }
 
             window.loadEpisode = (index, autoplay) => {
                 const ep = episodes[index];
                 if (!ep) return;
+
+                activeIndex = index;
                 audio.src = ep.link;
-                currentTitleEl.innerText = ep.title;
-                currentDateEl.innerText = new Date(ep.pubDate).toLocaleDateString();
-                currentDescriptionEl.innerHTML = ep.description || "No description available.";
-                currentDescriptionEl.scrollTop = 0;
-                
-                document.querySelectorAll('.episode-list-item').forEach((el, i) => {
-                    el.classList.toggle('active', i === index);
-                });
+
+                nowTitle.innerText   = ep.title;
+                nowDate.innerText    = new Date(ep.pubDate).toLocaleDateString('en-US', {weekday:'short', year:'numeric', month:'long', day:'numeric'});
+                nowDesc.innerHTML    = ep.description || '';
+                nowDesc.scrollTop    = 0;
+                nowDesc.classList.remove('hidden');
+
+                updateCardStates();
 
                 if (autoplay) {
                     audio.play();
+                    isPlaying = true;
                     playIcon.classList.add('hidden');
                     pauseIcon.classList.remove('hidden');
+                    updateCardStates();
                 }
             };
 
@@ -773,41 +871,47 @@
                 if (!audio.src) return;
                 if (audio.paused) {
                     audio.play();
+                    isPlaying = true;
                     playIcon.classList.add('hidden');
                     pauseIcon.classList.remove('hidden');
                 } else {
                     audio.pause();
+                    isPlaying = false;
                     playIcon.classList.remove('hidden');
                     pauseIcon.classList.add('hidden');
                 }
+                updateCardStates();
             }
 
             function formatTime(seconds) {
-                if (isNaN(seconds)) return "0:00";
+                if (isNaN(seconds)) return '0:00';
                 const min = Math.floor(seconds / 60);
                 const sec = Math.floor(seconds % 60);
                 return `${min}:${sec < 10 ? '0' : ''}${sec}`;
             }
 
             playBtn.addEventListener('click', togglePlay);
-            skipBack.addEventListener('click', () => { audio.currentTime -= 15; });
+            skipBack.addEventListener('click',    () => { audio.currentTime -= 15; });
             skipForward.addEventListener('click', () => { audio.currentTime += 15; });
+            loadMoreBtn.addEventListener('click', () => appendEpisodes(PAGE_SIZE));
 
             audio.addEventListener('timeupdate', () => {
-                const percent = (audio.currentTime / audio.duration) * 100;
-                progressBar.style.width = `${percent}%`;
+                const pct = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = `${isNaN(pct) ? 0 : pct}%`;
                 timeCurrent.innerText = formatTime(audio.currentTime);
-                timeTotal.innerText = formatTime(audio.duration);
+                timeTotal.innerText   = formatTime(audio.duration);
             });
 
             audio.addEventListener('ended', () => {
+                isPlaying = false;
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
+                updateCardStates();
             });
 
             progressContainer.addEventListener('click', (e) => {
                 const rect = progressContainer.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
+                const pos  = (e.clientX - rect.left) / rect.width;
                 audio.currentTime = pos * audio.duration;
             });
 
