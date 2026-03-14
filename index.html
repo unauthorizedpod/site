@@ -6,7 +6,6 @@
     <title>Some Like It Unauthorized Podcast</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0B14'/%3E%3Ctext x='16' y='13' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3ESL%3C/text%3E%3Ctext x='16' y='27' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3EIU%3C/text%3E%3C/svg%3E">
     
-    <!-- SEO and Social Sharing Meta Tags -->
     <meta name="description" content="You might prefer to go to the experts for your film opinions, but... ">
     <meta property="og:title" content="Some Like It Unauthorized Podcast">
     <meta property="og:description" content="You might prefer to go to the experts for your film opinions, but... ">
@@ -14,27 +13,23 @@
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Custom styles with a dark purple and black theme and modern font */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0D0B14; /* Near-black background */
-            color: #D1D5DB; /* text-gray-300 */
+            background-color: #0D0B14;
+            color: #D1D5DB;
         }
         h1, h2, h3 {
-            font-family: 'Manrope', sans-serif; /* Sleek, modern font */
-            color: #F9FAFB; /* text-gray-50 */
+            font-family: 'Manrope', sans-serif;
+            color: #F9FAFB;
         }
         .gradient-text {
-            background: linear-gradient(to right, #a78bfa, #f472b6); /* purple-400 to pink-400 */
+            background: linear-gradient(to right, #a78bfa, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -43,11 +38,11 @@
             color: #F9FAFB;
             transition: all 0.3s ease;
             border: none;
-            box-shadow: 0 0 10px rgba(167, 139, 250, 0.4), 0 0 15px rgba(147, 51, 234, 0.3);
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.4);
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(167, 139, 250, 0.6), 0 0 25px rgba(147, 51, 234, 0.4);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.6);
         }
         .btn-secondary {
             background-color: transparent;
@@ -65,7 +60,7 @@
             color: #0D0B14;
         }
         .card {
-            background-color: #1A1625; /* Dark purple card background */
+            background-color: #1A1625;
             border: 1px solid #2a2438;
             transition: all 0.3s ease;
         }
@@ -75,13 +70,12 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         .accent-link {
-            color: #a78bfa; /* purple-400 */
+            color: #a78bfa;
             transition: color 0.3s ease;
         }
         .accent-link:hover {
-            color: #c4b5fd; /* purple-300 */
+            color: #c4b5fd;
         }
-        /* Custom Dropdown Style */
         .custom-select {
             background-color: #2a2438;
             color: #D1D5DB;
@@ -90,8 +84,6 @@
             padding: 0.5rem 1rem;
             width: 100%;
             cursor: pointer;
-            -webkit-appearance: none;
-            -moz-appearance: none;
             appearance: none;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a78bfa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: right 0.5rem center;
@@ -203,11 +195,9 @@
             
             <!-- 2025 Favorites Card (Fun & Eye-Catching) -->
             <div class="mb-10 relative group mx-4 sm:mx-0">
-                <!-- Glowing gradient background effect -->
                 <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 rounded-2xl opacity-50 group-hover:opacity-100 transition duration-500 blur-sm"></div>
                 
-                <!-- Main Card Content -->
-                <a href="https://unauthorizedpod.com/topten2025" target="_blank" class="relative block bg-[#1A1625] rounded-2xl p-8 flex items-center justify-center hover:bg-[#231d31] transition-colors duration-300">
+                <a href="top_ten_2025.html" target="_blank" class="relative block bg-[#1A1625] rounded-2xl p-8 flex items-center justify-center hover:bg-[#231d31] transition-colors duration-300">
                     <div class="text-center">
                         <h3 class="text-2xl font-bold text-white mb-2">See our Favorites of 2025</h3>
                         <p class="text-gray-400 text-base">J Brooks and Zach list their top tens</p>
@@ -220,6 +210,7 @@
             </div>
 
             <div class="player-container shadow-2xl">
+                <!-- Current Playing Header -->
                 <div class="p-6 md:p-10 flex flex-col md:flex-row gap-8 items-center md:items-start bg-gradient-to-br from-[#231d31] to-[#1A1625]">
                     <div id="current-art-container" class="w-48 h-48 md:w-56 md:h-56 rounded-xl shadow-2xl bg-gray-800 flex-shrink-0 overflow-hidden sticky top-0">
                         <img id="current-art" src="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp" class="w-full h-full object-cover" alt="Podcast Art">
@@ -275,6 +266,7 @@
                          <svg class="w-12 h-12" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#a78bfa"/></svg>
                      </a>
                  </div>
+             </div>
         </section>
 
         <!-- About and Suggestion Section -->
@@ -600,92 +592,89 @@
                     zach_review: "https://letterboxd.com/hetchy/film/pierrot-le-fou/1/"
                 },
                 { title: "For a Few Dollars More (1965)" }, { title: "Black Girl (1966)" }, { title: "Shadows of Forgotten Ancestors (1965)" }, { title: "Le Bonheur (1965)" }, { title: "Chimes at Midnight (1965)" }, { title: "The Good, the Bad and the Ugly (1966)" }, { title: "Who's Afraid of Virginia Woolf? (1966)" }, { title: "Andrei Rublev (1966)" }, { title: "Au Hasard Balthazar (1966)" }, { title: "Daisies (1966)" }, { title: "The Round-Up (1966)" }, { title: "The Battle of Algiers (1966)" }, { title: "Wings (1966)" }, { title: "Persona (1966)" }, { title: "Mouchette (1967)" }, { title: "Don't Look Back (1967)" }, { title: "PlayTime (1967)" }, { title: "In the Heat of the Night (1967)" }, { title: "Portrait of Jason (1967)" }, { title: "Le Samouraï (1967)" }, { title: "Entranced Earth (1967)" }, { title: "The Firemen's Ball (1967)" }, { title: "The Young Girls of Rochefort (1967)" }, { title: "Wavelength (1967)" }, { title: "Once Upon a Time in the West (1968)" }, { title: "The Color of Pomegranates (1969)" }, { title: "Theorem (1968)" }, { title: "Symbiopsychotaxiplasm: Take One (1968)" }, { title: "2001: A Space Odyssey (1968)" }, { title: "The Hour of the Furnaces (1968)" }, { title: "Memories of Underdevelopment (1968)" }, { title: "Easy Rider (1969)" }, { title: "Putney Swope (1969)" }, { title: "A Touch of Zen (1970)" }, { title: "Women in Love (1969)" }, { title: "Funeral Parade of Roses (1969)" }, { title: "Lions Love (1969)" }, { title: "Uski Roti (1970)" }, { title: "The Night of Counting the Years (1969)" }, { title: "The Wild Bunch (1969)" }, { title: "Army of Shadows (1969)" }, { title: "Kes (1969)" }, { title: "Five Easy Pieces (1970)" }, { title: "Le Cercle Rouge (1970)" }, { title: "Wanda (1970)" }, { title: "The Conformist (1970)" }, { title: "Oh, Sun (1970)" }, { title: "McCabe & Mrs. Miller (1971)" }, { title: "Klute (1971)" }, { title: "Shaft (1971)" }, { title: "A New Leaf (1971)" }, { title: "The French Connection (1971)" }, { title: "The Go-Between (1971)" }, { title: "Carnal Knowledge (1971)" }, { title: "A Clockwork Orange (1971)" }, { title: "Death in Venice (1971)" }, { title: "Pink Narcissus (1971)" }, { title: "Amarcord (1973)" }, { title: "Top of the Heap (1972)" }, { title: "The Seduction of Mimi (1972)" }, { title: "Pink Flamingos (1972)" }, { title: "The Bitter Tears of Petra von Kant (1972)" }, { title: "Aguirre, the Wrath of God (1972)" }, { title: "Cabaret (1972)" }, { title: "Sambizanga (1972)" }, { title: "Trouble Man (1972)" }, { title: "Last Tango in Paris (1972)" }, { title: "Solaris (1972)" }, { title: "The Godfather (1972)" }, { title: "Cries and Whispers (1972)" }, { title: "Touki Bouki (1973)" }, { title: "Mean Streets (1973)" }, { title: "The Spirit of the Beehive (1973)" }, { title: "American Graffiti (1973)" }, { title: "Don't Look Now (1973)" }, { title: "F for Fake (1973)" }, { title: "The Exorcist (1973)" }, { title: "The Mother and the Whore (1973)" }, { title: "Chinatown (1974)" }, { title: "The Godfather Part II (1974)" }, { title: "Ali: Fear Eats the Soul (1974)" }, { title: "Céline and Julie Go Boating (1974)" }, { title: "Je Tu Il Elle (1974)" }, { title: "Female Trouble (1974)" }, { title: "The Conversation (1974)" }, { title: "A Woman Under the Influence (1974)" }, { title: "Foxy Brown (1974)" }, { title: "Blazing Saddles (1974)" }, { title: "The Texas Chain Saw Massacre (1974)" }, { title: "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles (1975)" }, { title: "Mirror (1975)" }, { title: "Grey Gardens (1975)" }, { title: "Barry Lyndon (1975)" }, { title: "Pressure (1975)" }, { title: "Seven Beauties (1975)" }, { title: "Dolemite (1975)" }, { title: "Letter from My Village (1976)" }, { title: "Dog Day Afternoon (1975)" }, { title: "India Song (1975)" }, { title: "Nashville (1975)" }, { title: "Jaws (1975)" }, { title: "Salò, or the 120 Days of Sodom (1975)" }, { title: "News from Home (1976)" }, { title: "Harlan County U.S.A. (1976)" }, { title: "Eraserhead (1977)" }, { title: "Network (1976)" }, { title: "Sebastiane (1976)" }, { title: "Chess of the Wind (1976)" }, { title: "Taxi Driver (1976)" }, { title: "The Ascent (1977)" }, { title: "Opening Night (1977)" }, { title: "One Way or Another (1975)" }, { title: "Suspiria (1977)" }, { title: "3 Women (1977)" }, { title: "Star Wars (1977)" }, { title: "Annie Hall (1977)" }, { title: "Girlfriends (1978)" }, { title: "In a Year with 13 Moons (1978)" }, { title: "Killer of Sheep (1978)" }, { title: "The Meetings of Anna (1978)" }, { title: "Days of Heaven (1978)" }, { title: "The Deer Hunter (1978)" }, { title: "West Indies (1979)" }, { title: "Kummatty (1979)" }, { title: "Ticket of No Return (1979)" }, { title: "Apocalypse Now (1979)" }, { title: "Stalker (1979)" }, { title: "All That Jazz (1979)" }, { title: "Alien (1979)" }, { title: "The Shining (1980)" }, { title: "Ordinary People (1980)" }, { title: "Loulou (1980)" }, { title: "Cruising (1980)" }, { title: "Babylon (1980)" }, { title: "Raging Bull (1980)" }, { title: "Polyester (1981)" }, { title: "Burning an Illusion (1981)" }, { title: "The Decline of Western Civilization (1981)" }, { title: "Marianne and Juliane (1981)" }, { title: "Possession (1981)" }, { title: "Raiders of the Lost Ark (1981)" }, { title: "Koyaanisqatsi (1982)" }, { title: "Losing Ground (1982)" }, { title: "Reassemblage: From the Firelight to the Screen (1983)" }, { title: "Illusions (1982)" }, { title: "Smithereens (1982)" }, { title: "Blade Runner (1982)" }, { title: "The Thing (1982)" }, { title: "Fanny and Alexander (1982)" }, { title: "Yentl (1983)" }, { title: "Sans Soleil (1983)" }, { title: "Born in Flames (1983)" }, { title: "Sugar Cane Alley (1983)" }, { title: "Nostalgia (1983)" }, { title: "L'Argent (1983)" }, { title: "Once Upon a Time in America (1984)" }, { title: "Videodrome (1983)" }, { title: "Paris, Texas (1984)" }, { title: "Twenty Years Later (1984)" }, { title: "The Terminator (1984)" }, { title: "Stranger Than Paradise (1984)" }, { title: "This Is Spinal Tap (1984)" }, { title: "Stop Making Sense (1984)" }, { title: "Love Streams (1984)" }, { title: "My Beautiful Laundrette (1985)" }, { title: "Lost in America (1985)" }, { title: "Vagabond (1985)" }, { title: "Desert Hearts (1985)" }, { title: "Faces of Women (1985)" }, { title: "Come and See (1985)" }, { title: "Ran (1985)" }, { title: "Shoah (1985)" }, { title: "Blue Velvet (1986)" }, { title: "The Green Ray (1986)" }, { title: "River's Edge (1986)" }, { title: "Working Girls (1986)" }, { title: "Report to Mother (1986)" }, { title: "Where Is the Friend's House? (1987)" }, { title: "Law of Desire (1987)" }, { title: "Wings of Desire (1987)" }, { title: "The Thin Blue Line (1988)" }, { title: "Histoire(s) du cinéma (1989)" }, { title: "Hairspray (1988)" }, { title: "Grave of the Fireflies (1988)" }, { title: "Distant Voices, Still Lives (1988)" }, { title: "My Neighbor Totoro (1988)" }, { title: "Do the Right Thing (1989)" }, { title: "Looking for Langston (1989)" }, { title: "Tongues Untied (1989)" }, { title: "sex, lies, and videotape (1989)" }, { title: "A City of Sadness (1989)" }, { title: "Close-Up (1990)" }, { title: "Paris Is Burning (1990)" }, { title: "Out 1 (1971)" }, { title: "GoodFellas (1990)" }, { title: "Boyz n the Hood (1991)" }, { title: "My Own Private Idaho (1991)" }, { title: "Daughters of the Dust (1991)" }, { title: "A Brighter Summer Day (1991)" }, { title: "Young Soul Rebels (1991)" }, { title: "Orlando (1992)" }, { title: "Juice (1992)" }, { title: "The Piano (1993)" }, { title: "Dream of Light (1992)" }, { title: "Twin Peaks: Fire Walk with Me (1992)" }, { title: "Blue (1993)" }, { title: "Three Colours: Blue (1993)" }, { title: "Menace II Society (1993)" }, { title: "The Puppetmaster (1993)" }, { title: "Satantango (1994)" }, { title: "Blue Chips (1994)" }, { title: "Chungking Express (1994)" }, { title: "Hoop Dreams (1994)" }, { title: "Pulp Fiction (1994)" }, { title: "La Haine (1995)" }, { title: "Heat (1995)" }, { title: "Crash (1996)" }, { title: "Yang ± Yin: Gender in Chinese Cinema (1997)" }, { title: "The Watermelon Woman (1996)" }, { title: "Happy Together (1997)" }, { title: "Taste of Cherry (1997)" }, { title: "Flowers of Shanghai (1998)" }, { title: "Love & Pop (1998)" }, { title: "Drylongso (1998)" }, { title: "Beau Travail (1999)" }, { title: "Yi Yi (2000)" }, { title: "Magnolia (1999)" }, { title: "All About My Mother (1999)" }, { title: "The Matrix (1999)" }, { title: "In the Mood for Love (2000)" }, { title: "The Gleaners and I (2000)" }, { title: "Werckmeister Harmonies (2000)" }, { title: "In Vanda's Room (2000)" }, { title: "As I Was Moving Ahead, Occasionally I Saw Brief Glimpses of Beauty (2000)" }, { title: "Mulholland Drive (2001)" }, { title: "Morvern Callar (2002)" }, { title: "Spirited Away (2001)" }, { title: "La Ciénaga (2001)" }, { title: "Tie Xi Qu: West of the Tracks (2002)" }, { title: "The Lost City of the Monkey God (2018)" }, { title: "Goodbye, Dragon Inn (2003)" }, { title: "Tropical Malady (2004)" }, { title: "Caché (2005)" }, { title: "Eternal Sunshine of the Spotless Mind (2004)" }, { title: "The Intruder (2004)" }, { title: "Syndromes and a Century (2006)" }, { title: "There Will Be Blood (2007)" }, { title: "The Headless Woman (2008)" }, { title: "The White Ribbon (2009)" }, { title: "Uncle Boonmee Who Can Recall His Past Lives (2010)" }, { title: "The Tree of Life (2011)" }, { title: "Nostalgia for the Light (2010)" }, { title: "Melancholia (2011)" }, { title: "A Separation (2011)" }, { title: "Once Upon a Time in Anatolia (2011)" }, { title: "The Act of Killing (2012)" }, { title: "Holy Motors (2012)" }, { title: "Under the Skin (2013)" }, { title: "Mad Max: Fury Road (2015)" }, { title: "Moonlight (2016)" }, { title: "Get Out (2017)" }, { title: "Twin Peaks: The Return (2017)" }, { title: "Zama (2017)" }, { title: "Phantom Thread (2017)" }, { title: "Portrait of a Lady on Fire (2019)" }, { title: "Parasite (2019)" }, { title: "Petite Maman (2021)" }, { title: "Citizen Kane (1941)" }
-            ].map(item => (typeof item === 'string' ? { title: item } : item));
+            ].map(item => (typeof item === 'string' ? { title: item } : item)).filter(Boolean);
 
-            const jBrooksTopTen = ["Sherlock Jr. (1924)", "Sunrise: A Song of Two Humans (1927)", "The Passion of Joan of Arc (1928)", "Mädchen in Uniform (1931)", "Zero for Conduct (1933)", "Rome, Open City (1945)", "Bicycle Thieves (1948)", "Late Spring (1949)", "Stalker (1979)", "Do the Right Thing (1989)"];
-            const zachTopTen = ["The Last Laugh (1924)", "Mädchen in Uniform (1931)", "L'Atalante (1934)", "The Rules of the Game (1939)", "Pather Panchali (1955)", "The 400 Blows (1959)", "2001: A Space Odyssey (1968)", "Stalker (1979)", "Satantango (1994)", "Yi Yi (2000)"];
-
-            // --- FUNCTIONS ---
+            const jBrooksTopTen = ["Sherlock Jr. (1924)", "Sunrise (1927)", "Joan of Arc (1928)", "Late Spring (1949)", "Citizen Kane (1941)"];
+            const zachTopTen = ["The Last Laugh (1924)", "Napoleon (1927)", "Metropolis (1927)"];
 
             // --- PODCAST PLAYER FUNCTIONS ---
             async function fetchEpisodes() {
-                const proxyOptions = [
-                    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-                    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+                const proxies = [
+                    { url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`, type: 'xml' },
+                    { url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`, type: 'json_contents' },
+                    { url: `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`, type: 'rss2json' }
                 ];
 
-                let xmlText = "";
-                for (const getProxyUrl of proxyOptions) {
+                for (const proxy of proxies) {
                     try {
-                        const targetUrl = getProxyUrl(rssUrl);
-                        const response = await fetch(targetUrl);
-                        if (!response.ok) continue;
-
-                        if (targetUrl.includes('allorigins')) {
+                        const response = await fetch(proxy.url);
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        
+                        let items = [];
+                        if (proxy.type === 'xml') {
+                            const str = await response.text();
+                            const parser = new DOMParser();
+                            const xml = parser.parseFromString(str, "text/xml");
+                            items = Array.from(xml.querySelectorAll("item")).map(item => parseXmlItem(item));
+                        } else if (proxy.type === 'json_contents') {
                             const data = await response.json();
-                            xmlText = data.contents;
-                        } else {
-                            xmlText = await response.text();
+                            const parser = new DOMParser();
+                            const xml = parser.parseFromString(data.contents, "text/xml");
+                            items = Array.from(xml.querySelectorAll("item")).map(item => parseXmlItem(item));
+                        } else if (proxy.type === 'rss2json') {
+                            const data = await response.json();
+                            if(data.items) items = data.items.map(item => parseJsonItem(item));
                         }
-                        
-                        if (xmlText && xmlText.includes("<rss")) break;
-                    } catch (err) {
-                        console.warn("Proxy attempt failed:", err);
+
+                        if (items.length > 0) {
+                            episodes = items;
+                            renderEpisodeList();
+                            loadEpisode(0, false);
+                            return; // Success, exit loop
+                        }
+                    } catch (e) {
+                        console.warn(`Failed to fetch via ${proxy.url}:`, e);
+                        // Continue to next proxy
                     }
                 }
+                
+                // If all fail
+                currentTitleEl.innerText = "Player unavailable. Check links below.";
+            }
 
-                if (!xmlText) {
-                    currentTitleEl.innerText = "Feed temporarily unavailable.";
-                    return;
-                }
+            function parseXmlItem(item) {
+                const title = item.querySelector("title")?.textContent || "";
+                const pubDate = item.querySelector("pubDate")?.textContent || "";
+                const enclosure = item.querySelector("enclosure");
+                const link = enclosure ? enclosure.getAttribute("url") : "";
+                const description = item.querySelector("description")?.textContent || "";
+                const itunesImage = item.getElementsByTagName("itunes:image")[0];
+                const thumbnail = itunesImage ? itunesImage.getAttribute("href") : 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp';
+                return { title, pubDate, link, description, thumbnail };
+            }
 
-                try {
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-                    const items = xmlDoc.querySelectorAll("item");
-                    const podcastArt = xmlDoc.querySelector("channel > image > url")?.textContent;
-
-                    episodes = Array.from(items).map(item => {
-                        const title = item.querySelector("title")?.textContent;
-                        const pubDate = item.querySelector("pubDate")?.textContent;
-                        const description = item.querySelector("description")?.textContent;
-                        const enclosure = item.querySelector("enclosure")?.getAttribute("url");
-                        
-                        let thumbnail = item.getElementsByTagName("itunes:image")[0]?.getAttribute("href") || 
-                                        item.querySelector("image")?.getAttribute("href") || 
-                                        podcastArt;
-
-                        return {
-                            title,
-                            pubDate,
-                            description,
-                            link: enclosure,
-                            thumbnail: thumbnail
-                        };
-                    });
-
-                    if (episodes.length > 0) {
-                        renderEpisodeList();
-                        loadEpisode(0, false);
-                    } else {
-                        currentTitleEl.innerText = "No episodes found.";
-                    }
-                } catch (err) {
-                    console.error("XML Parsing Error:", err);
-                    currentTitleEl.innerText = "Error parsing podcast data.";
-                }
+            function parseJsonItem(item) {
+                return {
+                    title: item.title,
+                    pubDate: item.pubDate,
+                    link: item.enclosure.link,
+                    description: item.description,
+                    thumbnail: item.thumbnail || 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'
+                };
             }
 
             function renderEpisodeList() {
+                if (!episodes.length) return;
                 episodeListEl.innerHTML = episodes.map((ep, idx) => `
-                    <div class="episode-list-item p-4 flex gap-4 cursor-pointer items-center" onclick="window.loadEpisode(${idx}, true)">
-                        <img src="${ep.thumbnail || 'https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" onerror="this.src='https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp'">
-                        <div class="flex-grow overflow-hidden">
-                            <div class="flex justify-between items-center">
-                                <div class="text-sm font-bold text-white line-clamp-1 pr-4">${ep.title}</div>
-                                <div class="text-[10px] text-gray-500 font-mono whitespace-nowrap">${new Date(ep.pubDate).toLocaleDateString()}</div>
+                    <div class="episode-list-item p-4 flex flex-col gap-2 cursor-pointer border-b border-gray-800" onclick="window.loadEpisode(${idx}, true)">
+                        <div class="flex gap-4 items-center">
+                            <img src="${ep.thumbnail}" class="w-12 h-12 rounded object-cover shadow-lg">
+                            <div class="overflow-hidden">
+                                <div class="text-sm font-bold text-white truncate">${ep.title}</div>
+                                <div class="text-xs text-gray-500">${new Date(ep.pubDate).toLocaleDateString()}</div>
                             </div>
                         </div>
+                        <div class="text-xs text-gray-400 line-clamp-2 mt-1 ml-16 italic">${ep.description.replace(/<[^>]*>?/gm, '')}</div>
                     </div>
                 `).join('');
             }
@@ -697,9 +686,8 @@
                 currentTitleEl.innerText = ep.title;
                 currentDateEl.innerText = new Date(ep.pubDate).toLocaleDateString();
                 
-                // Show the FULL description in the player area
-                currentDescriptionEl.innerHTML = ep.description || "No description available.";
-                currentDescriptionEl.scrollTop = 0; // Reset scroll position for the new description
+                let cleanDesc = ep.description.replace(/<[^>]*>?/gm, '');
+                currentDescriptionEl.innerText = cleanDesc;
                 
                 document.querySelectorAll('.episode-list-item').forEach((el, i) => {
                     el.classList.toggle('active', i === index);
@@ -725,33 +713,34 @@
                 }
             }
 
-            function formatTime(seconds) {
-                if (isNaN(seconds)) return "0:00";
-                const min = Math.floor(seconds / 60);
-                const sec = Math.floor(seconds % 60);
-                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-            }
+            const displayFilm = (filmTitle, outputElement) => {
+                const film = filmList.find(f => f.title === filmTitle) || { title: filmTitle };
+                const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(film.title)}`;
+                let outputHTML = `<p class="text-xl font-bold text-center mb-8 leading-relaxed">${film.title}</p>`;
+                if (film.jyoung_review || film.zach_review) {
+                    outputHTML += `<div class="flex flex-wrap justify-center gap-6 mb-10">`;
+                    if (film.jyoung_review) outputHTML += `<a href="${film.jyoung_review}" target="_blank" class="accent-link">J Brooks' review</a>`;
+                    if (film.zach_review) outputHTML += `<a href="${film.zach_review}" target="_blank" class="accent-link">Zach's review</a>`;
+                    outputHTML += `</div>`;
+                }
+                outputHTML += `<div class="flex justify-center"><a href="${searchUrl}" target="_blank" class="btn-secondary">Where to watch</a></div>`;
+                outputElement.innerHTML = outputHTML;
+            };
 
-            // Player Event Listeners
-            playBtn.addEventListener('click', togglePlay);
-            skipBack.addEventListener('click', () => { audio.currentTime -= 15; });
-            skipForward.addEventListener('click', () => { audio.currentTime += 15; });
-
-            audio.addEventListener('timeupdate', () => {
-                const percent = (audio.currentTime / audio.duration) * 100;
-                progressBar.style.width = `${percent}%`;
-                timeCurrent.innerText = formatTime(audio.currentTime);
-                timeTotal.innerText = formatTime(audio.duration);
+            suggestFilmBtn.addEventListener('click', () => {
+                const randomFilm = filmList[Math.floor(Math.random() * filmList.length)];
+                if (randomFilm) displayFilm(randomFilm.title, filmSuggestionOutput);
+                jBrooksSelect.value = ""; zachSelect.value = ""; jBrooksOutput.innerHTML = ""; zachOutput.innerHTML = "";
             });
 
-            progressContainer.addEventListener('click', (e) => {
-                const rect = progressContainer.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                audio.currentTime = pos * audio.duration;
+            jBrooksSelect.addEventListener('change', (e) => {
+                if (e.target.value) { displayFilm(e.target.value, jBrooksOutput); zachSelect.value = ""; zachOutput.innerHTML = ""; }
             });
 
+            zachSelect.addEventListener('change', (e) => {
+                if (e.target.value) { displayFilm(e.target.value, zachOutput); jBrooksSelect.value = ""; jBrooksOutput.innerHTML = ""; }
+            });
 
-            // --- FILM SUGGESTION & DROPDOWN FUNCTIONS ---
             const populateDropdown = (selectElement, filmTitles) => {
                 filmTitles.forEach(title => {
                     const option = document.createElement('option');
@@ -761,43 +750,12 @@
                 });
             };
 
-            const displayFilm = (filmTitle, outputElement) => {
-                 const film = filmList.find(f => f.title === filmTitle);
-                 if (!film) {
-                     outputElement.innerHTML = `<p class="text-gray-400">Details not found for this film.</p>`;
-                     return;
-                 }
-
-                const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(film.title)}`;
-                
-                let outputHTML = `<p class="text-lg font-bold text-center mb-4">${film.title}</p>`;
-
-                if (film.thought && film.attribution) {
-                    outputHTML += `
-                        <blockquote class="text-gray-400 italic my-4 max-w-prose mx-auto">
-                            <p class="text-center">"${film.thought}"</p>
-                            <footer class="text-right not-italic text-sm mt-2 pr-4">${film.attribution}</footer>
-                        </blockquote>
-                    `;
-                } else if (film.jyoung_review || film.zach_review) {
-                    // Fallback to review links if no quote available, styled like file 2 but within file 1 structure
-                     outputHTML += `<div class="flex flex-wrap justify-center gap-4 mb-4 text-sm">`;
-                    if (film.jyoung_review) outputHTML += `<a href="${film.jyoung_review}" target="_blank" class="accent-link">J Brooks' review</a>`;
-                    if (film.jyoung_review && film.zach_review) outputHTML += `<span class="text-gray-600">|</span>`;
-                    if (film.zach_review) outputHTML += `<a href="${film.zach_review}" target="_blank" class="accent-link">Zach's review</a>`;
-                    outputHTML += `</div>`;
-                }
-                
-                outputHTML += `<div class="text-center"><a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Where to watch</a></div>`;
-                outputElement.innerHTML = outputHTML;
-            };
-
-             // Generic function to fetch and display a Letterboxd RSS feed
-            const fetchAndDisplayLetterboxdFeed = async (rssUrl, containerId) => {
+            // Generic function to fetch and display a Letterboxd RSS feed
+            const fetchAndDisplayLetterboxdFeed = async (letterboxdUrl, containerId) => {
                 const feedContainer = document.getElementById(containerId);
                 if (!feedContainer) return;
 
-                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(letterboxdUrl)}`;
 
                 try {
                     const response = await fetch(apiUrl);
@@ -822,38 +780,6 @@
                     feedContainer.innerHTML = '<p class="text-gray-400 text-xs">Error loading recent reviews.</p>';
                 }
             };
-        
-            // Event listeners
-            suggestFilmBtn.addEventListener('click', () => {
-                const randomIndex = Math.floor(Math.random() * filmList.length);
-                const randomFilm = filmList[randomIndex];
-                displayFilm(randomFilm.title, filmSuggestionOutput);
-                // Clear dropdowns when random button is clicked
-                jBrooksSelect.value = "";
-                zachSelect.value = "";
-                jBrooksOutput.innerHTML = "";
-                zachOutput.innerHTML = "";
-            });
-
-            jBrooksSelect.addEventListener('change', (e) => {
-                if (e.target.value) {
-                    displayFilm(e.target.value, jBrooksOutput);
-                    zachSelect.value = ""; // Reset other dropdown
-                    zachOutput.innerHTML = ""; // Clear other dropdown output
-                } else {
-                    jBrooksOutput.innerHTML = "";
-                }
-            });
-
-            zachSelect.addEventListener('change', (e) => {
-                if (e.target.value) {
-                    displayFilm(e.target.value, zachOutput);
-                    jBrooksSelect.value = ""; // Reset other dropdown
-                     jBrooksOutput.innerHTML = ""; // Clear other dropdown output
-                } else {
-                     zachOutput.innerHTML = "";
-                }
-            });
 
             // Contact Form
             contactForm.addEventListener('submit', async function(e) {
@@ -885,14 +811,13 @@
             });
 
 
-            // --- INITIALIZATION ---
             populateDropdown(jBrooksSelect, jBrooksTopTen);
             populateDropdown(zachSelect, zachTopTen);
             fetchAndDisplayLetterboxdFeed('https://letterboxd.com/jyoun/rss/', 'jbrooks-rss-feed');
             fetchAndDisplayLetterboxdFeed('https://letterboxd.com/hetchy/rss/', 'zach-rss-feed');
-            fetchEpisodes(); // Start fetching podcast episodes
+
+            fetchEpisodes();
         });
     </script>
-
 </body>
 </html>
