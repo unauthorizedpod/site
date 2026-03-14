@@ -246,7 +246,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="max-h-80 overflow-y-auto bg-[#0D0B14] episode-scroll-area" id="episode-list"></div>
+                <div class="max-h-80 overflow-y-auto bg-[#0D0B14] episode-scroll-area" id="episode-scroll-wrapper">
+                    <div id="episode-list"></div>
+                    <div id="load-more-container" class="text-center p-6 hidden">
+                        <button id="load-more-btn" class="btn-secondary !mt-0 text-sm">Load More Episodes</button>
+                    </div>
+                </div>
             </div>
             <audio id="audio-player"></audio>
 
@@ -368,6 +373,8 @@
             const currentDescriptionEl = document.getElementById('current-description');
             const skipBack = document.getElementById('skip-back');
             const skipForward = document.getElementById('skip-forward');
+            const loadMoreContainer = document.getElementById('load-more-container');
+            const loadMoreBtn = document.getElementById('load-more-btn');
 
             // --- PAGE ELEMENTS ---
             const suggestFilmBtn = document.getElementById('suggest-film-btn');
@@ -382,6 +389,7 @@
             // --- DATA ---
             const rssUrl = "https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476";
             let episodes = [];
+            let displayedEpisodesCount = 4;
 
             // Full Film List
             const filmList = [
@@ -665,7 +673,10 @@
 
             function renderEpisodeList() {
                 if (!episodes.length) return;
-                episodeListEl.innerHTML = episodes.map((ep, idx) => `
+                
+                const episodesToRender = episodes.slice(0, displayedEpisodesCount);
+                
+                episodeListEl.innerHTML = episodesToRender.map((ep, idx) => `
                     <div class="episode-list-item p-4 flex flex-col gap-2 cursor-pointer border-b border-gray-800" onclick="window.loadEpisode(${idx}, true)">
                         <div class="flex gap-4 items-center">
                             <img src="${ep.thumbnail}" class="w-12 h-12 rounded object-cover shadow-lg">
@@ -677,7 +688,18 @@
                         <div class="text-xs text-gray-400 line-clamp-2 mt-1 ml-16 italic">${ep.description.replace(/<[^>]*>?/gm, '')}</div>
                     </div>
                 `).join('');
+
+                if (displayedEpisodesCount < episodes.length) {
+                    loadMoreContainer.classList.remove('hidden');
+                } else {
+                    loadMoreContainer.classList.add('hidden');
+                }
             }
+
+            loadMoreBtn.addEventListener('click', () => {
+                displayedEpisodesCount += 5;
+                renderEpisodeList();
+            });
 
             window.loadEpisode = (index, autoplay) => {
                 const ep = episodes[index];
