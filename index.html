@@ -301,8 +301,6 @@
                             <button id="skip-forward" title="Forward 15s" class="text-gray-500 hover:text-white transition-colors">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
                             </button>
-                            <!-- skip labels -->
-                            <span class="text-xs text-gray-600 select-none hidden sm:inline">−15s / +15s</span>
                         </div>
 
                         <!-- Progress -->
@@ -684,92 +682,91 @@
 
             const FALLBACK_ART = "https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp";
 
-            // --- FETCH via rss2json (primary) then CORS proxies (fallback) ---
-
-            function parseEpisodesFromRss2json(data) {
-                const showArt = data.feed?.image || FALLBACK_ART;
-                return data.items.map(item => ({
-                    title: item.title,
-                    pubDate: item.pubDate,
-                    description: item.description || item.content || "",
-                    link: item.enclosure?.link || item.link,
-                    thumbnail: item.itunes_image || item.thumbnail || showArt,
-                }));
-            }
+            // --- FETCH: race all methods in parallel, first valid response wins ---
 
             function parseEpisodesFromXml(xmlText) {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlText, "text/xml");
                 const items = xmlDoc.querySelectorAll("item");
-                // This feed only has show-level art, not per-episode
                 const showArt = xmlDoc.getElementsByTagName("itunes:image")[0]?.getAttribute("href") ||
                                 xmlDoc.querySelector("channel > image > url")?.textContent ||
                                 FALLBACK_ART;
                 return Array.from(items).map(item => ({
-                    title: item.querySelector("title")?.textContent,
-                    pubDate: item.querySelector("pubDate")?.textContent,
+                    title:       item.querySelector("title")?.textContent,
+                    pubDate:     item.querySelector("pubDate")?.textContent,
                     description: item.querySelector("description")?.textContent,
-                    link: item.querySelector("enclosure")?.getAttribute("url"),
-                    thumbnail: item.getElementsByTagName("itunes:image")[0]?.getAttribute("href") || showArt,
+                    link:        item.querySelector("enclosure")?.getAttribute("url"),
+                    thumbnail:   item.getElementsByTagName("itunes:image")[0]?.getAttribute("href") || showArt,
                 }));
             }
 
-            async function fetchWithTimeout(url, timeoutMs = 7000) {
-                const controller = new AbortController();
-                const timer = setTimeout(() => controller.abort(), timeoutMs);
+            function parseEpisodesFromRss2json(data) {
+                const showArt = data.feed?.image || FALLBACK_ART;
+                return data.items.map(item => ({
+                    title:       item.title,
+                    pubDate:     item.pubDate,
+                    description: item.description || item.content || "",
+                    link:        item.enclosure?.link || item.link,
+                    thumbnail:   item.itunes_image || item.thumbnail || showArt,
+                }));
+            }
+
+            async function timedFetch(url, ms = 8000) {
+                const ctrl = new AbortController();
+                const t = setTimeout(() => ctrl.abort(), ms);
                 try {
-                    const res = await fetch(url, { signal: controller.signal });
-                    clearTimeout(timer);
-                    return res;
-                } catch (e) {
-                    clearTimeout(timer);
-                    throw e;
-                }
+                    const r = await fetch(url, { signal: ctrl.signal });
+                    clearTimeout(t);
+                    return r;
+                } catch(e) { clearTimeout(t); throw e; }
             }
 
-            async function tryRss2json(feedUrl) {
-                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&count=50`;
-                const res = await fetchWithTimeout(apiUrl, 7000);
-                if (!res.ok) throw new Error(`rss2json HTTP ${res.status}`);
-                const data = await res.json();
-                if (data.status !== 'ok' || !data.items?.length) throw new Error('rss2json: no items');
-                return parseEpisodesFromRss2json(data);
+            // Each attempt returns a parsed episodes array or throws
+            async function attemptRss2json(feedUrl) {
+                const r = await timedFetch(
+                    `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&count=50`
+                );
+                if (!r.ok) throw new Error(`rss2json ${r.status}`);
+                const d = await r.json();
+                if (d.status !== "ok" || !d.items?.length) throw new Error("rss2json empty");
+                const eps = parseEpisodesFromRss2json(d);
+                if (!eps.length) throw new Error("rss2json parsed 0");
+                return eps;
             }
 
-            async function tryProxyXml(getProxyUrl, feedUrl) {
-                const targetUrl = getProxyUrl(feedUrl);
-                const isAllOrigins = targetUrl.includes('allorigins');
-                const res = await fetchWithTimeout(targetUrl, 7000);
-                if (!res.ok) throw new Error(`proxy HTTP ${res.status}`);
-                const text = isAllOrigins ? (await res.json()).contents : await res.text();
-                if (!text || !text.includes('<rss')) throw new Error('proxy: invalid RSS');
+            async function attemptProxy(buildUrl, feedUrl) {
+                const url = buildUrl(feedUrl);
+                const r   = await timedFetch(url);
+                if (!r.ok) throw new Error(`proxy ${r.status}`);
+                // allorigins /get returns JSON wrapper; /raw returns text directly
+                const text = url.includes("/get?url=") ? (await r.json()).contents : await r.text();
+                if (!text?.includes("<rss")) throw new Error("proxy: not RSS");
                 const eps = parseEpisodesFromXml(text);
-                if (!eps.length) throw new Error('proxy: no episodes parsed');
+                if (!eps.length) throw new Error("proxy: 0 episodes");
                 return eps;
             }
 
             async function fetchEpisodes() {
-                // Try rss2json first — it's a JSON API, more reliable than raw CORS proxies
-                try {
-                    episodes = await tryRss2json(rssUrl);
-                    renderInitialEpisodes();
-                    loadEpisode(0, false);
-                    return;
-                } catch (err) {
-                    console.warn("rss2json failed, trying CORS proxies:", err.message);
-                }
-
-                // Fall back to racing CORS proxies
-                const proxies = [
-                    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-                    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+                const feed = rssUrl;
+                const attempts = [
+                    // 1. rss2json JSON API
+                    attemptRss2json(feed),
+                    // 2. allorigins raw (no JSON wrapper, simplest)
+                    attemptProxy(u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`, feed),
+                    // 3. corsproxy.io
+                    attemptProxy(u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`, feed),
+                    // 4. allorigins get (JSON wrapper)
+                    attemptProxy(u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`, feed),
+                    // 5. thingproxy
+                    attemptProxy(u => `https://thingproxy.freeboard.io/fetch/${u}`, feed),
                 ];
+
                 try {
-                    episodes = await Promise.any(proxies.map(p => tryProxyXml(p, rssUrl)));
+                    episodes = await Promise.any(attempts);
                     renderInitialEpisodes();
                     loadEpisode(0, false);
                 } catch (err) {
-                    console.error("All fetch methods failed:", err);
+                    console.error("All fetch attempts failed:", err);
                     showFeedError();
                 }
             }
