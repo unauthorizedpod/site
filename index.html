@@ -5,467 +5,464 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Some Like It Unauthorized Podcast</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0B14'/%3E%3Ctext x='16' y='13' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3ESL%3C/text%3E%3Ctext x='16' y='27' font-family='Manrope, sans-serif' font-size='12' font-weight='bold' fill='%23a78bfa' text-anchor='middle'%3EIU%3C/text%3E%3C/svg%3E">
-    
-    <!-- SEO and Social Sharing Meta Tags -->
     <meta name="description" content="You might prefer to go to the experts for your film opinions, but... ">
     <meta property="og:title" content="Some Like It Unauthorized Podcast">
     <meta property="og:description" content="You might prefer to go to the experts for your film opinions, but... ">
-    <meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp">
+    <meta property="og:image" content="https://media.redcircle.com/images/2025/4/21/19/0c0937c5-a5ba-4ae6-b4e9-eba816e30ff6_9023c4d2-7849-4430-86a6-4e6a595de50c.jpg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
-    
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0D0B14;
-            color: #D1D5DB;
-        }
-        h1, h2, h3 {
-            font-family: 'Manrope', sans-serif;
-            color: #F9FAFB;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #a78bfa, #f472b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .btn-primary {
-            background-image: linear-gradient(to right, #8b5cf6, #9333ea);
-            color: #F9FAFB;
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 0 10px rgba(167, 139, 250, 0.4), 0 0 15px rgba(147, 51, 234, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(167, 139, 250, 0.6), 0 0 25px rgba(147, 51, 234, 0.4);
-        }
-        .btn-secondary {
-            background-color: transparent;
-            border: 1px solid #a78bfa;
-            color: #a78bfa;
-            padding: 8px 20px;
-            border-radius: 9999px;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-        .btn-secondary:hover {
-            background-color: #a78bfa;
-            color: #0D0B14;
-        }
-        .card {
-            background-color: #1A1625;
-            border: 1px solid #2a2438;
-            transition: all 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-3px);
-            border-color: #7c3aed;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-        .accent-link {
-            color: #a78bfa;
-            transition: color 0.3s ease;
-        }
-        .accent-link:hover {
-            color: #c4b5fd;
-        }
-        .custom-select {
-            background-color: #2a2438;
-            color: #D1D5DB;
-            border: 1px solid #4a4063;
-            border-radius: 0.5rem;
-            padding: 0.5rem 1rem;
-            width: 100%;
-            cursor: pointer;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a78bfa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 0.5rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
-        }
-        .custom-select:focus {
-            outline: none;
-            border-color: #7c3aed;
-            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
-        }
-        .social-icon {
-            transition: transform 0.2s ease-in-out;
-        }
-        .social-icon:hover {
-            transform: scale(1.1);
-        }
-        .podcast-icon svg {
-            width: 2.5rem;
-            height: 2.5rem;
-            fill: #a78bfa;
-        }
-        .podcast-icon:hover svg {
-            fill: #c4b5fd;
-        }
-        #film-suggestion-output, #jbrooks-top-ten-output, #zach-top-ten-output {
-            transition: background-color 0.5s ease-in-out;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #0D0B14; color: #D1D5DB; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; color: #F9FAFB; }
+        .gradient-text { background: linear-gradient(to right, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-primary { background-image: linear-gradient(to right, #8b5cf6, #9333ea); color: #F9FAFB; transition: all 0.3s ease; border: none; box-shadow: 0 0 10px rgba(167,139,250,0.4), 0 0 15px rgba(147,51,234,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(167,139,250,0.6), 0 0 25px rgba(147,51,234,0.4); }
+        .btn-secondary { background-color: transparent; border: 1px solid #a78bfa; color: #a78bfa; padding: 8px 20px; border-radius: 9999px; transition: all 0.3s ease; display: inline-block; margin-top: 1rem; font-size: 0.9rem; }
+        .btn-secondary:hover { background-color: #a78bfa; color: #0D0B14; }
+        .card { background-color: #1A1625; border: 1px solid #2a2438; transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-3px); border-color: #7c3aed; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .accent-link { color: #a78bfa; transition: color 0.3s ease; }
+        .accent-link:hover { color: #c4b5fd; }
+        .custom-select { background-color: #2a2438; color: #D1D5DB; border: 1px solid #4a4063; border-radius: 0.5rem; padding: 0.5rem 1rem; width: 100%; cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a78bfa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; }
+        .custom-select:focus { outline: none; border-color: #7c3aed; box-shadow: 0 0 0 2px rgba(124,58,237,0.5); }
+        .social-icon { transition: transform 0.2s ease-in-out; }
+        .social-icon:hover { transform: scale(1.1); }
+        .podcast-icon svg { width: 2.5rem; height: 2.5rem; fill: #a78bfa; }
+        .podcast-icon:hover svg { fill: #c4b5fd; }
+        #film-suggestion-output, #jbrooks-top-ten-output, #zach-top-ten-output { transition: background-color 0.5s ease-in-out; }
 
         /* ── Player ── */
-        .player-now-playing {
-            background: linear-gradient(135deg, #231d31 0%, #1A1625 100%);
-            border: 1px solid #2a2438;
-            border-radius: 1.5rem;
-            overflow: hidden;
-        }
-        .progress-track {
-            height: 5px;
-            background: #2a2438;
-            border-radius: 3px;
-            cursor: pointer;
-            position: relative;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, #a78bfa, #f472b6);
-            border-radius: 3px;
-            width: 0%;
-            pointer-events: none;
-        }
-        /* Description scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4a4063; border-radius: 10px; }
-        #now-playing-description a { color: #a78bfa; text-decoration: underline; }
+        .player-shell { background: linear-gradient(135deg, #231d31 0%, #1A1625 100%); border: 1px solid #2a2438; border-radius: 1.5rem; overflow: hidden; }
+        .progress-track { height: 5px; background: #2a2438; border-radius: 3px; cursor: pointer; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #a78bfa, #f472b6); border-radius: 3px; width: 0%; pointer-events: none; transition: width 0.1s linear; }
+        #ep-description a { color: #a78bfa; text-decoration: underline; }
+        .ep-description-scroll::-webkit-scrollbar { width: 3px; }
+        .ep-description-scroll::-webkit-scrollbar-thumb { background: #4a4063; border-radius: 10px; }
 
-        /* ── Episode cards ── */
-        .ep-card {
-            background: #1A1625;
-            border: 1px solid #2a2438;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.875rem 1rem;
-        }
-        .ep-card:hover {
-            border-color: #7c3aed;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.4);
-        }
-        .ep-card.active {
-            border-color: #a78bfa;
-            background: rgba(167,139,250,0.07);
-        }
-        .ep-card.active .ep-num { color: #a78bfa; }
-        .ep-num {
-            font-family: 'Manrope', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #4a4063;
-            min-width: 1.5rem;
-            text-align: right;
-            flex-shrink: 0;
-        }
-        .ep-art {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 0.5rem;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        .ep-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #F9FAFB;
-            line-height: 1.3;
-            flex-grow: 1;
-            min-width: 0;
-        }
-        .ep-date {
-            font-size: 0.7rem;
-            color: #6b7280;
-            white-space: nowrap;
-            flex-shrink: 0;
-            font-family: monospace;
-        }
-        /* playing pulse icon */
-        .ep-playing-indicator {
-            display: none;
-            gap: 2px;
-            align-items: flex-end;
-            height: 14px;
-            flex-shrink: 0;
-        }
-        .ep-card.active .ep-playing-indicator { display: flex; }
-        .ep-card.active.paused .ep-playing-indicator { display: none; }
-        .ep-bar {
-            width: 3px;
-            border-radius: 2px;
-            background: #a78bfa;
-            animation: epbar 0.8s ease-in-out infinite alternate;
-        }
+        /* ── Episode rows ── */
+        .ep-row { display: flex; align-items: center; gap: 0.875rem; padding: 0.75rem 1rem; background: #1A1625; border: 1px solid #2a2438; border-radius: 0.875rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+        .ep-row:hover { border-color: #7c3aed; background: #1f1830; }
+        .ep-row.active { border-color: #a78bfa; background: rgba(167,139,250,0.08); }
+        .ep-row-art { width: 2.75rem; height: 2.75rem; border-radius: 0.5rem; object-fit: cover; flex-shrink: 0; }
+        .ep-row-title { font-size: 0.875rem; font-weight: 600; color: #F9FAFB; flex-grow: 1; min-width: 0; line-height: 1.3; }
+        .ep-row-date { font-size: 0.7rem; color: #6b7280; white-space: nowrap; flex-shrink: 0; font-family: monospace; }
+
+        /* playing bars */
+        .ep-bars { display: none; gap: 2px; align-items: flex-end; height: 14px; flex-shrink: 0; }
+        .ep-row.active .ep-bars { display: flex; }
+        .ep-row.active.paused .ep-bars { display: none; }
+        .ep-bar { width: 3px; border-radius: 2px; background: #a78bfa; animation: barwave 0.8s ease-in-out infinite alternate; }
         .ep-bar:nth-child(2) { animation-delay: 0.2s; }
         .ep-bar:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes epbar {
-            from { height: 4px; }
-            to   { height: 14px; }
-        }
-
-        /* ── Skeleton ── */
-        @keyframes shimmer {
-            0%   { background-position: -400px 0; }
-            100% { background-position:  400px 0; }
-        }
-        .skeleton {
-            background: linear-gradient(90deg, #1A1625 25%, #2a2438 50%, #1A1625 75%);
-            background-size: 400px 100%;
-            animation: shimmer 1.4s infinite;
-            border-radius: 6px;
-        }
-        .ep-card-skeleton {
-            background: #1A1625;
-            border: 1px solid #2a2438;
-            border-radius: 1rem;
-            padding: 0.875rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+        @keyframes barwave { from { height: 4px; } to { height: 14px; } }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Header Section -->
-    <header class="text-center pt-24 pb-16 md:pt-32 md:pb-24 border-b border-gray-800 px-6 sm:px-8">
-        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">You might prefer to go to the experts for your film opinions, but... </p>
-        <br>
-        <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4 leading-tight">Some Like It <span class="gradient-text">Unauthorized</span></h1>
-    </header>
+<header class="text-center pt-24 pb-16 md:pt-32 md:pb-24 border-b border-gray-800 px-6 sm:px-8">
+    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">You might prefer to go to the experts for your film opinions, but... </p>
+    <br>
+    <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4 leading-tight">Some Like It <span class="gradient-text">Unauthorized</span></h1>
+</header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 sm:px-8 py-16 md:py-24 space-y-20">
+<main class="container mx-auto px-6 sm:px-8 py-16 md:py-24 space-y-20">
 
-        <!-- Custom Player Section -->
-        <section class="max-w-4xl mx-auto">
-            
-            <!-- 2025 Favorites Card -->
-            <div class="mb-10 relative group mx-4 sm:mx-0">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 rounded-2xl opacity-50 group-hover:opacity-100 transition duration-500 blur-sm"></div>
-                <a href="https://unauthorizedpod.com/topten2025" target="_blank" class="relative block bg-[#1A1625] rounded-2xl p-8 flex items-center justify-center hover:bg-[#231d31] transition-colors duration-300">
-                    <div class="text-center">
-                        <h3 class="text-2xl font-bold text-white mb-2">See our Favorites of 2025</h3>
-                        <p class="text-gray-400 text-base">J Brooks and Zach list their top tens</p>
+    <!-- Player Section -->
+    <section class="max-w-4xl mx-auto">
+
+        <!-- 2025 Favorites Card -->
+        <div class="mb-10 relative group mx-4 sm:mx-0">
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 rounded-2xl opacity-50 group-hover:opacity-100 transition duration-500 blur-sm"></div>
+            <a href="https://unauthorizedpod.com/topten2025" target="_blank" class="relative block bg-[#1A1625] rounded-2xl p-8 flex items-center justify-center hover:bg-[#231d31] transition-colors duration-300">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-white mb-2">See our Favorites of 2025</h3>
+                    <p class="text-gray-400 text-base">J Brooks and Zach list their top tens</p>
+                </div>
+                <div class="absolute right-6 sm:right-8 text-purple-400 group-hover:translate-x-2 transition-transform duration-300 group-hover:text-pink-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </div>
+            </a>
+        </div>
+
+        <!-- Now Playing -->
+        <div class="player-shell shadow-2xl mb-4 p-6 md:p-8">
+            <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+                <img id="ep-art"
+                     src="https://media.redcircle.com/images/2025/4/21/19/0c0937c5-a5ba-4ae6-b4e9-eba816e30ff6_9023c4d2-7849-4430-86a6-4e6a595de50c.jpg"
+                     class="w-36 h-36 md:w-44 md:h-44 rounded-xl shadow-2xl object-cover flex-shrink-0" alt="Episode art">
+                <div class="flex-grow w-full min-w-0 text-center md:text-left">
+                    <p id="ep-date" class="text-xs text-purple-400 font-semibold uppercase tracking-widest mb-1"></p>
+                    <h2 id="ep-title" class="text-xl md:text-2xl font-bold text-white mb-3 leading-snug">Select an episode below</h2>
+                    <div id="ep-description" class="ep-description-scroll text-xs text-gray-400 leading-relaxed mb-5 max-h-20 overflow-y-auto pr-1 hidden md:block"></div>
+                    <!-- Transport -->
+                    <div class="flex items-center justify-center md:justify-start gap-5 mb-4">
+                        <button id="btn-back" class="text-gray-500 hover:text-white transition-colors" title="Back 15s">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+                        </button>
+                        <button id="btn-play" class="w-14 h-14 rounded-full btn-primary flex items-center justify-center shadow-lg active:scale-95 transition-transform flex-shrink-0">
+                            <svg id="icon-play" class="ml-1" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            <svg id="icon-pause" class="hidden" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                        </button>
+                        <button id="btn-fwd" class="text-gray-500 hover:text-white transition-colors" title="Forward 15s">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
+                        </button>
                     </div>
-                    <div class="absolute right-6 sm:right-8 text-purple-400 group-hover:translate-x-2 transition-transform duration-300 group-hover:text-pink-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    <!-- Progress -->
+                    <div class="progress-track" id="progress-track">
+                        <div class="progress-fill" id="progress-fill"></div>
                     </div>
+                    <div class="flex justify-between text-xs text-gray-600 font-mono mt-1">
+                        <span id="time-cur">0:00</span>
+                        <span id="time-tot">0:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <audio id="audio"></audio>
+
+        <!-- Episode list -->
+        <div id="ep-list" class="space-y-2"></div>
+        <div id="load-more-wrap" class="hidden text-center mt-4">
+            <button id="btn-more" class="btn-secondary px-8 py-2 rounded-full font-semibold text-sm">Load more episodes</button>
+        </div>
+
+        <!-- Platform links -->
+        <div class="text-center mt-12">
+            <p class="text-gray-400 mb-4">Available on:</p>
+            <div class="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
+                <a href="https://podcasts.apple.com/us/podcast/some-like-it-unauthorized/id1810139168" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                    <svg viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71.12 1.083.17 2.166.17 3.24z"/></svg>
+                </a>
+                <a href="https://open.spotify.com/show/5H427OE7MwnVTBQ8JTOEmq" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                    <svg viewBox="0 0 1333.33 1333.3" fill-rule="evenodd"><path d="M666.66 0C298.48 0 0 298.47 0 666.65c0 368.19 298.48 666.65 666.66 666.65 368.22 0 666.67-298.45 666.67-666.65C1333.33 298.49 1034.88.03 666.65.03l.01-.04zm305.73 961.51c-11.94 19.58-37.57 25.8-57.16 13.77-156.52-95.61-353.57-117.26-585.63-64.24-22.36 5.09-44.65-8.92-49.75-31.29-5.12-22.37 8.84-44.66 31.26-49.75 253.95-58.02 471.78-33.04 647.51 74.35 19.59 12.02 25.8 37.57 13.77 57.16zm81.6-181.52c-15.05 24.45-47.05 32.17-71.49 17.13-179.2-110.15-452.35-142.05-664.31-77.7-27.49 8.3-56.52-7.19-64.86-34.63-8.28-27.49 7.22-56.46 34.66-64.82 242.11-73.46 543.1-37.88 748.89 88.58 24.44 15.05 32.16 47.05 17.12 71.46V780zm7.01-189.02c-214.87-127.62-569.36-139.35-774.5-77.09-32.94 9.99-67.78-8.6-77.76-41.55-9.98-32.96 8.6-67.77 41.56-77.78 235.49-71.49 626.96-57.68 874.34 89.18 29.69 17.59 39.41 55.85 21.81 85.44-17.52 29.63-55.89 39.4-85.42 21.8h-.03z" fill="#a78bfa" fill-rule="nonzero"/></svg>
+                </a>
+                <a href="https://www.youtube.com/@UnauthorizedPod" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
+                    <svg class="w-12 h-12" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#a78bfa"/></svg>
                 </a>
             </div>
+        </div>
+    </section>
 
-            <!-- Now Playing panel -->
-            <div class="player-now-playing shadow-2xl mb-6">
-                <div class="p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center md:items-start">
-                    <!-- Art -->
-                    <img id="now-playing-art"
-                         src="https://media.redcircle.com/images/2025/4/21/19/0c0937c5-a5ba-4ae6-b4e9-eba816e30ff6_9023c4d2-7849-4430-86a6-4e6a595de50c.jpg"
-                         class="w-36 h-36 md:w-44 md:h-44 rounded-xl shadow-2xl object-cover flex-shrink-0"
-                         alt="Episode art">
-                    <!-- Info + controls -->
-                    <div class="flex-grow w-full min-w-0 text-center md:text-left">
-                        <p id="now-playing-date" class="text-xs text-purple-400 font-semibold uppercase tracking-widest mb-1"></p>
-                        <h2 id="now-playing-title" class="text-xl md:text-2xl font-bold text-white mb-3 leading-snug">Loading episodes…</h2>
-                        <div id="now-playing-description"
-                             class="text-xs text-gray-400 leading-relaxed mb-5 max-h-24 overflow-y-auto pr-1 custom-scrollbar hidden md:block"></div>
 
-                        <!-- Transport -->
-                        <div class="flex items-center justify-center md:justify-start gap-5 mb-4">
-                            <button id="skip-back" title="Back 15s" class="text-gray-500 hover:text-white transition-colors">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
-                            </button>
-                            <button id="play-btn"
-                                    class="w-14 h-14 rounded-full btn-primary flex items-center justify-center shadow-lg active:scale-95 transition-transform flex-shrink-0">
-                                <svg id="play-icon" class="ml-1" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                                <svg id="pause-icon" class="hidden" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                            </button>
-                            <button id="skip-forward" title="Forward 15s" class="text-gray-500 hover:text-white transition-colors">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
-                            </button>
-                        </div>
+    <!-- About Section -->
+    <section class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">About the Show</h2>
+        <div class="prose text-gray-300 leading-relaxed max-w-2xl mx-auto text-left">
+            <p>Film by film, two siblings go through cinema history, from the blockbusters to the arthouse, with discussions on what these movies meant then and how we see them now.</p><br>
+            <p>Using the <i>BFI's Sight and Sound</i> list as a starting point, they explore canonical films and the decades when cinema exploded. No film degrees, no press passes, they like it unauthorized.</p>
+        </div>
+        <div class="mt-12 text-center">
+            <p class="text-gray-400 mb-4"><a href="https://letterboxd.com/hetchy/list/history-of-film-list/" target="_blank" rel="noopener noreferrer" class="accent-link">Watch a film from our featured list</a></p>
+            <button id="suggest-film-btn" class="btn-primary inline-block font-bold py-3 px-8 rounded-lg text-lg">Get a Film Suggestion</button>
+            <div id="film-suggestion-output" class="mt-4 min-h-[60px] flex flex-col justify-center items-center text-left p-4 rounded-lg"></div>
+        </div>
+    </section>
 
-                        <!-- Progress -->
-                        <div class="progress-track" id="progress-container">
-                            <div class="progress-fill" id="progress-fill"></div>
-                        </div>
-                        <div class="flex justify-between text-xs text-gray-600 font-mono mt-1">
-                            <span id="time-current">0:00</span>
-                            <span id="time-total">0:00</span>
-                        </div>
-                    </div>
+    <!-- Hosts Section -->
+    <section class="max-w-4xl mx-auto mt-16">
+        <h2 class="text-3xl font-bold mb-6 text-center">Meet the Brothers</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
+                <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="mx-auto">
+                    <img src="https://a.ltrbxd.com/resized/avatar/upload/6/2/0/4/2/1/6/shard/avtr-0-220-0-220-crop.jpg?v=20eeed6c12" alt="J Brooks Young" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
+                </a>
+                <div class="mt-4">
+                    <h3 class="text-xl font-bold mb-1">J Brooks Young</h3>
+                    <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm mb-4 inline-block">Letterboxd: jyoun</a>
+                    <div id="jbrooks-rss-feed" class="text-center text-sm mt-6 mb-8"></div>
+                    <label for="jbrooks-top-ten" class="sr-only">J Brooks' Top Ten Films</label>
+                    <select id="jbrooks-top-ten" class="custom-select"><option value="">J Brooks' Top Ten Films</option></select>
+                    <div id="jbrooks-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
                 </div>
             </div>
-            <audio id="audio-player"></audio>
-
-            <!-- Episode list -->
-            <div id="episode-list" class="space-y-2">
-                <!-- Skeleton placeholders -->
-                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/4"></div><div class="skeleton h-2 w-1/3"></div></div></div>
-                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-2/3"></div><div class="skeleton h-2 w-1/4"></div></div></div>
-                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/4"></div><div class="skeleton h-2 w-1/3"></div></div></div>
-                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-1/2"></div><div class="skeleton h-2 w-1/4"></div></div></div>
-                <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/5"></div><div class="skeleton h-2 w-1/3"></div></div></div>
-            </div>
-
-            <!-- Load more -->
-            <div id="load-more-wrap" class="hidden text-center mt-4">
-                <button id="load-more-btn"
-                        class="btn-secondary px-8 py-2 rounded-full font-semibold text-sm">
-                    Load more episodes
-                </button>
-            </div>
-
-             <div class="text-center mt-12">
-                 <p class="text-gray-400 mb-4">Available on:</p>
-                 <div class="flex justify-center items-center gap-8 md:gap-12 flex-wrap">
-                     <a href="https://podcasts.apple.com/us/podcast/some-like-it-unauthorized/id1810139168" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
-                         <svg viewBox="0 0 170 170"><title>Apple Logo</title><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.842-1.96-14.746-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.102 9.399-22.908 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.252 8.99-3.497 13.1-3.71.12 1.083.17 2.166.17 3.24z"/></svg>
-                     </a>
-                     <a href="https://open.spotify.com/show/5H427OE7MwnVTBQ8JTOEmq?si=f7465f88215d4c5b" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1333.33 1333.3" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M666.66 0C298.48 0 0 298.47 0 666.65c0 368.19 298.48 666.65 666.66 666.65 368.22 0 666.67-298.45 666.67-666.65C1333.33 298.49 1034.88.03 666.65.03l.01-.04zm305.73 961.51c-11.94 19.58-37.57 25.8-57.16 13.77-156.52-95.61-353.57-117.26-585.63-64.24-22.36 5.09-44.65-8.92-49.75-31.29-5.12-22.37 8.84-44.66 31.26-49.75 253.95-58.02 471.78-33.04 647.51 74.35 19.59 12.02 25.8 37.57 13.77 57.16zm81.6-181.52c-15.05 24.45-47.05 32.17-71.49 17.13-179.2-110.15-452.35-142.05-664.31-77.7-27.49 8.3-56.52-7.19-64.86-34.63-8.28-27.49 7.22-56.46 34.66-64.82 242.11-73.46 543.1-37.88 748.89 88.58 24.44 15.05 32.16 47.05 17.12 71.46V780zm7.01-189.02c-214.87-127.62-569.36-139.35-774.5-77.09-32.94 9.99-67.78-8.6-77.76-41.55-9.98-32.96 8.6-67.77 41.56-77.78 235.49-71.49 626.96-57.68 874.34 89.18 29.69 17.59 39.41 55.85 21.81 85.44-17.52 29.63-55.89 39.4-85.42 21.8h-.03z" fill="#a78bfa" fill-rule="nonzero"/></svg>
-                     </a>
-                     <a href="https://www.youtube.com/@UnauthorizedPod" target="_blank" rel="noopener noreferrer" class="social-icon podcast-icon">
-                         <svg class="w-12 h-12" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#a78bfa"/></svg>
-                     </a>
-                 </div>
-        </section>
-
-        <!-- About and Suggestion Section -->
-        <section class="max-w-3xl mx-auto">
-             <h2 class="text-3xl font-bold mb-6 text-center">About the Show</h2>
-            <div class="prose text-gray-300 leading-relaxed max-w-2xl mx-auto text-left">
-                <p>Film by film, two siblings go through cinema history, from the blockbusters to the arthouse, with discussions on what these movies meant then and how we see them now.</p><br>
-                <p>Using the <i>BFI's Sight and Sound</i> list as a starting point, they explore canonical films and the decades when cinema exploded. No film degrees, no press passes, they like it unauthorized.</p>
-            </div>
-            
-            <!-- Film Suggestion Section -->
-            <div class="mt-12 text-center">
-                 <p class="text-gray-400 mb-4">
-                     <a href="https://letterboxd.com/hetchy/list/history-of-film-list/" target="_blank" rel="noopener noreferrer" class="accent-link">
-                         Watch a film from our featured list
-                     </a>
-                 </p>
-                <button id="suggest-film-btn" class="btn-primary inline-block font-bold py-3 px-8 rounded-lg text-lg">
-                    Get a Film Suggestion
-                </button>
-                <div id="film-suggestion-output" class="mt-4 min-h-[60px] flex flex-col justify-center items-center text-left p-4 rounded-lg"></div>
-            </div>
-        </section>
-
-        <!-- Hosts Section -->
-        <section class="max-w-4xl mx-auto mt-16">
-            <h2 class="text-3xl font-bold mb-6 text-center">Meet the Brothers</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <!-- Host 1: J Brooks Young -->
-                <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
-                    <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="mx-auto">
-                        <img src="https://a.ltrbxd.com/resized/avatar/upload/6/2/0/4/2/1/6/shard/avtr-0-220-0-220-crop.jpg?v=20eeed6c12" alt="J Brooks Young" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
-                    </a>
-                    <div class="mt-4">
-                        <h3 class="text-xl font-bold mb-1">J Brooks Young</h3>
-                        <a href="https://letterboxd.com/jyoun/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm mb-4 inline-block">Letterboxd: jyoun</a>
-                        <div id="jbrooks-rss-feed" class="text-center text-sm mt-6 mb-8"></div>
-                        <div class="mt-4">
-                            <label for="jbrooks-top-ten" class="sr-only">J Brooks' Top Ten Films</label>
-                             <select id="jbrooks-top-ten" class="custom-select">
-                                 <option value="">J Brooks' Top Ten Films</option>
-                             </select>
-                        </div>
-                        <div id="jbrooks-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
-                    </div>
-                </div>
-                
-                <!-- Host 2: Zachary Domes -->
-                <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
-                    <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="mx-auto">
-                        <img src="https://a.ltrbxd.com/resized/avatar/upload/3/9/8/4/3/5/shard/avtr-0-220-0-220-crop.jpg?v=9cc3fc5543" alt="Zachary Domes" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
-                    </a>
-                    <div class="mt-4">
-                        <h3 class="text-xl font-bold mb-1">Zachary Domes</h3>
-                        <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm mb-4 inline-block">Letterboxd: hetchy</a>
-                        <div id="zach-rss-feed" class="text-center text-sm mt-6 mb-8"></div>
-                        <div class="mt-4">
-                             <label for="zach-top-ten" class="sr-only">Zach's Top Ten Films</label>
-                             <select id="zach-top-ten" class="custom-select">
-                                 <option value="">Zach's Top Ten Films</option>
-                             </select>
-                        </div>
-                        <div id="zach-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
-                    </div>
+            <div class="card rounded-2xl p-6 flex flex-col text-center h-full">
+                <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="mx-auto">
+                    <img src="https://a.ltrbxd.com/resized/avatar/upload/3/9/8/4/3/5/shard/avtr-0-220-0-220-crop.jpg?v=9cc3fc5543" alt="Zachary Domes" class="w-20 h-20 rounded-full border-2 border-purple-500" onerror="this.onerror=null;this.src='https://placehold.co/80x80';">
+                </a>
+                <div class="mt-4">
+                    <h3 class="text-xl font-bold mb-1">Zachary Domes</h3>
+                    <a href="https://letterboxd.com/hetchy/" target="_blank" rel="noopener noreferrer" class="accent-link text-sm mb-4 inline-block">Letterboxd: hetchy</a>
+                    <div id="zach-rss-feed" class="text-center text-sm mt-6 mb-8"></div>
+                    <label for="zach-top-ten" class="sr-only">Zach's Top Ten Films</label>
+                    <select id="zach-top-ten" class="custom-select"><option value="">Zach's Top Ten Films</option></select>
+                    <div id="zach-top-ten-output" class="mt-4 text-center rounded-lg p-4"></div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </main>
+</main>
 
-    <!-- Footer -->
-    <footer class="text-center py-10 border-t border-gray-800 px-4 sm:px-0">
-        <p class="text-gray-500 mb-4">Got a Question?</p>
-        <form id="contact-form" action="https://formspree.io/f/xanjogvz" method="POST" class="max-w-xl mx-auto space-y-4">
-            <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="email" name="email" placeholder="Your Email (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <input type="text" name="letterboxd" placeholder="Letterboxd Username (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <textarea name="message" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Hey guys, what are your favorite films of 2025 so far..."></textarea>
-            <button type="submit" class="btn-primary mt-4 py-2 px-6 rounded-full font-bold">Send</button>
-        </form>
-        <div id="thank-you-message" class="hidden text-center mt-4 text-green-400"></div>
-        <p class="text-gray-600 text-sm mt-10">&copy; 2025 Some Like It Unauthorized. All rights reserved.</p>
-    </footer>
+<footer class="text-center py-10 border-t border-gray-800 px-4 sm:px-0">
+    <p class="text-gray-500 mb-4">Got a Question?</p>
+    <form id="contact-form" action="https://formspree.io/f/xanjogvz" method="POST" class="max-w-xl mx-auto space-y-4">
+        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+        <input type="email" name="email" placeholder="Your Email (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+        <input type="text" name="letterboxd" placeholder="Letterboxd Username (Optional)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+        <textarea name="message" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Hey guys, what are your favorite films of 2025 so far..."></textarea>
+        <button type="submit" class="btn-primary mt-4 py-2 px-6 rounded-full font-bold">Send</button>
+    </form>
+    <div id="thank-you-message" class="hidden text-center mt-4 text-green-400"></div>
+    <p class="text-gray-600 text-sm mt-10">&copy; 2025 Some Like It Unauthorized. All rights reserved.</p>
+</footer>
 
-    <script>
+<script>
+
+            // Episodes hardcoded from live RSS feed (2026-03-14).
+            // On load we silently try to refresh; if it works the list updates.
+            const SHOW_ART = "https://media.redcircle.com/images/2025/4/21/19/0c0937c5-a5ba-4ae6-b4e9-eba816e30ff6_9023c4d2-7849-4430-86a6-4e6a595de50c.jpg";
+
+            let episodes = [
+              { title: "The Spirit of the Beehive (1973)",
+                date: "Mar 12, 2026",
+                audio: "https://audio4.redcircle.com/episodes/a9e97068-bcab-4b95-9c10-860e02e31605/stream.mp3",
+                desc: "<p>It\'s time to talk Víctor Erice. It\'s time to talk bees. On this episode, we examine this legendary Spanish film\'s reputation and the filmmakers that influenced \'70s dream cinema, and we consider what the Frankenstein and beehive metaphors have to say about social rigidity and childhood fluidity. In addition, we dive into some albums coming out in 1973.</p><p><br>2:20 - Spirit of the Beehive discussion<br>57:10 - Zach\'s 5 albums to check out from \'73</p>" },
+              { title: "The Godfather (1972)",
+                date: "Mar 5, 2026",
+                audio: "https://audio4.redcircle.com/episodes/df333f80-9958-49e5-aa4c-d8f250722cb7/stream.mp3",
+                desc: "<p>In this discussion, we share perspectives on toxic masculinity and the fandom of the franchise, the origins of the modern mob/crime drama and why this film took the world by storm in \'72, and what the story says about capitalism and American assimilation.</p>" },
+              { title: "An Oscar Nominations Reaction Show",
+                date: "Jan 22, 2026",
+                audio: "https://audio4.redcircle.com/episodes/0fb926e7-fec2-4717-87dc-f53693fbc0cf/stream.mp3",
+                desc: "<p>We react LIVE to the 2026 Oscar Nominations, giving you our honest, unauthorized opinions on all the nominated films and the shameful snubs.</p>" },
+              { title: "Top 10 Films of 2025! plus, a Movie Draft of Additions to Our History of Film List",
+                date: "Jan 15, 2026",
+                audio: "https://audio4.redcircle.com/episodes/8e54f7b1-51c4-4ca6-be31-cf280b054770/stream.mp3",
+                desc: "<p>Hosts Zach Domes and J Brooks Young reveal each of their Top Ten Films of 2025. Additionally, we revise our chronological watchlist of 485 films from cinema\'s history by selecting the final 15 films to round off the list at 500.</p><p>1:37 — Top Ten Countdown | 44:00 — Honorable Mentions | 55:55 — Movie Draft</p>" },
+              { title: "Marty Supreme (2025)",
+                date: "Jan 11, 2026",
+                audio: "https://audio4.redcircle.com/episodes/fe5f71e6-ddaa-40a3-ac45-819c4524bb8c/stream.mp3",
+                desc: "<p>The year ended not with a bang, but with the ping and the pong of Timmy Chalamet in Josh Safdie\'s new film. Topics include: the rise of the Safdie/Bronstein anxiety wave of films, the adoption of these films by the awards voters, and a segue into the 60s avant-garde.</p>" },
+              { title: "Sambizanga (1972)",
+                date: "Dec 24, 2025",
+                audio: "https://audio4.redcircle.com/episodes/5f6950b5-fc71-49c9-9971-fca6db596bd6/stream.mp3",
+                desc: "<p>Sarah Maldoror\'s first feature-length film began to be shown before Angolan independence was won. 50 years later, it made its first appearance on the Sight and Sound Top 250. We\'re excited to discuss how this boldly modern film took us by surprise on first watch.</p>" },
+              { title: "Aguirre, the Wrath of God (1972)",
+                date: "Dec 17, 2025",
+                audio: "https://audio4.redcircle.com/episodes/d4e34fa4-92fa-4a62-932e-b2c83b68046c/stream.mp3",
+                desc: "<p>We\'re joined by Werner Herzog to discuss his early career film imagining the search for El Dorado by the Spanish conquistadors, starring Klaus Kinski, and we explore post-colonial art, unexpected comedy, and the legacy of white dudes making their own epic jungle movies.</p>" },
+              { title: "Pink Flamingos (1972)",
+                date: "Dec 10, 2025",
+                audio: "https://audio4.redcircle.com/episodes/2a4c08b9-ffbf-48c9-b3c2-ee90c811d938/stream.mp3",
+                desc: "<p>We share our two differing reactions to seeing the film for the first time, go deep on the film\'s place in history, and celebrate that incredible cast headed by the one and only, Divine.</p><p>3:33 - Pink Flamingos discussion | 59:45 - Zach\'s 5 albums to check out from 1972</p>" },
+              { title: "The Last Picture Show (1971)",
+                date: "Dec 3, 2025",
+                audio: "https://audio4.redcircle.com/episodes/fc6e4339-7cc6-4082-b1e7-d8f849f6f5db/stream.mp3",
+                desc: "<p>We explore how the film depicts sex and growing up in small town USA, and talk about the Gen Z aversion to sex in films today. We also detail how Bogdanovich became a respected name in Hollywood while blowing up his marriage to creative partner Polly Platt.</p>" },
+              { title: "A New Leaf (1971)",
+                date: "Nov 26, 2025",
+                audio: "https://audio4.redcircle.com/episodes/2254f3a9-bbc4-41ef-9ee8-1a107c1b9b6c/stream.mp3",
+                desc: "<p>By \'71, Nichols has already won the Best Director Oscar for The Graduate, and finally, May is here to prove her mettle as a filmmaker. We talk about our favorite moments in the film, and the state of comedy, then and now.</p>" },
+              { title: "The Conformist (1970)",
+                date: "Nov 19, 2025",
+                audio: "https://audio4.redcircle.com/episodes/cefe7bc2-29f1-461b-9741-b1028b144d54/stream.mp3",
+                desc: "<p>Bertolucci has us thinking about WWII and the effects wrought by loser fascists, and the generation that came after. We talk about his influences in Hollywood and the French New Wave, the legacy of this era of Italian cinema, and queer readings of the film.</p>" },
+              { title: "Bugonia (2025)",
+                date: "Nov 12, 2025",
+                audio: "https://audio4.redcircle.com/episodes/5994e4f4-d211-412c-a285-55cbf1eeea7d/stream.mp3",
+                desc: "<p>Does Yorgos Lanthimos strike a chord with his sci-fi class war extremity, or do these provocations ring hollow? Topics include: Emma Stone and Jesse Plemons, Stanley Kubrick and Rian Johnson, and the nature of meaning in the universe.</p>" },
+              { title: "Wanda (1970)",
+                date: "Oct 29, 2025",
+                audio: "https://audio4.redcircle.com/episodes/da1a7f86-5842-4821-b531-5c4704471d01/stream.mp3",
+                desc: "<p>Should we be wary, like Paul Schrader suggested, of the new canonizing of previously unsung films? To find the answer, we go deep on Loden\'s aesthetic choices, and the themes to be teased out of both the images and the narrative of this American ghost story.</p>" },
+              { title: "A Touch of Zen (1970)",
+                date: "Oct 15, 2025",
+                audio: "https://audio4.redcircle.com/episodes/5db761b0-4a5f-43e8-be1c-3e10d8f764f9/stream.mp3",
+                desc: "<p>We discuss King Hu\'s direct follow-up to Dragon Inn, a film that threatens to bend the genre beyond its breaking point, and we interrogate what works and what doesn\'t about one of the most ambitious Chinese films to date.</p>" },
+              { title: "One Battle After Another (2025)",
+                date: "Oct 5, 2025",
+                audio: "https://audio4.redcircle.com/episodes/3150e7ce-c747-47f1-a927-a7252be691e1/stream.mp3",
+                desc: "<p>Paul Thomas Anderson\'s new film starring Leonardo DiCaprio. We examine the role of film in politics, and what One Battle After Another has to say about idealism, political unrest, and America\'s #1 weirdo, Sean Penn.</p>" },
+              { title: "Funeral Parade of Roses (1969)",
+                date: "Oct 1, 2025",
+                audio: "https://audio4.redcircle.com/episodes/a8c8186e-ce73-4316-bd70-a4259413f6ca/stream.mp3",
+                desc: "<p>Do yourself a favor, and watch this Toshio Matsumoto film. It stars strikingly beautiful trans and queer actors, and captures a world in flux when a booming postwar Japan is seeing young people stand up and rebel against all of society\'s traditions.</p>" },
+              { title: "Easy Rider (1969)",
+                date: "Sep 24, 2025",
+                audio: "https://audio4.redcircle.com/episodes/8840f69a-6112-4484-8b9a-6c9287d31d9a/stream.mp3",
+                desc: "<p>Easy Rider is not just a hangout film. Dennis Hopper, Peter Fonda, and Jack Nicholson are out to explore why they\'ve hit the road and why this generation is so rebellious. Gorgeous photography and an innovative rock and roll soundtrack.</p>" },
+              { title: "Army of Shadows (1969)",
+                date: "Sep 17, 2025",
+                audio: "https://audio4.redcircle.com/episodes/0c24a91a-0f92-461e-8110-86a47b386f06/stream.mp3",
+                desc: "<p>Melville\'s look back at France\'s occupation during WWII. We examine how the genre filmmaker confronted the audience with impossible questions and avoided propagandistic pitfalls.</p><p>51:33 - Zach\'s top 5 albums from 1969</p>" },
+              { title: "Theorem (1968)",
+                date: "Sep 10, 2025",
+                audio: "https://audio4.redcircle.com/episodes/de8c472f-765a-40c3-8c22-cc22188a5716/stream.mp3",
+                desc: "<p>Pasolini\'s 1968 film: a boldly provocative work from a gay Catholic Marxist that never failed to speak his mind. A work that skirts many lines: comic and tragic, flippant and earnest, indulgent and austere.</p>" },
+              { title: "if... (1968)",
+                date: "Sep 3, 2025",
+                audio: "https://audio4.redcircle.com/episodes/be19334c-2868-402f-8ba7-46578255f5b3/stream.mp3",
+                desc: "<p>Lindsay Anderson\'s scandalous takedown of the British school system won the top prize at Cannes whilst being denounced by the UK\'s ambassador to France, and began the career of a young phenom, Malcolm McDowell.</p>" },
+              { title: "Playtime (1967)",
+                date: "Aug 27, 2025",
+                audio: "https://audio4.redcircle.com/episodes/142606c5-757f-4d20-9dd5-0cb057d0365d/stream.mp3",
+                desc: "<p>We discuss how Tati\'s pastoral nostalgia is rooted in a worldview that\'s less nationalistic and more radically inclusive, and how the film defies cinematic convention and forces you to watch it in a novel way.</p>" },
+              { title: "Once Upon a Time in the West (1968)",
+                date: "Aug 20, 2025",
+                audio: "https://audio4.redcircle.com/episodes/109edc12-0973-4fbf-a3ab-8b5315916c62/stream.mp3",
+                desc: "<p>We talk about Leone\'s Hollywood western — the meticulous production design, seeing Henry Fonda turn heel, and falling for the old gun-in-the-boot trick on a train.</p>" },
+              { title: "Belle de Jour (1967)",
+                date: "Aug 13, 2025",
+                audio: "https://audio4.redcircle.com/episodes/bfd1866e-2916-45fd-bb04-8b68530dd069/stream.mp3",
+                desc: "<p>We catch up with Buñuel in his late career team-up with Catherine Deneuve, in this fantastical exploration of taboo sexuality among the Paris elite. We talk about how the Venice Golden Lion winner toes the line between sexual liberation and exploitation.</p>" },
+              { title: "Wavelength (1967)",
+                date: "Aug 6, 2025",
+                audio: "https://audio4.redcircle.com/episodes/de7e3f18-c316-4dc2-9e2a-5edb37172b0d/stream.mp3",
+                desc: "<p>Zach and J Brooks gathered in a Chicago loft to watch Wavelength for the first time and record their immediate reactions. They discuss nuclear destruction, Jonas Mekas and Stan Brakhage, and the greater history of experimental film.</p>" },
+              { title: "In the Heat of the Night (1967)",
+                date: "Jul 30, 2025",
+                audio: "https://audio4.redcircle.com/episodes/some-episode-id/stream.mp3",
+                desc: "<p>We reflect on how the film has aged, how quickly the film landscape was changing with New Hollywood youngsters around the corner, and what it meant to bring together Quincy Jones, Ray Charles, Hal Ashby, and Haskell Wexler.</p>" },
+            ];
+
+
         document.addEventListener('DOMContentLoaded', () => {
-            // --- PLAYER ELEMENTS ---
-            const audio         = document.getElementById('audio-player');
-            const playBtn       = document.getElementById('play-btn');
-            const playIcon      = document.getElementById('play-icon');
-            const pauseIcon     = document.getElementById('pause-icon');
-            const progressFill  = document.getElementById('progress-fill');
-            const progressContainer = document.getElementById('progress-container');
-            const timeCurrent   = document.getElementById('time-current');
-            const timeTotal     = document.getElementById('time-total');
-            const episodeListEl = document.getElementById('episode-list');
-            const nowTitle      = document.getElementById('now-playing-title');
-            const nowDate       = document.getElementById('now-playing-date');
-            const nowDesc       = document.getElementById('now-playing-description');
-            const nowArt        = document.getElementById('now-playing-art');
-            const skipBack      = document.getElementById('skip-back');
-            const skipForward   = document.getElementById('skip-forward');
-            const loadMoreWrap  = document.getElementById('load-more-wrap');
-            const loadMoreBtn   = document.getElementById('load-more-btn');
 
-            // --- PAGE ELEMENTS ---
-            const suggestFilmBtn = document.getElementById('suggest-film-btn');
-            const filmSuggestionOutput = document.getElementById('film-suggestion-output');
-            const jBrooksSelect = document.getElementById('jbrooks-top-ten');
-            const zachSelect = document.getElementById('zach-top-ten');
-            const jBrooksOutput = document.getElementById('jbrooks-top-ten-output');
-            const zachOutput = document.getElementById('zach-top-ten-output');
-            const contactForm = document.getElementById('contact-form');
-            const thankYouMessage = document.getElementById('thank-you-message');
+            // ── Player state ──
+            const audio      = document.getElementById('audio');
+            const btnPlay    = document.getElementById('btn-play');
+            const iconPlay   = document.getElementById('icon-play');
+            const iconPause  = document.getElementById('icon-pause');
+            const btnBack    = document.getElementById('btn-back');
+            const btnFwd     = document.getElementById('btn-fwd');
+            const progFill   = document.getElementById('progress-fill');
+            const progTrack  = document.getElementById('progress-track');
+            const timeCur    = document.getElementById('time-cur');
+            const timeTot    = document.getElementById('time-tot');
+            const epList     = document.getElementById('ep-list');
+            const epTitle    = document.getElementById('ep-title');
+            const epDate     = document.getElementById('ep-date');
+            const epDesc     = document.getElementById('ep-description');
+            const epArt      = document.getElementById('ep-art');
+            const loadWrap   = document.getElementById('load-more-wrap');
+            const btnMore    = document.getElementById('btn-more');
 
-            // --- DATA ---
-            const rssUrl = "https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476";
-            let episodes = [];
+            const PAGE = 5;
+            let shown   = 0;
+            let current = -1;
+            let playing = false;
 
+            function fmt(s) {
+                if (isNaN(s)) return '0:00';
+                return Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0');
+            }
+
+            function setPlaying(state) {
+                playing = state;
+                iconPlay.classList.toggle('hidden', state);
+                iconPause.classList.toggle('hidden', !state);
+                epList.querySelectorAll('.ep-row').forEach(r => {
+                    const i = +r.dataset.i;
+                    r.classList.toggle('active', i === current);
+                    r.classList.toggle('paused', i === current && !playing);
+                });
+            }
+
+            function selectEpisode(i) {
+                const ep = episodes[i];
+                if (!ep) return;
+                current = i;
+                audio.src = ep.audio;
+                epTitle.textContent = ep.title;
+                epDate.textContent  = ep.date;
+                epDesc.innerHTML    = ep.desc;
+                epDesc.classList.remove('hidden');
+                epDesc.scrollTop = 0;
+                audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+            }
+
+            function buildRow(i) {
+                const ep  = episodes[i];
+                const row = document.createElement('div');
+                row.className = 'ep-row' + (i === current ? ' active' : '');
+                row.dataset.i = i;
+                row.innerHTML = `
+                    <img class="ep-row-art" src="${SHOW_ART}" alt="">
+                    <span class="ep-row-title">${ep.title}</span>
+                    <div class="ep-bars" aria-hidden="true">
+                        <div class="ep-bar" style="height:6px"></div>
+                        <div class="ep-bar" style="height:10px"></div>
+                        <div class="ep-bar" style="height:7px"></div>
+                    </div>
+                    <span class="ep-row-date">${ep.date}</span>`;
+                row.addEventListener('click', () => selectEpisode(i));
+                return row;
+            }
+
+            function showMore(n) {
+                const end = Math.min(shown + n, episodes.length);
+                for (let i = shown; i < end; i++) epList.appendChild(buildRow(i));
+                shown = end;
+                loadWrap.classList.toggle('hidden', shown >= episodes.length);
+            }
+
+            // Init: show first episode row
+            showMore(1);
+
+            // Player controls
+            btnPlay.addEventListener('click', () => {
+                if (!audio.src) { selectEpisode(0); return; }
+                if (audio.paused) { audio.play().then(() => setPlaying(true)); }
+                else { audio.pause(); setPlaying(false); }
+            });
+            btnBack.addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 15); });
+            btnFwd.addEventListener('click',  () => { audio.currentTime += 15; });
+            btnMore.addEventListener('click', () => showMore(PAGE));
+
+            audio.addEventListener('timeupdate', () => {
+                const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+                progFill.style.width = pct + '%';
+                timeCur.textContent  = fmt(audio.currentTime);
+                timeTot.textContent  = fmt(audio.duration);
+            });
+            audio.addEventListener('ended', () => setPlaying(false));
+            progTrack.addEventListener('click', e => {
+                if (!audio.duration) return;
+                const r = progTrack.getBoundingClientRect();
+                audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+            });
+
+            // ── Background RSS refresh ──
+            // Silently try to fetch fresh episodes; if it works, prepend any new ones.
+            (async () => {
+                try {
+                    const r = await fetch(
+                        'https://api.allorigins.win/raw?url=' +
+                        encodeURIComponent('https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476'),
+                        { signal: AbortSignal.timeout(8000) }
+                    );
+                    if (!r.ok) return;
+                    const xml = await r.text();
+                    if (!xml.includes('<rss')) return;
+                    const doc   = new DOMParser().parseFromString(xml, 'text/xml');
+                    const items = doc.querySelectorAll('item');
+                    const fresh = Array.from(items).map(it => ({
+                        title: it.querySelector('title')?.textContent || '',
+                        date:  (() => { try { return new Date(it.querySelector('pubDate')?.textContent).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); } catch(e){ return ''; } })(),
+                        audio: it.querySelector('enclosure')?.getAttribute('url') || '',
+                        desc:  it.querySelector('description')?.textContent || '',
+                    })).filter(e => e.audio);
+
+                    if (!fresh.length) return;
+                    // Check if there are new episodes not yet in our hardcoded list
+                    const knownAudios = new Set(episodes.map(e => e.audio));
+                    const newEps = fresh.filter(e => !knownAudios.has(e.audio));
+                    if (newEps.length) {
+                        episodes = [...newEps, ...episodes];
+                        // Rebuild the visible rows
+                        epList.innerHTML = '';
+                        const prevShown = shown;
+                        shown = 0;
+                        showMore(prevShown);
+                    }
+                } catch(e) { /* silent fail — hardcoded data is fine */ }
+            })();
+
+            // ── Film list ──
             // Full Film List
             const filmList = [
                 { title: "Intolerance: Love's Struggle Throughout the Ages (1916)", jyoung_review: "https://letterboxd.com/jyoun/film/intolerance-loves-struggle-throughout-the-ages/", zach_review: "https://letterboxd.com/hetchy/film/intolerance-loves-struggle-throughout-the-ages/" }, 
@@ -680,357 +677,73 @@
             const jBrooksTopTen = ["Sherlock Jr. (1924)", "Sunrise: A Song of Two Humans (1927)", "The Passion of Joan of Arc (1928)", "Mädchen in Uniform (1931)", "Zero for Conduct (1933)", "Rome, Open City (1945)", "Bicycle Thieves (1948)", "Late Spring (1949)", "Stalker (1979)", "Do the Right Thing (1989)"];
             const zachTopTen = ["The Last Laugh (1924)", "Mädchen in Uniform (1931)", "L'Atalante (1934)", "The Rules of the Game (1939)", "Pather Panchali (1955)", "The 400 Blows (1959)", "2001: A Space Odyssey (1968)", "Stalker (1979)", "Satantango (1994)", "Yi Yi (2000)"];
 
-            const FALLBACK_ART = "https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/fe/61/51/fe6151f8-71d3-b66f-84bc-cc4c53f9c2ff/mza_10776018584880113368.jpg/600x600bb.webp";
+            const suggestFilmBtn = document.getElementById('suggest-film-btn');
+            const filmSuggestionOutput = document.getElementById('film-suggestion-output');
+            const jBrooksSelect = document.getElementById('jbrooks-top-ten');
+            const zachSelect    = document.getElementById('zach-top-ten');
+            const jBrooksOutput = document.getElementById('jbrooks-top-ten-output');
+            const zachOutput    = document.getElementById('zach-top-ten-output');
+            const contactForm   = document.getElementById('contact-form');
+            const thankYouMsg   = document.getElementById('thank-you-message');
 
-            // --- FETCH: race all methods in parallel, first valid response wins ---
-
-            function parseEpisodesFromXml(xmlText) {
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-                const items = xmlDoc.querySelectorAll("item");
-                const showArt = xmlDoc.getElementsByTagName("itunes:image")[0]?.getAttribute("href") ||
-                                xmlDoc.querySelector("channel > image > url")?.textContent ||
-                                FALLBACK_ART;
-                return Array.from(items).map(item => ({
-                    title:       item.querySelector("title")?.textContent,
-                    pubDate:     item.querySelector("pubDate")?.textContent,
-                    description: item.querySelector("description")?.textContent,
-                    link:        item.querySelector("enclosure")?.getAttribute("url"),
-                    thumbnail:   item.getElementsByTagName("itunes:image")[0]?.getAttribute("href") || showArt,
-                }));
-            }
-
-            function parseEpisodesFromRss2json(data) {
-                const showArt = data.feed?.image || FALLBACK_ART;
-                return data.items.map(item => ({
-                    title:       item.title,
-                    pubDate:     item.pubDate,
-                    description: item.description || item.content || "",
-                    link:        item.enclosure?.link || item.link,
-                    thumbnail:   item.itunes_image || item.thumbnail || showArt,
-                }));
-            }
-
-            async function timedFetch(url, ms = 8000) {
-                const ctrl = new AbortController();
-                const t = setTimeout(() => ctrl.abort(), ms);
-                try {
-                    const r = await fetch(url, { signal: ctrl.signal });
-                    clearTimeout(t);
-                    return r;
-                } catch(e) { clearTimeout(t); throw e; }
-            }
-
-            // Each attempt returns a parsed episodes array or throws
-            async function attemptRss2json(feedUrl) {
-                const r = await timedFetch(
-                    `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}&count=50`
-                );
-                if (!r.ok) throw new Error(`rss2json ${r.status}`);
-                const d = await r.json();
-                if (d.status !== "ok" || !d.items?.length) throw new Error("rss2json empty");
-                const eps = parseEpisodesFromRss2json(d);
-                if (!eps.length) throw new Error("rss2json parsed 0");
-                return eps;
-            }
-
-            async function attemptProxy(buildUrl, feedUrl) {
-                const url = buildUrl(feedUrl);
-                const r   = await timedFetch(url);
-                if (!r.ok) throw new Error(`proxy ${r.status}`);
-                // allorigins /get returns JSON wrapper; /raw returns text directly
-                const text = url.includes("/get?url=") ? (await r.json()).contents : await r.text();
-                if (!text?.includes("<rss")) throw new Error("proxy: not RSS");
-                const eps = parseEpisodesFromXml(text);
-                if (!eps.length) throw new Error("proxy: 0 episodes");
-                return eps;
-            }
-
-            async function fetchEpisodes() {
-                const feed = rssUrl;
-                const attempts = [
-                    // 1. rss2json JSON API
-                    attemptRss2json(feed),
-                    // 2. allorigins raw (no JSON wrapper, simplest)
-                    attemptProxy(u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`, feed),
-                    // 3. corsproxy.io
-                    attemptProxy(u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`, feed),
-                    // 4. allorigins get (JSON wrapper)
-                    attemptProxy(u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`, feed),
-                    // 5. thingproxy
-                    attemptProxy(u => `https://thingproxy.freeboard.io/fetch/${u}`, feed),
-                ];
-
-                try {
-                    episodes = await Promise.any(attempts);
-                    renderInitialEpisodes();
-                    loadEpisode(0, false);
-                } catch (err) {
-                    console.error("All fetch attempts failed:", err);
-                    showFeedError();
-                }
-            }
-
-            // ── Pagination state ──
-            const PAGE_SIZE = 5;
-            let visibleCount = 0;
-            let activeIndex = -1;
-            let isPlaying = false;
-
-            function showFeedError() {
-                nowTitle.innerText = "Couldn't load episodes.";
-                episodeListEl.innerHTML = `
-                    <div class="p-6 text-center text-gray-400 text-sm rounded-xl border border-[#2a2438] bg-[#1A1625]">
-                        <p class="mb-4">Feed temporarily unavailable.</p>
-                        <button onclick="window.retryFetchEpisodes()" class="btn-secondary" style="margin-top:0">Try again</button>
-                    </div>`;
-                loadMoreWrap.classList.add('hidden');
-            }
-
-            window.retryFetchEpisodes = () => {
-                nowTitle.innerText = "Loading episodes…";
-                episodeListEl.innerHTML = `
-                    <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/4"></div><div class="skeleton h-2 w-1/3"></div></div></div>
-                    <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-2/3"></div><div class="skeleton h-2 w-1/4"></div></div></div>
-                    <div class="ep-card-skeleton"><div class="skeleton w-12 h-12 rounded-lg flex-shrink-0"></div><div class="flex-grow space-y-2"><div class="skeleton h-3 w-3/4"></div><div class="skeleton h-2 w-1/3"></div></div></div>`;
-                fetchEpisodes();
-            };
-
-            // Render one episode card and append it to the list
-            function renderEpisodeCard(idx) {
-                const ep = episodes[idx];
-                const card = document.createElement('div');
-                card.className = 'ep-card' + (idx === activeIndex ? ' active' : '') + (!isPlaying && idx === activeIndex ? ' paused' : '');
-                card.dataset.idx = idx;
-                card.innerHTML = `
-                    <span class="ep-num">${idx + 1}</span>
-                    <img class="ep-art" src="${ep.thumbnail}" alt="" onerror="this.src='${FALLBACK_ART}'">
-                    <span class="ep-title">${ep.title}</span>
-                    <div class="ep-playing-indicator" aria-hidden="true">
-                        <div class="ep-bar" style="height:6px"></div>
-                        <div class="ep-bar" style="height:10px"></div>
-                        <div class="ep-bar" style="height:7px"></div>
-                    </div>
-                    <span class="ep-date">${new Date(ep.pubDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
-                `;
-                card.addEventListener('click', () => loadEpisode(idx, true));
-                return card;
-            }
-
-            function renderInitialEpisodes() {
-                episodeListEl.innerHTML = '';
-                visibleCount = 0;
-                appendEpisodes(1);
-            }
-
-            function appendEpisodes(count) {
-                const end = Math.min(visibleCount + count, episodes.length);
-                for (let i = visibleCount; i < end; i++) {
-                    episodeListEl.appendChild(renderEpisodeCard(i));
-                }
-                visibleCount = end;
-                loadMoreWrap.classList.toggle('hidden', visibleCount >= episodes.length);
-            }
-
-            function updateCardStates() {
-                episodeListEl.querySelectorAll('.ep-card').forEach(card => {
-                    const i = parseInt(card.dataset.idx);
-                    card.classList.toggle('active', i === activeIndex);
-                    card.classList.toggle('paused', i === activeIndex && !isPlaying);
-                });
-            }
-
-            window.loadEpisode = (index, autoplay) => {
-                const ep = episodes[index];
-                if (!ep) return;
-
-                activeIndex = index;
-                audio.src = ep.link;
-
-                nowTitle.innerText   = ep.title;
-                nowDate.innerText    = new Date(ep.pubDate).toLocaleDateString('en-US', {weekday:'short', year:'numeric', month:'long', day:'numeric'});
-                nowDesc.innerHTML    = ep.description || '';
-                nowDesc.scrollTop    = 0;
-                nowDesc.classList.remove('hidden');
-
-                updateCardStates();
-
-                if (autoplay) {
-                    audio.play();
-                    isPlaying = true;
-                    playIcon.classList.add('hidden');
-                    pauseIcon.classList.remove('hidden');
-                    updateCardStates();
-                }
-            };
-
-            function togglePlay() {
-                if (!audio.src) return;
-                if (audio.paused) {
-                    audio.play();
-                    isPlaying = true;
-                    playIcon.classList.add('hidden');
-                    pauseIcon.classList.remove('hidden');
-                } else {
-                    audio.pause();
-                    isPlaying = false;
-                    playIcon.classList.remove('hidden');
-                    pauseIcon.classList.add('hidden');
-                }
-                updateCardStates();
-            }
-
-            function formatTime(seconds) {
-                if (isNaN(seconds)) return '0:00';
-                const min = Math.floor(seconds / 60);
-                const sec = Math.floor(seconds % 60);
-                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-            }
-
-            playBtn.addEventListener('click', togglePlay);
-            skipBack.addEventListener('click',    () => { audio.currentTime -= 15; });
-            skipForward.addEventListener('click', () => { audio.currentTime += 15; });
-            loadMoreBtn.addEventListener('click', () => appendEpisodes(PAGE_SIZE));
-
-            audio.addEventListener('timeupdate', () => {
-                const pct = (audio.currentTime / audio.duration) * 100;
-                progressFill.style.width = `${isNaN(pct) ? 0 : pct}%`;
-                timeCurrent.innerText = formatTime(audio.currentTime);
-                timeTotal.innerText   = formatTime(audio.duration);
+            const populateDropdown = (sel, titles) => titles.forEach(t => {
+                const o = document.createElement('option'); o.value = t; o.textContent = t; sel.appendChild(o);
             });
 
-            audio.addEventListener('ended', () => {
-                isPlaying = false;
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
-                updateCardStates();
-            });
-
-            progressContainer.addEventListener('click', (e) => {
-                const rect = progressContainer.getBoundingClientRect();
-                const pos  = (e.clientX - rect.left) / rect.width;
-                audio.currentTime = pos * audio.duration;
-            });
-
-            // --- FILM SUGGESTION & DROPDOWN FUNCTIONS ---
-            const populateDropdown = (selectElement, filmTitles) => {
-                filmTitles.forEach(title => {
-                    const option = document.createElement('option');
-                    option.value = title;
-                    option.textContent = title;
-                    selectElement.appendChild(option);
-                });
-            };
-
-            const displayFilm = (filmTitle, outputElement) => {
+            const displayFilm = (filmTitle, outputEl) => {
                 const film = filmList.find(f => f.title === filmTitle);
-                if (!film) {
-                    outputElement.innerHTML = `<p class="text-gray-400">Details not found for this film.</p>`;
-                    return;
-                }
+                if (!film) { outputEl.innerHTML = '<p class="text-gray-400">Details not found.</p>'; return; }
                 const searchUrl = `https://www.google.com/search?q=where+to+watch+${encodeURIComponent(film.title)}`;
-                let outputHTML = `<p class="text-lg font-bold text-center mb-4">${film.title}</p>`;
+                let html = `<p class="text-lg font-bold text-center mb-4">${film.title}</p>`;
                 if (film.thought && film.attribution) {
-                    outputHTML += `
-                        <blockquote class="text-gray-400 italic my-4 max-w-prose mx-auto">
-                            <p class="text-center">"${film.thought}"</p>
-                            <footer class="text-right not-italic text-sm mt-2 pr-4">${film.attribution}</footer>
-                        </blockquote>
-                    `;
+                    html += `<blockquote class="text-gray-400 italic my-4 max-w-prose mx-auto"><p class="text-center">"${film.thought}"</p><footer class="text-right not-italic text-sm mt-2 pr-4">${film.attribution}</footer></blockquote>`;
                 } else if (film.jyoung_review || film.zach_review) {
-                    outputHTML += `<div class="flex flex-wrap justify-center gap-4 mb-4 text-sm">`;
-                    if (film.jyoung_review) outputHTML += `<a href="${film.jyoung_review}" target="_blank" class="accent-link">J Brooks' review</a>`;
-                    if (film.jyoung_review && film.zach_review) outputHTML += `<span class="text-gray-600">|</span>`;
-                    if (film.zach_review) outputHTML += `<a href="${film.zach_review}" target="_blank" class="accent-link">Zach's review</a>`;
-                    outputHTML += `</div>`;
+                    html += '<div class="flex flex-wrap justify-center gap-4 mb-4 text-sm">';
+                    if (film.jyoung_review) html += `<a href="${film.jyoung_review}" target="_blank" class="accent-link">J Brooks' review</a>`;
+                    if (film.jyoung_review && film.zach_review) html += '<span class="text-gray-600">|</span>';
+                    if (film.zach_review) html += `<a href="${film.zach_review}" target="_blank" class="accent-link">Zach's review</a>`;
+                    html += '</div>';
                 }
-                outputHTML += `<div class="text-center"><a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Where to watch</a></div>`;
-                outputElement.innerHTML = outputHTML;
+                html += `<div class="text-center"><a href="${searchUrl}" target="_blank" class="btn-secondary">Where to watch</a></div>`;
+                outputEl.innerHTML = html;
             };
 
-            const fetchAndDisplayLetterboxdFeed = async (rssUrl, containerId) => {
-                const feedContainer = document.getElementById(containerId);
-                if (!feedContainer) return;
-                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+            const fetchLetterboxd = async (rssUrl, containerId) => {
+                const el = document.getElementById(containerId);
+                if (!el) return;
                 try {
-                    const response = await fetch(apiUrl);
-                    const data = await response.json();
-                    if (data.status === 'ok' && data.items && data.items.length > 0) {
-                        const latestItems = data.items.slice(0, 3);
-                        let feedHtml = '<h4 class="text-base font-bold text-gray-50 mb-3">Latest Reviews</h4>';
-                        latestItems.forEach(item => {
-                            feedHtml += `<div class="mb-2"><a href="${item.link}" target="_blank" rel="noopener noreferrer" class="accent-link">${item.title}</a></div>`;
-                        });
-                        feedContainer.innerHTML = feedHtml;
-                    } else {
-                        feedContainer.innerHTML = '<p class="text-gray-400 text-xs">Could not load recent reviews.</p>';
-                    }
-                } catch (error) {
-                    feedContainer.innerHTML = '<p class="text-gray-400 text-xs">Error loading recent reviews.</p>';
-                }
+                    const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+                    const d = await r.json();
+                    if (d.status === 'ok' && d.items?.length) {
+                        let html = '<h4 class="text-base font-bold text-gray-50 mb-3">Latest Reviews</h4>';
+                        d.items.slice(0,3).forEach(item => { html += `<div class="mb-2"><a href="${item.link}" target="_blank" class="accent-link">${item.title}</a></div>`; });
+                        el.innerHTML = html;
+                    } else { el.innerHTML = '<p class="text-gray-400 text-xs">Could not load recent reviews.</p>'; }
+                } catch(e) { el.innerHTML = '<p class="text-gray-400 text-xs">Error loading recent reviews.</p>'; }
             };
 
             suggestFilmBtn.addEventListener('click', () => {
-                const randomIndex = Math.floor(Math.random() * filmList.length);
-                displayFilm(filmList[randomIndex].title, filmSuggestionOutput);
-                jBrooksSelect.value = "";
-                zachSelect.value = "";
-                jBrooksOutput.innerHTML = "";
-                zachOutput.innerHTML = "";
+                displayFilm(filmList[Math.floor(Math.random()*filmList.length)].title, filmSuggestionOutput);
+                jBrooksSelect.value = ''; zachSelect.value = '';
+                jBrooksOutput.innerHTML = ''; zachOutput.innerHTML = '';
             });
+            jBrooksSelect.addEventListener('change', e => { if (e.target.value) { displayFilm(e.target.value, jBrooksOutput); zachSelect.value=''; zachOutput.innerHTML=''; } else { jBrooksOutput.innerHTML=''; } });
+            zachSelect.addEventListener('change',    e => { if (e.target.value) { displayFilm(e.target.value, zachOutput); jBrooksSelect.value=''; jBrooksOutput.innerHTML=''; } else { zachOutput.innerHTML=''; } });
 
-            jBrooksSelect.addEventListener('change', (e) => {
-                if (e.target.value) {
-                    displayFilm(e.target.value, jBrooksOutput);
-                    zachSelect.value = "";
-                    zachOutput.innerHTML = "";
-                } else {
-                    jBrooksOutput.innerHTML = "";
-                }
-            });
-
-            zachSelect.addEventListener('change', (e) => {
-                if (e.target.value) {
-                    displayFilm(e.target.value, zachOutput);
-                    jBrooksSelect.value = "";
-                    jBrooksOutput.innerHTML = "";
-                } else {
-                    zachOutput.innerHTML = "";
-                }
-            });
-
-            contactForm.addEventListener('submit', async function(e) {
+            contactForm.addEventListener('submit', async e => {
                 e.preventDefault();
-                const form = e.target;
-                const data = new FormData(form);
                 try {
-                    const response = await fetch(form.action, {
-                        method: form.method,
-                        body: data,
-                        headers: { 'Accept': 'application/json' }
-                    });
-                    if (response.ok) {
-                        contactForm.style.display = 'none';
-                        thankYouMessage.innerHTML = `<p>Thank you for getting in touch! We might answer your question on the pod so be sure to tune in!</p>`;
-                        thankYouMessage.classList.remove('hidden');
-                    } else {
-                        thankYouMessage.innerHTML = `<p class="text-red-400">Oops! There was a problem submitting your form.</p>`;
-                        thankYouMessage.classList.remove('hidden');
-                    }
-                } catch (error) {
-                    thankYouMessage.innerHTML = `<p class="text-red-400">Oops! There was a problem submitting your form.</p>`;
-                    thankYouMessage.classList.remove('hidden');
-                }
+                    const res = await fetch(e.target.action, { method: 'POST', body: new FormData(e.target), headers: { Accept: 'application/json' } });
+                    if (res.ok) { contactForm.style.display='none'; thankYouMsg.innerHTML='<p>Thank you for getting in touch! We might answer your question on the pod so be sure to tune in!</p>'; thankYouMsg.classList.remove('hidden'); }
+                    else { thankYouMsg.innerHTML='<p class="text-red-400">Oops! There was a problem submitting your form.</p>'; thankYouMsg.classList.remove('hidden'); }
+                } catch(e) { thankYouMsg.innerHTML='<p class="text-red-400">Oops! There was a problem submitting your form.</p>'; thankYouMsg.classList.remove('hidden'); }
             });
 
-            // --- INITIALIZATION ---
             populateDropdown(jBrooksSelect, jBrooksTopTen);
             populateDropdown(zachSelect, zachTopTen);
-            fetchAndDisplayLetterboxdFeed('https://letterboxd.com/jyoun/rss/', 'jbrooks-rss-feed');
-            fetchAndDisplayLetterboxdFeed('https://letterboxd.com/hetchy/rss/', 'zach-rss-feed');
-            fetchEpisodes();
+            fetchLetterboxd('https://letterboxd.com/jyoun/rss/', 'jbrooks-rss-feed');
+            fetchLetterboxd('https://letterboxd.com/hetchy/rss/', 'zach-rss-feed');
         });
-    </script>
-
+</script>
 </body>
 </html>
