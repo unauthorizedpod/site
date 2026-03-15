@@ -301,7 +301,8 @@
                             <button id="skip-forward" title="Forward 15s" class="text-gray-500 hover:text-white transition-colors">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
                             </button>
-                        
+                            <!-- skip labels -->
+                            <span class="text-xs text-gray-600 select-none hidden sm:inline">−15s / +15s</span>
                         </div>
 
                         <!-- Progress -->
@@ -429,7 +430,7 @@
             <button type="submit" class="btn-primary mt-4 py-2 px-6 rounded-full font-bold">Send</button>
         </form>
         <div id="thank-you-message" class="hidden text-center mt-4 text-green-400"></div>
-        <p class="text-gray-600 text-sm mt-10">&copy; 2026 Some Like It Unauthorized. All rights reserved.</p>
+        <p class="text-gray-600 text-sm mt-10">&copy; 2025 Some Like It Unauthorized. All rights reserved.</p>
     </footer>
 
     <script>
@@ -822,7 +823,7 @@
             function renderInitialEpisodes() {
                 episodeListEl.innerHTML = '';
                 visibleCount = 0;
-                appendEpisodes(PAGE_SIZE);
+                appendEpisodes(1);
             }
 
             function appendEpisodes(count) {
