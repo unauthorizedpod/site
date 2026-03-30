@@ -13,6 +13,8 @@
             font-family: 'Inter', sans-serif;
         }
         .hero-bg {
+            /* Fallback color if the image fails to load */
+            background-color: #0f172a;
             background-image: url("http://googleusercontent.com/file_content/0");
             background-size: cover;
             background-position: center;
@@ -26,59 +28,105 @@
             background: #000;
             border-radius: 0.75rem;
         }
-        .vimeo-wrapper iframe {
+        .vimeo-wrapper video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            object-fit: cover;
+        }
+        .screening-card {
+            transition: transform 0.2s ease-in-out;
+        }
+        .screening-card:hover {
+            transform: translateY(-4px);
         }
     </style>
 </head>
-<body class="bg-slate-900 text-white">
+<body class="bg-slate-900 text-white selection:bg-cyan-500 selection:text-white">
 
     <!-- Hero Section with Integrated Trailer -->
-    <header class="hero-bg relative min-h-screen flex flex-col items-center justify-center text-center shadow-2xl p-4 sm:p-6 md:p-8">
-        <div class="absolute inset-0 bg-black/70"></div>
+    <header class="hero-bg relative min-h-[80vh] flex flex-col items-center justify-center text-center shadow-2xl p-4 sm:p-6 md:p-8">
+        <div class="absolute inset-0 bg-black/75"></div>
         <div class="relative z-10 w-full max-w-4xl">
-         
-            
-            <!-- Trailer Embed -->
-            <div class="vimeo-wrapper shadow-2xl mx-auto">
-                <iframe src="https://player.vimeo.com/video/1104734592?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Frank’s Not Here [Trailer]"></iframe>
+            <h1 class="text-4xl md:text-6xl font-black mb-8 tracking-tighter uppercase italic">Frank's Not Here</h1>
+            <!-- Video Embed -->
+            <div class="vimeo-wrapper shadow-2xl mx-auto border border-white/10">
+                <video controls crossorigin="anonymous" poster="http://googleusercontent.com/file_content/0">
+                    <source src="http://googleusercontent.com/file_content/1" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-24 space-y-20">
+    <main class="container mx-auto px-6 py-16 md:py-24 space-y-24">
 
-        <!-- FilmFreeway & Details Section -->
-        <section id="about" class="max-w-2xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-cyan-300">About the Film</h2>
-            <a href="https://www.imdb.com/title/tt37738313/" target="_blank" rel="noopener noreferrer" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-8 rounded-lg text-lg transition-colors mb-10 shadow-lg">
-                View on IMDB
-            </a>
-            <br>
-            <a href="https://letterboxd.com/film/franks-not-here/" target="_blank" rel="noopener noreferrer" class="inline-block bg-black hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors mb-10 shadow-lg">
-                View on Letterboxd
-            </a>
-            <div class="bg-slate-800 p-6 rounded-lg shadow-lg text-left max-w-sm mx-auto">
-                <h3 class="text-xl font-bold mb-4 text-cyan-400">Details</h3>
-                <ul class="space-y-3 text-slate-300">
-                    <li><strong>Director:</strong> Zach Domes</li>
-                    <li><strong>Starring:</strong> J Brooks Young</li>
-                    <li><strong>Genre:</strong> Short Film / Mystery</li>
-                    <li><strong>Status:</strong> On the festival circuit</li>
-                </ul>
+        <!-- Screenings Section -->
+        <section id="screenings" class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-10 text-cyan-300">Upcoming Screenings</h2>
+            
+            <div class="space-y-6">
+                <!-- Neumann Inspires Entry -->
+                <div class="screening-card bg-slate-800/50 border border-cyan-500/30 p-8 rounded-2xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-left">
+                    <div>
+                        <div class="text-cyan-400 font-bold uppercase tracking-widest text-sm mb-1">April 18, 2024</div>
+                        <h3 class="text-2xl font-black mb-2">Neumann Inspires Film Festival</h3>
+                        <p class="text-slate-400">Neumann University — Aston, PA</p>
+                    </div>
+                    <a href="https://www.neumann.edu/filmfest/agenda" target="_blank" rel="noopener noreferrer" class="whitespace-nowrap bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold py-3 px-8 rounded-full transition-all flex items-center gap-2">
+                        View Agenda
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                </div>
+
+                <!-- Fallback/Info Alert -->
+                <div class="bg-slate-800/30 border border-slate-700 text-slate-400 px-6 py-4 rounded-xl text-sm italic">
+                    <p>More dates to be announced as the festival circuit continues. Stay tuned.</p>
+                </div>
             </div>
         </section>
 
-        <!-- Status Section -->
-        <section id="screenings" class="text-center max-w-2xl mx-auto">
-             <h2 class="text-3xl md:text-4xl font-bold mb-4 text-cyan-300">Screenings</h2>
-             <div class="bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 px-4 py-3 rounded-lg" role="alert">
-                <p class="font-bold">Coming Soon!</p>
-                <p class="text-sm">"Frank's Not Here" is currently being submitted to film festivals worldwide. Check back soon for screening dates and locations.</p>
+        <!-- About & Details Section -->
+        <section id="about" class="max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold text-cyan-300">About the Film</h2>
+                    <p class="text-slate-300 leading-relaxed text-lg">
+                        "Frank's Not Here" is a haunting exploration of absence and the lingering echoes of a life once lived. Currently making its rounds in the international festival circuit.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="https://www.imdb.com/title/tt37738313/" target="_blank" rel="noopener noreferrer" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-lg transition-colors shadow-lg text-sm">
+                            IMDb
+                        </a>
+                        <a href="https://letterboxd.com/film/franks-not-here/" target="_blank" rel="noopener noreferrer" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg text-sm">
+                            Letterboxd
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 p-8 rounded-2xl shadow-inner border border-slate-700">
+                    <h3 class="text-xl font-bold mb-6 text-cyan-400 border-b border-cyan-400/20 pb-2 uppercase tracking-tighter">Production Details</h3>
+                    <ul class="space-y-4 text-slate-300">
+                        <li class="flex justify-between border-b border-slate-700/50 pb-2">
+                            <span class="font-bold">Director</span>
+                            <span class="text-slate-400">Zach Domes</span>
+                        </li>
+                        <li class="flex justify-between border-b border-slate-700/50 pb-2">
+                            <span class="font-bold">Starring</span>
+                            <span class="text-slate-400">J Brooks Young</span>
+                        </li>
+                        <li class="flex justify-between border-b border-slate-700/50 pb-2">
+                            <span class="font-bold">Genre</span>
+                            <span class="text-slate-400">Short Film</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="font-bold">Status</span>
+                            <span class="text-cyan-400 font-semibold italic">Festival Circuit</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
 
@@ -86,8 +134,8 @@
 
     <!-- Footer -->
     <footer class="bg-slate-950/50 border-t border-slate-800 mt-20">
-        <div class="container mx-auto px-6 py-8 text-center text-slate-400">
-            <p>&copy; <span id="year"></span> Frank's Not Here. All Rights Reserved.</p>
+        <div class="container mx-auto px-6 py-12 text-center">
+            <p class="text-slate-500 text-sm">&copy; <span id="year"></span> Frank's Not Here. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -98,4 +146,3 @@
 
 </body>
 </html>
-
