@@ -212,113 +212,10 @@
 
 <script>
 
-            // Episodes hardcoded from live RSS feed (2026-03-14).
-            // On load we silently try to refresh; if it works the list updates.
+            // Fetch episodes live from RSS feed
             const SHOW_ART = "https://media.redcircle.com/images/2025/4/21/19/0c0937c5-a5ba-4ae6-b4e9-eba816e30ff6_9023c4d2-7849-4430-86a6-4e6a595de50c.jpg";
 
-            let episodes = [
-              { title: "The Spirit of the Beehive (1973)",
-                date: "Mar 12, 2026",
-                audio: "https://audio4.redcircle.com/episodes/a9e97068-bcab-4b95-9c10-860e02e31605/stream.mp3",
-                desc: "<p>It\'s time to talk Víctor Erice. It\'s time to talk bees. On this episode, we examine this legendary Spanish film\'s reputation and the filmmakers that influenced \'70s dream cinema, and we consider what the Frankenstein and beehive metaphors have to say about social rigidity and childhood fluidity. In addition, we dive into some albums coming out in 1973.</p><p><br>2:20 - Spirit of the Beehive discussion<br>57:10 - Zach\'s 5 albums to check out from \'73</p>" },
-              { title: "The Godfather (1972)",
-                date: "Mar 5, 2026",
-                audio: "https://audio4.redcircle.com/episodes/df333f80-9958-49e5-aa4c-d8f250722cb7/stream.mp3",
-                desc: "<p>In this discussion, we share perspectives on toxic masculinity and the fandom of the franchise, the origins of the modern mob/crime drama and why this film took the world by storm in \'72, and what the story says about capitalism and American assimilation.</p>" },
-              { title: "An Oscar Nominations Reaction Show",
-                date: "Jan 22, 2026",
-                audio: "https://audio4.redcircle.com/episodes/0fb926e7-fec2-4717-87dc-f53693fbc0cf/stream.mp3",
-                desc: "<p>We react LIVE to the 2026 Oscar Nominations, giving you our honest, unauthorized opinions on all the nominated films and the shameful snubs.</p>" },
-              { title: "Top 10 Films of 2025! plus, a Movie Draft of Additions to Our History of Film List",
-                date: "Jan 15, 2026",
-                audio: "https://audio4.redcircle.com/episodes/8e54f7b1-51c4-4ca6-be31-cf280b054770/stream.mp3",
-                desc: "<p>Hosts Zach Domes and J Brooks Young reveal each of their Top Ten Films of 2025. Additionally, we revise our chronological watchlist of 485 films from cinema\'s history by selecting the final 15 films to round off the list at 500.</p><p>1:37 — Top Ten Countdown | 44:00 — Honorable Mentions | 55:55 — Movie Draft</p>" },
-              { title: "Marty Supreme (2025)",
-                date: "Jan 11, 2026",
-                audio: "https://audio4.redcircle.com/episodes/fe5f71e6-ddaa-40a3-ac45-819c4524bb8c/stream.mp3",
-                desc: "<p>The year ended not with a bang, but with the ping and the pong of Timmy Chalamet in Josh Safdie\'s new film. Topics include: the rise of the Safdie/Bronstein anxiety wave of films, the adoption of these films by the awards voters, and a segue into the 60s avant-garde.</p>" },
-              { title: "Sambizanga (1972)",
-                date: "Dec 24, 2025",
-                audio: "https://audio4.redcircle.com/episodes/5f6950b5-fc71-49c9-9971-fca6db596bd6/stream.mp3",
-                desc: "<p>Sarah Maldoror\'s first feature-length film began to be shown before Angolan independence was won. 50 years later, it made its first appearance on the Sight and Sound Top 250. We\'re excited to discuss how this boldly modern film took us by surprise on first watch.</p>" },
-              { title: "Aguirre, the Wrath of God (1972)",
-                date: "Dec 17, 2025",
-                audio: "https://audio4.redcircle.com/episodes/d4e34fa4-92fa-4a62-932e-b2c83b68046c/stream.mp3",
-                desc: "<p>We\'re joined by Werner Herzog to discuss his early career film imagining the search for El Dorado by the Spanish conquistadors, starring Klaus Kinski, and we explore post-colonial art, unexpected comedy, and the legacy of white dudes making their own epic jungle movies.</p>" },
-              { title: "Pink Flamingos (1972)",
-                date: "Dec 10, 2025",
-                audio: "https://audio4.redcircle.com/episodes/2a4c08b9-ffbf-48c9-b3c2-ee90c811d938/stream.mp3",
-                desc: "<p>We share our two differing reactions to seeing the film for the first time, go deep on the film\'s place in history, and celebrate that incredible cast headed by the one and only, Divine.</p><p>3:33 - Pink Flamingos discussion | 59:45 - Zach\'s 5 albums to check out from 1972</p>" },
-              { title: "The Last Picture Show (1971)",
-                date: "Dec 3, 2025",
-                audio: "https://audio4.redcircle.com/episodes/fc6e4339-7cc6-4082-b1e7-d8f849f6f5db/stream.mp3",
-                desc: "<p>We explore how the film depicts sex and growing up in small town USA, and talk about the Gen Z aversion to sex in films today. We also detail how Bogdanovich became a respected name in Hollywood while blowing up his marriage to creative partner Polly Platt.</p>" },
-              { title: "A New Leaf (1971)",
-                date: "Nov 26, 2025",
-                audio: "https://audio4.redcircle.com/episodes/2254f3a9-bbc4-41ef-9ee8-1a107c1b9b6c/stream.mp3",
-                desc: "<p>By \'71, Nichols has already won the Best Director Oscar for The Graduate, and finally, May is here to prove her mettle as a filmmaker. We talk about our favorite moments in the film, and the state of comedy, then and now.</p>" },
-              { title: "The Conformist (1970)",
-                date: "Nov 19, 2025",
-                audio: "https://audio4.redcircle.com/episodes/cefe7bc2-29f1-461b-9741-b1028b144d54/stream.mp3",
-                desc: "<p>Bertolucci has us thinking about WWII and the effects wrought by loser fascists, and the generation that came after. We talk about his influences in Hollywood and the French New Wave, the legacy of this era of Italian cinema, and queer readings of the film.</p>" },
-              { title: "Bugonia (2025)",
-                date: "Nov 12, 2025",
-                audio: "https://audio4.redcircle.com/episodes/5994e4f4-d211-412c-a285-55cbf1eeea7d/stream.mp3",
-                desc: "<p>Does Yorgos Lanthimos strike a chord with his sci-fi class war extremity, or do these provocations ring hollow? Topics include: Emma Stone and Jesse Plemons, Stanley Kubrick and Rian Johnson, and the nature of meaning in the universe.</p>" },
-              { title: "Wanda (1970)",
-                date: "Oct 29, 2025",
-                audio: "https://audio4.redcircle.com/episodes/da1a7f86-5842-4821-b531-5c4704471d01/stream.mp3",
-                desc: "<p>Should we be wary, like Paul Schrader suggested, of the new canonizing of previously unsung films? To find the answer, we go deep on Loden\'s aesthetic choices, and the themes to be teased out of both the images and the narrative of this American ghost story.</p>" },
-              { title: "A Touch of Zen (1970)",
-                date: "Oct 15, 2025",
-                audio: "https://audio4.redcircle.com/episodes/5db761b0-4a5f-43e8-be1c-3e10d8f764f9/stream.mp3",
-                desc: "<p>We discuss King Hu\'s direct follow-up to Dragon Inn, a film that threatens to bend the genre beyond its breaking point, and we interrogate what works and what doesn\'t about one of the most ambitious Chinese films to date.</p>" },
-              { title: "One Battle After Another (2025)",
-                date: "Oct 5, 2025",
-                audio: "https://audio4.redcircle.com/episodes/3150e7ce-c747-47f1-a927-a7252be691e1/stream.mp3",
-                desc: "<p>Paul Thomas Anderson\'s new film starring Leonardo DiCaprio. We examine the role of film in politics, and what One Battle After Another has to say about idealism, political unrest, and America\'s #1 weirdo, Sean Penn.</p>" },
-              { title: "Funeral Parade of Roses (1969)",
-                date: "Oct 1, 2025",
-                audio: "https://audio4.redcircle.com/episodes/a8c8186e-ce73-4316-bd70-a4259413f6ca/stream.mp3",
-                desc: "<p>Do yourself a favor, and watch this Toshio Matsumoto film. It stars strikingly beautiful trans and queer actors, and captures a world in flux when a booming postwar Japan is seeing young people stand up and rebel against all of society\'s traditions.</p>" },
-              { title: "Easy Rider (1969)",
-                date: "Sep 24, 2025",
-                audio: "https://audio4.redcircle.com/episodes/8840f69a-6112-4484-8b9a-6c9287d31d9a/stream.mp3",
-                desc: "<p>Easy Rider is not just a hangout film. Dennis Hopper, Peter Fonda, and Jack Nicholson are out to explore why they\'ve hit the road and why this generation is so rebellious. Gorgeous photography and an innovative rock and roll soundtrack.</p>" },
-              { title: "Army of Shadows (1969)",
-                date: "Sep 17, 2025",
-                audio: "https://audio4.redcircle.com/episodes/0c24a91a-0f92-461e-8110-86a47b386f06/stream.mp3",
-                desc: "<p>Melville\'s look back at France\'s occupation during WWII. We examine how the genre filmmaker confronted the audience with impossible questions and avoided propagandistic pitfalls.</p><p>51:33 - Zach\'s top 5 albums from 1969</p>" },
-              { title: "Theorem (1968)",
-                date: "Sep 10, 2025",
-                audio: "https://audio4.redcircle.com/episodes/de8c472f-765a-40c3-8c22-cc22188a5716/stream.mp3",
-                desc: "<p>Pasolini\'s 1968 film: a boldly provocative work from a gay Catholic Marxist that never failed to speak his mind. A work that skirts many lines: comic and tragic, flippant and earnest, indulgent and austere.</p>" },
-              { title: "if... (1968)",
-                date: "Sep 3, 2025",
-                audio: "https://audio4.redcircle.com/episodes/be19334c-2868-402f-8ba7-46578255f5b3/stream.mp3",
-                desc: "<p>Lindsay Anderson\'s scandalous takedown of the British school system won the top prize at Cannes whilst being denounced by the UK\'s ambassador to France, and began the career of a young phenom, Malcolm McDowell.</p>" },
-              { title: "Playtime (1967)",
-                date: "Aug 27, 2025",
-                audio: "https://audio4.redcircle.com/episodes/142606c5-757f-4d20-9dd5-0cb057d0365d/stream.mp3",
-                desc: "<p>We discuss how Tati\'s pastoral nostalgia is rooted in a worldview that\'s less nationalistic and more radically inclusive, and how the film defies cinematic convention and forces you to watch it in a novel way.</p>" },
-              { title: "Once Upon a Time in the West (1968)",
-                date: "Aug 20, 2025",
-                audio: "https://audio4.redcircle.com/episodes/109edc12-0973-4fbf-a3ab-8b5315916c62/stream.mp3",
-                desc: "<p>We talk about Leone\'s Hollywood western — the meticulous production design, seeing Henry Fonda turn heel, and falling for the old gun-in-the-boot trick on a train.</p>" },
-              { title: "Belle de Jour (1967)",
-                date: "Aug 13, 2025",
-                audio: "https://audio4.redcircle.com/episodes/bfd1866e-2916-45fd-bb04-8b68530dd069/stream.mp3",
-                desc: "<p>We catch up with Buñuel in his late career team-up with Catherine Deneuve, in this fantastical exploration of taboo sexuality among the Paris elite. We talk about how the Venice Golden Lion winner toes the line between sexual liberation and exploitation.</p>" },
-              { title: "Wavelength (1967)",
-                date: "Aug 6, 2025",
-                audio: "https://audio4.redcircle.com/episodes/de7e3f18-c316-4dc2-9e2a-5edb37172b0d/stream.mp3",
-                desc: "<p>Zach and J Brooks gathered in a Chicago loft to watch Wavelength for the first time and record their immediate reactions. They discuss nuclear destruction, Jonas Mekas and Stan Brakhage, and the greater history of experimental film.</p>" },
-              { title: "In the Heat of the Night (1967)",
-                date: "Jul 30, 2025",
-                audio: "https://audio4.redcircle.com/episodes/some-episode-id/stream.mp3",
-                desc: "<p>We reflect on how the film has aged, how quickly the film landscape was changing with New Hollywood youngsters around the corner, and what it meant to bring together Quincy Jones, Ray Charles, Hal Ashby, and Haskell Wexler.</p>" },
-            ];
-
+            let episodes = [];
 
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -400,8 +297,8 @@
                 loadWrap.classList.toggle('hidden', shown >= episodes.length);
             }
 
-            // Init: show first episode row
-            showMore(5);
+            // Init loading state
+            epList.innerHTML = '<p class="text-center text-gray-500 py-4">Loading episodes...</p>';
 
             // Player controls
             btnPlay.addEventListener('click', () => {
@@ -427,12 +324,11 @@
             });
 
             // ── RSS refresh ──
-            // Try multiple sources in parallel; first valid response replaces the
-            // hardcoded list entirely so new episodes always show up automatically.
-            // If every attempt fails the hardcoded fallback stays in place.
+            // Try multiple sources in parallel; first valid response populates the list.
             (async () => {
                 const RSS = 'https://feeds.redcircle.com/b37dde24-a08e-44e3-95fd-89910cb65476';
                 const proxies = [
+                    RSS, // Try direct fetch first
                     'https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS),
                     'https://corsproxy.io/?url=' + encodeURIComponent(RSS),
                     'https://api.allorigins.win/get?url=' + encodeURIComponent(RSS),
@@ -465,13 +361,13 @@
                     const fresh = await Promise.any(proxies.map(tryProxy));
                     // Replace episodes with the live feed data
                     episodes = fresh;
-                    // Rebuild visible rows, keeping same number shown (or 5 if fewer were shown)
-                    const prevShown = Math.max(shown, 5);
+                    // Build visible rows
                     epList.innerHTML = '';
                     shown = 0;
-                    showMore(prevShown);
-                    // If an episode was already playing, keep it playing uninterrupted
-                } catch(e) { /* all proxies failed — hardcoded fallback stays */ }
+                    showMore(5);
+                } catch(e) { 
+                    epList.innerHTML = '<p class="text-center text-red-400 py-4">Error loading episodes. Please try again later.</p>';
+                }
             })();
 
             // ── Film list ──
