@@ -19,10 +19,10 @@
             background-size: cover;
             background-position: center;
         }
-        /* Adjusted wrapper for YouTube iFrame */
+        /* Adjusted wrapper for Vimeo iFrame */
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            padding-bottom: 41.86%;
             height: 0;
             overflow: hidden;
             max-width: 100%;
@@ -35,18 +35,6 @@
             width: 100%;
             height: 100%;
             border: 0;
-        }
-        
-        /* Logo Styling */
-        .hetchy-logo {
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            text-transform: uppercase;
-        }
-        .hetchy-logo span {
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            opacity: 0.6;
         }
 
         /* Holographic Hover Effect */
@@ -104,30 +92,21 @@
 <body class="text-white selection:bg-white selection:text-black">
 
     <!-- Hero Section -->
-    <header class="hero-bg relative min-h-screen flex flex-col items-center justify-center text-center p-6 md:p-12">
+    <header class="hero-bg relative min-h-[85vh] flex flex-col items-center justify-center text-center p-6 md:p-12">
         <div class="relative z-10 w-full max-w-5xl">
-            <!-- Studio Logo -->
-            <h1 class="hetchy-logo text-6xl md:text-9xl mb-4 leading-none">
-                HETCHY<span>FILMS</span>
-            </h1>
-            
-            <p class="text-zinc-500 uppercase tracking-[0.3em] text-xs mb-16 font-semibold">Production Studio</p>
+            <!-- Logo Image - Scaled down slightly -->
+            <div class="mb-12">
+                <img 
+                    src="https://i.postimg.cc/fW30PvCn/hetchyfilmslogo-bw.png" 
+                    onerror="this.src='http://googleusercontent.com/file_content/2'"
+                    alt="Hetchy Films Logo" 
+                    class="w-32 md:w-52 mx-auto grayscale hover:grayscale-0 transition-all duration-700 pointer-events-none"
+                >
+            </div>
             
             <div class="max-w-4xl mx-auto">
-                <p class="text-sm font-bold tracking-[0.2em] uppercase text-zinc-400 mb-6 italic">Watch the Frank's Not Here trailer</p>
-                
                 <div class="video-container shadow-[0_0_50px_rgba(0,0,0,0.5)] border-thin grayscale hover:grayscale-0 transition-all duration-700">
-                    <!-- Updated YouTube Embed -->
-                    <iframe 
-                        width="560" 
-                        height="315" 
-                        src="https://www.youtube.com/embed/CfHHI1OIm60?si=pNsAQ9ere3i1yOe0" 
-                        title="YouTube video player" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        referrerpolicy="strict-origin-when-cross-origin" 
-                        allowfullscreen>
-                    </iframe>
+                    <iframe src="https://player.vimeo.com/video/1185194080?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Frank's Not Here — Trailer"></iframe>
                 </div>
             </div>
         </div>
@@ -143,10 +122,9 @@
             </div>
             
             <div class="space-y-4">
-                <!-- Neumann Inspires Entry -->
                 <div class="group border-thin p-8 flex flex-col md:flex-row items-center justify-between gap-8 hover:bg-zinc-900/50 transition-colors">
                     <div class="space-y-1">
-                        <div class="text-zinc-500 font-mono text-xs uppercase tracking-widest">April 18, 2024</div>
+                        <div class="text-zinc-500 font-mono text-xs uppercase tracking-widest">April 18, 2026</div>
                         <h3 class="text-2xl font-bold uppercase tracking-tight">Neumann Inspires Film Festival</h3>
                         <div class="flex items-center gap-2 text-cyan-400 text-sm font-bold italic mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -154,18 +132,17 @@
                         </div>
                     </div>
                     <a href="https://www.neumann.edu/filmfest/agenda" target="_blank" rel="noopener noreferrer" class="holo-btn px-8 py-3 text-xs font-black uppercase tracking-widest">
-                        Agenda
+                        Festival Info
                     </a>
                 </div>
 
-                <!-- Easthampton Entry -->
                 <div class="group border-thin p-8 flex flex-col md:flex-row items-center justify-between gap-8 hover:bg-zinc-900/50 transition-colors">
                     <div class="space-y-1">
-                        <div class="text-zinc-500 font-mono text-xs uppercase tracking-widest">May 2024</div>
+                        <div class="text-zinc-500 font-mono text-xs uppercase tracking-widest">April 25, 2026</div>
                         <h3 class="text-2xl font-bold uppercase tracking-tight">Easthampton Film Festival</h3>
-                        <p class="text-zinc-400 text-sm italic">Screening in the "First Timers" slot</p>
+                        <p class="text-zinc-400 text-sm italic font-bold">Official Selection</p>
                     </div>
-                    <a href="https://www.easthamptonfilmfestival.com/" target="_blank" rel="noopener noreferrer" class="holo-btn px-8 py-3 text-xs font-black uppercase tracking-widest">
+                    <a href="https://www.easthamptonfilmfestival.com/program/event-two-w7zrh-s4xbg-nypkl-6adp7-czme8" target="_blank" rel="noopener noreferrer" class="holo-btn px-8 py-3 text-xs font-black uppercase tracking-widest">
                         Festival Info
                     </a>
                 </div>
@@ -177,7 +154,7 @@
             <div class="md:col-span-7 space-y-8">
                 <h2 class="text-sm font-bold tracking-[0.2em] uppercase text-zinc-500 border-b border-white/10 pb-4 inline-block w-full">Synopsis</h2>
                 <p class="text-2xl font-light text-zinc-300 leading-relaxed italic">
-                    "Frank's Not Here" is a haunting exploration of absence and the lingering echoes of a life once lived. 
+                    A man drives to Chicago to meet Frank, who doesn’t answer his calls.
                 </p>
                 <div class="flex gap-4 pt-4">
                     <a href="https://www.imdb.com/title/tt37738313/" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-widest border border-zinc-700 px-6 py-2 hover:bg-white hover:text-black transition-all">IMDb</a>
@@ -197,8 +174,8 @@
                         <span>J Brooks Young</span>
                     </li>
                     <li class="flex justify-between border-b border-white/5 pb-2">
-                        <span class="text-zinc-500 uppercase">Genre</span>
-                        <span>Experimental Mystery</span>
+                        <span class="text-zinc-500 uppercase">Length</span>
+                        <span>12 min</span>
                     </li>
                     <li class="flex justify-between pb-2">
                         <span class="text-zinc-500 uppercase">Phase</span>
@@ -210,13 +187,13 @@
 
     </main>
 
-    <!-- Footer -->
     <footer class="border-t border-white/10 py-20">
         <div class="container mx-auto px-6 text-center">
             <p class="text-[10px] text-zinc-600 font-mono uppercase tracking-[0.4em]">&copy; <span id="year"></span> HETCHY FILMS — All Rights Reserved.</p>
         </div>
     </footer>
 
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
