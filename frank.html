@@ -3,144 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frank's Not Here - A Short Film</title>
+    <title>Stream — Hetchy Films</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #050505;
         }
         .hero-bg {
-            /* Fallback color if the image fails to load */
-            background-color: #0f172a;
-            background-image: url("http://googleusercontent.com/file_content/0");
-            background-size: cover;
-            background-position: center;
+            background-color: #000;
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(5,5,5,1));
         }
-        .vimeo-wrapper {
+        /* Adjusted wrapper for Vimeo iFrame */
+        .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            padding-bottom: 41.86%; /* Maintains 2.39:1 aspect ratio */
             height: 0;
             overflow: hidden;
             max-width: 100%;
             background: #000;
-            border-radius: 0.75rem;
         }
-        .vimeo-wrapper video {
+        .video-container iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            border: 0;
         }
-        .screening-card {
-            transition: transform 0.2s ease-in-out;
+
+        /* Holographic Hover Effect for Buttons */
+        .payment-btn {
+            position: relative;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
-        .screening-card:hover {
-            transform: translateY(-4px);
+        .payment-btn:hover {
+            background: #fff;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .border-thin {
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo-back {
+            filter: grayscale(1) brightness(0.8);
+            transition: all 0.5s ease;
+        }
+        .logo-back:hover {
+            filter: grayscale(0) brightness(1);
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="bg-slate-900 text-white selection:bg-cyan-500 selection:text-white">
+<body class="text-white selection:bg-white selection:text-black min-h-screen flex flex-col">
 
-    <!-- Hero Section with Integrated Trailer -->
-    <header class="hero-bg relative min-h-[80vh] flex flex-col items-center justify-center text-center shadow-2xl p-4 sm:p-6 md:p-8">
-        <div class="absolute inset-0 bg-black/75"></div>
-        <div class="relative z-10 w-full max-w-4xl">
-            <h1 class="text-4xl md:text-6xl font-black mb-8 tracking-tighter uppercase italic">Frank's Not Here</h1>
-            <!-- Video Embed -->
-            <div class="vimeo-wrapper shadow-2xl mx-auto border border-white/10">
-                <video controls crossorigin="anonymous" poster="http://googleusercontent.com/file_content/0">
-                    <source src="http://googleusercontent.com/file_content/1" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+    <!-- Header / Branding -->
+    <nav class="p-6 md:p-10 flex justify-center">
+        <span class="text-[10px] font-mono uppercase tracking-[0.5em] text-zinc-500">Now Streaming</span>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 max-w-6xl">
+        
+        <!-- Video Player Section -->
+        <div class="w-full mb-16">
+            <div class="video-container shadow-[0_0_100px_rgba(0,0,0,0.8)] border-thin">
+                <iframe src="https://player.vimeo.com/video/1185194080?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
+                        title="Frank's Not Here"></iframe>
+            </div>
+            <div class="mt-6 flex justify-between items-center text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
+                <span>Frank's Not Here (2025)</span>
+                <span>Directed by Zach Domes</span>
             </div>
         </div>
-    </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-24 space-y-24">
+        <!-- Support Section -->
+        <section class="max-w-2xl mx-auto text-center space-y-10 pb-24">
+            <div class="space-y-4">
+                <h2 class="text-xl md:text-2xl font-light text-zinc-300 italic">
+                    Although this short film is free to watch, the artist appreciates your support
+                </h2>
+                <div class="h-[1px] w-12 bg-zinc-800 mx-auto"></div>
+            </div>
 
-        <!-- Screenings Section -->
-        <section id="screenings" class="max-w-3xl mx-auto text-center">
-            <h2 class="text-3xl md:text-5xl font-bold mb-10 text-cyan-300">Upcoming Screenings</h2>
-            
-            <div class="space-y-6">
-                <!-- Neumann Inspires Entry -->
-                <div class="screening-card bg-slate-800/50 border border-cyan-500/30 p-8 rounded-2xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-left">
-                    <div>
-                        <div class="text-cyan-400 font-bold uppercase tracking-widest text-sm mb-1">April 18, 2024</div>
-                        <h3 class="text-2xl font-black mb-2">Neumann Inspires Film Festival</h3>
-                        <p class="text-slate-400">Neumann University — Aston, PA</p>
-                    </div>
-                    <a href="https://www.neumann.edu/filmfest/agenda" target="_blank" rel="noopener noreferrer" class="whitespace-nowrap bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold py-3 px-8 rounded-full transition-all flex items-center gap-2">
-                        View Agenda
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    </a>
-                </div>
+            <!-- Payment Icons -->
+            <div class="flex flex-wrap justify-center gap-4">
+                <!-- PayPal Placeholder -->
+                <a href="#" class="payment-btn flex items-center gap-3 px-8 py-4 rounded-sm">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.067 8.478c.492.415.716 1.01.625 1.763-.443 3.656-2.583 5.617-6.42 5.885l-.26.018h-.128c-.287 0-.533.208-.574.492l-.76 5.17a.541.541 0 01-.534.463h-3.48a.46.46 0 01-.453-.526l.162-1.096.657-4.48c.041-.283.287-.492.574-.492h.536l.186-.003c.532-.016 1.053-.06 1.558-.135.534-.078 1.045-.2 1.528-.363 1.343-.45 2.164-1.286 2.45-2.52.285-1.233-.062-2.316-1.046-3.238-.857-.803-2.112-1.223-3.73-1.25h-5.228c-.287 0-.533.21-.574.493L3.58 20.47a.541.541 0 01-.534.464H.54A.541.541 0 010 20.406l2.366-16.14C2.408 3.984 2.653 3.774 2.94 3.774H9.7c2.195 0 3.844.475 4.93 1.41.97.834 1.42 1.95 1.34 3.313-.037.604-.19 1.15-.455 1.63a5.52 5.52 0 01-1.393 1.64 6.83 6.83 0 011.83-.456c1.613-.198 2.98-.946 4.105-2.243z"/>
+                    </svg>
+                    <span class="text-xs font-black uppercase tracking-[0.2em]">PayPal</span>
+                </a>
 
-                <!-- Fallback/Info Alert -->
-                <div class="bg-slate-800/30 border border-slate-700 text-slate-400 px-6 py-4 rounded-xl text-sm italic">
-                    <p>More dates to be announced as the festival circuit continues. Stay tuned.</p>
-                </div>
+                <!-- Apple Pay Placeholder -->
+                <a href="#" class="payment-btn flex items-center gap-3 px-8 py-4 rounded-sm">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.05 20.28c-.96.95-2.03 2.11-3.24 2.11s-1.62-.77-3.13-.77c-1.5 0-1.97.74-3.11.77-1.14.03-2.14-1.02-3.1-2.08-1.96-2.16-3.44-6.11-1.44-9.51 1-1.69 2.76-2.75 4.67-2.78 1.44-.03 2.8 1 3.68 1 .88 0 2.53-1.26 4.23-1.08 1.69.17 3.01.88 3.86 2.05-3.32 1.99-2.78 6.13.06 7.3-.65 1.6-1.53 3.05-2.48 3.99zm-4.32-15.17c.75-.95 1.25-2.24 1.11-3.53-1.12.04-2.48.75-3.28 1.69-.72.83-1.35 2.16-1.18 3.41 1.25.1 2.52-.55 3.35-1.57z"/>
+                    </svg>
+                    <span class="text-xs font-black uppercase tracking-[0.2em]">Apple Pay</span>
+                </a>
             </div>
         </section>
-
-        <!-- About & Details Section -->
-        <section id="about" class="max-w-4xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-12 items-start">
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-bold text-cyan-300">About the Film</h2>
-                    <p class="text-slate-300 leading-relaxed text-lg">
-                        "Frank's Not Here" is a haunting exploration of absence and the lingering echoes of a life once lived. Currently making its rounds in the international festival circuit.
-                    </p>
-                    <div class="flex flex-wrap gap-4 pt-4">
-                        <a href="https://www.imdb.com/title/tt37738313/" target="_blank" rel="noopener noreferrer" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-lg transition-colors shadow-lg text-sm">
-                            IMDb
-                        </a>
-                        <a href="https://letterboxd.com/film/franks-not-here/" target="_blank" rel="noopener noreferrer" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg text-sm">
-                            Letterboxd
-                        </a>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800 p-8 rounded-2xl shadow-inner border border-slate-700">
-                    <h3 class="text-xl font-bold mb-6 text-cyan-400 border-b border-cyan-400/20 pb-2 uppercase tracking-tighter">Production Details</h3>
-                    <ul class="space-y-4 text-slate-300">
-                        <li class="flex justify-between border-b border-slate-700/50 pb-2">
-                            <span class="font-bold">Director</span>
-                            <span class="text-slate-400">Zach Domes</span>
-                        </li>
-                        <li class="flex justify-between border-b border-slate-700/50 pb-2">
-                            <span class="font-bold">Starring</span>
-                            <span class="text-slate-400">J Brooks Young</span>
-                        </li>
-                        <li class="flex justify-between border-b border-slate-700/50 pb-2">
-                            <span class="font-bold">Genre</span>
-                            <span class="text-slate-400">Short Film</span>
-                        </li>
-                        <li class="flex justify-between">
-                            <span class="font-bold">Status</span>
-                            <span class="text-cyan-400 font-semibold italic">Festival Circuit</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-950/50 border-t border-slate-800 mt-20">
-        <div class="container mx-auto px-6 py-12 text-center">
-            <p class="text-slate-500 text-sm">&copy; <span id="year"></span> Frank's Not Here. All Rights Reserved.</p>
+    <!-- Footer with Logo Link -->
+    <footer class="border-t border-white/5 py-16 mt-auto">
+        <div class="container mx-auto px-6 text-center space-y-8">
+            <a href="https://unauthorizedpod.com/hetchyfilms" class="inline-block group">
+                <img 
+                    src="https://i.postimg.cc/fW30PvCn/hetchyfilmslogo-bw.png" 
+                    alt="Hetchy Films" 
+                    class="logo-back w-32 mx-auto mb-4"
+                >
+                <div class="text-[10px] text-zinc-500 font-mono uppercase tracking-[0.3em] group-hover:text-white transition-colors">
+                    Back to Portfolio
+                </div>
+            </a>
+            
+            <div>
+                <p class="text-[9px] text-zinc-700 font-mono uppercase tracking-[0.4em]">&copy; <span id="year"></span> HETCHY FILMS — ALL RIGHTS RESERVED.</p>
+            </div>
         </div>
     </footer>
 
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
-        // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 
