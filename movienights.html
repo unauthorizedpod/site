@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Screening Room | Submissions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a; /* Deep black */
+        }
+        h1, h2, .serif {
+            font-family: 'Libre Baskerville', serif;
+        }
+        .gold-accent {
+            color: #C5A059; /* Classic gold */
+        }
+        .border-gold {
+            border-color: #C5A059;
+        }
+        #searchResults::-webkit-scrollbar {
+            width: 4px;
+        }
+        #searchResults::-webkit-scrollbar-track {
+            background: #111;
+        }
+        #searchResults::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+        .movie-card-hover {
+            transition: all 0.2s ease;
+        }
+        .movie-card-hover:hover {
+            transform: translateY(-2px);
+            background-color: #1f2937;
+        }
+        /* Custom styles for the horizontal selection scroller */
+        #selectedFilms::-webkit-scrollbar {
+            height: 6px;
+        }
+        #selectedFilms::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-gray-300 min-h-screen flex flex-col items-center">
+
+    <div class="w-full max-w-3xl mx-auto p-6 md:p-16 flex-grow">
+        
+        <header class="text-center mb-16 border-b border-gray-800 pb-12">
+            <div class="flex items-center justify-center gap-6 mb-6">
+                <i class="fas fa-film gold-accent text-2xl opacity-50"></i>
+                <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight italic">Movie Nights</h1>
+                <i class="fas fa-film gold-accent text-2xl opacity-50"></i>
+            </div>
+            <div class="space-y-2">
+                <p class="text-lg text-gray-400 serif italic">Search for and submit films below</p>
+                <p class="text-[10px] text-gray-600 uppercase tracking-[0.2em] font-semibold text-balance">Each selection is limited to 10,<br>but you can submit as often as you'd like.</p>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div id="main-content" class="space-y-12">
+            
+            <div id="form-container" class="space-y-10">
+                <!-- Search Section -->
+                <div class="relative">
+                    <label class="block text-[11px] uppercase tracking-widest text-gray-500 mb-3 font-bold">Search the Archive</label>
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none pt-7">
+                        <i class="fas fa-search text-gray-600 text-sm"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Search by title..." 
+                        class="w-full pl-11 pr-12 py-4 bg-transparent border-b border-gray-800 focus:outline-none focus:border-gold transition-all text-white placeholder-gray-700 text-lg"
+                    >
+                    <div id="loading" class="absolute right-4 top-1/2 -translate-y-1/2 hidden">
+                        <div class="w-5 h-5 border-t-2 border-b-2 border-indigo-400 rounded-full animate-spin"></div>
+                    </div>
+                    
+                    <!-- Search Results Dropdown -->
+                    <div id="searchResults" class="absolute w-full mt-2 bg-gray-900 border border-gray-800 rounded-xl overflow-y-auto max-h-72 z-50 shadow-2xl hidden">
+                        <!-- Results injected here -->
+                    </div>
+                </div>
+
+                <!-- Custom Add Toggle -->
+                <div class="text-center">
+                    <p class="text-xs text-gray-600 tracking-wide">
+                        Unable to locate a specific title? 
+                        <button id="show-custom-add-btn" class="text-gray-400 hover:text-white underline underline-offset-4 ml-1 transition-colors italic serif">
+                            Manual Entry
+                        </button>
+                    </p>
+                    
+                    <div id="custom-add-fields" class="hidden mt-6 flex gap-3">
+                        <input 
+                            type="text" 
+                            id="customMovieTitle" 
+                            placeholder="Film title and year..." 
+                            class="flex-grow px-4 py-3 bg-gray-900/50 border border-gray-800 rounded focus:outline-none focus:border-gold text-white italic"
+                        >
+                        <button id="addCustomMovieBtn" class="bg-white text-black px-8 rounded font-bold text-xs uppercase tracking-widest hover:bg-gray-200 transition-all">
+                            Add
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <div class="flex justify-between items-baseline mb-6 border-b border-gray-900 pb-2">
+                        <h2 class="font-bold text-sm text-gray-400 uppercase tracking-[0.3em]">Current Selection</h2>
+                        <span id="counter" class="text-[10px] font-bold text-gray-600 tracking-widest">0 / 10</span>
+                    </div>
+                    
+                    <div id="selectedFilms" class="flex gap-6 min-h-[180px] overflow-x-auto pb-6 scroll-smooth">
+                        <!-- Placeholder state -->
+                        <div id="empty-state" class="w-full flex flex-col items-center justify-center border border-gray-900 rounded p-8 text-gray-700">
+                            <p class="text-sm serif italic">The list is currently empty</p>
+                        </div>
+                    </div>
+                    
+                    <p id="error-message" class="text-red-900 text-center text-[10px] uppercase tracking-widest font-bold h-4"></p>
+                </div>
+
+                <!-- Submit Action -->
+                <div class="pt-6">
+                    <button 
+                        id="submitBtn" 
+                        disabled
+                        class="w-full bg-white text-black font-bold text-xs uppercase tracking-[0.4em] py-5 rounded hover:bg-[#C5A059] hover:text-white transition-all disabled:bg-gray-900 disabled:text-gray-700 disabled:cursor-not-allowed group"
+                    >
+                        <span id="submitBtnText" class="flex items-center justify-center gap-2">
+                            Finalize Submission
+                        </span>
+                        <div id="submitSpinner" class="hidden w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin mx-auto"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div id="thank-you-container" class="hidden text-center py-20 space-y-8">
+                <h2 class="text-4xl font-bold text-white serif italic">Gratitude.</h2>
+                <p class="text-gray-500 max-w-sm mx-auto text-sm leading-relaxed tracking-wide">Your selections have been archived. We appreciate your contribution to the cinematic dialogue.</p>
+                
+                <div class="pt-8 flex flex-col gap-6 items-center">
+                    <button id="submitMoreBtn" class="border border-gray-800 hover:border-white text-gray-400 hover:text-white text-[10px] uppercase tracking-widest py-3 px-10 transition-all">
+                        New Submission
+                    </button>
+                    <a href="https://docs.google.com/spreadsheets/d/1E4XAkq0aWFMbOKQ-9BEx44DirkSdxRulMaRGDs7v_iQ/edit?gid=0#gid=0" target="_blank" class="text-gray-600 hover:text-gold text-[10px] uppercase tracking-widest transition-colors">
+                        The Master Ledger <i class="fas fa-external-link-alt text-[8px] ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIG
+        // Replace the URL below with the one you get from Step 2 above
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxB3Q2irWZ_81DctuRFPeyTPznpbgot57N1cD5C1ldNo18vCO3-Lxftk_iSXaUKfT-C/exec';
+        const TMDB_API_KEY = '746e663319009236f390938e29383ae0';
+        const MAX_SELECTIONS = 10;
+
+        // STATE
+        let selectedFilms = [];
+        let searchTimeout;
+        let userIP = 'Fetching...';
+
+        // ELEMENTS
+        const searchInput = document.getElementById('searchInput');
+        const resultsBox = document.getElementById('searchResults');
+        const selectedContainer = document.getElementById('selectedFilms');
+        const emptyState = document.getElementById('empty-state');
+        const counter = document.getElementById('counter');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('error-message');
+        const customFieldContainer = document.getElementById('custom-add-fields');
+        const showCustomBtn = document.getElementById('show-custom-add-btn');
+
+        // Fetch user IP for submission
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => { userIP = data.ip; })
+            .catch(() => { userIP = 'Unknown'; });
+
+        // SEARCH LOGIC
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim();
+            if (query.length < 2) {
+                resultsBox.classList.add('hidden');
+                return;
+            }
+            
+            document.getElementById('loading').classList.remove('hidden');
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 400);
+        });
+
+        async function performSearch(query) {
+            try {
+                const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=en-US&page=1&include_adult=false`;
+                const response = await fetch(url);
+                const data = await response.json();
+                renderSearchResults(data.results);
+            } catch (err) {
+                console.error("TMDB Search Error", err);
+            } finally {
+                document.getElementById('loading').classList.add('hidden');
+            }
+        }
+
+        function renderSearchResults(movies) {
+            resultsBox.innerHTML = '';
+            if (!movies || movies.length === 0) {
+                resultsBox.innerHTML = '<div class="p-4 text-gray-500 italic text-sm text-center">No matches found.</div>';
+            } else {
+                movies.slice(0, 8).forEach(movie => {
+                    const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
+                    const item = document.createElement('div');
+                    item.className = "flex items-center gap-3 p-3 cursor-pointer hover:bg-indigo-900/30 border-b border-gray-800 last:border-0 transition-colors";
+                    item.innerHTML = `
+                        <img src="${movie.poster_path ? 'https://image.tmdb.org/t/p/w92' + movie.poster_path : 'https://placehold.co/40x60/111827/4b5563?text=?'}" class="w-10 h-14 object-cover rounded bg-gray-800">
+                        <div class="overflow-hidden">
+                            <div class="font-bold text-white text-sm truncate">${movie.title}</div>
+                            <div class="text-xs text-gray-500">${year}</div>
+                        </div>
+                    `;
+                    item.onclick = () => selectMovie({
+                        id: movie.id,
+                        title: movie.title,
+                        year: year,
+                        poster: movie.poster_path,
+                        isCustom: false
+                    });
+                    resultsBox.appendChild(item);
+                });
+            }
+            resultsBox.classList.remove('hidden');
+        }
+
+        function selectMovie(movie) {
+            if (selectedFilms.length >= MAX_SELECTIONS) {
+                showToast("The limit of ten has been reached.");
+                return;
+            }
+            // Robust check for duplicates
+            if (selectedFilms.some(f => String(f.id) === String(movie.id))) {
+                showToast("Already in your selection.");
+                return;
+            }
+
+            selectedFilms.push(movie);
+            updateUI();
+            
+            searchInput.value = '';
+            resultsBox.classList.add('hidden');
+            errorMessage.innerText = '';
+        }
+
+        function removeMovie(id) {
+            // Use String comparison to handle TMDB numbers and custom strings
+            selectedFilms = selectedFilms.filter(f => String(f.id) !== String(id));
+            updateUI();
+        }
+
+        function updateUI() {
+            counter.innerText = `${selectedFilms.length} / ${MAX_SELECTIONS}`;
+            
+            if (selectedFilms.length > 0) {
+                emptyState.classList.add('hidden');
+            } else {
+                emptyState.classList.remove('hidden');
+            }
+
+            selectedContainer.innerHTML = '';
+            if (selectedFilms.length === 0) selectedContainer.appendChild(emptyState);
+
+            selectedFilms.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = "relative w-28 md:w-32 flex-shrink-0 group";
+                const posterUrl = movie.poster 
+                    ? `https://image.tmdb.org/t/p/w185${movie.poster}` 
+                    : `https://placehold.co/185x278/0a0a0a/333?text=${encodeURIComponent(movie.title)}`;
+
+                card.innerHTML = `
+                    <div class="aspect-[2/3] w-full rounded-sm overflow-hidden border border-gray-900 group-hover:border-gray-700 transition-all">
+                        <img src="${posterUrl}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                        <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                             <button onclick="removeMovie('${movie.id}')" class="text-white hover:text-red-500 transition-colors">
+                                <i class="fas fa-times text-xl"></i>
+                             </button>
+                        </div>
+                    </div>
+                    <div class="mt-3 px-1 text-center">
+                        <p class="text-[9px] font-bold text-white truncate leading-tight uppercase tracking-widest">${movie.title}</p>
+                        <p class="text-[8px] text-gray-600 serif italic mt-1">${movie.isCustom ? 'Manual' : movie.year}</p>
+                    </div>
+                `;
+                selectedContainer.appendChild(card);
+            });
+
+            submitBtn.disabled = selectedFilms.length === 0;
+        }
+
+        // CUSTOM ADD LOGIC
+        showCustomBtn.onclick = () => {
+            customFieldContainer.classList.toggle('hidden');
+            if (!customFieldContainer.classList.contains('hidden')) {
+                document.getElementById('customMovieTitle').focus();
+            }
+        };
+
+        document.getElementById('addCustomMovieBtn').onclick = () => {
+            const input = document.getElementById('customMovieTitle');
+            const val = input.value.trim();
+            if (val) {
+                selectMovie({
+                    id: 'custom-' + Date.now(),
+                    title: val,
+                    year: 'Custom',
+                    poster: null,
+                    isCustom: true
+                });
+                input.value = '';
+                customFieldContainer.classList.add('hidden');
+            }
+        };
+
+        async function submitSelection() {
+            const btn = submitBtn;
+            const text = document.getElementById('submitBtnText');
+            const spinner = document.getElementById('submitSpinner');
+
+            btn.disabled = true;
+            text.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            const tmdbPicks = selectedFilms.filter(f => !f.isCustom).map(f => `${f.title} (${f.year}) [ID:${f.id}]`);
+            const customPicks = selectedFilms.filter(f => f.isCustom).map(f => f.title);
+
+            // Create flat array for row (first 10 TMDB, next 10 Custom)
+            const payload = {
+                timestamp: new Date().toLocaleString('en-US', { timeZoneName: 'short' }),
+                ip: userIP,
+                tmdb: tmdbPicks, // The .gs script handles the padding to 10
+                custom: customPicks // The .gs script handles the padding to 10
+            };
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Success State
+                document.getElementById('form-container').classList.add('hidden');
+                document.getElementById('thank-you-container').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (err) {
+                console.error("Submission failed", err);
+                showToast("Submission failed. Check your connection.");
+                btn.disabled = false;
+                text.classList.remove('hidden');
+                spinner.classList.add('hidden');
+            }
+        }
+
+        submitBtn.onclick = submitSelection;
+
+        document.getElementById('submitMoreBtn').onclick = () => {
+            selectedFilms = [];
+            updateUI();
+            document.getElementById('thank-you-container').classList.add('hidden');
+            document.getElementById('form-container').classList.remove('hidden');
+        };
+
+        function showToast(msg) {
+            errorMessage.innerText = msg;
+            setTimeout(() => { if(errorMessage.innerText === msg) errorMessage.innerText = ''; }, 4000);
+        }
+
+        // Close search when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !resultsBox.contains(e.target)) {
+                resultsBox.classList.add('hidden');
+            }
+        });
+
+        // Init
+        updateUI();
+
+    </script>
+</body>
+</html>
