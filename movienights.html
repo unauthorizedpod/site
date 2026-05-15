@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Screening Room | Submissions</title>
+    <title>Movie Nights | Submissions</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,12 +40,11 @@
             transform: translateY(-2px);
             background-color: #1f2937;
         }
-        /* Custom styles for the horizontal selection scroller */
         #selectedFilms::-webkit-scrollbar {
             height: 6px;
         }
         #selectedFilms::-webkit-scrollbar-thumb {
-            background: #4f46e5;
+            background: #C5A059;
             border-radius: 10px;
         }
     </style>
@@ -56,9 +55,9 @@
         
         <header class="text-center mb-16 border-b border-gray-800 pb-12">
             <div class="flex items-center justify-center gap-6 mb-6">
-                <i class="fas fa-film gold-accent text-2xl opacity-50"></i>
+                <i class="fas fa-clapperboard gold-accent text-2xl opacity-50"></i>
                 <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight italic">Movie Nights</h1>
-                <i class="fas fa-film gold-accent text-2xl opacity-50"></i>
+                <i class="fas fa-clapperboard gold-accent text-2xl opacity-50"></i>
             </div>
             <div class="space-y-2">
                 <p class="text-lg text-gray-400 serif italic">Search for and submit films below</p>
@@ -66,7 +65,6 @@
             </div>
         </header>
 
-        <!-- Main Content Area -->
         <div id="main-content" class="space-y-12">
             
             <div id="form-container" class="space-y-10">
@@ -86,10 +84,7 @@
                         <div class="w-5 h-5 border-t-2 border-b-2 border-indigo-400 rounded-full animate-spin"></div>
                     </div>
                     
-                    <!-- Search Results Dropdown -->
-                    <div id="searchResults" class="absolute w-full mt-2 bg-gray-900 border border-gray-800 rounded-xl overflow-y-auto max-h-72 z-50 shadow-2xl hidden">
-                        <!-- Results injected here -->
-                    </div>
+                    <div id="searchResults" class="absolute w-full mt-2 bg-gray-900 border border-gray-800 rounded-xl overflow-y-auto max-h-72 z-50 shadow-2xl hidden"></div>
                 </div>
 
                 <!-- Custom Add Toggle -->
@@ -121,7 +116,6 @@
                     </div>
                     
                     <div id="selectedFilms" class="flex gap-6 min-h-[180px] overflow-x-auto pb-6 scroll-smooth">
-                        <!-- Placeholder state -->
                         <div id="empty-state" class="w-full flex flex-col items-center justify-center border border-gray-900 rounded p-8 text-gray-700">
                             <p class="text-sm serif italic">The list is currently empty</p>
                         </div>
@@ -130,7 +124,6 @@
                     <p id="error-message" class="text-red-900 text-center text-[10px] uppercase tracking-widest font-bold h-4"></p>
                 </div>
 
-                <!-- Submit Action -->
                 <div class="pt-6">
                     <button 
                         id="submitBtn" 
@@ -146,15 +139,15 @@
             </div>
 
             <div id="thank-you-container" class="hidden text-center py-20 space-y-8">
-                <h2 class="text-4xl font-bold text-white serif italic">Gratitude.</h2>
-                <p class="text-gray-500 max-w-sm mx-auto text-sm leading-relaxed tracking-wide">Your selections have been archived. We appreciate your contribution to the cinematic dialogue.</p>
+                <h2 class="text-4xl font-bold text-white serif italic">Thanks!</h2>
+                <p class="text-gray-500 max-w-sm mx-auto text-sm leading-relaxed tracking-wide">Your selections have been archived.</p>
                 
                 <div class="pt-8 flex flex-col gap-6 items-center">
                     <button id="submitMoreBtn" class="border border-gray-800 hover:border-white text-gray-400 hover:text-white text-[10px] uppercase tracking-widest py-3 px-10 transition-all">
                         New Submission
                     </button>
                     <a href="https://docs.google.com/spreadsheets/d/1E4XAkq0aWFMbOKQ-9BEx44DirkSdxRulMaRGDs7v_iQ/edit?gid=0#gid=0" target="_blank" class="text-gray-600 hover:text-gold text-[10px] uppercase tracking-widest transition-colors">
-                        The Master Ledger <i class="fas fa-external-link-alt text-[8px] ml-2"></i>
+                        See all selections <i class="fas fa-external-link-alt text-[8px] ml-2"></i>
                     </a>
                 </div>
             </div>
@@ -163,7 +156,6 @@
 
     <script>
         // CONFIG
-        // Replace the URL below with the one you get from Step 2 above
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxB3Q2irWZ_81DctuRFPeyTPznpbgot57N1cD5C1ldNo18vCO3-Lxftk_iSXaUKfT-C/exec';
         const TMDB_API_KEY = '746e663319009236f390938e29383ae0';
         const MAX_SELECTIONS = 10;
@@ -190,7 +182,6 @@
             .then(data => { userIP = data.ip; })
             .catch(() => { userIP = 'Unknown'; });
 
-        // SEARCH LOGIC
         searchInput.addEventListener('input', () => {
             const query = searchInput.value.trim();
             if (query.length < 2) {
@@ -226,7 +217,7 @@
                 movies.slice(0, 8).forEach(movie => {
                     const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
                     const item = document.createElement('div');
-                    item.className = "flex items-center gap-3 p-3 cursor-pointer hover:bg-indigo-900/30 border-b border-gray-800 last:border-0 transition-colors";
+                    item.className = "flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-800 border-b border-gray-800 last:border-0 transition-colors";
                     item.innerHTML = `
                         <img src="${movie.poster_path ? 'https://image.tmdb.org/t/p/w92' + movie.poster_path : 'https://placehold.co/40x60/111827/4b5563?text=?'}" class="w-10 h-14 object-cover rounded bg-gray-800">
                         <div class="overflow-hidden">
@@ -252,7 +243,6 @@
                 showToast("The limit of ten has been reached.");
                 return;
             }
-            // Robust check for duplicates
             if (selectedFilms.some(f => String(f.id) === String(movie.id))) {
                 showToast("Already in your selection.");
                 return;
@@ -267,7 +257,6 @@
         }
 
         function removeMovie(id) {
-            // Use String comparison to handle TMDB numbers and custom strings
             selectedFilms = selectedFilms.filter(f => String(f.id) !== String(id));
             updateUI();
         }
@@ -311,7 +300,6 @@
             submitBtn.disabled = selectedFilms.length === 0;
         }
 
-        // CUSTOM ADD LOGIC
         showCustomBtn.onclick = () => {
             customFieldContainer.classList.toggle('hidden');
             if (!customFieldContainer.classList.contains('hidden')) {
@@ -344,15 +332,20 @@
             text.classList.add('hidden');
             spinner.classList.remove('hidden');
 
-            const tmdbPicks = selectedFilms.filter(f => !f.isCustom).map(f => `${f.title} (${f.year}) [ID:${f.id}]`);
-            const customPicks = selectedFilms.filter(f => f.isCustom).map(f => f.title);
+            // Clean titles by removing all commas as requested
+            const tmdbPicks = selectedFilms
+                .filter(f => !f.isCustom)
+                .map(f => `${f.title.replace(/,/g, '')} (${f.year})`);
 
-            // Create flat array for row (first 10 TMDB, next 10 Custom)
+            const customPicks = selectedFilms
+                .filter(f => f.isCustom)
+                .map(f => f.title.replace(/,/g, ''));
+
             const payload = {
                 timestamp: new Date().toLocaleString('en-US', { timeZoneName: 'short' }),
                 ip: userIP,
-                tmdb: tmdbPicks, // The .gs script handles the padding to 10
-                custom: customPicks // The .gs script handles the padding to 10
+                tmdb: tmdbPicks,
+                custom: customPicks
             };
 
             try {
@@ -364,7 +357,6 @@
                     body: JSON.stringify(payload)
                 });
 
-                // Success State
                 document.getElementById('form-container').classList.add('hidden');
                 document.getElementById('thank-you-container').classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -391,16 +383,13 @@
             setTimeout(() => { if(errorMessage.innerText === msg) errorMessage.innerText = ''; }, 4000);
         }
 
-        // Close search when clicking outside
         document.addEventListener('click', (e) => {
             if (!searchInput.contains(e.target) && !resultsBox.contains(e.target)) {
                 resultsBox.classList.add('hidden');
             }
         });
 
-        // Init
         updateUI();
-
     </script>
 </body>
 </html>
