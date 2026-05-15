@@ -1,306 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Movie Night Poll</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #f7f5f2;
-      --surface: #ffffff;
-      --text: #1a1a1a;
-      --muted: #888;
-      --accent: #2c2c2c;
-      --check: #3a3a3a;
-      --border: #e0ddd8;
-      --hover: #f0ede8;
-      --selected-bg: #1a1a1a;
-      --selected-text: #ffffff;
-      --btn: #1a1a1a;
-      --btn-hover: #333;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 3rem 2.5rem;
-      max-width: 480px;
-      width: 100%;
-      animation: fadeUp 0.5s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .eyebrow {
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-family: 'Lora', serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 1.4;
-      margin-bottom: 0.5rem;
-    }
-
-    .subtext {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 2rem;
-      font-weight: 300;
-    }
-
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin-bottom: 2rem;
-    }
-
-    .option {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
-      user-select: none;
-    }
-
-    .option:hover {
-      background: var(--hover);
-    }
-
-    .option.selected {
-      background: var(--selected-bg);
-      border-color: var(--selected-bg);
-      color: var(--selected-text);
-    }
-
-    .option input[type="checkbox"] {
-      display: none;
-    }
-
-    .box {
-      width: 18px;
-      height: 18px;
-      border: 1.5px solid var(--border);
-      border-radius: 4px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s, border-color 0.15s;
-      background: transparent;
-    }
-
-    .option.selected .box {
-      background: #fff;
-      border-color: #fff;
-    }
-
-    .box svg {
-      display: none;
-      width: 11px;
-      height: 11px;
-    }
-
-    .option.selected .box svg {
-      display: block;
-    }
-
-    .label {
-      font-size: 0.95rem;
-      font-weight: 400;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 0.85rem;
-      background: var(--btn);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.15s, opacity 0.15s;
-      letter-spacing: 0.01em;
-    }
-
-    .submit-btn:hover:not(:disabled) {
-      background: var(--btn-hover);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .status {
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-align: center;
-      min-height: 1.2em;
-    }
-
-    .status.success { color: #3a7d44; }
-    .status.error   { color: #b94040; }
-
-    /* Thank you state */
-    .thank-you {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 1rem;
-      animation: fadeUp 0.4s ease both;
-    }
-
-    .thank-you .icon {
-      font-size: 2.5rem;
-    }
-
-    .thank-you h2 {
-      font-family: 'Lora', serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-
-    .thank-you p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    .poll-body.hidden { display: none; }
-    .thank-you.visible { display: flex; }
-
-    @media (max-width: 480px) {
-      .card { padding: 2rem 1.5rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Nights | The Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+        }
+        h1, .serif {
+            font-family: 'Libre Baskerville', serif;
+        }
+        .gold-accent {
+            color: #C5A059;
+        }
+        /* Custom loader for the cinematic vibe */
+        .loader {
+            border: 2px solid #1a1a1a;
+            border-top: 2px solid #C5A059;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .movie-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #movie-grid::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
-<body>
-<div class="card">
+<body class="text-gray-300 min-h-screen">
 
-  <!-- Poll -->
-  <div class="poll-body" id="pollBody">
-    <p class="eyebrow">Quick Poll</p>
-    <h1>Which day(s) of the week work best for movie nights?</h1>
-    <p class="subtext">Select all that apply.</p>
+    <div class="w-full max-w-6xl mx-auto p-6 md:p-12">
+        <header class="text-center mb-16 border-b border-gray-800 pb-12">
+            <div class="flex items-center justify-center gap-6 mb-4">
+                <i class="fas fa-clapperboard gold-accent text-2xl opacity-50"></i>
+                <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight italic">The Archive</h1>
+                <i class="fas fa-clapperboard gold-accent text-2xl opacity-50"></i>
+            </div>
+            <p class="text-lg text-gray-400 serif italic">All films submitted</p>
+        </header>
 
-    <div class="options" id="options">
-      <!-- Days rendered by JS -->
+        <main>
+            <div id="loading-state" class="flex flex-col items-center justify-center py-20 space-y-4">
+                <div class="loader"></div>
+                <p class="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">Retrieving curated titles...</p>
+            </div>
+
+            <div id="empty-state" class="hidden text-center py-20">
+                <p class="serif italic text-gray-500 text-xl text-balance">The archive is currently awaiting its first entry.</p>
+            </div>
+
+            <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-10">
+                <!-- Movie items will be injected here -->
+            </div>
+        </main>
+
+        <footer class="mt-24 pt-12 border-t border-gray-900 text-center">
+            <a href="index.html" class="text-[10px] uppercase tracking-[0.4em] text-gray-600 hover:text-white transition-colors">
+                ← Back to Submission
+            </a>
+        </footer>
     </div>
 
-    <button class="submit-btn" id="submitBtn" disabled>Submit</button>
-    <p class="status" id="status"></p>
-  </div>
+    <script>
+        const GET_DATA_URL = 'https://script.google.com/macros/s/AKfycbxrK7ZP53Uxx84VPoCKwmV2yTkr7Np4TbQY1-NjWlrrBwVQCbkkhCZcod0ApK5OGvjo/exec';
+        const TMDB_API_KEY = '746e663319009236f390938e29383ae0';
 
-  <!-- Thank you -->
-  <div class="thank-you" id="thankYou">
-    <div class="icon">🎬</div>
-    <h2>Thanks for responding!</h2>
-    <p>Your answer has been recorded.</p>
-  </div>
+        const movieGrid = document.getElementById('movie-grid');
+        const loadingState = document.getElementById('loading-state');
+        const emptyState = document.getElementById('empty-state');
 
-</div>
+        async function loadArchive() {
+            try {
+                const response = await fetch(GET_DATA_URL);
+                const rawList = await response.json(); 
 
-<script>
-  // ─── CONFIG ────────────────────────────────────────────────────────────────
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyykR2vp8Ae4w0QSF9WdtlBJWKvZE4uVaWBKnJrHPZbtyw9mHDVOVL3xSzm70jQ3pVcg/exec";
-  // ───────────────────────────────────────────────────────────────────────────
+                // Skip the first row (the "Title" header)
+                const filmList = rawList && rawList.length > 1 ? rawList.slice(1) : [];
 
-  const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  const selected = new Set();
+                if (filmList.length === 0) {
+                    loadingState.classList.add('hidden');
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
 
-  const optionsEl  = document.getElementById("options");
-  const submitBtn  = document.getElementById("submitBtn");
-  const statusEl   = document.getElementById("status");
-  const pollBody   = document.getElementById("pollBody");
-  const thankYou   = document.getElementById("thankYou");
+                loadingState.classList.add('hidden');
 
-  // Build options
-  days.forEach(day => {
-    const div = document.createElement("div");
-    div.className = "option";
-    div.innerHTML = `
-      <span class="box">
-        <svg viewBox="0 0 12 12" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="1.5,6 4.5,9 10.5,3"/>
-        </svg>
-      </span>
-      <span class="label">${day}</span>
-    `;
-    div.addEventListener("click", () => {
-      if (selected.has(day)) {
-        selected.delete(day);
-        div.classList.remove("selected");
-      } else {
-        selected.add(day);
-        div.classList.add("selected");
-      }
-      submitBtn.disabled = selected.size === 0;
-    });
-    optionsEl.appendChild(div);
-  });
+                // Process films
+                for (const filmTitle of filmList) {
+                    const movieData = await fetchMoviePoster(filmTitle);
+                    renderMovie(movieData || { title: filmTitle, poster: null });
+                }
 
-  // Submit
-  submitBtn.addEventListener("click", async () => {
-    if (selected.size === 0) return;
+            } catch (err) {
+                console.error("Archive Load Error:", err);
+                loadingState.innerHTML = `<p class="text-red-900 text-xs uppercase tracking-widest font-bold">Connection to script failed</p>`;
+            }
+        }
 
-    submitBtn.disabled = true;
-    statusEl.textContent = "Submitting…";
-    statusEl.className = "status";
+        async function fetchMoviePoster(title) {
+            try {
+                // Remove year in parentheses if present to improve search accuracy
+                const cleanTitle = title.replace(/\s\(\d{4}\)$/, "").trim();
+                const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(cleanTitle)}&language=en-US&page=1`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.results && data.results.length > 0) {
+                    return {
+                        title: title,
+                        poster: data.results[0].poster_path
+                    };
+                }
+                return null;
+            } catch (e) {
+                return null;
+            }
+        }
 
-    const payload = { days: [...selected].join(", ") };
+        function renderMovie(movie) {
+            const card = document.createElement('div');
+            card.className = "group animate-in fade-in slide-in-from-bottom-4 duration-1000";
+            
+            const posterUrl = movie.poster 
+                ? `https://image.tmdb.org/t/p/w342${movie.poster}` 
+                : `https://placehold.co/342x513/0a0a0a/333?text=${encodeURIComponent(movie.title)}`;
 
-    try {
-      const formData = new FormData();
-      formData.append("days", [...selected].join(", "));
+            card.innerHTML = `
+                <div class="aspect-[2/3] w-full rounded-sm overflow-hidden border border-gray-900 group-hover:border-gray-700 transition-all duration-700 bg-gray-900">
+                    <img src="${posterUrl}" loading="lazy" 
+                         class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105"
+                         alt="${movie.title}">
+                </div>
+                <div class="mt-4 px-1">
+                    <p class="text-[10px] font-bold text-white leading-tight uppercase tracking-widest truncate group-hover:text-gold transition-colors">${movie.title}</p>
+                </div>
+            `;
+            movieGrid.appendChild(card);
+        }
 
-      await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData,
-      });
-
-      pollBody.classList.add("hidden");
-      thankYou.classList.add("visible");
-    } catch (err) {
-      statusEl.textContent = "Something went wrong. Please try again.";
-      statusEl.className = "status error";
-      submitBtn.disabled = false;
-    }
-  });
-</script>
+        window.onload = loadArchive;
+    </script>
 </body>
 </html>
