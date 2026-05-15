@@ -146,7 +146,7 @@
                     <button id="submitMoreBtn" class="border border-gray-800 hover:border-white text-gray-400 hover:text-white text-[10px] uppercase tracking-widest py-3 px-10 transition-all">
                         New Submission
                     </button>
-                    <a href="http://unauthorizedpod.com/submissions" target="_blank" class="text-gray-600 hover:text-gold text-[10px] uppercase tracking-widest transition-colors">
+                    <a href="https://docs.google.com/spreadsheets/d/1E4XAkq0aWFMbOKQ-9BEx44DirkSdxRulMaRGDs7v_iQ/edit?gid=0#gid=0" target="_blank" class="text-gray-600 hover:text-gold text-[10px] uppercase tracking-widest transition-colors">
                         See all selections <i class="fas fa-external-link-alt text-[8px] ml-2"></i>
                     </a>
                 </div>
@@ -332,10 +332,10 @@
             text.classList.add('hidden');
             spinner.classList.remove('hidden');
 
-            // Clean titles by removing all commas as requested
+            // Clean titles by removing all commas and adding the TMDB ID back in for accuracy
             const tmdbPicks = selectedFilms
                 .filter(f => !f.isCustom)
-                .map(f => `${f.title.replace(/,/g, '')} (${f.year})`);
+                .map(f => `${f.title.replace(/,/g, '')} (${f.year}) [ID: ${f.id}]`);
 
             const customPicks = selectedFilms
                 .filter(f => f.isCustom)
