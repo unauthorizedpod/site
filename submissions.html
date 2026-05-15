@@ -99,10 +99,24 @@
 
                 loadingState.classList.add('hidden');
 
-                // Process films
-                for (const filmTitle of filmList) {
-                    const movieData = await fetchMoviePoster(filmTitle);
-                    renderMovie(movieData || { title: filmTitle, poster: null });
+                for (const entry of filmList) {
+                    // Extract ID using Regex: looks for [ID: 12345]
+                    const idMatch = entry.match(/\[ID:\s*(\d+)\]/);
+                    // Clean title for display: removes the [ID: ...] part
+                    const displayTitle = entry.replace(/\s*\[ID:.*\]/, "").trim();
+                    
+                    let posterPath = null;
+
+                    if (idMatch && idMatch[1]) {
+                        // High-accuracy fetch using specific TMDB ID
+                        posterPath = await fetchPosterByID(idMatch[1]);
+                    } else {
+                        // Fallback for Manual Entries (no ID) using search
+                        const fallbackData = await fetchMoviePosterBySearch(displayTitle);
+                        posterPath = fallbackData ? fallbackData.poster : null;
+                    }
+
+                    renderMovie({ title: displayTitle, poster: posterPath });
                 }
 
             } catch (err) {
@@ -111,19 +125,26 @@
             }
         }
 
-        async function fetchMoviePoster(title) {
+        async function fetchPosterByID(id) {
             try {
-                // Remove year in parentheses if present to improve search accuracy
+                const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}&language=en-US`;
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.poster_path || null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        async function fetchMoviePosterBySearch(title) {
+            try {
                 const cleanTitle = title.replace(/\s\(\d{4}\)$/, "").trim();
                 const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(cleanTitle)}&language=en-US&page=1`;
                 const response = await fetch(url);
                 const data = await response.json();
                 
                 if (data.results && data.results.length > 0) {
-                    return {
-                        title: title,
-                        poster: data.results[0].poster_path
-                    };
+                    return { poster: data.results[0].poster_path };
                 }
                 return null;
             } catch (e) {
