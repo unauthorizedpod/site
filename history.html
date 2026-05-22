@@ -10,28 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-        }
-        h1, h2, .serif {
-            font-family: 'Libre Baskerville', serif;
-        }
-        .gold-accent {
-            color: #C5A059;
-        }
-        .border-gold {
-            border-color: #C5A059;
-        }
-        .movie-row {
-            transition: background-color 0.2s ease;
-        }
-        .movie-row:hover {
-            background-color: #111111;
-        }
-        #loading-spinner {
-            border-top-color: #C5A059;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; }
+        h1, .serif { font-family: 'Libre Baskerville', serif; }
+        .gold-accent { color: #C5A059; }
+        .movie-row { transition: background-color 0.2s ease; }
+        .movie-row:hover { background-color: #111111; }
+        #search-results::-webkit-scrollbar { width: 4px; }
+        #search-results::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
 </head>
 <body class="text-gray-300 min-h-screen flex flex-col items-center">
@@ -46,15 +31,42 @@
             </div>
         </header>
 
-        <div id="loading" class="flex justify-center py-20">
-            <div class="w-8 h-8 border-2 border-gray-800 border-t-2 rounded-full animate-spin" id="loading-spinner"></div>
+        <div id="movie-list" class="divide-y divide-gray-900"></div>
+
+        <!-- Admin login toggle -->
+        <div class="mt-20 text-center">
+            <button id="admin-toggle" class="text-[10px] text-gray-800 hover:text-gray-600 uppercase tracking-widest transition-colors">Admin</button>
         </div>
 
-        <div id="error-state" class="hidden text-center py-20">
-            <p class="text-gray-600 serif italic text-sm">Unable to load films.</p>
+        <!-- Login form -->
+        <div id="login-panel" class="hidden mt-6 max-w-xs mx-auto space-y-3">
+            <input id="login-user" type="text" placeholder="Username" class="w-full px-4 py-3 bg-transparent border-b border-gray-800 focus:outline-none focus:border-yellow-700 text-white placeholder-gray-700 text-sm">
+            <input id="login-pass" type="password" placeholder="Password" class="w-full px-4 py-3 bg-transparent border-b border-gray-800 focus:outline-none focus:border-yellow-700 text-white placeholder-gray-700 text-sm">
+            <button id="login-btn" class="w-full py-3 bg-white text-black text-[10px] uppercase tracking-widest font-bold hover:bg-gray-200 transition-all">Enter</button>
+            <p id="login-error" class="text-red-900 text-[10px] text-center uppercase tracking-widest h-4"></p>
         </div>
 
-        <div id="movie-list" class="hidden divide-y divide-gray-900">
+        <!-- Admin panel -->
+        <div id="admin-panel" class="hidden mt-8 border border-gray-900 rounded p-6 space-y-4">
+            <h2 class="text-[11px] uppercase tracking-widest text-gray-500 font-bold mb-4">Add a Film</h2>
+
+            <div class="relative">
+                <input id="admin-search" type="text" placeholder="Search by title..." class="w-full px-4 py-3 bg-transparent border-b border-gray-800 focus:outline-none text-white placeholder-gray-700 text-sm">
+                <div id="admin-search-results" class="absolute w-full mt-1 bg-gray-900 border border-gray-800 rounded-xl overflow-y-auto max-h-64 z-50 shadow-2xl hidden"></div>
+            </div>
+
+            <div id="admin-selected" class="hidden flex items-center gap-4 py-3 border-b border-gray-900">
+                <img id="admin-poster" src="" class="w-10 h-[60px] object-cover rounded bg-gray-900 flex-shrink-0">
+                <div>
+                    <p id="admin-title" class="text-white text-sm font-semibold"></p>
+                    <p id="admin-year" class="text-gray-600 text-xs serif italic"></p>
+                </div>
+            </div>
+
+            <input id="admin-date" type="date" class="w-full px-4 py-3 bg-transparent border-b border-gray-800 focus:outline-none text-white text-sm">
+
+            <button id="admin-add-btn" class="w-full py-3 bg-white text-black text-[10px] uppercase tracking-widest font-bold hover:bg-yellow-600 hover:text-white transition-all disabled:bg-gray-900 disabled:text-gray-700" disabled>Add to List</button>
+            <p id="admin-msg" class="text-[10px] text-center text-gray-600 tracking-widest h-4"></p>
         </div>
 
     </div>
@@ -65,81 +77,206 @@
     </footer>
 
     <script>
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxiSUPnVqt9_cAMOqhFSJtbHa03T0Uch4dy48EY0_DaAx1SHrC7eAPV1U5NpXG7qYVWw/exec';
         const TMDB_API_KEY = '746e663319009236f390938e29383ae0';
+        const STORAGE_KEY = 'movie_nights_list';
 
-        function fetchMovies() {
-            return new Promise((resolve) => {
-                const callbackName = 'jsonpCb_' + Date.now();
-                window[callbackName] = function(data) {
-                    delete window[callbackName];
-                    const s = document.getElementById('jsonp-script');
-                    if (s) s.remove();
-                    resolve(data);
-                };
-                const script = document.createElement('script');
-                script.id = 'jsonp-script';
-                script.onerror = () => {
-                    delete window[callbackName];
-                    resolve(null);
-                };
-                script.src = GOOGLE_SCRIPT_URL + '?callback=' + callbackName;
-                document.body.appendChild(script);
-            });
+        const SEED = [
+            { tmdb_id: 11830,   title: "Tampopo",                        date_watched: "2024-08-15" },
+            { tmdb_id: 29845,   title: "Opening Night",                  date_watched: "2024-08-22" },
+            { tmdb_id: 931,     title: "Rififi",                         date_watched: "2024-08-29" },
+            { tmdb_id: 2741,    title: "The Discreet Charm of the Bourgeoisie", date_watched: "2024-09-04" },
+            { tmdb_id: 1086744, title: "I Saw the TV Glow",              date_watched: "2024-09-12" },
+            { tmdb_id: 308468,  title: "Youth",                          date_watched: "2024-09-18" },
+            { tmdb_id: 915,     title: "Don't Look Now",                 date_watched: "2024-10-17" },
+            { tmdb_id: 1011985, title: "Hundreds of Beavers",            date_watched: "2024-11-14" },
+            { tmdb_id: 283,     title: "Wings of Desire",                date_watched: "2024-11-20" },
+            { tmdb_id: 1016122, title: "Queer",                          date_watched: "2024-12-05" },
+            { tmdb_id: 984259,  title: "A Different Man",                date_watched: "2024-12-14" },
+            { tmdb_id: 6821,    title: "Nosferatu the Vampyre",          date_watched: "2024-12-19" },
+            { tmdb_id: 439,     title: "La Dolce Vita",                  date_watched: "2025-01-02" },
+            { tmdb_id: 542,     title: "The Umbrellas of Cherbourg",     date_watched: "2025-01-09" },
+            { tmdb_id: 402431,  title: "Wicked",                         date_watched: "2025-01-25" },
+            { tmdb_id: 1105404, title: "Sing Sing",                      date_watched: "2025-01-30" },
+            { tmdb_id: 994143,  title: "Skinamarink",                    date_watched: "2025-03-20" },
+            { tmdb_id: 31265,   title: "Paris is Burning",               date_watched: "2025-04-17" },
+            { tmdb_id: 12440,   title: "La Notte",                       date_watched: "2025-05-01" },
+            { tmdb_id: 210577,  title: "Locke",                          date_watched: "2025-08-15" },
+            { tmdb_id: 23150,   title: "House",                          date_watched: "2025-08-22" },
+            { tmdb_id: 1413,    title: "Hedwig and the Angry Inch",      date_watched: "2026-01-15" },
+            { tmdb_id: 27161,   title: "Mishima: A Life in Four Chapters", date_watched: "2026-01-22" },
+            { tmdb_id: 43224,   title: "Dreadnaught",                    date_watched: "2026-03-26" },
+            { tmdb_id: 1293395, title: "Sirat",                          date_watched: "2026-04-02" },
+            { tmdb_id: 159495,  title: "Chess of the Wind",              date_watched: "2026-05-14" },
+            { tmdb_id: 48831,   title: "My Night at Maud's",             date_watched: "2026-05-21" },
+        ];
+
+        // Load from localStorage or seed
+        function loadMovies() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) return JSON.parse(stored);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED));
+            return SEED;
+        }
+
+        function saveMovies(movies) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(movies));
         }
 
         function formatDate(raw) {
             if (!raw) return '';
-            const d = new Date(raw);
-            if (isNaN(d.getTime())) return raw;
-            return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            const [y, m, d] = raw.split('-');
+            const date = new Date(+y, +m - 1, +d);
+            return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
         }
 
-        async function render() {
-            const data = await fetchMovies();
-            document.getElementById('loading').classList.add('hidden');
+        async function getPoster(tmdbId) {
+            try {
+                const r = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${TMDB_API_KEY}`);
+                const d = await r.json();
+                return d.poster_path ? `https://image.tmdb.org/t/p/w185${d.poster_path}` : null;
+            } catch { return null; }
+        }
 
-            if (!data || !data.movies || data.movies.length === 0) {
-                document.getElementById('error-state').classList.remove('hidden');
-                return;
-            }
-
+        async function renderList() {
+            const movies = loadMovies();
             const list = document.getElementById('movie-list');
-            list.classList.remove('hidden');
+            list.innerHTML = '';
 
-            for (const movie of data.movies) {
+            for (const movie of movies) {
                 const row = document.createElement('div');
                 row.className = 'movie-row flex items-center gap-5 py-4 px-2 rounded';
-
-                let imgSrc = 'https://placehold.co/60x90/111827/4b5563?text=?';
-
-                if (movie.tmdb_id) {
-                    try {
-                        const r = await fetch(`https://api.themoviedb.org/3/movie/${movie.tmdb_id}?api_key=${TMDB_API_KEY}`);
-                        const d = await r.json();
-                        if (d.poster_path) {
-                            imgSrc = `https://image.tmdb.org/t/p/w185${d.poster_path}`;
-                        }
-                    } catch { /* keep placeholder */ }
-                }
-
                 row.innerHTML = `
-                    <img
-                        src="${imgSrc}"
-                        alt="${movie.title}"
-                        class="w-12 h-[72px] object-cover rounded bg-gray-900 flex-shrink-0"
-                        onerror="this.src='https://placehold.co/60x90/111827/4b5563?text=?'"
-                    >
+                    <img src="https://placehold.co/60x90/111827/4b5563?text=..." 
+                         data-tmdb="${movie.tmdb_id}"
+                         alt="${movie.title}"
+                         class="w-12 h-[72px] object-cover rounded bg-gray-900 flex-shrink-0"
+                         onerror="this.src='https://placehold.co/60x90/111827/4b5563?text=?'">
                     <div class="flex-grow min-w-0">
                         <p class="text-white font-semibold text-sm truncate">${movie.title}</p>
                         <p class="text-gray-600 text-[11px] serif italic mt-0.5">${formatDate(movie.date_watched)}</p>
                     </div>
                 `;
                 list.appendChild(row);
+
+                // Load poster async without blocking
+                getPoster(movie.tmdb_id).then(url => {
+                    if (url) {
+                        const img = row.querySelector('img');
+                        if (img) img.src = url;
+                    }
+                });
             }
         }
 
-        render();
+        // --- Auth ---
+        let isLoggedIn = false;
+
+        document.getElementById('admin-toggle').onclick = () => {
+            if (isLoggedIn) {
+                document.getElementById('admin-panel').classList.toggle('hidden');
+            } else {
+                document.getElementById('login-panel').classList.toggle('hidden');
+            }
+        };
+
+        document.getElementById('login-btn').onclick = () => {
+            const u = document.getElementById('login-user').value.trim();
+            const p = document.getElementById('login-pass').value.trim();
+            if (u === 'zjdomes' && p === 'frogger') {
+                isLoggedIn = true;
+                document.getElementById('login-panel').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                document.getElementById('login-error').innerText = '';
+            } else {
+                document.getElementById('login-error').innerText = 'Incorrect credentials.';
+            }
+        };
+
+        document.getElementById('login-pass').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('login-btn').click();
+        });
+
+        // --- Admin search ---
+        let adminSelected = null;
+        let adminSearchTimeout;
+
+        document.getElementById('admin-search').addEventListener('input', () => {
+            const q = document.getElementById('admin-search').value.trim();
+            clearTimeout(adminSearchTimeout);
+            if (q.length < 2) {
+                document.getElementById('admin-search-results').classList.add('hidden');
+                return;
+            }
+            adminSearchTimeout = setTimeout(() => doAdminSearch(q), 400);
+        });
+
+        async function doAdminSearch(query) {
+            const res = document.getElementById('admin-search-results');
+            try {
+                const r = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=en-US&page=1`);
+                const d = await r.json();
+                res.innerHTML = '';
+                (d.results || []).slice(0, 8).forEach(movie => {
+                    const year = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
+                    const item = document.createElement('div');
+                    item.className = 'flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-800 border-b border-gray-800 last:border-0 transition-colors';
+                    item.innerHTML = `
+                        <img src="${movie.poster_path ? 'https://image.tmdb.org/t/p/w92' + movie.poster_path : 'https://placehold.co/40x60/111827/4b5563?text=?'}" class="w-8 h-12 object-cover rounded bg-gray-800 flex-shrink-0">
+                        <div>
+                            <div class="font-semibold text-white text-sm">${movie.title}</div>
+                            <div class="text-xs text-gray-500 serif italic">${year}</div>
+                        </div>
+                    `;
+                    item.onclick = () => selectAdminMovie(movie, year);
+                    res.appendChild(item);
+                });
+                res.classList.remove('hidden');
+            } catch { res.classList.add('hidden'); }
+        }
+
+        function selectAdminMovie(movie, year) {
+            adminSelected = { tmdb_id: movie.id, title: movie.title, year };
+            document.getElementById('admin-search').value = movie.title;
+            document.getElementById('admin-search-results').classList.add('hidden');
+            document.getElementById('admin-poster').src = movie.poster_path
+                ? `https://image.tmdb.org/t/p/w185${movie.poster_path}`
+                : 'https://placehold.co/60x90/111827/4b5563?text=?';
+            document.getElementById('admin-title').innerText = movie.title;
+            document.getElementById('admin-year').innerText = year;
+            document.getElementById('admin-selected').classList.remove('hidden');
+            document.getElementById('admin-add-btn').disabled = false;
+        }
+
+        document.getElementById('admin-add-btn').onclick = () => {
+            if (!adminSelected) return;
+            const date = document.getElementById('admin-date').value;
+            if (!date) {
+                document.getElementById('admin-msg').innerText = 'Please select a date.';
+                return;
+            }
+            const movies = loadMovies();
+            movies.push({ tmdb_id: adminSelected.tmdb_id, title: adminSelected.title, date_watched: date });
+            saveMovies(movies);
+            renderList();
+
+            // Reset
+            adminSelected = null;
+            document.getElementById('admin-search').value = '';
+            document.getElementById('admin-date').value = '';
+            document.getElementById('admin-selected').classList.add('hidden');
+            document.getElementById('admin-add-btn').disabled = true;
+            document.getElementById('admin-msg').innerText = 'Film added.';
+            setTimeout(() => document.getElementById('admin-msg').innerText = '', 3000);
+        };
+
+        document.addEventListener('click', e => {
+            const res = document.getElementById('admin-search-results');
+            if (!document.getElementById('admin-search').contains(e.target)) {
+                res.classList.add('hidden');
+            }
+        });
+
+        renderList();
     </script>
 </body>
 </html>
