@@ -3,288 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Past movies</title>
-    
+    <title>Past Movies</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a; /* Deep black */
+            background-color: #0a0a0a;
         }
         h1, h2, .serif {
             font-family: 'Libre Baskerville', serif;
         }
         .gold-accent {
-            color: #C5A059; /* Classic gold */
+            color: #C5A059;
         }
         .border-gold {
             border-color: #C5A059;
         }
-        /* Custom scrollbar for aesthetic */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .movie-row {
+            transition: background-color 0.2s ease;
         }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
+        .movie-row:hover {
+            background-color: #111111;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #C5A059;
-        }
-        /* Shimmer effect for skeleton loading */
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
-        }
-        .animate-shimmer {
-            animation: shimmer 2s infinite linear;
-            background: linear-gradient(to right, #111827 4%, #1f2937 25%, #111827 36%);
-            background-size: 1000px 100%;
+        #loading-spinner {
+            border-top-color: #C5A059;
         }
     </style>
 </head>
 <body class="text-gray-300 min-h-screen flex flex-col items-center">
 
-    <div class="w-full max-w-3xl mx-auto p-6 md:p-16 flex-grow flex flex-col">
-        
+    <div class="w-full max-w-3xl mx-auto p-6 md:p-16 flex-grow">
+
         <header class="text-center mb-16 border-b border-gray-800 pb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight italic">Past movies</h1>
+            <div class="flex items-center justify-center gap-6 mb-6">
+                <i class="fas fa-clapperboard gold-accent text-2xl opacity-50"></i>
+                <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight italic">Past Movies</h1>
+                <i class="fas fa-clapperboard gold-accent text-2xl opacity-50"></i>
+            </div>
         </header>
 
-        <main id="main-content" class="flex-grow space-y-6">
-            
-            <!-- Loading Skeleton (Shown initially) -->
-            <div id="loading-state" class="space-y-6">
-                <!-- Repeated skeleton items -->
-                <div class="flex items-center gap-6 p-4 border border-gray-900 rounded bg-gray-900/20">
-                    <div class="w-24 md:w-32 aspect-[2/3] animate-shimmer rounded-sm"></div>
-                    <div class="flex-grow space-y-4">
-                        <div class="h-6 animate-shimmer rounded w-3/4"></div>
-                        <div class="h-4 animate-shimmer rounded w-1/3"></div>
-                    </div>
-                </div>
-                <div class="flex items-center gap-6 p-4 border border-gray-900 rounded bg-gray-900/20">
-                    <div class="w-24 md:w-32 aspect-[2/3] animate-shimmer rounded-sm"></div>
-                    <div class="flex-grow space-y-4">
-                        <div class="h-6 animate-shimmer rounded w-2/3"></div>
-                        <div class="h-4 animate-shimmer rounded w-1/4"></div>
-                    </div>
-                </div>
-            </div>
+        <div id="loading" class="flex justify-center py-20">
+            <div class="w-8 h-8 border-2 border-gray-800 border-t-2 rounded-full animate-spin" id="loading-spinner"></div>
+        </div>
 
-            <div id="movie-list" class="space-y-6 hidden">
-                <!-- Movies will be dynamically injected here -->
-            </div>
+        <div id="error-state" class="hidden text-center py-20">
+            <p class="text-gray-600 serif italic text-sm">Unable to load films.</p>
+        </div>
 
-            <!-- Error State -->
-            <div id="error-state" class="hidden w-full flex flex-col items-center justify-center border border-red-900/30 rounded p-8 text-red-500 bg-red-900/10">
-                <i class="fas fa-exclamation-triangle mb-4 text-2xl"></i>
-                <p class="text-sm uppercase tracking-widest font-bold">Failed to load archive</p>
-                <p id="error-message" class="text-xs text-red-400/70 mt-2 serif italic text-center"></p>
-            </div>
-            
-        </main>
+        <div id="movie-list" class="hidden divide-y divide-gray-900">
+        </div>
 
-        <footer class="mt-20 border-t border-gray-800 pt-8 mb-8">
-            <div class="flex justify-center items-center gap-10">
-                <a href="#" class="text-gray-500 hover:text-[#C5A059] text-[10px] font-bold uppercase tracking-[0.3em] transition-colors">
-                    Submissions
-                </a>
-                <span class="text-gray-800 text-xs">|</span>
-                <a href="#" class="text-gray-500 hover:text-[#C5A059] text-[10px] font-bold uppercase tracking-[0.3em] transition-colors">
-                    Watchlist
-                </a>
-            </div>
-        </footer>
     </div>
 
+    <footer class="w-full max-w-3xl mx-auto px-6 md:px-16 py-12 border-t border-gray-900 flex justify-center gap-12">
+        <a href="#" class="text-[10px] uppercase tracking-[0.2em] text-gray-600 hover:text-white transition-colors font-semibold">Submissions</a>
+        <a href="#" class="text-[10px] uppercase tracking-[0.2em] text-gray-600 hover:text-white transition-colors font-semibold">Watchlist</a>
+    </footer>
+
     <script>
-        // ==========================================
-        // CONFIGURATION
-        // ==========================================
-        // PASTE YOUR GOOGLE APP SCRIPT URL HERE
-        const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbxVMhUnRSGnlVkpCfSI8yU8t0kxUd66Wi1YN4njeZ1aLZoOBiG2uM_59uD3jMxgpG2yPw/exec'; 
-        
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxiSUPnVqt9_cAMOqhFSJtbHa03T0Uch4dy48EY0_DaAx1SHrC7eAPV1U5NpXG7qYVWw/exec';
         const TMDB_API_KEY = '746e663319009236f390938e29383ae0';
-        
-        // Ensure columns in the Google sheet match these keys exactly (case-sensitive)
-        const COL_TMDB_ID = 'TMDB ID';
-        const COL_TITLE = 'Title';
-        const COL_DATE = 'Date watched';
 
-        // ==========================================
-        // STATE & ELEMENTS
-        // ==========================================
-        const elements = {
-            loading: document.getElementById('loading-state'),
-            list: document.getElementById('movie-list'),
-            error: document.getElementById('error-state'),
-            errorMsg: document.getElementById('error-message')
-        };
-
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
-        async function init() {
-            try {
-                // If the user hasn't set the URL yet, show a helpful message
-                if (GOOGLE_SHEET_URL === 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL') {
-                    throw new Error("Please replace 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL' in the code with your actual Google Apps Script URL.");
-                }
-
-                // 1. Fetch data from Google Sheet Web App
-                const response = await fetch(GOOGLE_SHEET_URL);
-                if (!response.ok) throw new Error("Failed to connect to the database.");
-                
-                const data = await response.json();
-                
-                if (!Array.isArray(data) || data.length === 0) {
-                    throw new Error("The database appears to be empty.");
-                }
-
-                // 2. Hide loading state, show list
-                elements.loading.classList.add('hidden');
-                elements.list.classList.remove('hidden');
-
-                // 3. Render items structure immediately, fetch posters asynchronously
-                renderMovies(data);
-
-            } catch (err) {
-                console.error("Initialization error:", err);
-                showError(err.message);
-            }
-        }
-
-        // ==========================================
-        // RENDER LOGIC
-        // ==========================================
-        function renderMovies(movies) {
-            elements.list.innerHTML = ''; // Clear empty state
-
-            movies.forEach((movie, index) => {
-                // Clean the ID: convert to string, remove commas, handle decimals, and strip non-digits
-                const rawId = movie[COL_TMDB_ID];
-                const tmdbId = rawId ? String(rawId).replace(/,/g, '').split('.')[0].replace(/\D/g, '') : null;
-                
-                const sheetTitle = movie[COL_TITLE];
-                const title = sheetTitle || 'Loading...';
-                // Handle various date formats potentially coming from sheets
-                let dateWatched = movie[COL_DATE] || 'Unknown Date';
-                if (dateWatched && typeof dateWatched === 'string' && dateWatched.includes('T')) {
-                    dateWatched = new Date(dateWatched).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-                }
-
-                // Create container element
-                const card = document.createElement('div');
-                card.className = "flex flex-row items-center gap-6 md:gap-8 p-4 bg-gray-900/20 border border-gray-800/50 rounded hover:border-gray-700 transition-all group";
-                
-                const safeTitleText = title.substring(0,3);
-
-                // Set inner HTML with a placeholder image (using index instead of tmdbId for duplicate safety)
-                card.innerHTML = `
-                    <div class="w-20 md:w-28 flex-shrink-0 aspect-[2/3] rounded-sm overflow-hidden border border-gray-900 relative bg-gray-900">
-                        <img id="poster-${index}" src="https://placehold.co/185x278/0a0a0a/333?text=${encodeURIComponent(safeTitleText)}" 
-                             class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 opacity-50">
-                    </div>
-                    <div class="flex flex-col justify-center py-2">
-                        <h2 id="title-${index}" class="text-base md:text-xl font-bold text-white uppercase tracking-[0.2em] leading-tight mb-2">${title}</h2>
-                        <p class="text-[11px] md:text-xs text-gray-500 font-bold tracking-widest uppercase mb-1">Watched</p>
-                        <p class="text-sm md:text-base text-[#C5A059] serif italic">${dateWatched}</p>
-                    </div>
-                `;
-                
-                elements.list.appendChild(card);
-
-                // Asynchronously fetch the movie data from TMDB using the ID
-                // Stagger requests slightly (50ms per item) to prevent API rate-limiting
-                if (tmdbId) {
-                    setTimeout(() => {
-                        fetchMovieData(tmdbId, index, title);
-                    }, index * 50);
-                } else {
-                    console.warn(`Row ${index + 2}: Missing TMDB ID in spreadsheet.`);
-                }
+        function fetchMovies() {
+            return new Promise((resolve) => {
+                const callbackName = 'jsonpCb_' + Date.now();
+                window[callbackName] = function(data) {
+                    delete window[callbackName];
+                    const s = document.getElementById('jsonp-script');
+                    if (s) s.remove();
+                    resolve(data);
+                };
+                const script = document.createElement('script');
+                script.id = 'jsonp-script';
+                script.onerror = () => {
+                    delete window[callbackName];
+                    resolve(null);
+                };
+                script.src = GOOGLE_SCRIPT_URL + '?callback=' + callbackName;
+                document.body.appendChild(script);
             });
         }
 
-        // ==========================================
-        // ASYNC TMDB FETCHING
-        // ==========================================
-        async function fetchMovieData(tmdbId, index, originalTitle) {
-            try {
-                if (!tmdbId) return;
+        function formatDate(raw) {
+            if (!raw) return '';
+            const d = new Date(raw);
+            if (isNaN(d.getTime())) return raw;
+            return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
 
-                // 1. Try checking the TMDB Movie database
-                let url = `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${TMDB_API_KEY}`;
-                let response = await fetch(url);
-                let data = await response.json();
-                
-                // 2. If it fails (404), try checking the TMDB TV Show database
-                if (response.status === 404 || data.success === false) {
-                    url = `https://api.themoviedb.org/3/tv/${tmdbId}?api_key=${TMDB_API_KEY}`;
-                    response = await fetch(url);
-                    data = await response.json();
+        async function render() {
+            const data = await fetchMovies();
+            document.getElementById('loading').classList.add('hidden');
+
+            if (!data || !data.movies || data.movies.length === 0) {
+                document.getElementById('error-state').classList.remove('hidden');
+                return;
+            }
+
+            const list = document.getElementById('movie-list');
+            list.classList.remove('hidden');
+
+            for (const movie of data.movies) {
+                const row = document.createElement('div');
+                row.className = 'movie-row flex items-center gap-5 py-4 px-2 rounded';
+
+                let imgSrc = 'https://placehold.co/60x90/111827/4b5563?text=?';
+
+                if (movie.tmdb_id) {
+                    try {
+                        const r = await fetch(`https://api.themoviedb.org/3/movie/${movie.tmdb_id}?api_key=${TMDB_API_KEY}`);
+                        const d = await r.json();
+                        if (d.poster_path) {
+                            imgSrc = `https://image.tmdb.org/t/p/w185${d.poster_path}`;
+                        }
+                    } catch { /* keep placeholder */ }
                 }
 
-                // If still not found, stop here
-                if (response.status === 404 || data.success === false) {
-                    console.warn(`ID ${tmdbId} (${originalTitle}) not found in TMDB Movie or TV databases.`);
-                    return;
-                }
-
-                // TMDB uses 'title' for movies, but 'name' for TV shows
-                const displayTitle = data.title || data.name;
-                
-                // Update title directly from TMDB
-                if (displayTitle) {
-                    const titleElement = document.getElementById(`title-${index}`);
-                    if (titleElement) {
-                        titleElement.innerText = displayTitle;
-                    }
-                }
-
-                // Update poster directly from TMDB
-                if (data.poster_path) {
-                    const imgElement = document.getElementById(`poster-${index}`);
-                    if (imgElement) {
-                        // Load the image behind the scenes before showing it to prevent jarring pops
-                        const newImg = new Image();
-                        newImg.src = `https://image.tmdb.org/t/p/w185${data.poster_path}`;
-                        newImg.onload = () => {
-                            imgElement.src = newImg.src;
-                            imgElement.classList.remove('opacity-50', 'grayscale', 'group-hover:grayscale-0');
-                            imgElement.classList.add('opacity-100');
-                        };
-                    }
-                } else {
-                    console.info(`No poster available on TMDB for ID ${tmdbId} (${data.title || originalTitle}).`);
-                }
-            } catch (err) {
-                console.error(`Network error fetching data for ID ${tmdbId}:`, err);
+                row.innerHTML = `
+                    <img
+                        src="${imgSrc}"
+                        alt="${movie.title}"
+                        class="w-12 h-[72px] object-cover rounded bg-gray-900 flex-shrink-0"
+                        onerror="this.src='https://placehold.co/60x90/111827/4b5563?text=?'"
+                    >
+                    <div class="flex-grow min-w-0">
+                        <p class="text-white font-semibold text-sm truncate">${movie.title}</p>
+                        <p class="text-gray-600 text-[11px] serif italic mt-0.5">${formatDate(movie.date_watched)}</p>
+                    </div>
+                `;
+                list.appendChild(row);
             }
         }
 
-        // ==========================================
-        // HELPERS
-        // ==========================================
-        function showError(message) {
-            elements.loading.classList.add('hidden');
-            elements.list.classList.add('hidden');
-            elements.error.classList.remove('hidden');
-            elements.errorMsg.innerText = message;
-        }
-
-        // Start the application
-        window.addEventListener('DOMContentLoaded', init);
-
+        render();
     </script>
 </body>
 </html>
